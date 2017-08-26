@@ -8,7 +8,7 @@ export default class App extends React.Component {
     firebase.database()
       .ref('test')
       .set({
-        hello: "world"
+        hello: "world!"
       });
   }
 
