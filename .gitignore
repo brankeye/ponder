@@ -4,9 +4,11 @@
 .idea/*
 .ignore*
 google-services.json
+GoogleService-Info.plist
 
 # dependencies
 node_modules/
+Pods/
 
 # testing
 coverage/
