@@ -1,6 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import firebase from './app/firebase';
+import { Provider } from 'mobx-react';
+import Container from './app/components/Container';
+import store from './app/stores/store';
 
 export default class App extends React.Component {
 
@@ -45,9 +48,9 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={{ fontSize: 30 }}>{this.state.content}</Text>
-        <TextInput value={this.state.text} onChangeText={text => this.handleChangeText(text)} style={{ flex: 1 }}></TextInput>
-        <Button title="Click me" onPress={this.handlePress} />
+        <Provider {...store}>
+          <Container />
+        </Provider>
       </View>
     );
   }
