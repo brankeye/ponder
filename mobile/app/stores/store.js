@@ -1,9 +1,7 @@
 import poemStore from './poemStore';
 import authorStore from './authorStore';
 
-const store = {
+export default store = {
   poemStore,
   authorStore
 }
-
-export default store;

@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import firebase from './app/firebase';
 import { Provider } from 'mobx-react';
-import Container from './app/components/Container';
+import PoemCard from './app/components/PoemCard';
 import store from './app/stores/store';
 
 export default class App extends React.Component {
@@ -49,7 +49,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Provider {...store}>
-          <Container />
+          <PoemCard />
         </Provider>
       </View>
     );
