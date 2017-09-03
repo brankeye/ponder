@@ -35,6 +35,7 @@ class theme {
 const getNavBarStyle = (theme) => {
   return {
     navBarBackgroundColor: theme.navBarBackgroundColor,
+    screenBackgroundColor: theme.pageBackgroundColor,
     navBarTextColor: theme.navBarTextColor
   }
 }
