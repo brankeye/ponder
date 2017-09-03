@@ -31,7 +31,7 @@ const composer = WrappedComponent => {
     };
 
     render() {
-      return <WrappedComponent {...this.props} />;
+      return <WrappedComponent {...this.props} appStyle={this.props.styles.appStyle} />;
     }
   }
 

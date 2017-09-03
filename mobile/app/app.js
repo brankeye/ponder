@@ -1,11 +1,17 @@
 import { Navigation } from 'react-native-navigation';
 import registerScreens from './screens/registerScreens';
-import { PAGE_HOME } from './screens/screenNames';
+import { PAGE_FEATURED, PAGE_DRAWER } from './screens/screenNames';
 
 registerScreens();
 
 Navigation.startSingleScreenApp({
   screen: {
-    screen: PAGE_HOME
+    screen: PAGE_FEATURED,
+    title: 'Featured'
+  },
+  drawer: {
+    left: {
+      screen: PAGE_DRAWER
+    }
   }
 });

@@ -3,6 +3,7 @@ import remotedev from "mobx-remotedev";
 import config from "./config";
 import { StyleSheet } from "react-native";
 import { lightTheme, darkTheme } from "../themes/theme";
+import PubSub from 'pubsub-js';
 
 @remotedev(config)
 class styles {
@@ -12,11 +13,13 @@ class styles {
   @action applyLightTheme = () => {
     this.appStyle = lightStyle;
     this.navBarStyle = lightNavBarStyle;
+    PubSub.publish('updateNavBar');
   };
 
   @action applyDarkTheme = () => {
     this.appStyle = darkStyle;
     this.navBarStyle = darkNavBarStyle;
+    PubSub.publish('updateNavBar');
   }
 
   @action toggleTheme() {
@@ -49,8 +52,11 @@ const getStyle = (theme) => {
       alignItems: 'center',
       backgroundColor: theme.pageBackgroundColor
     },
-    poemSectionStyle: {
+    textStyle: {
       color: theme.textColor
+    },
+    navItemStyle: {
+      padding: 20
     }
   });
 };
