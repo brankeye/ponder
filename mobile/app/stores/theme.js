@@ -6,7 +6,7 @@ import { lightTheme, darkTheme } from "../themes/theme";
 import PubSub from 'pubsub-js';
 
 @remotedev(config)
-class styles {
+class theme {
   @observable appStyle = lightStyle;
   @observable navBarStyle = lightNavBarStyle;
 
@@ -46,17 +46,11 @@ const darkNavBarStyle = getNavBarStyle(darkTheme);
 
 const getStyle = (theme) => {
   return StyleSheet.create({
-    containerStyle: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
+    pageBackgroundColor: {
       backgroundColor: theme.pageBackgroundColor
     },
-    textStyle: {
+    textColor: {
       color: theme.textColor
-    },
-    navItemStyle: {
-      padding: 20
     }
   });
 };
@@ -64,5 +58,5 @@ const getStyle = (theme) => {
 const lightStyle = getStyle(lightTheme);
 const darkStyle = getStyle(darkTheme);
 
-const store = new styles();
+const store = new theme();
 export default store;

@@ -1,11 +1,11 @@
 import poems from './poems';
 import storeB from './storeB';
-import styles from './styles';
+import theme from './theme';
 import navigation from './navigation';
 
 export default (store = {
   poems,
   storeB,
-  styles,
+  theme,
   navigation
 });

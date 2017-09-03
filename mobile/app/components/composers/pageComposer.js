@@ -4,7 +4,7 @@ import PubSub from 'pubsub-js';
 import { inject, observer } from 'mobx-react';
 
 const composer = WrappedComponent => {
-  @inject('styles')
+  @inject('theme')
   @observer
   class Page extends Component {
     constructor(props) {
@@ -27,11 +27,11 @@ const composer = WrappedComponent => {
     }
 
     updateNavBar = () => {
-      this.props.navigator.setStyle(this.props.styles.navBarStyle);
+      this.props.navigator.setStyle(this.props.theme.navBarStyle);
     };
 
     render() {
-      return <WrappedComponent {...this.props} appStyle={this.props.styles.appStyle} />;
+      return <WrappedComponent {...this.props} appStyle={this.props.theme.appStyle} />;
     }
   }
 
