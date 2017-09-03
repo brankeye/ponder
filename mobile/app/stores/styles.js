@@ -7,15 +7,28 @@ import { lightTheme, darkTheme } from "../themes/theme";
 @remotedev(config)
 class styles {
   @observable current = lightStyle;
+  @observable navBarStyle = lightNavBarStyle;
 
   @action applyLightTheme = () => {
     this.current = lightStyle;
+    this.navBarStyle = lightNavBarStyle;
   };
 
   @action applyDarkTheme = () => {
     this.current = darkStyle;
+    this.navBarStyle = darkNavBarStyle;
   }
 }
+
+const getNavBarStyle = (theme) => {
+  return {
+    navBarBackgroundColor: theme.navBarBackgroundColor,
+    navBarTextColor: theme.navBarTextColor
+  }
+}
+
+const lightNavBarStyle = getNavBarStyle(lightTheme);
+const darkNavBarStyle = getNavBarStyle(darkTheme);
 
 const getStyle = (theme) => {
   return StyleSheet.create({

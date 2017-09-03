@@ -7,7 +7,9 @@ export const lightTheme = {
   primaryTextColor: '',
   secondaryTextColor: '',
   dividerColor: '',
-  pageBackgroundColor: '#e6e6e6'
+  pageBackgroundColor: '#e6e6e6',
+  navBarBackgroundColor: '#FFFFFF',
+  navBarTextColor: '#000000'
 };
 
 export const darkTheme = {
@@ -19,5 +21,7 @@ export const darkTheme = {
   primaryTextColor: '',
   secondaryTextColor: '',
   dividerColor: '',
-  pageBackgroundColor: '#404040'
+  pageBackgroundColor: '#404040',
+  navBarBackgroundColor: '#4D4D4D',
+  navBarTextColor: '#FFFFFF'
 };
