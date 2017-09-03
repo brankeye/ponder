@@ -1,2 +1,2 @@
-export const APP_HOME = 'app.Home';
-export const APP_SAMPLE = 'app.Sample';
+export const PAGE_HOME = 'ponder.Home';
+export const PAGE_POEM = 'ponder.Poem';

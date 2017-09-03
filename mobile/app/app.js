@@ -1,12 +1,12 @@
 import { Navigation } from 'react-native-navigation';
 import registerScreens from './screens/registerScreens';
-import { APP_HOME } from './screens/screenNames';
+import { PAGE_HOME } from './screens/screenNames';
 
 registerScreens();
 
 Navigation.startSingleScreenApp({
   screen: {
-    screen: APP_HOME,
+    screen: PAGE_HOME,
     title: 'Home'
   }
 });

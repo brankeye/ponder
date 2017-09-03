@@ -1,11 +1,11 @@
 import { Navigation } from 'react-native-navigation';
 import Home from '../components/pages/Home';
-import Sample from '../components/pages/Sample';
+import Poem from '../components/pages/Poem';
 import store from '../stores/store';
-import Provider from '../components/providers/Provider';
-import { APP_HOME, APP_SAMPLE } from './screenNames';
+import StoreProvider from '../components/providers/StoreProvider';
+import { PAGE_HOME, PAGE_POEM } from './screenNames';
 
 export default (registerScreens = () => {
-  Navigation.registerComponent(APP_HOME, () => Home, store, Provider);
-  Navigation.registerComponent(APP_SAMPLE, () => Sample, store, Provider);
+  Navigation.registerComponent(PAGE_HOME, () => Home, store, StoreProvider);
+  Navigation.registerComponent(PAGE_POEM, () => Poem, store, StoreProvider);
 });
