@@ -6,17 +6,26 @@ import { lightTheme, darkTheme } from "../themes/theme";
 
 @remotedev(config)
 class styles {
-  @observable current = lightStyle;
+  @observable appStyle = lightStyle;
   @observable navBarStyle = lightNavBarStyle;
 
   @action applyLightTheme = () => {
-    this.current = lightStyle;
+    this.appStyle = lightStyle;
     this.navBarStyle = lightNavBarStyle;
   };
 
   @action applyDarkTheme = () => {
-    this.current = darkStyle;
+    this.appStyle = darkStyle;
     this.navBarStyle = darkNavBarStyle;
+  }
+
+  @action toggleTheme() {
+    usingLightStyle = !usingLightStyle;
+    if(usingLightStyle) {
+      this.applyLightTheme();
+    } else {
+      this.applyDarkTheme();
+    }
   }
 }
 
@@ -26,6 +35,8 @@ const getNavBarStyle = (theme) => {
     navBarTextColor: theme.navBarTextColor
   }
 }
+
+const usingLightStyle = true;
 
 const lightNavBarStyle = getNavBarStyle(lightTheme);
 const darkNavBarStyle = getNavBarStyle(darkTheme);

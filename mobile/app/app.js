@@ -6,7 +6,6 @@ registerScreens();
 
 Navigation.startSingleScreenApp({
   screen: {
-    screen: PAGE_HOME,
-    title: 'Home'
+    screen: PAGE_HOME
   }
 });
