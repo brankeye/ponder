@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react';
 import { PAGE_POEM } from '../../screens/screenNames';
 import pageComposer from '../composers/pageComposer';
 import PoemSection from '../PoemSection';
-import styles from '../../styles';
+import styles, { componentStyles } from '../../styles';
 
 @inject('poems', 'navigation')
 @observer
@@ -25,7 +25,7 @@ class Featured extends Component {
     return(
       <View style={pageStyle}>
         <Button title='Change color' onPress={this.handlePress}></Button>
-        <PoemSection poem={this.props.poems.poem} style={styles.container} textStyle={textColor} />
+        <PoemSection poem={this.props.poems.poem} style={styles.container, componentStyles.poemSection} textStyle={textColor} />
       </View>
     )
   }

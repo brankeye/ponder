@@ -9,4 +9,10 @@ const styles = StyleSheet.create({
   }
 });
 
+export const componentStyles = StyleSheet.create({
+  poemSection: {
+    padding: 30
+  }
+});
+
 export default styles;

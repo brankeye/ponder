@@ -3,17 +3,16 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 import { inject, observer } from 'mobx-react';
 import pageComposer from '../composers/pageComposer';
 import styles from '../../styles';
+import tabsComposer from '../composers/tabsComposer';
+
+const PoemsView = () => <View style={styles.container} />;
+const AuthorsView = () => <View style={styles.container} />;
 
 @observer
 class Favorites extends Component {
   render() {
-    const { pageBackgroundColor, textColor } = this.props.appStyle;
-    const pageStyle = [pageBackgroundColor, styles.container];
-    return(
-      <View style={pageStyle}>
-        <Text style={textColor}>Favorites page</Text>
-      </View>
-    )
+    const FavoritesPage = tabsComposer(PoemsView, AuthorsView);
+    return <FavoritesPage {...this.props} />;
   }
 }
 

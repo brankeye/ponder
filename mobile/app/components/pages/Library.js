@@ -4,14 +4,16 @@ import { inject, observer } from 'mobx-react';
 import pageComposer from '../composers/pageComposer';
 import styles from '../../styles';
 import tabsComposer from '../composers/tabsComposer';
-
-const PoemsView = () => <View style={styles.container} />;
-const AuthorsView = () => <View style={styles.container} />;
+import PoemsList from '../PoemsList';
 
 @observer
 class Library extends Component {
+  getPoemsView = () => <PoemsList {...this.props} />;
+
+  getAuthorsView = () => <View style={styles.container} />;
+
   render() {
-    const LibraryPage = tabsComposer(PoemsView, AuthorsView);
+    const LibraryPage = tabsComposer(this.getPoemsView, this.getAuthorsView);
     return <LibraryPage {...this.props} />;
   }
 }
