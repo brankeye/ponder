@@ -8,22 +8,24 @@ import { linkTo } from '@storybook/addon-links';
 import Button from './Button';
 import CenterView from './CenterView';
 import Welcome from './Welcome';
+import { Sample } from '../../app/components/presenters';
 
-storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
+storiesOf('Welcome', module).add('to Storybook', () => (
+  <Welcome showApp={linkTo('Button')} />
+));
 
 storiesOf('Button', module)
-  .addDecorator(getStory =>
-    <CenterView>
-      {getStory()}
-    </CenterView>
-  )
-  .add('with text', () =>
+  .addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
+  .add('with text', () => (
     <Button onPress={action('clicked-text')}>
       <Text>Hello Button</Text>
     </Button>
-  )
-  .add('with some emoji', () =>
+  ))
+  .add('with some emoji', () => (
     <Button onPress={action('clicked-emoji')}>
       <Text>😀 😎 👍 💯</Text>
     </Button>
-  );
+  ));
+storiesOf('Sample', module)
+  .addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
+  .add('default', () => <Sample text="Hey!" />);

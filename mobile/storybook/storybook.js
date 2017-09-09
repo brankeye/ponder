@@ -1,11 +1,17 @@
 /* eslint-disable global-require */
 
 import { AppRegistry } from 'react-native';
-import { getStorybookUI, configure } from '@storybook/react-native';
+import {
+  getStorybookUI,
+  configure,
+  addDecorator
+} from '@storybook/react-native';
 import { Navigation } from 'react-native-navigation';
+import decorator from './decorators/provider';
 
 // import stories
 configure(() => {
+  addDecorator(decorator);
   require('./stories');
 }, module);
 

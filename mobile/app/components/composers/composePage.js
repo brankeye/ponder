@@ -3,18 +3,14 @@ import PropTypes from 'prop-types';
 import PubSub from 'pubsub-js';
 import { inject, observer } from 'mobx-react';
 
-const composer = WrappedComponent => {
-  @inject('theme')
-  @observer
+const composePage = WrappedComponent => {
   class Page extends Component {
     constructor(props) {
       super(props);
-      this.props.navigator.setOnNavigatorEvent(
-        this.onNavigatorEvent
-      );
+      props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
     }
 
-    onNavigatorEvent = (event) => {
+    onNavigatorEvent = event => {
       switch (event.id) {
         case 'willAppear':
           this.token = PubSub.subscribe('updateNavBar', this.updateNavBar);
@@ -24,18 +20,23 @@ const composer = WrappedComponent => {
           PubSub.unsubscribe(this.token);
           break;
       }
-    }
+    };
 
     updateNavBar = () => {
       this.props.navigator.setStyle(this.props.theme.navBarStyle);
     };
 
     render() {
-      return <WrappedComponent {...this.props} appStyle={this.props.theme.appStyle} />;
+      return (
+        <WrappedComponent
+          {...this.props}
+          appStyle={this.props.theme.appStyle}
+        />
+      );
     }
   }
 
-  return Page;
+  return inject('theme')(observer(Page));
 };
 
-export default composer;
+export default composePage;

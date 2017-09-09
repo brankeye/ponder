@@ -1,11 +1,9 @@
 import { action, observable } from "mobx";
-import remotedev from "mobx-remotedev";
 import config from "./config";
 import { StyleSheet } from "react-native";
-import { lightTheme, darkTheme } from "../themes/theme";
+import { lightTheme, darkTheme } from "../constants/themes";
 import PubSub from 'pubsub-js';
 
-@remotedev(config)
 class theme {
   @observable appStyle = lightStyle;
   @observable navBarStyle = lightNavBarStyle;
@@ -22,7 +20,7 @@ class theme {
     PubSub.publish('updateNavBar');
   }
 
-  @action toggleTheme() {
+  @action toggleTheme = () => {
     usingLightStyle = !usingLightStyle;
     if(usingLightStyle) {
       this.applyLightTheme();

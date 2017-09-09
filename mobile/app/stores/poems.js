@@ -1,8 +1,6 @@
 import { action, observable } from "mobx";
-import remotedev from "mobx-remotedev";
 import config from "./config";
 
-@remotedev(config)
 class poems {
   @observable poemList = [
     {
