@@ -1,28 +1,31 @@
 import { action, observable } from "mobx";
 import config from "./config";
 import { StyleSheet } from "react-native";
-import { lightTheme, darkTheme } from "../constants/themes";
+import { lightTheme, darkTheme, LIGHT_THEME, DARK_THEME } from "../constants/themes";
 import PubSub from 'pubsub-js';
 
 class theme {
-  @observable appStyle = lightStyle;
+  @observable appTheme = lightTheme;
+  @observable currentTheme = LIGHT_THEME;
   @observable navBarStyle = lightNavBarStyle;
 
   @action applyLightTheme = () => {
-    this.appStyle = lightStyle;
+    this.appTheme = lightTheme;
+    this.currentTheme = LIGHT_THEME;
     this.navBarStyle = lightNavBarStyle;
     PubSub.publish('updateNavBar');
   };
 
   @action applyDarkTheme = () => {
-    this.appStyle = darkStyle;
+    this.appTheme = darkTheme;
+    this.currentTheme = DARK_THEME;
     this.navBarStyle = darkNavBarStyle;
     PubSub.publish('updateNavBar');
   }
 
   @action toggleTheme = () => {
-    usingLightStyle = !usingLightStyle;
-    if(usingLightStyle) {
+    usingLightTheme = !usingLightTheme;
+    if(usingLightTheme) {
       this.applyLightTheme();
     } else {
       this.applyDarkTheme();
@@ -38,24 +41,10 @@ const getNavBarStyle = (theme) => {
   }
 }
 
-const usingLightStyle = true;
+const usingLightTheme = true;
 
 const lightNavBarStyle = getNavBarStyle(lightTheme);
 const darkNavBarStyle = getNavBarStyle(darkTheme);
-
-const getStyle = (theme) => {
-  return StyleSheet.create({
-    pageBackgroundColor: {
-      backgroundColor: theme.pageBackgroundColor
-    },
-    textColor: {
-      color: theme.textColor
-    }
-  });
-};
-
-const lightStyle = getStyle(lightTheme);
-const darkStyle = getStyle(darkTheme);
 
 const store = new theme();
 export default store;

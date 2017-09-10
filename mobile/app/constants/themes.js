@@ -1,6 +1,6 @@
 export const lightTheme = {
   darkPrimaryColor: '',
-  primaryColor: '',
+  primaryColor: '#191beb',
   lightPrimaryColor: '',
   textColor: '#404040',
   accentColor: '',
@@ -14,7 +14,7 @@ export const lightTheme = {
 
 export const darkTheme = {
   darkPrimaryColor: '',
-  primaryColor: '',
+  primaryColor: '#000000',
   lightPrimaryColor: '',
   textColor: '#F3F3F3',
   accentColor: '',
@@ -25,3 +25,6 @@ export const darkTheme = {
   navBarBackgroundColor: '#4D4D4D',
   navBarTextColor: '#FFFFFF'
 };
+
+export const LIGHT_THEME = 'Light theme';
+export const DARK_THEME = 'Dark theme';

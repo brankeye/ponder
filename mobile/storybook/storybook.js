@@ -7,11 +7,13 @@ import {
   addDecorator
 } from '@storybook/react-native';
 import { Navigation } from 'react-native-navigation';
-import decorator from './decorators/provider';
+import providerDecorator from './decorators/provider';
+import layoutDecorator from './decorators/layout';
 
 // import stories
 configure(() => {
-  addDecorator(decorator);
+  addDecorator(layoutDecorator);
+  addDecorator(providerDecorator);
   require('./stories');
 }, module);
 

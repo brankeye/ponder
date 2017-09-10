@@ -1,3 +1,5 @@
 import Sample from './Sample';
+import Button from './Button';
+import Text from './Text';
 
-export { Sample };
+export { Sample, Button, Text };
