@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import { inject, observer } from 'mobx-react';
-import composePage from '../../composers/composePage';
+import composePage from 'components/pages/composePage';
 import {
   PAGE_FEATURED,
   PAGE_LIBRARY,
   PAGE_FAVORITES,
   PAGE_DRAWER
-} from '../../../constants/screens';
+} from 'constants/screens';
 
 class Drawer extends Component {
   handleNavigation = (screen, title) => {

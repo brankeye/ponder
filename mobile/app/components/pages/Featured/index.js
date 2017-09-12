@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { inject, observer } from 'mobx-react';
-import { PAGE_POEM } from '../../../constants/screens';
-import composePage from '../../composers/composePage';
+import { PAGE_POEM } from 'constants/screens';
+import composePage from 'components/pages/composePage';
 
 class Featured extends Component {
   constructor(props) {
