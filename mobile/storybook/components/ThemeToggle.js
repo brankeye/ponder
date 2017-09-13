@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Button } from '../../app/components/presenters';
+import { Button } from 'components/presenters';
 import { inject, observer } from 'mobx-react';
 
 const ThemeToggle = inject('theme')(

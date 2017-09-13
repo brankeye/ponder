@@ -1,12 +1,13 @@
 import React from 'react';
 import { Button as RNEButton } from 'react-native-elements';
 import { inject, observer } from 'mobx-react';
+import { getDynamicStyles } from './styles';
 
 const Button = props => {
-  const buttonStyle = props.buttonStyle || {
-    backgroundColor: props.theme.appTheme.primaryColor
-  };
-  return <RNEButton {...props} rounded buttonStyle={buttonStyle} />;
+  const { textStyle } = getDynamicStyles(props.theme.appTheme);
+  console.log('textStyle: ' + JSON.stringify(textStyle));
+  const _textStyle = props.textStyle || textStyle;
+  return <RNEButton {...props} rounded textStyle={_textStyle} />;
 };
 
 export default inject('theme')(observer(Button));
