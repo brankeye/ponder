@@ -5,7 +5,6 @@ class Stylizer {
   identifier = '';
 
   getDynamicStyles = (creator, theme) => {
-    console.log(theme.identifier);
     if (this.identifier !== theme.identifier) {
       this.identifier = theme.identifier;
       this.styles = this.create(creator(theme));
@@ -16,4 +15,6 @@ class Stylizer {
   create = sheet => StyleSheet.create(sheet);
 }
 
-export default Stylizer;
+const makeStylizer = () => new Stylizer();
+
+export default makeStylizer;

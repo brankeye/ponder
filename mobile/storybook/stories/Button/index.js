@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
 storiesOf('Button', module)
-  .add('with text', () => (</View>
+  .add('with text', () => (
     <Button title="Click me" onPress={action('clicked-text')} />
   ))
   .add('style override', () => (

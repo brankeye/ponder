@@ -1,5 +1,5 @@
-import stylizer from 'utilities/Stylizer';
-const Stylizer = new stylizer();
+import makeStylizer from 'utilities/stylizer';
+const Stylizer = makeStylizer();
 
 export const getDynamicStyles = theme =>
   Stylizer.getDynamicStyles(dynamicStylesCreator, theme);
