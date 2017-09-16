@@ -36,7 +36,7 @@ const composePage = WrappedComponent => {
     }
   }
 
-  return inject('theme')(observer(Page));
+  return inject('theme', 'navigation')(observer(Page));
 };
 
 export default composePage;

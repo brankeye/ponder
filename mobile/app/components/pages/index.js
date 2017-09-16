@@ -1,6 +1,6 @@
-import Drawer from './Drawer';
-import Favorites from './Favorites';
-import Featured from './Featured';
-import Library from './Library';
+import DrawerPage from './DrawerPage';
+import FavoritesPage from './FavoritesPage';
+import PoemPage from './PoemPage';
+import LibraryPage from './LibraryPage';
 
-export { Drawer, Favorites, Featured, Library };
+export { DrawerPage, FavoritesPage, PoemPage, LibraryPage };

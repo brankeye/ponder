@@ -1,10 +1,15 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Poem } from 'components/presenters';
+import { Poem, FavoriteButton } from 'components/presenters';
 
 const PoemSection = props => (
   <View>
-    <Poem title="Hyperion" author="John Keats" content="blah blah blah" />
+    <Poem
+      title={props.poem.title}
+      author={props.poem.author}
+      content={props.poem.teaser}
+    />
+    <FavoriteButton />
   </View>
 );
 

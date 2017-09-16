@@ -3,7 +3,7 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 import { inject, observer } from 'mobx-react';
 import composePage from 'components/pages/composePage';
 
-class Favorites extends Component {
+class FavoritesPage extends Component {
   render() {
     return (
       <View>
@@ -13,5 +13,5 @@ class Favorites extends Component {
   }
 }
 
-const page = observer(Favorites);
+const page = observer(FavoritesPage);
 export default composePage(page);

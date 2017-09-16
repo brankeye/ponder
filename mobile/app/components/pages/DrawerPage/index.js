@@ -2,14 +2,9 @@ import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import { inject, observer } from 'mobx-react';
 import composePage from 'components/pages/composePage';
-import {
-  PAGE_FEATURED,
-  PAGE_LIBRARY,
-  PAGE_FAVORITES,
-  PAGE_DRAWER
-} from 'constants/screens';
+import pages from 'constants/screens';
 
-class Drawer extends Component {
+class DrawerPage extends Component {
   handleNavigation = (screen, title) => {
     this.props.navigation.resetRoot({
       screen,
@@ -20,21 +15,25 @@ class Drawer extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{ marginTop: 20 }}>
         <Text
-          onPress={this.handleNavigation.bind(this, PAGE_FEATURED, 'Featured')}
+          onPress={this.handleNavigation.bind(this, pages.PoemPage, 'Featured')}
         >
           Daily poem
         </Text>
         <Text
-          onPress={this.handleNavigation.bind(this, PAGE_LIBRARY, 'Library')}
+          onPress={this.handleNavigation.bind(
+            this,
+            pages.LibraryPage,
+            'Library'
+          )}
         >
           Library
         </Text>
         <Text
           onPress={this.handleNavigation.bind(
             this,
-            PAGE_FAVORITES,
+            pages.FavoritesPage,
             'Favorites'
           )}
         >
@@ -45,5 +44,5 @@ class Drawer extends Component {
   }
 }
 
-const page = inject('theme', 'navigation')(observer(Drawer));
+const page = inject('theme')(observer(DrawerPage));
 export default composePage(page);
