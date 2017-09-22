@@ -15,7 +15,12 @@ class DrawerPage extends Component {
 
   render() {
     return (
-      <View style={{ marginTop: 20 }}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: this.props.appTheme.pageBackgroundColor
+        }}
+      >
         <Text
           onPress={this.handleNavigation.bind(this, pages.PoemPage, 'Featured')}
         >
@@ -44,5 +49,5 @@ class DrawerPage extends Component {
   }
 }
 
-const page = inject('theme')(observer(DrawerPage));
-export default composePage(page);
+const page = composePage(observer(DrawerPage));
+export default page;

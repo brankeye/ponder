@@ -7,17 +7,18 @@ const composePage = WrappedComponent => {
   class Page extends Component {
     constructor(props) {
       super(props);
+      this.token = PubSub.subscribe('updateNavBar', this.updateNavBar);
       props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    }
+
+    componentWillUnmount() {
+      PubSub.unsubscribe(this.token);
     }
 
     onNavigatorEvent = event => {
       switch (event.id) {
         case 'willAppear':
-          this.token = PubSub.subscribe('updateNavBar', this.updateNavBar);
           this.updateNavBar();
-          break;
-        case 'didDisappear':
-          PubSub.unsubscribe(this.token);
           break;
       }
     };
@@ -31,7 +32,7 @@ const composePage = WrappedComponent => {
         <WrappedComponent
           {...this.props}
           onNavigatorEvent={this.onNavigatorEvent}
-          appStyle={this.props.theme.appStyle}
+          appTheme={this.props.theme.appTheme}
         />
       );
     }

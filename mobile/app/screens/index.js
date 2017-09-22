@@ -30,5 +30,8 @@ export const startApp = () =>
       left: {
         screen: pages.DrawerPage
       }
+    },
+    appStyle: {
+      keepStyleAcrossPush: false
     }
   });

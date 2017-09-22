@@ -13,5 +13,5 @@ class FavoritesPage extends Component {
   }
 }
 
-const page = observer(FavoritesPage);
-export default composePage(page);
+const page = composePage(observer(FavoritesPage));
+export default page;

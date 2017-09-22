@@ -39,7 +39,6 @@ class PoemPage extends Component {
   }
 }
 
-const page = inject('poems')(observer(PoemPage));
-const main = composePage(page);
-hoistStatics(main, PoemPage);
-export default main;
+const page = inject('poems')(composePage(observer(PoemPage)));
+hoistStatics(page, PoemPage);
+export default page;

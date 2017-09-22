@@ -23,5 +23,5 @@ class LibraryPage extends Component {
   }
 }
 
-const page = inject('poems')(observer(LibraryPage));
-export default composePage(page);
+const page = inject('poems')(composePage(observer(LibraryPage)));
+export default page;
