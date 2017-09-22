@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableHighlight } from 'react-native';
+import { observer } from 'mobx-react';
 
 const PoemCard = props => {
   return (
@@ -27,4 +28,4 @@ const PoemCard = props => {
   );
 };
 
-export default PoemCard;
+export default observer(PoemCard);

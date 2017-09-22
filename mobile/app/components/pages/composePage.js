@@ -30,6 +30,7 @@ const composePage = WrappedComponent => {
       return (
         <WrappedComponent
           {...this.props}
+          onNavigatorEvent={this.onNavigatorEvent}
           appStyle={this.props.theme.appStyle}
         />
       );

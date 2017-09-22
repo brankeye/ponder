@@ -22,6 +22,7 @@ class PoemPage extends Component {
   }
 
   onNavigatorEvent = event => {
+    this.props.onNavigatorEvent(event);
     if (event.type == 'NavBarButtonPress') {
       if (event.id == 'theme') {
         this.props.theme.toggleTheme();
@@ -38,7 +39,7 @@ class PoemPage extends Component {
   }
 }
 
-const page = inject('theme', 'poems')(observer(PoemPage));
+const page = inject('poems')(observer(PoemPage));
 const main = composePage(page);
 hoistStatics(main, PoemPage);
 export default main;

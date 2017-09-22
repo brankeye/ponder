@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Poem, FavoriteButton } from 'components/presenters';
+import { observer } from 'mobx-react';
 
 const PoemSection = props => (
   <View>
@@ -13,4 +14,4 @@ const PoemSection = props => (
   </View>
 );
 
-export default PoemSection;
+export default observer(PoemSection);
