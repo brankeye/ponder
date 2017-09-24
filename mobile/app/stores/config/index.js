@@ -3,9 +3,9 @@ useStrict(true);
 
 const makeConfig = config => {
   const initial = {
-    remote: false
+    remote: true
   };
-  return config ? { initial, ...config } : initial;
+  return config ? { ...initial, ...config } : initial;
 };
 
 export default makeConfig;

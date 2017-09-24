@@ -15,7 +15,7 @@ class LibraryPage extends Component {
     return (
       <View>
         <PoemList
-          poems={this.props.poems.poemList}
+          poems={this.props.poems.poemArray}
           onSelectPoem={this.handleSelectPoem}
         />
       </View>

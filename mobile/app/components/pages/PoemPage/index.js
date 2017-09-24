@@ -33,7 +33,7 @@ class PoemPage extends Component {
   render() {
     return (
       <View>
-        <PoemSection poem={this.props.poems.getSelectedPoem()} />
+        <PoemSection poem={this.props.poems.selectedPoem} />
       </View>
     );
   }

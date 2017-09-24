@@ -1,4 +1,4 @@
-import { action, observable } from "mobx";
+import { action, observable, computed } from "mobx";
 import config from "./config";
 import uuid from 'uuid';
 
@@ -7,26 +7,32 @@ const initialId = uuid.v4();
 class poems {
   @observable selectedPoemId = initialId;
 
-  @observable poemList = [
-    {
-      id: initialId,
+  @observable poemList = {
+    [initialId]: {
       title: 'Hyperion',
       author: 'John Keats',
       teaser: 'Deep in the shady sadness of a vale\nFar sunken from the healthy breath of morn...'
     },
-    {
-      id: uuid.v4(),
+    [uuid.v4()]: {
       title: 'The Road Not Taken',
       author: 'Robert Frost',
       teaser: 'Two roads diverged in a yellow wood,\nAnd sorry I could not travel both...'
     },
-    {
-      id: uuid.v4(),
+    [uuid.v4()]: {
       title: 'Ozymandias',
       author: 'Percy Bysshe Shelley',
       teaser: 'I met a traveller from an antique land\nWho said: `Two vast and trunkless legs of stone\nStand in the desert...'
     }
-  ];
+  };
+
+  @computed get poemArray() {
+    return observable(Object.keys(this.poemList).map(id => {
+      return observable({
+        id,
+        ...this.poemList[id]
+      });
+    }));
+  };
 
   @observable poem = {
     title: 'Bright star, would I were stedfast as thou art',
@@ -45,9 +51,17 @@ class poems {
           'Awake for ever in a sweet unrest,\n' +
           'Still, still to hear her tender-taken breath,\n' +
           'And so live ever- or else swoon to death.'
-  }
+  };
 
-  @action getSelectedPoem = () => this.poemList.find(item => item.id === this.selectedPoemId);
+  @action get = id => this.poemList[id];
+
+  @computed get selectedPoem() {
+    const id = this.selectedPoemId;
+    return ({
+      id,
+      ...this.poemList[this.selectedPoemId]
+    });
+  };
 
   @action selectPoem = id => this.selectedPoemId = id;
 }

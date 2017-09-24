@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Poem, FavoriteButton } from 'components/presenters';
-import { observer } from 'mobx-react';
+import { Poem, Button } from 'components/presenters';
+import { inject, observer } from 'mobx-react';
 
 const PoemSection = props => (
   <View>
@@ -10,8 +10,11 @@ const PoemSection = props => (
       author={props.poem.author}
       content={props.poem.teaser}
     />
-    <FavoriteButton />
+    <Button
+      title="Favorite"
+      onPress={() => props.favorites.add(props.poem.id)}
+    />
   </View>
 );
 
-export default observer(PoemSection);
+export default inject('favorites')(observer(PoemSection));
