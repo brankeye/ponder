@@ -1,6 +1,5 @@
-import mobx from 'mobx';
-
-mobx.useStrict(true);
+import { useStrict } from 'mobx';
+useStrict(true);
 
 const makeConfig = config => {
   const initial = {

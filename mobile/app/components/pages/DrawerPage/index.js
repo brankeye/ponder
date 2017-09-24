@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import { inject, observer } from 'mobx-react';
-import composePage from 'components/pages/composePage';
 import pages from 'constants/screens';
 
 class DrawerPage extends Component {
@@ -18,7 +17,7 @@ class DrawerPage extends Component {
       <View
         style={{
           flex: 1,
-          backgroundColor: this.props.appTheme.pageBackgroundColor
+          backgroundColor: this.props.theme.appTheme.pageBackgroundColor
         }}
       >
         <Text
@@ -49,5 +48,5 @@ class DrawerPage extends Component {
   }
 }
 
-const page = composePage(observer(DrawerPage));
+const page = inject('navigation', 'theme')(observer(DrawerPage));
 export default page;
