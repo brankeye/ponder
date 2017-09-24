@@ -17,6 +17,8 @@ class DrawerPage extends Component {
       <View
         style={{
           flex: 1,
+          padding: 30,
+          marginTop: 30,
           backgroundColor: this.props.theme.appTheme.pageBackgroundColor
         }}
       >

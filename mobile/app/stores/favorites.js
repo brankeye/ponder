@@ -6,19 +6,17 @@ class favorites {
   @observable poemList = {};
 
   @computed get poemArray() {
-    return observable(Object.keys(this.poemList).map(id => {
-      return observable({
+    return Object.keys(this.poemList).map(id => {
+      return {
         id,
         ...this.poemList[id]
-      });
-    }));
+      };
+    });
   };
 
-  @action add = id => {
-    console.log(id);
-    const poem = store.poems.get(id);
-    this.poemList[id] = poem;
-  }
+  @action add = id => this.poemList[id] = store.poems.get(id);
+
+  @action remove = id => delete this.poemList[id];
 }
 
 export default (new favorites());

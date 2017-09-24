@@ -14,6 +14,10 @@ const PoemSection = props => (
       title="Favorite"
       onPress={() => props.favorites.add(props.poem.id)}
     />
+    <Button
+      title="Unfavorite"
+      onPress={() => props.favorites.remove(props.poem.id)}
+    />
   </View>
 );
 
