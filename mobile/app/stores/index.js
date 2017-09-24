@@ -1,13 +1,13 @@
 import remotedev from 'mobx-remotedev';
-import config from './config';
+import makeConfig from './config';
 import poems from './poems';
 import theme from './theme';
 import navigation from './navigation';
 
 const store = {
-  poems: remotedev(poems, config),
-  theme: remotedev(theme, config),
-  navigation: remotedev(navigation, config)
+  poems: remotedev(poems, makeConfig({ name: 'Poems' })),
+  theme: remotedev(theme, makeConfig({ name: 'Theme' })),
+  navigation: remotedev(navigation, makeConfig({ name: 'Navigation' }))
 };
 
 export default store;

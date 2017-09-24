@@ -2,8 +2,11 @@ import mobx from 'mobx';
 
 mobx.useStrict(true);
 
-const config = {
-  remote: true
+const makeConfig = config => {
+  const initial = {
+    remote: false
+  };
+  return config ? { initial, ...config } : initial;
 };
 
-export default config;
+export default makeConfig;
