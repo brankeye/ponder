@@ -13,7 +13,7 @@ class LibraryPage extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <PoemList
           poems={this.props.poems.poemArray}
           onSelectPoem={this.handleSelectPoem}

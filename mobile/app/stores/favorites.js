@@ -17,6 +17,8 @@ class favorites {
   @action add = id => this.poemList[id] = store.poems.get(id);
 
   @action remove = id => delete this.poemList[id];
+
+  @action isFavorite = id => this.poemList.hasOwnProperty(id);
 }
 
 export default (new favorites());

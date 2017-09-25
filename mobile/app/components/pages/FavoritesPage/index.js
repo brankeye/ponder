@@ -12,7 +12,7 @@ class FavoritesPage extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <Text>Favorites</Text>
         <PoemList
           poems={this.props.favorites.poemArray}
