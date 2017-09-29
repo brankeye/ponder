@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import { inject, observer } from 'mobx-react';
 import pages from 'constants/screens';
+import OAuthManager from 'react-native-oauth';
+
+const manager = new OAuthManager('linked url scheme');
 
 class DrawerPage extends Component {
   handleNavigation = (screen, title) => {
@@ -11,6 +14,8 @@ class DrawerPage extends Component {
       navigatorStyle: this.props.theme.navBarStyle
     });
   };
+
+  componentDidMount() {}
 
   render() {
     return (
@@ -45,6 +50,23 @@ class DrawerPage extends Component {
         >
           Favorites
         </Text>
+        <Button
+          title="Sign In"
+          onPress={() => {
+            const config = {
+              google: {
+                callback_url: `reverse client id`,
+                client_id: 'client id'
+              }
+            };
+
+            manager.configure(config);
+            manager
+              .authorize('google', { scopes: 'email' })
+              .then(resp => console.log(resp))
+              .catch(err => console.log(err));
+          }}
+        />
       </View>
     );
   }
