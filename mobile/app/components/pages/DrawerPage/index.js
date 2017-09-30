@@ -3,8 +3,10 @@ import { View, Text, Button } from 'react-native';
 import { inject, observer } from 'mobx-react';
 import pages from 'constants/screens';
 import OAuthManager from 'react-native-oauth';
+import { app_name, google, client_secret } from 'constants/oauth';
+import firebase from 'utilities/firebase';
 
-const manager = new OAuthManager('');
+const manager = new OAuthManager(app_name);
 
 class DrawerPage extends Component {
   handleNavigation = (screen, title) => {
@@ -15,15 +17,36 @@ class DrawerPage extends Component {
     });
   };
 
-  componentDidMount() {}
+  handleSignin = () => {
+    manager.configure(google);
+    manager
+      .authorize('google', { scopes: 'email' })
+      .then(result => {
+        console.log(result);
+        const accessToken = result.response.credentials.accessToken;
+        const credential = firebase.auth.GoogleAuthProvider.credential(
+          null,
+          accessToken
+        );
+        firebase
+          .auth()
+          .signInWithCredential(credential)
+          .then(user => {
+            console.log('User successfully signed in', user);
+          })
+          .catch(err => {
+            console.error('User signin error', err);
+          });
+      })
+      .catch(err => console.log(err));
+  };
 
   render() {
     return (
       <View
         style={{
           flex: 1,
-          padding: 30,
-          marginTop: 30,
+          padding: 60,
           backgroundColor: this.props.theme.appTheme.pageBackgroundColor
         }}
       >
@@ -50,24 +73,7 @@ class DrawerPage extends Component {
         >
           Favorites
         </Text>
-        <Button
-          title="Sign In"
-          onPress={() => {
-            const config = {
-              google: {
-                callback_url: '',
-                client_id: '',
-                client_secret: ''
-              }
-            };
-
-            manager.configure(config);
-            manager
-              .authorize('google', { scopes: 'email' })
-              .then(resp => console.log(resp))
-              .catch(err => console.log(err));
-          }}
-        />
+        <Button title="Sign In" onPress={this.handleSignin} />
       </View>
     );
   }
