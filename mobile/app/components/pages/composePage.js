@@ -21,6 +21,20 @@ const composePage = WrappedComponent => {
           this.updateNavBar();
           break;
       }
+
+      if (event.type == 'DeepLink') {
+        const parts = event.link.split('/'); // Link parts
+        const payload = event.payload; // (optional) The payload
+        console.log(payload);
+        if (parts[0] == 'drawer') {
+          this.props.navigator.resetTo(payload);
+          this.props.navigator.toggleDrawer({
+            side: 'left',
+            animated: true,
+            to: 'closed'
+          });
+        }
+      }
     };
 
     updateNavBar = () => {
@@ -38,7 +52,7 @@ const composePage = WrappedComponent => {
     }
   }
 
-  return inject('theme', 'navigation')(observer(Page));
+  return inject('theme')(observer(Page));
 };
 
 export default composePage;

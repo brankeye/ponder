@@ -9,11 +9,14 @@ import firebase from 'utilities/firebase';
 const manager = new OAuthManager(app_name);
 
 class DrawerPage extends Component {
+  state = {
+    email: ''
+  };
+
   handleNavigation = (screen, title) => {
-    this.props.navigation.resetRoot({
-      screen,
-      title,
-      navigatorStyle: this.props.theme.navBarStyle
+    this.props.navigator.handleDeepLink({
+      link: 'drawer/' + screen,
+      payload: { screen, title }
     });
   };
 
@@ -33,6 +36,7 @@ class DrawerPage extends Component {
           .signInWithCredential(credential)
           .then(user => {
             console.log('User successfully signed in', user);
+            this.setState({ email: user.email });
           })
           .catch(err => {
             console.error('User signin error', err);
@@ -50,6 +54,7 @@ class DrawerPage extends Component {
           backgroundColor: this.props.theme.appTheme.pageBackgroundColor
         }}
       >
+        <Text>{this.state.email}</Text>
         <Text
           onPress={this.handleNavigation.bind(this, pages.PoemPage, 'Featured')}
         >
@@ -79,5 +84,5 @@ class DrawerPage extends Component {
   }
 }
 
-const page = inject('navigation', 'theme')(observer(DrawerPage));
+const page = inject('theme')(observer(DrawerPage));
 export default page;

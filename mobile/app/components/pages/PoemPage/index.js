@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import composePage from 'components/pages/composePage';
 import { PoemSection } from 'components/presenters';
 import hoistStatics from 'hoist-non-react-statics';
+import pages from 'constants/screens';
 
 class PoemPage extends Component {
   static navigatorButtons = {
@@ -17,7 +18,6 @@ class PoemPage extends Component {
 
   constructor(props) {
     super(props);
-    props.navigation.setRootNavigator(this.props.navigator);
     props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
