@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import pages from 'constants/screens';
 import OAuthManager from 'react-native-oauth';
 
-const manager = new OAuthManager('linked url scheme');
+const manager = new OAuthManager('');
 
 class DrawerPage extends Component {
   handleNavigation = (screen, title) => {
@@ -55,8 +55,9 @@ class DrawerPage extends Component {
           onPress={() => {
             const config = {
               google: {
-                callback_url: `reverse client id`,
-                client_id: 'client id'
+                callback_url: '',
+                client_id: '',
+                client_secret: ''
               }
             };
 

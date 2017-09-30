@@ -19,6 +19,8 @@ import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; // Firebase C
 import io.invertase.firebase.perf.RNFirebasePerformancePackage; // Firebase Performance
 import io.invertase.firebase.storage.RNFirebaseStoragePackage; // Firebase Storage
 
+import io.fullstack.oauth.OAuthManagerPackage;
+
 public class MainApplication extends NavigationApplication {
     @Override
     public boolean isDebug() {
@@ -40,7 +42,8 @@ public class MainApplication extends NavigationApplication {
             new RNFirebaseDatabasePackage(),
             new RNFirebaseMessagingPackage(),
             new RNFirebasePerformancePackage(),
-            new RNFirebaseStoragePackage()
+            new RNFirebaseStoragePackage(),
+            new OAuthManagerPackage()
         );
     }
 
