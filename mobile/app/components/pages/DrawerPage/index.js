@@ -3,7 +3,7 @@ import { View, Text, Button } from 'react-native';
 import { inject, observer } from 'mobx-react';
 import pages from 'constants/screens';
 import OAuthManager from 'react-native-oauth';
-import { app_name, google, client_secret } from 'constants/oauth';
+import { app_name, config } from 'constants/oauth';
 import firebase from 'utilities/firebase';
 
 const manager = new OAuthManager(app_name);
@@ -21,16 +21,19 @@ class DrawerPage extends Component {
   };
 
   handleSignin = () => {
-    manager.configure(google);
+    manager.configure(config);
+    manager.deauthorize('twitter');
     manager
-      .authorize('google', { scopes: 'email' })
+      .authorize('twitter', { scopes: 'email' })
       .then(result => {
-        console.log(result);
-        const accessToken = result.response.credentials.accessToken;
-        const credential = firebase.auth.GoogleAuthProvider.credential(
-          null,
-          accessToken
+        console.log(JSON.stringify(result));
+        const accessToken = result.response.credentials.access_token;
+        const credential = firebase.auth.TwitterAuthProvider.credential(
+          accessToken,
+          result.response.credentials.access_token_secret
         );
+        console.log('token: ' + accessToken);
+        console.log(credential);
         firebase
           .auth()
           .signInWithCredential(credential)
