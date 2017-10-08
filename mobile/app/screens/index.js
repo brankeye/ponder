@@ -5,7 +5,8 @@ import {
   PoemPage,
   LibraryPage,
   FavoritesPage,
-  DrawerPage
+  DrawerPage,
+  LoginPage
 } from 'components/pages';
 import pages from 'constants/screens';
 
@@ -14,6 +15,7 @@ export const registerScreens = () => {
   registerComponent(pages.LibraryPage, () => LibraryPage);
   registerComponent(pages.FavoritesPage, () => FavoritesPage);
   registerComponent(pages.DrawerPage, () => DrawerPage);
+  registerComponent(pages.LoginPage, () => LoginPage);
 };
 
 const registerComponent = (name, getComponent) => {

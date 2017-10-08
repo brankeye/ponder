@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import PubSub from 'pubsub-js';
 import { inject, observer } from 'mobx-react';
+import pages from 'constants/screens';
 
 const composePage = WrappedComponent => {
   class Page extends Component {
@@ -15,6 +16,14 @@ const composePage = WrappedComponent => {
       PubSub.unsubscribe(this.token);
     }
 
+    handleCloseDrawer = () => {
+      this.props.navigator.toggleDrawer({
+        side: 'left',
+        animated: true,
+        to: 'closed'
+      });
+    };
+
     onNavigatorEvent = event => {
       switch (event.id) {
         case 'willAppear':
@@ -26,13 +35,12 @@ const composePage = WrappedComponent => {
         const parts = event.link.split('/'); // Link parts
         const payload = event.payload; // (optional) The payload
         console.log(payload);
-        if (parts[0] == 'drawer') {
+        if (parts[0] === 'drawer') {
           this.props.navigator.resetTo(payload);
-          this.props.navigator.toggleDrawer({
-            side: 'left',
-            animated: true,
-            to: 'closed'
-          });
+          this.handleCloseDrawer();
+        } else if (parts[0] === 'modal') {
+          this.props.navigator.push(payload);
+          this.handleCloseDrawer();
         }
       }
     };
