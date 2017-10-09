@@ -33,6 +33,8 @@ class DrawerPage extends Component {
     });
   };
 
+  handleSignout = () => {};
+
   render() {
     return (
       <View
@@ -46,6 +48,7 @@ class DrawerPage extends Component {
         <Text onPress={this.showLibraryPage}>Library</Text>
         <Text onPress={this.showFavoritesPage}>Favorites</Text>
         <Button title="Sign In" onPress={this.showLoginPage} />
+        <Button title="Sign Out" onPress={this.handleSignout} />
       </View>
     );
   }
