@@ -5,8 +5,9 @@ import { getDynamicStyles } from './styles';
 
 const Text = props => {
   const { style } = getDynamicStyles(props.theme.appTheme);
+  const textStyle = [style, props.style];
   return (
-    <RNEText {...props} style={style}>
+    <RNEText {...props} style={textStyle}>
       {props.children}
     </RNEText>
   );

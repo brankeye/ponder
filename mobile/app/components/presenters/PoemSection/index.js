@@ -20,18 +20,20 @@ class PoemSection extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <Poem
           title={this.props.poem.title}
           author={this.props.poem.author}
           content={this.props.poem.teaser}
         />
-        <Toggle
-          isActive={this.state.isFavorite}
-          activeText="Unfavorite"
-          inactiveText="Favorite"
-          onToggle={this.handleToggle}
-        />
+        <View style={{ padding: 30 }}>
+          <Toggle
+            isActive={this.state.isFavorite}
+            activeText="Unfavorite"
+            inactiveText="Favorite"
+            onToggle={this.handleToggle}
+          />
+        </View>
       </View>
     );
   }

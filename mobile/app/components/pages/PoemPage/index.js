@@ -5,6 +5,7 @@ import composePage from 'components/pages/composePage';
 import { PoemSection } from 'components/presenters';
 import hoistStatics from 'hoist-non-react-statics';
 import pages from 'constants/screens';
+import styles from './styles';
 
 class PoemPage extends Component {
   static navigatorButtons = {
@@ -32,7 +33,7 @@ class PoemPage extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <PoemSection poem={this.props.poems.selectedPoem} />
       </View>
     );
