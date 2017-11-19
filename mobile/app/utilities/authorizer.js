@@ -4,101 +4,62 @@ import firebase from 'utilities/firebase';
 
 const manager = new OAuthManager(app_name);
 
-const authorizeGoogle = () => {
-  console.log('Handle google signin.');
-  manager.configure(config);
-  manager
-    .authorize('google', { scopes: 'email' })
-    .then(result => {
-      console.log(JSON.stringify(result));
-      const accessToken = result.response.credentials.accessToken;
-      const credential = firebase.auth.GoogleAuthProvider.credential(
-        null,
-        accessToken
-      );
-      console.log('token: ' + accessToken);
-      console.log(credential);
-      firebase
-        .auth()
-        .signInWithCredential(credential)
-        .then(user => {
-          console.log('User successfully signed in', user);
-        })
-        .catch(err => {
-          console.error('User signin error', err);
-          error(err);
-        });
-    })
-    .catch(err => {
-      console.log(err);
-      error(err);
-    });
+const signInWithCredential = async credential => {
+  try {
+    const user = await firebase.auth().signInWithCredential(credential);
+    console.log('User successfully signed in', user);
+    return user;
+  } catch (err) {
+    console.log('User signin error', err);
+    alert('User signin error');
+  }
 };
 
-const authorizeFacebook = () => {
-  console.log('Handle facebook signin.');
-  manager.configure(config);
-  manager
-    .authorize('facebook', { scopes: 'email' })
-    .then(result => {
-      console.log(JSON.stringify(result));
-      const accessToken = result.response.credentials.accessToken;
-      const credential = firebase.auth.FacebookAuthProvider.credential(
-        accessToken
-      );
-      console.log('token: ' + accessToken);
-      console.log(credential);
-      firebase
-        .auth()
-        .signInWithCredential(credential)
-        .then(user => {
-          console.log('User successfully signed in', user);
-        })
-        .catch(err => {
-          console.error('User signin error', err);
-        });
-    })
-    .catch(err => console.log(err));
+const authorizeGoogle = async auth => {
+  console.log(auth);
+  const accessToken = auth.response.credentials.accessToken;
+  const credential = firebase.auth.GoogleAuthProvider.credential(
+    null,
+    accessToken
+  );
+  const user = await signInWithCredential(credential);
+  return user;
 };
 
-const authorizeTwitter = () => {
-  console.log('Handle twitter signin.');
-  manager.configure(config);
-  manager.deauthorize('twitter');
-  manager
-    .authorize('twitter', { scopes: 'email' })
-    .then(result => {
-      console.log(JSON.stringify(result));
-      const accessToken = result.response.credentials.access_token;
-      const credential = firebase.auth.TwitterAuthProvider.credential(
-        accessToken,
-        result.response.credentials.access_token_secret
-      );
-      console.log('token: ' + accessToken);
-      console.log(credential);
-      firebase
-        .auth()
-        .signInWithCredential(credential)
-        .then(user => {
-          console.log('User successfully signed in', user);
-        })
-        .catch(err => {
-          console.error('User signin error', err);
-        });
-    })
-    .catch(err => console.log(err));
+const authorizeFacebook = async auth => {
+  const accessToken = auth.response.credentials.accessToken;
+  const credential = firebase.auth.FacebookAuthProvider.credential(accessToken);
+  const user = await signInWithCredential(credential);
+  return user;
 };
 
-export const authorize = provider => {
-  switch (provider) {
-    case 'google':
-      authorizeGoogle();
-      break;
-    case 'facebook':
-      authorizeFacebook();
-      break;
-    case 'twitter':
-      authorizeTwitter();
-      break;
+const authorizeTwitter = async auth => {
+  const accessToken = auth.response.credentials.access_token;
+  const accessTokenSecret = auth.response.credentials.access_token_secret;
+  const credential = firebase.auth.TwitterAuthProvider.credential(
+    accessToken,
+    accessTokenSecret
+  );
+  const user = await signInWithCredential(credential);
+  return user;
+};
+
+export const authorize = async provider => {
+  try {
+    console.log(`Handle ${provider} signin.`);
+    manager.configure(config);
+    //manager.deauthorize(provider);
+    const auth = await manager.authorize(provider, { scopes: 'email' });
+    switch (provider) {
+      case 'google':
+        return await authorizeGoogle(auth);
+      case 'facebook':
+        return await authorizeFacebook(auth);
+      case 'twitter':
+        return await authorizeTwitter(auth);
+    }
+  } catch (err) {
+    console.log(err);
+    alert('Failed to sign in!');
   }
 };

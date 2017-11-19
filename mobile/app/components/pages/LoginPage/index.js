@@ -8,23 +8,32 @@ import { authorize } from 'utilities/authorizer';
 class LoginPage extends Component {
   state = {};
 
-  handleGoogleSignin = () => {
-    authorize('google');
+  handleGoogleSignin = async () => {
+    const user = await authorize('google');
+    if (user) {
+      this.setState({ displayName: user._user.displayName });
+    }
   };
 
-  handleFacebookSignin = () => {
-    authorize('facebook');
+  handleFacebookSignin = async () => {
+    const user = await authorize('facebook');
+    if (user) {
+      this.setState({ displayName: user._user.displayName });
+    }
   };
 
-  handleTwitterSignin = () => {
-    authorize('twitter');
+  handleTwitterSignin = async () => {
+    const user = await authorize('twitter');
+    if (user) {
+      this.setState({ displayName: user._user.displayName });
+    }
   };
 
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        {this.state.email ? (
-          <Text>Signed in as {this.state.email}</Text>
+        {this.state.displayName ? (
+          <Text>Signed in as {this.state.displayName}</Text>
         ) : (
           <Text>Not signed in</Text>
         )}
