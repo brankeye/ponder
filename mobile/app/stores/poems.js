@@ -7,23 +7,7 @@ const initialId = uuid.v4();
 class poems {
   @observable selectedPoemId = initialId;
 
-  @observable poemList = {
-    [initialId]: {
-      title: 'Hyperion',
-      author: 'John Keats',
-      teaser: 'Deep in the shady sadness of a vale\nFar sunken from the healthy breath of morn...'
-    },
-    [uuid.v4()]: {
-      title: 'The Road Not Taken',
-      author: 'Robert Frost',
-      teaser: 'Two roads diverged in a yellow wood,\nAnd sorry I could not travel both...'
-    },
-    [uuid.v4()]: {
-      title: 'Ozymandias',
-      author: 'Percy Bysshe Shelley',
-      teaser: 'I met a traveller from an antique land\nWho said: `Two vast and trunkless legs of stone\nStand in the desert...'
-    }
-  };
+  @observable poemList = {};
 
   @computed get poemArray() {
     return observable(Object.keys(this.poemList).map(id => {
@@ -52,6 +36,11 @@ class poems {
           'Still, still to hear her tender-taken breath,\n' +
           'And so live ever- or else swoon to death.'
   };
+
+  @action updatePoemList = poems => {
+    this.selectPoem(Object.keys(poems)[0]);
+    this.poemList = poems;
+  }
 
   @action get = id => this.poemList[id];
 

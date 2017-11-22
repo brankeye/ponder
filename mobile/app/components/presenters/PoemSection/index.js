@@ -23,7 +23,7 @@ class PoemSection extends Component {
       <View style={{ flex: 1 }}>
         <Poem
           title={this.props.poem.title}
-          author={this.props.poem.author}
+          author={this.props.poem.authorName}
           content={this.props.poem.teaser}
         />
         <View style={{ padding: 30 }}>

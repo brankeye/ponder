@@ -2,8 +2,21 @@ import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import { inject, observer } from 'mobx-react';
 import pages from 'constants/screens';
+import firebase from 'utilities/firebase';
 
 class DrawerPage extends Component {
+  componentDidMount() {
+    firebase
+      .database()
+      .ref('poemInfos')
+      .once('value')
+      .then(snapshot => {
+        if (snapshot.val()) {
+          this.props.poems.updatePoemList(snapshot.val());
+        }
+      });
+  }
+
   handleNavigation = (screen, title) => {
     this.props.navigator.handleDeepLink({
       link: 'drawer',
@@ -54,5 +67,5 @@ class DrawerPage extends Component {
   }
 }
 
-const page = inject('theme')(observer(DrawerPage));
+const page = inject('theme', 'poems')(observer(DrawerPage));
 export default page;

@@ -16,7 +16,6 @@ const signInWithCredential = async credential => {
 };
 
 const authorizeGoogle = async auth => {
-  console.log(auth);
   const accessToken = auth.response.credentials.accessToken;
   const credential = firebase.auth.GoogleAuthProvider.credential(
     null,
