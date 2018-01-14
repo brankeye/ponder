@@ -57,15 +57,24 @@ class DrawerPage extends Component {
           backgroundColor: this.props.theme.appTheme.pageBackgroundColor
         }}
       >
-        <Text onPress={this.showFeaturedPage}>Daily poem</Text>
-        <Text onPress={this.showLibraryPage}>Library</Text>
-        <Text onPress={this.showFavoritesPage}>Favorites</Text>
-        <Button title="Sign In" onPress={this.showLoginPage} />
-        <Button title="Sign Out" onPress={this.handleSignout} />
+        <Text onPress={this.showFeaturedPage} style={{ paddingVertical: 40 }}>
+          Daily poem
+        </Text>
+        <Text onPress={this.showLibraryPage} style={{ paddingVertical: 40 }}>
+          Library
+        </Text>
+        <Text onPress={this.showFavoritesPage} style={{ paddingVertical: 40 }}>
+          Favorites
+        </Text>
+        {this.props.user.isSignedIn ? (
+          <Button title="Sign Out" onPress={this.handleSignout} />
+        ) : (
+          <Button title="Sign In" onPress={this.showLoginPage} />
+        )}
       </View>
     );
   }
 }
 
-const page = inject('theme', 'poems')(observer(DrawerPage));
+const page = inject('theme', 'poems', 'user')(observer(DrawerPage));
 export default page;

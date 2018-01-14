@@ -1,11 +1,13 @@
-import { action, observable, computed } from "mobx";
+import { action, observable, computed, runInAction } from "mobx";
 import config from "./config";
 import uuid from 'uuid';
+import firebase from 'utilities/firebase';
 
 const initialId = uuid.v4();
 
 class poems {
   @observable selectedPoemId = initialId;
+  @observable selectedPoem = {};
 
   @observable poemList = {};
 
@@ -44,11 +46,31 @@ class poems {
 
   @action get = id => this.poemList[id];
 
-  @computed get selectedPoem() {
+  @action
+  async retrieveSelectedPoem() {
     const id = this.selectedPoemId;
-    return ({
-      id,
-      ...this.poemList[this.selectedPoemId]
+
+    const snapshot = await firebase
+      .database()
+      .ref('poems')
+      .child(id)
+      .once('value');
+
+    runInAction(() => {
+      if (snapshot.val()) {
+        const { title, authorName } = this.poemList[id];
+        this.selectedPoem = {
+          id,
+          title,
+          authorName,
+          content: snapshot.val().lines.join('\n')
+        };
+      } else {
+        this.selectedPoem = {
+          id,
+          content: "None",
+        };
+      }
     });
   };
 

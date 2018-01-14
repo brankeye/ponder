@@ -13,7 +13,8 @@ export const lightTheme = {
   dividerColor: '',
   pageBackgroundColor: '#e6e6e6',
   navBarBackgroundColor: '#FFFFFF',
-  navBarTextColor: '#000000'
+  navBarTextColor: '#000000',
+  underlayColor: '#CCCCCC'
 };
 
 export const darkTheme = {
@@ -28,5 +29,6 @@ export const darkTheme = {
   dividerColor: '',
   pageBackgroundColor: '#404040',
   navBarBackgroundColor: '#4D4D4D',
-  navBarTextColor: '#FFFFFF'
+  navBarTextColor: '#FFFFFF',
+  underlayColor: '#CCCCCC'
 };

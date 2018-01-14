@@ -5,8 +5,9 @@ import { inject, observer } from 'mobx-react';
 import composePage from 'components/pages/composePage';
 
 class FavoritesPage extends Component {
-  handleSelectPoem = id => {
+  handleSelectPoem = async id => {
     this.props.poems.selectPoem(id);
+    await this.props.poems.retrieveSelectedPoem();
     this.props.navigator.push({ screen: pages.PoemPage });
   };
 

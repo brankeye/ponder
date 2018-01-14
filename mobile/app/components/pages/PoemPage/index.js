@@ -31,6 +31,10 @@ class PoemPage extends Component {
     }
   };
 
+  async componentWillMount() {
+    await this.props.poems.retrieveSelectedPoem();
+  }
+
   render() {
     return (
       <View style={styles.container}>

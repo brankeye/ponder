@@ -4,10 +4,12 @@ import { observer } from 'mobx-react';
 
 const PoemCard = props => {
   return (
-    <TouchableHighlight onPress={() => props.onPress(props.poem.id)}>
+    <TouchableHighlight
+      underlayColor={props.underlayColor}
+      onPress={() => props.onPress(props.poem.id)}
+    >
       <View
         style={{
-          backgroundColor: '#BABABA',
           padding: 10,
           shadowRadius: 3,
           shadowOpacity: 1,

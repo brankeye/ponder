@@ -11,7 +11,11 @@ class PoemList extends Component {
   };
 
   renderItem = ({ item }) => (
-    <PoemCard poem={item} onPress={this.handleSelectPoem} />
+    <PoemCard
+      poem={item}
+      underlayColor={this.props.theme.appTheme.underlayColor}
+      onPress={this.handleSelectPoem}
+    />
   );
 
   render() {
@@ -25,4 +29,4 @@ class PoemList extends Component {
   }
 }
 
-export default inject('poems')(observer(PoemList));
+export default inject('poems', 'theme')(observer(PoemList));

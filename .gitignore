@@ -5,6 +5,7 @@
 .ignore*
 google-services.json
 GoogleService-Info.plist
+debug.keystore
 
 # dependencies
 node_modules/

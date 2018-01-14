@@ -8,6 +8,17 @@ class PoemSection extends Component {
     isFavorite: false
   };
 
+  componentDidMount() {
+    const id = this.props.poem.id;
+    const isFavorite = this.props.favorites.poemList[id] !== undefined;
+    console.log(Object.keys(this.props.favorites.poemList));
+    console.log('Fav: ', {
+      id,
+      isFavorite
+    });
+    this.setState({ isFavorite });
+  }
+
   handleToggle = isActive => {
     if (isActive) {
       this.props.favorites.add(this.props.poem.id);
@@ -24,7 +35,7 @@ class PoemSection extends Component {
         <Poem
           title={this.props.poem.title}
           author={this.props.poem.authorName}
-          content={this.props.poem.teaser}
+          content={this.props.poem.content}
         />
         <View style={{ padding: 30 }}>
           <Toggle
