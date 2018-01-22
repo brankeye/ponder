@@ -8,16 +8,6 @@ class PoemSection extends Component {
     isFavorite: false
   };
 
-  componentDidMount() {
-    const id = this.props.poem.id;
-    const isFavorite = this.props.favorites.isFavorite(id);
-    console.log('Fav: ', {
-      id,
-      isFavorite
-    });
-    this.setState({ isFavorite });
-  }
-
   handleToggle = isActive => {
     if (isActive) {
       this.props.favorites.add(this.props.poem.id);
@@ -38,7 +28,7 @@ class PoemSection extends Component {
         />
         <View style={{ padding: 30 }}>
           <Toggle
-            isActive={this.state.isFavorite}
+            isActive={this.props.favorites.isFavorite}
             activeText="Unfavorite"
             inactiveText="Favorite"
             onToggle={this.handleToggle}

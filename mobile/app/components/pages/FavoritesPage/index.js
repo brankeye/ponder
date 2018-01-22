@@ -6,7 +6,7 @@ import composePage from 'components/pages/composePage';
 
 class FavoritesPage extends Component {
   handleSelectPoem = async id => {
-    this.props.poems.selectPoem(id);
+    await this.props.poems.selectPoem(id);
     this.props.navigator.push({ screen: pages.PoemPage });
   };
 

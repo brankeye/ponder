@@ -6,8 +6,8 @@ import { PoemList } from 'components/presenters';
 import pages from 'constants/screens';
 
 class LibraryPage extends Component {
-  handleSelectPoem = id => {
-    this.props.poems.selectPoem(id);
+  handleSelectPoem = async id => {
+    await this.props.poems.selectPoem(id);
     this.props.navigator.push({ screen: pages.PoemPage });
   };
 

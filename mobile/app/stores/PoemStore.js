@@ -5,8 +5,6 @@ import remotedev from 'mobx-remotedev';
 
 useStrict(true);
 
-const initialId = uuid.v4();
-
 @remotedev({ name: 'Poems' })
 class PoemStore {
   constructor(rs) {
