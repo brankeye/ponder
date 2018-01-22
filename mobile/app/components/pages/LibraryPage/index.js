@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { inject, observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react/native';
 import composePage from 'components/pages/composePage';
 import { PoemList } from 'components/presenters';
 import pages from 'constants/screens';

@@ -1,9 +1,11 @@
-import { observable } from 'mobx';
+import { useStrict, observable } from 'mobx';
 import PoemStore from './PoemStore';
 import ThemeStore from './ThemeStore';
 import FavoriteStore from './FavoriteStore';
 import UserStore from './UserStore';
 import AuthorStore from './AuthorStore';
+
+useStrict(true);
 
 class RootStore {
   constructor() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { Text } from 'components/presenters';
-import { inject, observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react/native';
 
 const Poem = props => {
   return (

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
-import { inject, observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react/native';
 import pages from 'constants/screens';
 
 class DrawerPage extends Component {

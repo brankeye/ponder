@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { PoemList } from 'components/presenters';
-import { inject, observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react/native';
 import composePage from 'components/pages/composePage';
 
 class FavoritesPage extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import PubSub from 'pubsub-js';
-import { inject, observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react/native';
 import pages from 'constants/screens';
 
 const composePage = WrappedComponent => {

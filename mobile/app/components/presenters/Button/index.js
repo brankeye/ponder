@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button as RNEButton } from 'react-native-elements';
-import { inject, observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react/native';
 import { getDynamicStyles } from './styles';
 
 const Button = props => {

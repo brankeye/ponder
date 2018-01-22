@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Poem, Toggle } from 'components/presenters';
-import { inject, observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react/native';
 
 class PoemSection extends Component {
   state = {

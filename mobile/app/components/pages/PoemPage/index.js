@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Button, FlatList } from 'react-native';
-import { inject, observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react/native';
 import composePage from 'components/pages/composePage';
 import { PoemSection } from 'components/presenters';
 import hoistStatics from 'hoist-non-react-statics';

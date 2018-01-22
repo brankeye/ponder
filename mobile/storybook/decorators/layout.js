@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import ThemeToggle from '../components/ThemeToggle';
-import { inject, observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react/native';
 
 const layout = story => (
   <Container style={styles.main}>

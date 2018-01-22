@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { PoemCard } from 'components/presenters';
-import { inject, observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react/native';
 
 class PoemList extends Component {
   keyExtractor = item => item.id;

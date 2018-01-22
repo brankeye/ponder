@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { inject, observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react/native';
 import { SocialIcon } from 'react-native-elements';
 import composePage from 'components/pages/composePage';
 import { authorize } from 'utilities/authorizer';
