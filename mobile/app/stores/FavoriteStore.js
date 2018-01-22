@@ -1,15 +1,19 @@
 import { action, observable, computed } from "mobx";
-import config from "./config";
-import store from "./index";
+import remotedev from 'mobx-remotedev';
 
-class favorites {
+@remotedev({ name: 'Favorites' })
+class FavoriteStore {
+  constructor(rs) {
+    this.rootStore = rs;
+  }
+
   @observable poemList = {};
 
   @computed get poemArray() {
     return Object.keys(this.poemList).map(id => {
       return {
         id,
-        ...store.poems.poemList[id]
+        ...this.rootStore().poems.poemList[id]
       };
     });
   };
@@ -18,7 +22,7 @@ class favorites {
 
   @action remove = id => delete this.poemList[id];
 
-  @action isFavorite = id => this.poemList[id];
+  @action isFavorite = id => this.poemList[id] === true;
 }
 
-export default (new favorites());
+export default FavoriteStore;

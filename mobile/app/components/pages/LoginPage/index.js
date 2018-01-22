@@ -62,5 +62,5 @@ class LoginPage extends Component {
   }
 }
 
-const page = inject('favorites', 'poems')(composePage(observer(LoginPage)));
+const page = inject('favorites', 'poems')(composePage(LoginPage));
 export default page;

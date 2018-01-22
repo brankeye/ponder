@@ -1,10 +1,15 @@
 import { action, observable } from "mobx";
-import config from "./config";
 import { StyleSheet } from "react-native";
 import { lightTheme, darkTheme } from "../constants/themes";
 import PubSub from 'pubsub-js';
+import remotedev from 'mobx-remotedev';
 
-class theme {
+@remotedev({ name: 'Themes' })
+class ThemeStore {
+  constructor(rs) {
+    this.rootStore = rs;
+  }
+
   @observable appTheme = lightTheme;
   @observable navBarStyle = lightNavBarStyle;
 
@@ -34,10 +39,9 @@ const getNavBarStyle = (theme) => {
   }
 }
 
-const usingLightTheme = true;
+let usingLightTheme = true;
 
 const lightNavBarStyle = getNavBarStyle(lightTheme);
 const darkNavBarStyle = getNavBarStyle(darkTheme);
 
-const store = new theme();
-export default store;
+export default ThemeStore;

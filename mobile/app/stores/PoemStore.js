@@ -1,12 +1,16 @@
 import { action, observable, computed, runInAction } from "mobx";
-import config from "./config";
 import uuid from 'uuid';
 import firebase from 'utilities/firebase';
+import remotedev from 'mobx-remotedev';
 
 const initialId = uuid.v4();
 
-class poems {
-  @observable selectedPoemId = initialId;
+@remotedev({ name: 'Poems' })
+class PoemStore {
+  constructor(rs) {
+    this.rootStore = rs;
+  }
+
   @observable selectedPoem = {};
 
   @observable poemList = {};
@@ -39,17 +43,23 @@ class poems {
           'And so live ever- or else swoon to death.'
   };
 
-  @action updatePoemList = poems => {
-    this.selectPoem(Object.keys(poems)[0]);
-    this.poemList = poems;
-  }
+  @action fetchPoems = async () => {
+    const snapshot = await firebase
+      .database()
+      .ref('poemInfos')
+      .once('value');
+    const poems = snapshot.val();
+    if (poems) {
+      runInAction(() => {
+        this.selectPoem(Object.keys(poems)[0]);
+        this.poemList = poems;
+      });
+    }
+  };
 
   @action get = id => this.poemList[id];
 
-  @action
-  async retrieveSelectedPoem() {
-    const id = this.selectedPoemId;
-
+  @action selectPoem = async id => {
     const snapshot = await firebase
       .database()
       .ref('poems')
@@ -73,9 +83,6 @@ class poems {
       }
     });
   };
-
-  @action selectPoem = id => this.selectedPoemId = id;
 }
 
-const store = new poems();
-export default store;
+export default PoemStore;

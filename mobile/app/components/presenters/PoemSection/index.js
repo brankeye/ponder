@@ -10,8 +10,7 @@ class PoemSection extends Component {
 
   componentDidMount() {
     const id = this.props.poem.id;
-    const isFavorite = this.props.favorites.poemList[id] !== undefined;
-    console.log(Object.keys(this.props.favorites.poemList));
+    const isFavorite = this.props.favorites.isFavorite(id);
     console.log('Fav: ', {
       id,
       isFavorite

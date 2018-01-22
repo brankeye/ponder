@@ -1,15 +1,18 @@
-import remotedev from 'mobx-remotedev';
-import makeConfig from './config';
-import poems from './poems';
-import theme from './theme';
-import favorites from './favorites';
-import user from './user';
+import { observable } from 'mobx';
+import PoemStore from './PoemStore';
+import ThemeStore from './ThemeStore';
+import FavoriteStore from './FavoriteStore';
+import UserStore from './UserStore';
+import AuthorStore from './AuthorStore';
 
-const store = {
-  poems: remotedev(poems, makeConfig({ name: 'Poems' })),
-  theme: remotedev(theme, makeConfig({ name: 'Theme' })),
-  favorites: remotedev(favorites, makeConfig({ name: 'Favorites' })),
-  user: remotedev(user, makeConfig({ name: 'User' }))
-};
+class RootStore {
+  constructor() {
+    this.theme = new ThemeStore(() => this);
+    this.poems = new PoemStore(() => this);
+    this.favorites = new FavoriteStore(() => this);
+    this.user = new UserStore(() => this);
+    this.authors = new AuthorStore(() => this);
+  }
+}
 
-export default store;
+export default new RootStore();

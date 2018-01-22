@@ -17,7 +17,7 @@
 		0693FA1EF3E6EE9899D4866F /* libPods-mobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45E7607C6B6ADED386B429DA /* libPods-mobile.a */; };
 		06BBB5B11F5B605900753AF8 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06BBB5B01F5B604200753AF8 /* libReactNativeNavigation.a */; };
 		06BBB5DC1F5B668400753AF8 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06BBB5B01F5B604200753AF8 /* libReactNativeNavigation.a */; };
-		06C73707200B26CE0076F1F5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06C736E6200B26CE0076F1F5 /* GoogleService-Info.plist */; };
+		06E5216E201542940008F337 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06E52135201542930008F337 /* GoogleService-Info.plist */; };
 		06E6D97C1F7DF37B0063B295 /* libOAuthManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06E6D94B1F7DF3130063B295 /* libOAuthManager.a */; };
 		11ED0A6F7E0E44D9A924B517 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABA5CC5123474425A93C482B /* Entypo.ttf */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
@@ -311,7 +311,8 @@
 		00E356F21AD99517003FC87E /* mobileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mobileTests.m; sourceTree = "<group>"; };
 		061A7C461F7DFD8100CC4D87 /* libDCTAuth.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libDCTAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		06BBB58E1F5B604200753AF8 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
-		06C736E6200B26CE0076F1F5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		06E52135201542930008F337 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "mobile/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		06E5216F201542940008F337 /* mobile-tvOS copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "mobile-tvOS copy-Info.plist"; path = "/Users/jimothy/Projects/Ponder/mobile/ios/mobile-tvOS copy-Info.plist"; sourceTree = "<absolute>"; };
 		06E6D99C1F7DF3E50063B295 /* mobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mobile.entitlements; path = mobile/mobile.entitlements; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -529,7 +530,7 @@
 		13B07FAE1A68108700A75B9A /* mobile */ = {
 			isa = PBXGroup;
 			children = (
-				06C736E6200B26CE0076F1F5 /* GoogleService-Info.plist */,
+				06E52135201542930008F337 /* GoogleService-Info.plist */,
 				06E6D99C1F7DF3E50063B295 /* mobile.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -649,6 +650,7 @@
 				47A1617B09A73C692261941D /* Frameworks */,
 				6E313FA3C83B489CB18AB211 /* Resources */,
 				06E6D9141F7DF2900063B295 /* Recovered References */,
+				06E5216F201542940008F337 /* mobile-tvOS copy-Info.plist */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -1123,7 +1125,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06C73707200B26CE0076F1F5 /* GoogleService-Info.plist in Resources */,
+				06E5216E201542940008F337 /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				11ED0A6F7E0E44D9A924B517 /* Entypo.ttf in Resources */,

@@ -1,6 +1,6 @@
 import { Navigation } from 'react-native-navigation';
 import StoreProvider from 'stores/provider/StoreProvider';
-import store from 'stores';
+import stores from 'stores';
 import {
   PoemPage,
   LibraryPage,
@@ -19,7 +19,7 @@ export const registerScreens = () => {
 };
 
 const registerComponent = (name, getComponent) => {
-  Navigation.registerComponent(name, getComponent, store, StoreProvider);
+  Navigation.registerComponent(name, getComponent, stores, StoreProvider);
 };
 
 export const startApp = () =>

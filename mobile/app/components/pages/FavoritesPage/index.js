@@ -7,7 +7,6 @@ import composePage from 'components/pages/composePage';
 class FavoritesPage extends Component {
   handleSelectPoem = async id => {
     this.props.poems.selectPoem(id);
-    await this.props.poems.retrieveSelectedPoem();
     this.props.navigator.push({ screen: pages.PoemPage });
   };
 
@@ -24,5 +23,5 @@ class FavoritesPage extends Component {
   }
 }
 
-const page = inject('favorites', 'poems')(composePage(observer(FavoritesPage)));
+const page = inject('favorites', 'poems')(composePage(FavoritesPage));
 export default page;
