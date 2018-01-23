@@ -3,8 +3,6 @@
   "plugins": [
     "transform-decorators-legacy",
     "transform-class-properties",
-    "transform-regenerator",
-    "mobx-deep-action",
     [
       "module-resolver",
       {

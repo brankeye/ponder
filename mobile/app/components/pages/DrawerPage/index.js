@@ -6,6 +6,8 @@ import pages from 'constants/screens';
 class DrawerPage extends Component {
   async componentDidMount() {
     await this.props.poems.fetchPoems();
+    var id = Object.keys(this.props.poems.poemList)[0];
+    await this.props.poems.selectPoem(id);
   }
 
   handleNavigation = (screen, title) => {

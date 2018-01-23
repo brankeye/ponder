@@ -50,8 +50,9 @@ const composePage = WrappedComponent => {
     };
 
     render() {
+      const ObserverComponent = observer(WrappedComponent);
       return (
-        <WrappedComponent
+        <ObserverComponent
           {...this.props}
           onNavigatorEvent={this.onNavigatorEvent}
           appTheme={this.props.theme.appTheme}

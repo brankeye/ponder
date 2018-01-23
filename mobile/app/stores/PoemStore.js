@@ -1,9 +1,7 @@
-import { action, observable, computed, runInAction, useStrict } from "mobx";
+import { action, observable, computed, runInAction } from "mobx";
 import uuid from 'uuid';
 import firebase from 'utilities/firebase';
 import remotedev from 'mobx-remotedev';
-
-useStrict(true);
 
 @remotedev({ name: 'Poems' })
 class PoemStore {
@@ -24,43 +22,46 @@ class PoemStore {
     }));
   };
 
-  @action fetchPoems = async () => {
+  fetchPoems = async () => {
     const snapshot = await firebase
       .database()
       .ref('poemInfos')
       .once('value');
     const poems = snapshot.val();
     if (poems) {
-      this.poemList = poems;
-      var id = Object.keys(poems)[0];
-      await this.selectPoem(id);
+      runInAction("fetchPoems", () => {
+        this.poemList = poems;
+      }, this);
     }
   };
 
   @action get = id => this.poemList[id];
 
-  @action selectPoem = async id => {
+  selectPoem = async id => {
     const snapshot = await firebase
       .database()
       .ref('poems')
       .child(id)
       .once('value');
 
-    const poem = snapshot.val();
-    if (poem) {
-      const { title, authorName } = this.poemList[id];
-      this.selectedPoem = {
-        id,
-        title,
-        authorName,
-        content: poem.lines.join('\n')
-      };
-    } else {
-      this.selectedPoem = {
-        id,
-        content: "None",
-      };
-    }
+    runInAction("selectPoem", () => {
+      const poem = snapshot.val();
+      if (poem) {
+        const { title, authorName } = this.poemList[id];
+        this.selectedPoem = {
+          id,
+          title,
+          authorName,
+          content: poem.lines.join('\n')
+        };
+        console.log('Selected: ', this.selectedPoem);
+      } else {
+        this.selectedPoem = {
+          id,
+          content: "None",
+        };
+      }
+    }, this);
   };
 }
 
