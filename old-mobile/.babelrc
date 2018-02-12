@@ -1,0 +1,20 @@
+{
+  "presets": ["react-native"],
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-class-properties",
+    [
+      "module-resolver",
+      {
+        "root": ["./"],
+        "alias": {
+          "components": "./app/components",
+          "constants": "./app/constants",
+          "screens": "./app/screens",
+          "stores": "./app/stores",
+          "utilities": "./app/utilities"
+        }
+      }
+    ]
+  ]
+}
