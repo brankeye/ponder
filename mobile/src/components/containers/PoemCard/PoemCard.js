@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableHighlight } from 'react-native';
+import { View, Text, TouchableHighlight } from 'components/presenters';
 
 const PoemCard = ({ poem, underlayColor, onPress }) => {
   return (

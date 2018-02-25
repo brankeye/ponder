@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList } from 'components/presenters';
 import { PoemCard } from 'components/containers';
 
 class PoemList extends Component {

@@ -13,14 +13,17 @@ class PoemStore {
 
   @observable list = [];
 
-  @computed get poemArray() {
-    return observable(Object.keys(this.list).map(id => {
-      return observable({
-        id,
-        ...this.list[id]
-      });
-    }));
-  };
+  @computed
+  get poemArray() {
+    return observable(
+      Object.keys(this.list).map(id => {
+        return observable({
+          id,
+          ...this.list[id]
+        });
+      })
+    );
+  }
 
   fetchPoems = async () => {
     const snapshot = await firebase
@@ -29,9 +32,13 @@ class PoemStore {
       .once('value');
     const poems = snapshot.val();
     if (poems) {
-      runInAction("fetchPoems", () => {
-        this.list = Object.keys(poems).map(id => ({ id, ...poems[id] }));
-      }, this);
+      runInAction(
+        'fetchPoems',
+        () => {
+          this.list = Object.keys(poems).map(id => ({ id, ...poems[id] }));
+        },
+        this
+      );
     }
   };
 
@@ -44,23 +51,54 @@ class PoemStore {
       .child(id)
       .once('value');
 
-    runInAction("selectPoem", () => {
-      const poem = snapshot.val();
-      if (poem) {
-        const { title, authorName } = this.list.find(x => x.id === id);
-        this.selectedPoem = {
-          id,
-          title,
-          authorName,
-          content: poem.lines.join('\n')
-        };
-      } else {
-        this.selectedPoem = {
-          id,
-          content: "None",
-        };
-      }
-    }, this);
+    runInAction(
+      'selectPoem',
+      () => {
+        const poem = snapshot.val();
+        if (poem) {
+          const { title, authorName, isFavorite } = this.list.find(
+            x => x.id === id
+          );
+          this.selectedPoem = {
+            id,
+            title,
+            authorName,
+            isFavorite,
+            content: poem.lines.join('\n')
+          };
+        } else {
+          this.selectedPoem = {
+            id,
+            content: 'None'
+          };
+        }
+      },
+      this
+    );
+  };
+
+  @action
+  favoritePoem = async id => {
+    this.selectedPoem.isFavorite = true;
+    await firebase
+      .database()
+      .ref('poemInfos')
+      .child(id)
+      .update({
+        isFavorite: true
+      });
+  };
+
+  @action
+  unfavoritePoem = async id => {
+    this.selectedPoem.isFavorite = false;
+    await firebase
+      .database()
+      .ref('poemInfos')
+      .child(id)
+      .update({
+        isFavorite: false
+      });
   };
 }
 

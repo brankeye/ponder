@@ -19,3 +19,5 @@ export { default as Text } from './Text';
 export { default as TextInput } from './TextInput';
 export { default as View } from './View';
 export { default as ErrorBoundary } from './ErrorBoundary';
+export { default as TouchableHighlight } from './TouchableHighlight';
+export { default as Toggle } from './Toggle';
