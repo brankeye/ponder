@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Expo from 'expo';
 import { Provider } from 'mobx-react/native';
 import { default as Navigator } from 'navigation';
 import stores from 'stores';
 
-const App = () => (
-  <Provider {...stores}>
-    <Navigator />
-  </Provider>
-);
+class App extends Component {
+  constructor(props) {
+    super(props);
+    console.ignoredYellowBox = ['Setting a timer'];
+  }
+
+  render() {
+    return (
+      <Provider {...stores}>
+        <Navigator />
+      </Provider>
+    );
+  }
+}
 
 Expo.registerRootComponent(App);

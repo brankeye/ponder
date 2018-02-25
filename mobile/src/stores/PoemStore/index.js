@@ -1,9 +1,9 @@
 import { action, observable, computed, runInAction } from 'mobx';
 import uuid from 'uuid';
 import { firebase } from 'utilities';
-import remotedev from 'mobx-remotedev';
+//import remotedev from 'mobx-remotedev';
 
-@remotedev({ name: 'Poems' })
+//@remotedev({ name: 'Poems' })
 class PoemStore {
   constructor(rs) {
     this.rootStore = rs;
@@ -11,13 +11,13 @@ class PoemStore {
 
   @observable selectedPoem = {};
 
-  @observable poemList = {};
+  @observable list = [];
 
   @computed get poemArray() {
-    return observable(Object.keys(this.poemList).map(id => {
+    return observable(Object.keys(this.list).map(id => {
       return observable({
         id,
-        ...this.poemList[id]
+        ...this.list[id]
       });
     }));
   };
@@ -30,12 +30,12 @@ class PoemStore {
     const poems = snapshot.val();
     if (poems) {
       runInAction("fetchPoems", () => {
-        this.poemList = poems;
+        this.list = Object.keys(poems).map(id => ({ id, ...poems[id] }));
       }, this);
     }
   };
 
-  @action get = id => this.poemList[id];
+  @action get = id => this.list[id];
 
   selectPoem = async id => {
     const snapshot = await firebase
@@ -47,7 +47,7 @@ class PoemStore {
     runInAction("selectPoem", () => {
       const poem = snapshot.val();
       if (poem) {
-        const { title, authorName } = this.poemList[id];
+        const { title, authorName } = this.list.find(x => x.id === id);
         this.selectedPoem = {
           id,
           title,

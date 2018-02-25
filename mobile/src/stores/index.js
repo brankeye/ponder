@@ -7,7 +7,7 @@ useStrict(true);
 class RootStore {
   constructor() {
     this.poems = new PoemStore(() => this);
-    //this.favorites = new FavoriteStore(() => this);
+    this.favorites = new FavoriteStore(() => this);
   }
 }
 

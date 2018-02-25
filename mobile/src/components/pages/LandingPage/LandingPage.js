@@ -1,15 +1,25 @@
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react/native';
 import { View, Text } from 'components/presenters';
+import { PoemList } from 'components/containers';
 
 class LandingPage extends Component {
-  componentDidMount() {
-    //await this.props.poems.fetchPoems();
+  async componentDidMount() {
+    await this.props.poems.fetchPoems();
   }
+
+  handleSelectPoem = async id => {
+    await this.props.poems.selectPoem(id);
+    this.props.navigation.navigate('Poem');
+  };
 
   render() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>LandingPage!</Text>
+        <PoemList
+          poems={this.props.poems.list}
+          onSelectPoem={this.handleSelectPoem}
+        />
       </View>
     );
   }

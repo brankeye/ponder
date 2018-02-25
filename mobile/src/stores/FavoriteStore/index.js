@@ -1,7 +1,7 @@
 import { action, observable, computed, runInAction } from "mobx";
-import remotedev from 'mobx-remotedev';
+//import remotedev from 'mobx-remotedev';
 
-@remotedev({ name: 'Favorites' })
+//@remotedev({ name: 'Favorites' })
 class FavoriteStore {
   constructor(rs) {
     this.rootStore = rs;
