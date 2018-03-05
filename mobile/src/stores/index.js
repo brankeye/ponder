@@ -1,13 +1,13 @@
 import { useStrict } from 'mobx';
 import PoemStore from './PoemStore';
-import FavoriteStore from './FavoriteStore';
+import UserStore from './UserStore';
 
 useStrict(true);
 
 class RootStore {
   constructor() {
     this.poems = new PoemStore(() => this);
-    this.favorites = new FavoriteStore(() => this);
+    this.user = new UserStore(() => this);
   }
 }
 

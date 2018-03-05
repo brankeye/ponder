@@ -1,1 +1,1 @@
-export { StatusBar as default } from 'react-native';
+export { default } from './StatusBar';

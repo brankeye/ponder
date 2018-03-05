@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Expo from 'expo';
 import { Provider } from 'mobx-react/native';
 import { default as Navigator } from 'navigation';
+import { View, StatusBar } from 'components/presenters';
 import stores from 'stores';
 
 class App extends Component {
@@ -13,7 +14,10 @@ class App extends Component {
   render() {
     return (
       <Provider {...stores}>
-        <Navigator />
+        <View style={{ flex: 1 }}>
+          <StatusBar />
+          <Navigator />
+        </View>
       </Provider>
     );
   }

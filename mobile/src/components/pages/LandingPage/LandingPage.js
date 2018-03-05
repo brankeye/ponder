@@ -15,7 +15,14 @@ class LandingPage extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#EEEEEE'
+        }}
+      >
         <PoemList
           poems={this.props.poems.list}
           onSelectPoem={this.handleSelectPoem}

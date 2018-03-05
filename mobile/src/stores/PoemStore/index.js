@@ -14,18 +14,13 @@ class PoemStore {
   @observable list = [];
 
   @computed
-  get poemArray() {
-    return observable(
-      Object.keys(this.list).map(id => {
-        return observable({
-          id,
-          ...this.list[id]
-        });
-      })
-    );
+  get favorites() {
+    return observable(this.list.filter(x => x.isFavorite));
   }
 
   fetchPoems = async () => {
+    const favoriteAuthors = await this.rootStore().user.getFavoriteAuthors();
+    const favoritePoems = await this.rootStore().user.getFavoritePoems();
     const snapshot = await firebase
       .database()
       .ref('poemInfos')
@@ -35,7 +30,12 @@ class PoemStore {
       runInAction(
         'fetchPoems',
         () => {
-          this.list = Object.keys(poems).map(id => ({ id, ...poems[id] }));
+          this.list = observable(
+            Object.keys(poems).map(id => {
+              const isFavorite = favoritePoems.includes(id);
+              return observable({ id, ...poems[id], isFavorite });
+            })
+          );
         },
         this
       );
@@ -80,25 +80,21 @@ class PoemStore {
   @action
   favoritePoem = async id => {
     this.selectedPoem.isFavorite = true;
-    await firebase
-      .database()
-      .ref('poemInfos')
-      .child(id)
-      .update({
-        isFavorite: true
-      });
+    const favPoem = this.list.find(x => x.id === id);
+    if (favPoem) {
+      favPoem.isFavorite = true;
+    }
+    await this.rootStore().user.favoritePoem(id);
   };
 
   @action
   unfavoritePoem = async id => {
     this.selectedPoem.isFavorite = false;
-    await firebase
-      .database()
-      .ref('poemInfos')
-      .child(id)
-      .update({
-        isFavorite: false
-      });
+    const favPoem = this.list.find(x => x.id === id);
+    if (favPoem) {
+      favPoem.isFavorite = false;
+    }
+    await this.rootStore().user.unfavoritePoem(id);
   };
 }
 
