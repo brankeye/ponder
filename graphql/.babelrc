@@ -1,34 +1,30 @@
 {
-    "presets": [
-        [
-            "env",
-            {
-                "targets": {
-                    "node": "current"
-                }
-            }
-        ]
-    ],
-    "plugins": [
-        "ramda",
-        "transform-class-properties",
-        "transform-object-rest-spread",
-        [
-            "module-resolver",
-            {
-                "root": ["./src"],
-                "alias": {
-                    "@@testing": "./src/testing",
-                    "@@src": "./src",
-                    "@@connectors": "./src/connectors",
-                    "@@exceptions": "./src/exceptions",
-                    "@@enums": "./src/enums",
-                    "@@utils": "./src/utils",
-                    "@@graphql": "./src/graphql",
-                    "@@requests": "./src/requests"
-                },
-                "extensions": [".js"]
-            }
-        ]
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
     ]
+  ],
+  "plugins": [
+    "ramda",
+    "transform-class-properties",
+    "transform-object-rest-spread",
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "@@src": "./src",
+          "@@server": "./src/server",
+          "@@connectors": "./src/connectors",
+          "@@model": "./src/model"
+        },
+        "extensions": [".js"]
+      }
+    ]
+  ]
 }
