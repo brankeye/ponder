@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "mobile"
+		},
+		{
+			"path": "old-mobile"
+		},
+		{
+			"path": "scraper"
+		},
+		{
+			"path": "graphql"
+		}
+	],
+	"settings": {}
+}

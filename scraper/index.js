@@ -13,7 +13,7 @@ let poemLinks = [
   'https://www.poetryfoundation.org/poems/46453/on-shakespeare-1630',
   'https://www.poetryfoundation.org/poems/44644/a-psalm-of-life',
   'https://www.poetryfoundation.org/poems/44129/the-sun-rising',
-  'https://www.poetryfoundation.org/poems/45087/sonnet-18-shall-i-compare-thee-to-a-summers-day',
+  'https://www.poetryfoundation.org/poems/45087/sonnet-18-shall-i-compare-thee-to-a-summers-day'
 ];
 
 let main = async function() {
@@ -22,7 +22,7 @@ let main = async function() {
     favorites: {},
     library: {},
     poems: {},
-    poemInfos: {},
+    poemInfos: {}
   };
   let authorList = {};
   for (var i = 0; i < poemLinks.length; i++) {
@@ -31,7 +31,7 @@ let main = async function() {
     handlePoem(db, authorId, poem);
   }
   fs.writeFile('database.json', JSON.stringify(db, null, 2), console.log);
-}
+};
 
 main();
 
@@ -39,10 +39,10 @@ function handleAuthor(db, name, authorList) {
   if (authorList[name]) {
     return authorList[name];
   } else {
-    let authorId =  uuid.v4();
+    let authorId = uuid.v4();
     authorList[name] = authorId;
     db.authors[authorId] = {
-      name,
+      name
     };
     authorList[name] = authorId;
     return authorId;
@@ -51,32 +51,34 @@ function handleAuthor(db, name, authorList) {
 
 function handlePoem(db, authorId, poem) {
   let poemId = uuid.v4();
-  let teaser = poem.lines["0"] + "\n" + poem.lines["1"];
+  let teaser = poem.lines['0'] + '\n' + poem.lines['1'];
   db.poems[poemId] = {
-    lines: poem.lines,
+    lines: poem.lines
   };
   db.poemInfos[poemId] = {
     authorId,
     authorName: db.authors[authorId].name,
     title: poem.title,
-    teaser,
+    teaser
   };
 }
 
 async function scraper(link) {
   let html = await rp(link);
   let $ = cheerio.load(html);
-  let meta = $('meta[name="dcterms.Title"]').attr('content').split(' by ');
+  let meta = $('meta[name="dcterms.Title"]')
+    .attr('content')
+    .split(' by ');
   let title = meta[0];
   let author = meta[1];
   let poem = {
     title,
     author,
-    lines: {},
+    lines: {}
   };
   let linesCount = 0;
   let multiBreak = false;
-  $('.o-poem *').map(function (i, el) {
+  $('.o-poem *').map(function(i, el) {
     if (el.type === 'tag') {
       var node = $(el);
       if (node.prop('tagName') === 'BR') {
@@ -92,4 +94,3 @@ async function scraper(link) {
   });
   return poem;
 }
-
