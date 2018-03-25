@@ -3,7 +3,7 @@ dotenv.config();
 
 class Config {
   constructor() {
-    const { NODE_ENV, PORT, HOST } = process.env;
+    const { NODE_ENV, PORT, HOST, DB_CONN_URI } = process.env;
 
     if (NODE_ENV !== 'development') {
       this.prod = true;
@@ -12,6 +12,7 @@ class Config {
     }
     this.port = PORT || 3000;
     this.host = HOST || 'localhost';
+    this.dbConnUri = DB_CONN_URI;
   }
 }
 

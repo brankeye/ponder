@@ -19,9 +19,11 @@
         "root": ["./src"],
         "alias": {
           "@@src": "./src",
+          "@@context": "./src/context",
           "@@server": "./src/server",
           "@@connectors": "./src/connectors",
-          "@@model": "./src/model"
+          "@@model": "./src/model",
+          "@@database": "./src/database"
         },
         "extensions": [".js"]
       }

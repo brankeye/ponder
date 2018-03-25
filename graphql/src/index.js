@@ -3,10 +3,11 @@ import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import config from './server/config';
 import getSchema from './model';
+import context from './context';
 
 const app = express();
 app.use(bodyParser.json());
-app.use('/graphql', graphqlExpress({ schema: getSchema() }));
+app.use('/graphql', graphqlExpress({ schema: getSchema(), context }));
 
 app.use(
   '/graphiql',
@@ -18,7 +19,7 @@ app.use(
 if (config.dev) {
   app.use(
     '/graphqlMocked',
-    graphqlExpress({ schema: getSchema({ enableMocks: true }) })
+    graphqlExpress({ schema: getSchema({ enableMocks: true }), context })
   );
   app.use(
     '/graphiqlMocked',
