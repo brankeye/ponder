@@ -11,9 +11,6 @@
 		},
 		{
 			"path": "graphql"
-		},
-		{
-			"path": "database"
 		}
 	],
 	"settings": {}

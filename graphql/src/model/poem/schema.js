@@ -1,12 +1,27 @@
 const types = /* GraphQL */ `
-  type Query {
-    poem(id: ID!): Poem
+  extend type Query {
+    poem(id: ID): Poem
   }
 
- type Poem {
-   title: String
-   author: Author
- }
+  extend type Mutation {
+    poemCreate(input: PoemInput): Poem
+    poemUpdate(id: ID, input: PoemInput): Boolean
+  }
+
+  type Poem {
+    id: ID
+    title: String
+    teaser: String
+    author: Author
+  }
 `;
 
-export default () => [types];
+const inputs = /* GraphQL */ `
+  input PoemInput {
+    title: String!
+    teaser: String!
+    authorId: ID!
+  }
+`;
+
+export default () => [types, inputs];
