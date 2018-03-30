@@ -1,32 +1,34 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Poems', {
+    return queryInterface.createTable('PoemInfos', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      authorId: {
+      inLibrary: {
+        type: Sequelize.BOOLEAN,
+      },
+      isFavorite: {
+        type: Sequelize.BOOLEAN,
+      },
+      userId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Authors',
+          model: 'Users',
           key: 'id',
-          as: 'authorId',
+          as: 'userId',
         },
       },
-      title: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      teaser: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      lines: {
-        type: Sequelize.ARRAY(Sequelize.TEXT),
-        allowNull: false,
+      poemId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Poems',
+          key: 'id',
+          as: 'poemId',
+        },
       },
       createdAt: {
         allowNull: false,
@@ -39,6 +41,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Poems');
+    return queryInterface.dropTable('PoemInfos');
   },
 };

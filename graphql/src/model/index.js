@@ -8,7 +8,7 @@ const models = [author, poem];
 
 const mergeDeepLeftAll = reduce(mergeDeepLeft, {});
 
-const typeDefs = flatten(map(prop('schema'), models));
+const typeDefs = flatten(map(prop('types'), models));
 const resolvers = mergeDeepLeftAll(map(prop('resolver'), models));
 const mockResolvers = mergeDeepLeftAll(map(prop('mockResolver'), models));
 

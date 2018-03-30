@@ -1,2 +1,3 @@
-export { default as schema } from './schema';
+import types from './types.graphql';
+export { types };
 export { default as resolver } from './resolver';

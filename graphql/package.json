@@ -16,8 +16,10 @@
     "sequelize": "^4.37.4"
   },
   "devDependencies": {
+    "@playlyfe/gql": "^2.6.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
+    "babel-plugin-inline-import": "^2.0.6",
     "babel-plugin-module-resolver": "^3.1.0",
     "babel-plugin-ramda": "^1.5.0",
     "babel-plugin-transform-class-properties": "^6.24.1",

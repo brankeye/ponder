@@ -10,6 +10,7 @@
     ]
   ],
   "plugins": [
+    "babel-plugin-inline-import",
     "ramda",
     "transform-class-properties",
     "transform-object-rest-spread",
@@ -23,7 +24,8 @@
           "@@server": "./src/server",
           "@@connectors": "./src/connectors",
           "@@model": "./src/model",
-          "@@database": "./src/database"
+          "@@database": "./src/database",
+          "@@utilities": "./src/utilities"
         },
         "extensions": [".js"]
       }
