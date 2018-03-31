@@ -11,6 +11,8 @@ type Poem {
   id: ID
   title: String
   teaser: String
+  isFavorite: Boolean
+  inLibrary: Boolean
   author: Author
 }
 

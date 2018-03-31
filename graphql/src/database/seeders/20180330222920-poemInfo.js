@@ -6,14 +6,20 @@ module.exports = {
       'PoemInfos',
       [
         {
+          id: 1,
           userId: 1,
           poemId: 1,
+          isFavorite: true,
+          inLibrary: true,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
+          id: 2,
           userId: 2,
           poemId: 2,
+          isFavorite: true,
+          inLibrary: true,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

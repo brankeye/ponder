@@ -1,16 +1,18 @@
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
-import { map, prop, flatten, reduce, mergeDeepLeft } from 'ramda';
+import { map, prop, propOr, flatten, reduce, mergeDeepLeft } from 'ramda';
 
+import * as user from './user';
 import * as author from './author';
 import * as poem from './poem';
+import * as library from './library';
 
-const models = [author, poem];
+const models = [user, author, poem, library];
 
 const mergeDeepLeftAll = reduce(mergeDeepLeft, {});
 
 const typeDefs = flatten(map(prop('types'), models));
-const resolvers = mergeDeepLeftAll(map(prop('resolver'), models));
-const mockResolvers = mergeDeepLeftAll(map(prop('mockResolver'), models));
+const resolvers = mergeDeepLeftAll(map(propOr({}, 'resolver'), models));
+const mockResolvers = mergeDeepLeftAll(map(propOr({}, 'mockResolver'), models));
 
 const getSchema = ({ enableMocks } = {}) => {
   const schema = makeExecutableSchema({

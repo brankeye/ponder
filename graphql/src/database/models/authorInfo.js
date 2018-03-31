@@ -9,7 +9,12 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   AuthorInfo.associate = function(models) {
-    // associations can be defined here
+    AuthorInfo.belongsTo(models.User, {
+      foreignKey: 'userId',
+    });
+    AuthorInfo.belongsTo(models.Poem, {
+      foreignKey: 'authorId',
+    });
   };
   return AuthorInfo;
 };
