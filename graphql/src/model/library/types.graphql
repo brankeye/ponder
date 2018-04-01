@@ -1,4 +1,0 @@
-extend type Query {
-  authorsLibrary(userId: ID): [Author]
-  poemsLibrary(userId: ID): [Poem]
-}

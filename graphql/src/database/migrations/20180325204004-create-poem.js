@@ -4,12 +4,11 @@ module.exports = {
     return queryInterface.createTable('Poems', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
       },
       authorId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'Authors',
           key: 'id',

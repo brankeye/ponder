@@ -1,6 +1,6 @@
 const resolver = {
   Query: {
-    user: (root, { id }, { User }) => User.get(id),
+    user: (root, args, { User }) => User.get(),
   },
 };
 

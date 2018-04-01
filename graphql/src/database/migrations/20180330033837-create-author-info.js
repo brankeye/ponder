@@ -4,9 +4,8 @@ module.exports = {
     return queryInterface.createTable('AuthorInfos', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
       },
       inLibrary: {
         type: Sequelize.BOOLEAN,
@@ -15,7 +14,7 @@ module.exports = {
         type: Sequelize.BOOLEAN,
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'Users',
           key: 'id',
@@ -23,7 +22,7 @@ module.exports = {
         },
       },
       authorId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'Authors',
           key: 'id',

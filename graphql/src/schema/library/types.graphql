@@ -1,0 +1,4 @@
+extend type Query {
+  authorLibrary: [Author]
+  poemLibrary: [Poem]
+}

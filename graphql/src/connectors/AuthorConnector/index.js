@@ -5,6 +5,8 @@ const AuthorInfo = require('../../database/models').AuthorInfo;
 class AuthorConnector extends BaseConnector {
   get = id => Author.findById(id);
 
+  getAll = () => Author.findAll();
+
   getAuthorInfo = authorId =>
     AuthorInfo.findOne({ where: { authorId, userId: this.userId } });
 

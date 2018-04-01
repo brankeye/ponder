@@ -1,6 +1,7 @@
 const resolver = {
   Query: {
     poem: (root, { id }, { Poem }) => Poem.get(id),
+    poemList: (root, args, { Poem }) => Poem.getAll(),
   },
   Mutation: {
     poemCreate: (root, { input }, { Poem }) => Poem.create(input),

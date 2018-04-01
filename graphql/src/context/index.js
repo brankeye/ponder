@@ -1,10 +1,9 @@
 import { AuthorConnector, PoemConnector, UserConnector } from '@@connectors';
-import config from '@@server/config';
 
 class Context {
-  constructor() {
+  constructor(config) {
     const connectorConfig = {
-      userId: config.userId,
+      ...config,
     };
 
     this.User = new UserConnector(connectorConfig);
@@ -13,4 +12,4 @@ class Context {
   }
 }
 
-export default new Context();
+export default config => new Context(config);

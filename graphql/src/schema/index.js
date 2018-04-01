@@ -1,4 +1,5 @@
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
+import { addMiddleware } from 'graphql-add-middleware';
 import { map, prop, propOr, flatten, reduce, mergeDeepLeft } from 'ramda';
 
 import * as user from './user';

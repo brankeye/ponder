@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     'User',
     {
       email: DataTypes.STRING,
+      oauthId: DataTypes.STRING,
     },
     {}
   );

@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     {
       title: { type: DataTypes.STRING, allowNull: false },
       teaser: { type: DataTypes.STRING, allowNull: false },
+      lines: {
+        type: DataTypes.ARRAY(DataTypes.TEXT),
+        allowNull: false,
+      },
     },
     {}
   );

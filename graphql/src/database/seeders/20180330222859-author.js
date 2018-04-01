@@ -1,25 +1,10 @@
 'use strict';
 
+let data = require('../data');
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert(
-      'Authors',
-      [
-        {
-          id: 1,
-          name: 'John Keats',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          id: 2,
-          name: 'Percy Bysshe Shelley',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-      ],
-      {}
-    );
+    return queryInterface.bulkInsert('Authors', data.authors, {});
   },
 
   down: (queryInterface, Sequelize) => {

@@ -2,12 +2,24 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import config from './server/config';
-import getSchema from './model';
-import context from './context';
+import getSchema from './schema';
+import getContext from './context';
+import { UserConnector } from './connectors';
+
+const makeGraphqlExpress = () =>
+  graphqlExpress(async () => {
+    const { oauthId } = config;
+    const userConnector = new UserConnector({});
+    const { id } = await userConnector.getByOauthId(oauthId);
+    return {
+      schema: getSchema(),
+      context: getContext({ userId: id, oauthId }),
+    };
+  });
 
 const app = express();
 app.use(bodyParser.json());
-app.use('/graphql', graphqlExpress({ schema: getSchema(), context }));
+app.use('/graphql', makeGraphqlExpress());
 
 app.use(
   '/graphiql',
@@ -17,10 +29,7 @@ app.use(
 );
 
 if (config.dev) {
-  app.use(
-    '/graphqlMocked',
-    graphqlExpress({ schema: getSchema({ enableMocks: true }), context })
-  );
+  app.use('/graphqlMocked', makeGraphqlExpress());
   app.use(
     '/graphiqlMocked',
     graphiqlExpress({

@@ -5,6 +5,8 @@ const PoemInfo = require('../../database/models').PoemInfo;
 class PoemConnector extends BaseConnector {
   get = id => Poem.findById(id);
 
+  getAll = () => Poem.findAll();
+
   getPoemInfo = poemId =>
     PoemInfo.findOne({ where: { poemId, userId: this.userId } });
 
