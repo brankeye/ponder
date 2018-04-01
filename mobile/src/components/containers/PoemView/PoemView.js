@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, Text, Toggle } from 'components/presenters';
+import { View, ScrollView, Text, Toggle } from '@@components/presenters';
 
 const PoemView = ({ poem, onFavorite }) => {
   return (
@@ -8,7 +8,7 @@ const PoemView = ({ poem, onFavorite }) => {
         contentContainerStyle={{
           justifyContent: 'flex-start',
           alignItems: 'center',
-          padding: 20
+          padding: 20,
         }}
       >
         <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{poem.title}</Text>

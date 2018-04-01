@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { FlatList } from 'components/presenters';
-import { PoemCard } from 'components/containers';
+import { FlatList } from '@@components/presenters';
+import { PoemCard } from '@@components/containers';
 
 class PoemList extends Component {
   keyExtractor = ({ id }) => id;

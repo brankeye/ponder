@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableHighlight } from 'components/presenters';
+import { View, Text, TouchableHighlight } from '@@components/presenters';
 
 const PoemCard = ({ poem, underlayColor, onPress }) => {
   return (
@@ -15,7 +15,7 @@ const PoemCard = ({ poem, underlayColor, onPress }) => {
           marginVertical: 4,
           justifyContent: 'center',
           alignItems: 'center',
-          marginTop: 20
+          marginTop: 20,
         }}
       >
         <Text style={{ textAlign: 'center' }}>

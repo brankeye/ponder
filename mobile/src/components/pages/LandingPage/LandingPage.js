@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react/native';
-import { View, Text } from 'components/presenters';
-import { PoemList } from 'components/containers';
+import { View, Text } from '@@components/presenters';
+import { PoemList } from '@@components/containers';
+import client, { user } from '@@graphql';
 
 class LandingPage extends Component {
   async componentDidMount() {
-    await this.props.poems.fetchPoems();
+    const { data } = await client.query({ query: user });
+    console.log('Got data: ', JSON.stringify(data, null, 2));
   }
 
   handleSelectPoem = async id => {
@@ -20,7 +22,7 @@ class LandingPage extends Component {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: '#EEEEEE'
+          backgroundColor: '#EEEEEE',
         }}
       >
         <PoemList

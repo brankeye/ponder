@@ -2,13 +2,13 @@ import { action, observable, computed, runInAction } from 'mobx';
 import uuid from 'uuid';
 import remotedev from 'mobx-remotedev';
 
-@remotedev({ name: 'Poems' })
-class PoemStore {
+@remotedev({ name: 'Authors' })
+class AuthorStore {
   constructor(rs) {
     this.rootStore = rs;
   }
 
-  @observable poems = [];
+  @observable authors = [];
 }
 
-export default PoemStore;
+export default AuthorStore;

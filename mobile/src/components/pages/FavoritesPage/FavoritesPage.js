@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react/native';
-import { View, Text } from 'components/presenters';
-import { PoemList } from 'components/containers';
+import { View, Text } from '@@components/presenters';
+import { PoemList } from '@@components/containers';
 
 class FavoritesPage extends Component {
   async componentDidMount() {
@@ -20,7 +20,7 @@ class FavoritesPage extends Component {
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: '#EEEEEE'
+          backgroundColor: '#EEEEEE',
         }}
       >
         <PoemList

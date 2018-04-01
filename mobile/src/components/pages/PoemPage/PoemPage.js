@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react/native';
-import { View, Text } from 'components/presenters';
-import { PoemView } from 'components/containers';
+import { View, Text } from '@@components/presenters';
+import { PoemView } from '@@components/containers';
 
 class PoemPage extends Component {
   handleFavorite = isActive => {

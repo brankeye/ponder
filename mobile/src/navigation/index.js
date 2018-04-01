@@ -1,4 +1,24 @@
 import { StackNavigator, TabNavigator } from 'react-navigation';
+import { LandingPage, FavoritesPage, PoemPage } from '@@components/pages';
+
+const MainNavigator = TabNavigator({
+  Landing: { screen: LandingPage },
+});
+
+const RootNavigator = StackNavigator(
+  {
+    Main: { screen: MainNavigator },
+  },
+  {
+    headerMode: 'none',
+  }
+);
+
+export default RootNavigator;
+
+/*
+
+import { StackNavigator, TabNavigator } from 'react-navigation';
 import { LandingPage, FavoritesPage, PoemPage } from 'components/pages';
 
 const MainNavigator = TabNavigator({
@@ -17,3 +37,6 @@ const RootNavigator = StackNavigator(
 );
 
 export default RootNavigator;
+
+
+*/
