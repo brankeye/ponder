@@ -1,0 +1,10 @@
+query {
+  poemList {
+    id
+    title
+    teaser
+    author {
+      name
+    }
+  }
+}

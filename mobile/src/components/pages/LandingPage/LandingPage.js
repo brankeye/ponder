@@ -2,16 +2,14 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react/native';
 import { View, Text } from '@@components/presenters';
 import { PoemList } from '@@components/containers';
-import client, { user } from '@@graphql';
 
 class LandingPage extends Component {
-  async componentDidMount() {
-    const { data } = await client.query({ query: user });
-    console.log('Got data: ', JSON.stringify(data, null, 2));
+  componentDidMount() {
+    this.props.poems.fetchPoems();
   }
 
-  handleSelectPoem = async id => {
-    await this.props.poems.selectPoem(id);
+  handleSelectPoem = id => {
+    this.props.poems.selectPoem(id);
     this.props.navigation.navigate('Poem');
   };
 

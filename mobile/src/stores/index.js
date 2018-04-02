@@ -1,9 +1,11 @@
-import { useStrict } from 'mobx';
+import { configure } from 'mobx';
 import AuthorStore from './AuthorStore';
 import PoemStore from './PoemStore';
 import UserStore from './UserStore';
 
-useStrict(true);
+configure({
+  enforceActions: true,
+});
 
 class RootStore {
   constructor() {

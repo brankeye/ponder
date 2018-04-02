@@ -19,7 +19,7 @@ const PoemCard = ({ poem, underlayColor, onPress }) => {
         }}
       >
         <Text style={{ textAlign: 'center' }}>
-          {poem.title} by {poem.authorName}
+          {poem.title} by {poem.author.name}
         </Text>
         <Text style={{ textAlign: 'center', fontStyle: 'italic' }}>
           {poem.teaser}

@@ -1,0 +1,5 @@
+query poem($id: ID!) {
+  poem(id: $id) {
+    lines
+  }
+}
