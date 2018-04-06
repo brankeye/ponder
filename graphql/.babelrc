@@ -21,7 +21,7 @@
         "alias": {
           "@@src": "./src",
           "@@context": "./src/context",
-          "@@server": "./src/server",
+          "@@config": "./src/config",
           "@@connectors": "./src/connectors",
           "@@model": "./src/model",
           "@@database": "./src/database",

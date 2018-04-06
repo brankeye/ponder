@@ -5,6 +5,9 @@ import config from './server/config';
 import getSchema from './schema';
 import getContext from './context';
 import { UserConnector } from './connectors';
+import database from '@@database';
+
+database.setup();
 
 const makeGraphqlExpress = () =>
   graphqlExpress(async () => {

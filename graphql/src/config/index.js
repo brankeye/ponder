@@ -3,7 +3,7 @@ dotenv.config();
 
 class Config {
   constructor() {
-    const { NODE_ENV, PORT, HOST, DB_URI, OAUTH_ID } = process.env;
+    const { NODE_ENV, PORT, HOST, DB_CONNECTION, OAUTH_ID } = process.env;
 
     if (NODE_ENV !== 'development') {
       this.prod = true;
@@ -12,7 +12,7 @@ class Config {
     }
     this.port = PORT || 3000;
     this.host = HOST || 'localhost';
-    this.dbUri = DB_URI;
+    this.dbConnection = DB_CONNECTION;
     this.oauthId = OAUTH_ID;
   }
 }
