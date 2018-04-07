@@ -1,6 +1,5 @@
 import { Model } from 'objection';
 import Author from '../Author';
-import User from '../User';
 
 class AuthorPref extends Model {
   static get tableName() {
@@ -18,7 +17,7 @@ class AuthorPref extends Model {
     },
     user: {
       relation: Model.BelongsToOneRelation,
-      modelClass: User,
+      modelClass: __dirname + '../../User',
       join: {
         from: 'AuthorPrefs.userId',
         to: 'Users.id',

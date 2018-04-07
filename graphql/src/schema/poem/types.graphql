@@ -3,23 +3,16 @@ extend type Query {
   poemList(limit: Int = 20, offset: Int = 0): [Poem]
 }
 
-extend type Mutation {
-  poemCreate(input: PoemInput): Poem
-  poemUpdate(id: ID, input: PoemInput): Boolean
-}
-
 type Poem {
   id: ID
   title: String
-  teaser: String
+  teaser: [String]
+  classification: String
+  region: String
+  period: String
   lines: [String]
-  isFavorite: Boolean
-  inLibrary: Boolean
+  keywords: [String]
+  isFavorited: Boolean
+  isBookmarked: Boolean
   author: Author
-}
-
-input PoemInput {
-  title: String!
-  teaser: String!
-  authorId: ID!
 }

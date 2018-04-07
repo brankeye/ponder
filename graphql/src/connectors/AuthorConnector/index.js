@@ -1,38 +1,51 @@
-import BaseConnector from '../BaseConnector';
-const Author = require('../../database/models').Author;
-const AuthorPref = require('../../database/models').AuthorPref;
+import ModelConnector from '../ModelConnector';
+import { Author, AuthorPref } from '../../database/models';
+import { map } from 'ramda';
 
-class AuthorConnector extends BaseConnector {
-  get = id => Author.query().findById(id);
+class AuthorConnector extends ModelConnector {
+  constructor(config) {
+    super({ modelName: 'Author', ...config });
+  }
+
+  get = id =>
+    this.load({
+      fn: () => Author.query().findById(id),
+      name: 'get',
+      key: id,
+    });
 
   getAll = (limit, offset) =>
-    Author.query()
-      .limit(limit)
-      .offset(offset);
+    this.load({
+      fn: () =>
+        Author.query()
+          .limit(limit)
+          .offset(offset),
+      name: 'getAll',
+      key: { limit, offset },
+    });
 
-  getPoems = id => this.get(id).then(author => author.$relatedQuery('poems'));
+  getPoems = id =>
+    this.load({
+      fn: () => this.get(id).then(author => author.$relatedQuery('poems')),
+      name: 'getPoems',
+      key: id,
+    });
 
-  getAuthorPref = authorId =>
-    AuthorPref.findOne({ where: { authorId, userId: this.userId } });
-
-  getAuthorPrefList = () =>
-    AuthorPref.findAll({ where: { userId: this.userId } });
-
-  create = input => Author.create(input);
-
-  update = (id, input) => Author.update(input, { where: { id } });
-
-  isFavorite = async id => {
-    const prefs = await this.getAuthorPrefList();
-    const { isFavorite = false } = prefs.find(x => x.id === id) || {};
-    return isFavorite;
-  };
-
-  inLibrary = async id => {
-    const prefs = await this.getAuthorPrefList();
-    const { inLibrary = false } = prefs.find(x => x.id === id) || {};
-    return inLibrary;
-  };
+  getLibraryAuthors = () =>
+    this.load({
+      fn: () =>
+        AuthorPref.query()
+          .eager('author')
+          .where('userId', this.userId)
+          .then(
+            map(({ author, ...rest }) => ({
+              ...author,
+              ...rest,
+            }))
+          ),
+      name: 'getLibraryAuthors',
+      key: true,
+    });
 }
 
 export default AuthorConnector;

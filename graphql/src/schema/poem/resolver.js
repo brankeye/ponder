@@ -3,16 +3,13 @@ const resolver = {
     poem: (root, { id }, { Poem }) => Poem.get(id),
     poemList: (root, { limit, offset }, { Poem }) => Poem.getAll(limit, offset),
   },
-  Mutation: {
-    poemCreate: (root, { input }, { Poem }) => Poem.create(input),
-    poemUpdate: (root, { id, input }, { Poem }) => Poem.update(id, input),
-  },
   Poem: {
-    isFavorite: ({ id, isFavorite }, args, { Poem }) => {
+    teaser: ({ lines }) => lines.slice(0, 4),
+    isFavorited: ({ id, isFavorite }, args, { Poem }) => {
       if (isFavorite) return isFavorite;
       return Poem.isFavorite(id);
     },
-    inLibrary: ({ id, inLibrary }, args, { Poem }) => {
+    isBookmarked: ({ id, inLibrary }, args, { Poem }) => {
       console.log('id: ', id);
       if (inLibrary) return inLibrary;
       return Poem.inLibrary(id);

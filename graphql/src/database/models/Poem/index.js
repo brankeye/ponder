@@ -1,5 +1,4 @@
 import { Model } from 'objection';
-import Author from '../Author';
 
 class Poems extends Model {
   static get tableName() {
@@ -9,7 +8,7 @@ class Poems extends Model {
   static relationMappings = {
     author: {
       relation: Model.BelongsToOneRelation,
-      modelClass: Author,
+      modelClass: __dirname + '../../Author',
       join: {
         from: 'Poems.authorId',
         to: 'Authors.id',

@@ -11,12 +11,13 @@ database.setup();
 
 const makeGraphqlExpress = () =>
   graphqlExpress(async () => {
-    //const { oauthId } = config;
-    //const userConnector = new UserConnector({});
-    //const { id } = await userConnector.getByOauthId(oauthId);
+    const { oauthId } = config;
+    const userConnector = new UserConnector({});
+    const { id } = await userConnector.getByOauthId(oauthId);
+    console.log(id);
     return {
       schema: getSchema(),
-      context: getContext(),
+      context: getContext({ userId: id }),
     };
   });
 
