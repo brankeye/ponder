@@ -17,7 +17,7 @@ const resolver = {
       if (inLibrary) return inLibrary;
       return Author.inLibrary(id);
     },
-    poems: ({ id }, args, { Poem }) => Poem.getAllByAuthor(id),
+    poems: ({ id }, args, { Author }) => Author.getPoems(id),
   },
 };
 

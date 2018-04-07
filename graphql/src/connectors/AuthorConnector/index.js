@@ -3,12 +3,14 @@ const Author = require('../../database/models').Author;
 const AuthorPref = require('../../database/models').AuthorPref;
 
 class AuthorConnector extends BaseConnector {
-  get = id => Author.findById(id);
+  get = id => Author.query().findById(id);
 
   getAll = (limit, offset) =>
     Author.query()
       .limit(limit)
       .offset(offset);
+
+  getPoems = id => this.get(id).then(author => author.$relatedQuery('poems'));
 
   getAuthorPref = authorId =>
     AuthorPref.findOne({ where: { authorId, userId: this.userId } });
