@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
-import config from './server/config';
+import config from '@@config';
 import getSchema from './schema';
 import getContext from './context';
 import { UserConnector } from './connectors';
@@ -11,12 +11,12 @@ database.setup();
 
 const makeGraphqlExpress = () =>
   graphqlExpress(async () => {
-    const { oauthId } = config;
-    const userConnector = new UserConnector({});
-    const { id } = await userConnector.getByOauthId(oauthId);
+    //const { oauthId } = config;
+    //const userConnector = new UserConnector({});
+    //const { id } = await userConnector.getByOauthId(oauthId);
     return {
       schema: getSchema(),
-      context: getContext({ userId: id, oauthId }),
+      context: getContext(),
     };
   });
 

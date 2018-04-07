@@ -14,7 +14,8 @@
     "knex": "^0.14.4",
     "objection": "^1.1.1",
     "pg": "^7.4.1",
-    "ramda": "^0.25.0"
+    "ramda": "^0.25.0",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "@playlyfe/gql": "^2.6.0",
@@ -29,6 +30,8 @@
     "babel-preset-env": "^1.6.1",
     "eslint": "^4.19.1",
     "eslint-import-resolver-babel-module": "^4.0.0",
+    "glob": "^7.1.2",
+    "graceful-fs": "^4.1.11",
     "nodemon": "^1.17.2",
     "prettier-eslint": "^8.8.1"
   },

@@ -1,33 +1,35 @@
 import BaseConnector from '../BaseConnector';
 const Poem = require('../../database/models').Poem;
-const PoemInfo = require('../../database/models').PoemInfo;
+const PoemPref = require('../../database/models').PoemPref;
 
 class PoemConnector extends BaseConnector {
   get = id => Poem.findById(id);
 
-  getAll = () => Poem.findAll();
+  getAll = (limit, offset) =>
+    Poem.query()
+      .limit(limit)
+      .offset(offset);
 
-  getPoemInfo = poemId =>
-    PoemInfo.findOne({ where: { poemId, userId: this.userId } });
+  getPoemPref = poemId =>
+    PoemPref.findOne({ where: { poemId, userId: this.userId } });
 
   getAllByAuthor = authorId => Poem.findAll({ where: { authorId } });
 
-  getPoemInfos = () => PoemInfo.findAll({ where: { userId: this.userId } });
+  getPoemPrefList = () => PoemPref.findAll({ where: { userId: this.userId } });
 
   create = input => Poem.create(input);
 
   update = (id, input) => Poem.update(input, { where: { id } });
 
   isFavorite = async id => {
-    const infos = await this.getPoemInfos();
-    console.log('Poem infos: ', JSON.stringify(infos, null, 2));
-    const { isFavorite = false } = infos.find(x => x.id === id) || {};
+    const prefs = await this.getPoemPrefList();
+    const { isFavorite = false } = prefs.find(x => x.id === id) || {};
     return isFavorite;
   };
 
   inLibrary = async id => {
-    const infos = await this.getPoemInfos();
-    const { inLibrary = false } = infos.find(x => x.id === id) || {};
+    const prefs = await this.getPoemPrefList();
+    const { inLibrary = false } = prefs.find(x => x.id === id) || {};
     return inLibrary;
   };
 }

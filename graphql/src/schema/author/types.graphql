@@ -1,6 +1,6 @@
 type Query {
   author(id: ID): Author
-  authorList: [Author]
+  authorList(limit: Int = 20, offset: Int = 0): [Author]
 }
 
 type Mutation {

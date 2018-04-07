@@ -25,12 +25,12 @@ exports.up = function(knex) {
         .references('id')
         .inTable('Authors');
       table.string('title').notNullable();
-      table.string('teaser').notNullable();
       table.string('classification').nullable();
       table.string('region').nullable();
       table.string('period').nullable();
       table.string('year').nullable();
       table.specificType('lines', 'text[]').notNullable();
+      table.specificType('keywords', 'text[]').notNullable();
     })
     .createTable('AuthorPrefs', table => {
       table
@@ -66,9 +66,9 @@ exports.up = function(knex) {
 
 exports.down = function(knex) {
   return knex.schema
-    .dropTableIfExists('Users')
-    .dropTableIfExists('Authors')
-    .dropTableIfExists('Poems')
+    .dropTableIfExists('PoemPrefs')
     .dropTableIfExists('AuthorPrefs')
-    .dropTableIfExists('PoemPrefs');
+    .dropTableIfExists('Poems')
+    .dropTableIfExists('Authors')
+    .dropTableIfExists('Users');
 };

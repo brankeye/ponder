@@ -1,30 +1,30 @@
 import { Model } from 'objection';
-import Poem from '../Poem';
+import Author from '../Author';
 import User from '../User';
 
-class PoemPrefs extends Model {
+class AuthorPref extends Model {
   static get tableName() {
-    return 'PoemPrefs';
+    return 'AuthorPrefs';
   }
 
   static relationMappings = {
-    poem: {
+    author: {
       relation: Model.BelongsToOneRelation,
-      modelClass: Poem,
+      modelClass: Author,
       join: {
-        from: 'PoemPrefs.poemId',
-        to: 'Poems.id',
+        from: 'AuthorPrefs.authorId',
+        to: 'Authors.id',
       },
     },
     user: {
       relation: Model.BelongsToOneRelation,
       modelClass: User,
       join: {
-        from: 'PoemPrefs.userId',
+        from: 'AuthorPrefs.userId',
         to: 'Users.id',
       },
     },
   };
 }
 
-export default PoemPrefs;
+export default AuthorPref;

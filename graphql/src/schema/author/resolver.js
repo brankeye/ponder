@@ -1,7 +1,8 @@
 const resolver = {
   Query: {
     author: (root, { id }, { Author }) => Author.get(id),
-    authorList: (root, args, { Author }) => Author.getAll(),
+    authorList: (root, { limit, offset }, { Author }) =>
+      Author.getAll(limit, offset),
   },
   Mutation: {
     authorCreate: (root, { input }, { Author }) => Author.create(input),
