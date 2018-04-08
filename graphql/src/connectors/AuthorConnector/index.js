@@ -1,36 +1,52 @@
 import ModelConnector from '../ModelConnector';
-import { Author, AuthorPref } from '../../database/models';
+import { Author, AuthorPref, Poem } from '../../database/models';
 import { map, merge } from 'ramda';
-
 class AuthorConnector extends ModelConnector {
   constructor(config) {
     super({ modelName: 'Author', ...config });
   }
 
-  get = id =>
+  get = ({ id, offset = 0 }) =>
     this.load({
       fn: () =>
         Author.query()
           .eager('prefs')
-          .findById(id),
+          .findById(id)
+          .offset(offset),
       name: 'get',
       key: id,
     });
 
-  getAll = (limit, offset) =>
+  findOne = ({ where, orderBy }) =>
     this.load({
       fn: () =>
         Author.query()
-          .eager('prefs')
-          .limit(limit)
-          .offset(offset),
-      name: 'getAll',
-      key: { limit, offset },
+          .findOne(...where)
+          .orderBy(...orderBy),
+      name: 'findOne',
+      key: { where, orderBy },
     });
 
-  getPoems = id =>
+  getAll = ({ where, orderBy, limit }) =>
     this.load({
-      fn: () => this.get(id).then(author => author.$relatedQuery('poems')),
+      fn: () =>
+        where
+          ? Author.query()
+              .eager('prefs')
+              .where(...where)
+              .orderBy(...orderBy)
+              .limit(...limit)
+          : Author.query()
+              .eager('prefs')
+              .orderBy(...orderBy)
+              .limit(...limit),
+      name: 'getAll',
+      key: { where, orderBy, limit },
+    });
+
+  getPoems = ({ id }) =>
+    this.load({
+      fn: () => Poem.query().where('authorId', id),
       name: 'getPoems',
       key: id,
     });
@@ -51,23 +67,23 @@ class AuthorConnector extends ModelConnector {
       key: true,
     });
 
-  addPrefs = prefs =>
+  addPrefs = ({ input }) =>
     this.load({
       fn: () =>
-        AuthorPref.query().insert(merge({ userId: this.userId }, prefs)),
+        AuthorPref.query().insert(merge({ userId: this.userId }, input)),
       name: 'addPrefs',
-      key: prefs,
+      key: input,
     });
 
-  updatePrefs = prefs =>
+  updatePrefs = ({ input }) =>
     this.load({
       fn: () =>
         AuthorPref.query().patchAndFetchById(
-          [this.userId, prefs.authorId],
-          merge({ userId: this.userId }, prefs)
+          [this.userId, input.authorId],
+          merge({ userId: this.userId }, input)
         ),
       name: 'updatePrefs',
-      key: prefs,
+      key: input,
     });
 
   updateLibrary;

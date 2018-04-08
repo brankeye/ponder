@@ -1,6 +1,27 @@
 extend type Query {
   author(id: ID): Author
-  authorList(limit: Int = 20, offset: Int = 0): [Author]
+  authorList(
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): AuthorConnection
+}
+
+type AuthorConnection {
+  edges: [AuthorEdge]
+  pageInfo: PageInfo!
+}
+
+type AuthorEdge {
+  cursor: String!
+  node: Author
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  endCursor: String
 }
 
 type Author {

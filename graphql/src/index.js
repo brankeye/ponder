@@ -13,7 +13,7 @@ const makeGraphqlExpress = () =>
   graphqlExpress(async () => {
     const { oauthId } = config;
     const userConnector = new UserConnector({});
-    const { id } = await userConnector.getByOauthId(oauthId);
+    const { id } = await userConnector.getByOauthId({ oauthId });
     return {
       schema: getSchema(),
       context: getContext({ userId: id }),

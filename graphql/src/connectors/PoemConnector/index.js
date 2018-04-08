@@ -7,14 +7,14 @@ class PoemConnector extends ModelConnector {
     super({ modelName: 'Poem', ...config });
   }
 
-  get = id =>
+  get = ({ id }) =>
     this.load({
       fn: () => Poem.eager('prefs').findById(id),
       name: 'get',
       key: id,
     });
 
-  getAll = (limit, offset) =>
+  getAll = ({ limit, offset }) =>
     this.load({
       fn: () =>
         Poem.query()
@@ -41,22 +41,22 @@ class PoemConnector extends ModelConnector {
       key: true,
     });
 
-  addPrefs = prefs =>
+  addPrefs = ({ input }) =>
     this.load({
-      fn: () => PoemPref.query().insert(merge({ userId: this.userId }, prefs)),
+      fn: () => PoemPref.query().insert(merge({ userId: this.userId }, input)),
       name: 'addPrefs',
-      key: prefs,
+      key: input,
     });
 
-  updatePrefs = prefs =>
+  updatePrefs = ({ input }) =>
     this.load({
       fn: () =>
         PoemPref.query().patchAndFetchById(
-          [this.userId, prefs.poemId],
-          merge({ userId: this.userId }, prefs)
+          [this.userId, input.poemId],
+          merge({ userId: this.userId }, input)
         ),
       name: 'updatePrefs',
-      key: prefs,
+      key: input,
     });
 }
 

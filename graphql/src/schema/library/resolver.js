@@ -4,11 +4,13 @@ const resolver = {
     poemLibrary: (root, args, { Poem }) => Poem.getLibrary(),
   },
   Mutation: {
-    authorLibraryAdd: (root, { input }, { Author }) => Author.addPrefs(input),
-    poemLibraryAdd: (root, { input }, { Poem }) => Poem.addPrefs(input),
+    authorLibraryAdd: (root, { input }, { Author }) =>
+      Author.addPrefs({ input }),
+    poemLibraryAdd: (root, { input }, { Poem }) => Poem.addPrefs({ input }),
     authorLibraryUpdate: (root, { input }, { Author }) =>
-      Author.updatePrefs(input),
-    poemLibraryUpdate: (root, { input }, { Poem }) => Poem.updatePrefs(input),
+      Author.updatePrefs({ input }),
+    poemLibraryUpdate: (root, { input }, { Poem }) =>
+      Poem.updatePrefs({ input }),
   },
 };
 

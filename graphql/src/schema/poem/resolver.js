@@ -1,11 +1,12 @@
 const resolver = {
   Query: {
-    poem: (root, { id }, { Poem }) => Poem.get(id),
-    poemList: (root, { limit, offset }, { Poem }) => Poem.getAll(limit, offset),
+    poem: (root, { id }, { Poem }) => Poem.get({ id }),
+    poemList: (root, { limit, offset }, { Poem }) =>
+      Poem.getAll({ limit, offset }),
   },
   Poem: {
     teaser: ({ lines }) => lines.slice(0, 4),
-    author: ({ authorId }, args, { Author }) => Author.get(authorId),
+    author: ({ authorId }, args, { Author }) => Author.get({ authorId }),
     isFavorited: ({ isFavorited, prefs }) => {
       if (isFavorited) return isFavorited;
       if (prefs) return prefs.isFavorited;

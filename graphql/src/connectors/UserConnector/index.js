@@ -16,7 +16,7 @@ class UserConnector extends ModelConnector {
       key: this.userId,
     });
 
-  getByOauthId = oauthId =>
+  getByOauthId = ({ oauthId }) =>
     this.load({
       fn: () =>
         User.query()
