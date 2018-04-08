@@ -14,7 +14,6 @@ const makeGraphqlExpress = () =>
     const { oauthId } = config;
     const userConnector = new UserConnector({});
     const { id } = await userConnector.getByOauthId(oauthId);
-    console.log(id);
     return {
       schema: getSchema(),
       context: getContext({ userId: id }),

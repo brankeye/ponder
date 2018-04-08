@@ -6,6 +6,10 @@ class AuthorPref extends Model {
     return 'AuthorPrefs';
   }
 
+  static get idColumn() {
+    return ['userId', 'authorId'];
+  }
+
   static relationMappings = {
     author: {
       relation: Model.BelongsToOneRelation,

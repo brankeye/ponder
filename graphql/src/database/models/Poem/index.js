@@ -14,6 +14,14 @@ class Poems extends Model {
         to: 'Authors.id',
       },
     },
+    prefs: {
+      relation: Model.HasOneRelation,
+      modelClass: __dirname + '../../PoemPref',
+      join: {
+        from: 'Poems.id',
+        to: 'PoemPrefs.poemId',
+      },
+    },
   };
 }
 

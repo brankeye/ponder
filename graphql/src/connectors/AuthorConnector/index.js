@@ -1,6 +1,6 @@
 import ModelConnector from '../ModelConnector';
 import { Author, AuthorPref } from '../../database/models';
-import { map } from 'ramda';
+import { map, merge } from 'ramda';
 
 class AuthorConnector extends ModelConnector {
   constructor(config) {
@@ -9,7 +9,10 @@ class AuthorConnector extends ModelConnector {
 
   get = id =>
     this.load({
-      fn: () => Author.query().findById(id),
+      fn: () =>
+        Author.query()
+          .eager('prefs')
+          .findById(id),
       name: 'get',
       key: id,
     });
@@ -18,6 +21,7 @@ class AuthorConnector extends ModelConnector {
     this.load({
       fn: () =>
         Author.query()
+          .eager('prefs')
           .limit(limit)
           .offset(offset),
       name: 'getAll',
@@ -31,7 +35,7 @@ class AuthorConnector extends ModelConnector {
       key: id,
     });
 
-  getLibraryAuthors = () =>
+  getLibrary = () =>
     this.load({
       fn: () =>
         AuthorPref.query()
@@ -43,9 +47,30 @@ class AuthorConnector extends ModelConnector {
               ...rest,
             }))
           ),
-      name: 'getLibraryAuthors',
+      name: 'getLibrary',
       key: true,
     });
+
+  addPrefs = prefs =>
+    this.load({
+      fn: () =>
+        AuthorPref.query().insert(merge({ userId: this.userId }, prefs)),
+      name: 'addPrefs',
+      key: prefs,
+    });
+
+  updatePrefs = prefs =>
+    this.load({
+      fn: () =>
+        AuthorPref.query().patchAndFetchById(
+          [this.userId, prefs.authorId],
+          merge({ userId: this.userId }, prefs)
+        ),
+      name: 'updatePrefs',
+      key: prefs,
+    });
+
+  updateLibrary;
 }
 
 export default AuthorConnector;

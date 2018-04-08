@@ -1,4 +1,35 @@
-extend type Query {
+type Query {
   authorLibrary: [Author]
   poemLibrary: [Poem]
+}
+
+type Mutation {
+  authorLibraryAdd(input: AuthorPrefsInput!): AuthorPrefs
+  poemLibraryAdd(input: PoemPrefsInput!): PoemPrefs
+  authorLibraryUpdate(input: AuthorPrefsInput!): AuthorPrefs
+  poemLibraryUpdate(input: PoemPrefsInput!): PoemPrefs
+}
+
+type AuthorPrefs {
+  authorId: ID!
+  isFavorited: Boolean!
+  isBookmarked: Boolean!
+}
+
+type PoemPrefs {
+  poemId: ID!
+  isFavorited: Boolean!
+  isBookmarked: Boolean!
+}
+
+input AuthorPrefsInput {
+  authorId: ID!
+  isFavorited: Boolean!
+  isBookmarked: Boolean!
+}
+
+input PoemPrefsInput {
+  poemId: ID!
+  isFavorited: Boolean!
+  isBookmarked: Boolean!
 }

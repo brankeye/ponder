@@ -1,4 +1,4 @@
-type Query {
+extend type Query {
   author(id: ID): Author
   authorList(limit: Int = 20, offset: Int = 0): [Author]
 }

@@ -5,15 +5,17 @@ const resolver = {
       Author.getAll(limit, offset),
   },
   Author: {
-    isFavorited: ({ id, isFavorited }, args, { Author }) => {
-      if (isFavorited) return isFavorited;
-      return Author.isFavorite(id);
-    },
-    isBookmarked: ({ id, isBookmarked }, args, { Author }) => {
-      if (isBookmarked) return isBookmarked;
-      return Author.inLibrary(id);
-    },
     poems: ({ id }, args, { Author }) => Author.getPoems(id),
+    isFavorited: ({ isFavorited, prefs }) => {
+      if (isFavorited) return isFavorited;
+      if (prefs) return prefs.isFavorited;
+      return false;
+    },
+    isBookmarked: ({ isBookmarked, prefs }) => {
+      if (isBookmarked) return isBookmarked;
+      if (prefs) return prefs.isFavorited;
+      return false;
+    },
   },
 };
 

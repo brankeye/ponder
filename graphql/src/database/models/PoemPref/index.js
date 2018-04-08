@@ -6,6 +6,10 @@ class PoemPref extends Model {
     return 'PoemPrefs';
   }
 
+  static get idColumn() {
+    return ['userId', 'poemId'];
+  }
+
   static relationMappings = {
     poem: {
       relation: Model.BelongsToOneRelation,
