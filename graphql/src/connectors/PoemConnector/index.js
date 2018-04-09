@@ -14,15 +14,32 @@ class PoemConnector extends ModelConnector {
       key: id,
     });
 
-  getAll = ({ limit, offset }) =>
+  findOne = ({ select = ['*'], where, orderBy }) =>
     this.load({
       fn: () =>
         Poem.query()
-          .eager('prefs')
-          .limit(limit)
-          .offset(offset),
+          .findOne(...where)
+          .select(...select)
+          .orderBy(...orderBy),
+      name: 'findOne',
+      key: { where, orderBy },
+    });
+
+  getAll = ({ where, orderBy, limit }) =>
+    this.load({
+      fn: () =>
+        where
+          ? Poem.query()
+              .eager('prefs')
+              .where(...where)
+              .orderBy(...orderBy)
+              .limit(...limit)
+          : Poem.query()
+              .eager('prefs')
+              .orderBy(...orderBy)
+              .limit(...limit),
       name: 'getAll',
-      key: { limit, offset },
+      key: { where, orderBy, limit },
     });
 
   getLibrary = () =>

@@ -1,51 +1,63 @@
 import { reverse } from 'ramda';
+import { createEdges, encodeCursor, decodeCursor } from '@@schema/utils';
 
 const resolver = {
   Query: {
     author: (root, { id }, { Author }) => Author.get({ id }),
     authorList: (root, { first, last, before, after }, { Author }) => {
+      if (first && first <= 0 && (!last || last <= 0)) {
+        throw new Error("Argument 'first' must not be less than zero.");
+      } else if (last && last <= 0 && (!first || first <= 0)) {
+        throw new Error("Argument 'last' must not be less than zero.");
+      }
+
       const cursorId = before
-        ? Buffer.from(before, 'base64').toString()
-        : after ? Buffer.from(after, 'base64').toString() : undefined;
-      const sign = before ? '>' : '<';
-      const directionSign = first ? '>' : '<';
+        ? decodeCursor(before)
+        : after ? decodeCursor(after) : undefined;
+      const sign = first ? '<' : '>';
+      const nextSign = first ? '<' : '<';
+      const prevSign = first ? '>' : '>';
       const orderBy = first ? ['id', 'desc'] : ['id'];
       return Author.getAll({
         where: cursorId ? ['id', sign, cursorId] : undefined,
         orderBy,
         limit: [first || last],
       }).then(authors => {
-        authors = first ? authors : reverse(authors);
-        const edges = authors.map(author => ({
-          cursor: Buffer.from(author.id.toString()).toString('base64'),
-          node: author,
-        }));
+        let edges;
+
+        if (!authors || !authors.length || authors.length === 0) {
+          edges = [];
+        } else {
+          authors = first ? authors : reverse(authors);
+          edges = createEdges('id', authors);
+        }
+
+        const startId = authors.length > 0 ? authors[0].id : null;
+        const endId =
+          authors.length > 0 ? authors[authors.length - 1].id : null;
 
         return {
           edges,
           pageInfo: {
             hasNextPage: () => {
-              const authorId = authors[authors.length - 1].id;
+              if (!endId) return false;
               return Author.findOne({
-                where: ['id', directionSign, authorId],
+                where: ['id', nextSign, endId],
                 orderBy,
               }).then(Boolean);
             },
             hasPreviousPage: () => {
-              const authorId = authors[0].id;
+              if (!startId) return false;
               return Author.findOne({
-                where: ['id', directionSign, authorId],
+                where: ['id', prevSign, startId],
                 orderBy,
               }).then(Boolean);
             },
-            endCursor: Buffer.from(
-              authors[authors.length - 1].id.toString()
-            ).toString('base64'),
+            startCursor: encodeCursor(startId),
+            endCursor: encodeCursor(endId),
           },
         };
       });
-
-      //return Author.getAll({ limit, offset });
     },
   },
   Author: {

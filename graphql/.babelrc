@@ -23,7 +23,7 @@
           "@@context": "./src/context",
           "@@config": "./src/config",
           "@@connectors": "./src/connectors",
-          "@@model": "./src/model",
+          "@@schema": "./src/schema",
           "@@database": "./src/database",
           "@@utilities": "./src/utilities"
         },

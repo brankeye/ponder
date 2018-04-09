@@ -6,22 +6,22 @@ class AuthorConnector extends ModelConnector {
     super({ modelName: 'Author', ...config });
   }
 
-  get = ({ id, offset = 0 }) =>
+  get = ({ id }) =>
     this.load({
       fn: () =>
         Author.query()
           .eager('prefs')
-          .findById(id)
-          .offset(offset),
+          .findById(id),
       name: 'get',
       key: id,
     });
 
-  findOne = ({ where, orderBy }) =>
+  findOne = ({ select = ['*'], where, orderBy }) =>
     this.load({
       fn: () =>
         Author.query()
           .findOne(...where)
+          .select(...select)
           .orderBy(...orderBy),
       name: 'findOne',
       key: { where, orderBy },

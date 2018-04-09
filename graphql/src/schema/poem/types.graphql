@@ -1,6 +1,16 @@
 extend type Query {
   poem(id: ID): Poem
-  poemList(limit: Int = 20, offset: Int = 0): [Poem]
+  poemList(first: Int, after: String, last: Int, before: String): PoemConnection
+}
+
+type PoemConnection {
+  edges: [PoemEdge]
+  pageInfo: PageInfo!
+}
+
+type PoemEdge {
+  cursor: String!
+  node: Poem
 }
 
 type Poem {
