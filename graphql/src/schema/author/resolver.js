@@ -19,7 +19,7 @@ const resolver = {
       const prevSign = first ? '>' : '>';
       const orderBy = first ? ['id', 'desc'] : ['id'];
       return Author.getAll({
-        where: cursorId ? ['id', sign, cursorId] : undefined,
+        where: cursorId && ['id', sign, cursorId],
         orderBy,
         limit: [first || last],
       }).then(authors => {
@@ -42,6 +42,7 @@ const resolver = {
             hasNextPage: () => {
               if (!endId) return false;
               return Author.findOne({
+                select: ['id'],
                 where: ['id', nextSign, endId],
                 orderBy,
               }).then(Boolean);
@@ -49,6 +50,7 @@ const resolver = {
             hasPreviousPage: () => {
               if (!startId) return false;
               return Author.findOne({
+                select: ['id'],
                 where: ['id', prevSign, startId],
                 orderBy,
               }).then(Boolean);
@@ -61,7 +63,8 @@ const resolver = {
     },
   },
   Author: {
-    poems: ({ id }, args, { Author }) => Author.getPoems({ id }),
+    poems: ({ id, poems }, args, { Author }) =>
+      poems ? { ...poems } : Author.getPoems({ id }),
     isFavorited: ({ isFavorited, prefs }) => {
       if (isFavorited) return isFavorited;
       if (prefs) return prefs.isFavorited;

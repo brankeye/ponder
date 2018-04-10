@@ -6,25 +6,19 @@ class UserConnector extends ModelConnector {
     super({ modelName: 'User', ...config });
   }
 
-  get = () =>
-    this.load({
-      fn: () =>
-        User.query()
-          .where('id', this.userId)
-          .first(),
-      name: 'get',
-      key: this.userId,
-    });
+  get = this.load('get', {
+    fn: () =>
+      User.query()
+        .where('id', this.userId)
+        .first(),
+  });
 
-  getByOauthId = ({ oauthId }) =>
-    this.load({
-      fn: () =>
-        User.query()
-          .where('oauthId', oauthId)
-          .first(),
-      name: 'getByOauthId',
-      key: oauthId,
-    });
+  getByOauthId = this.load('getByOauthId', {
+    fn: ({ oauthId }) =>
+      User.query()
+        .where('oauthId', oauthId)
+        .first(),
+  });
 }
 
 export default UserConnector;

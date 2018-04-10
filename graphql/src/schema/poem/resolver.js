@@ -19,7 +19,7 @@ const resolver = {
       const prevSign = first ? '>' : '>';
       const orderBy = first ? ['id', 'desc'] : ['id'];
       return Poem.getAll({
-        where: cursorId ? ['id', sign, cursorId] : undefined,
+        where: cursorId && ['id', sign, cursorId],
         orderBy,
         limit: [first || last],
       }).then(poems => {
@@ -63,7 +63,8 @@ const resolver = {
   },
   Poem: {
     teaser: ({ lines }) => lines.slice(0, 4),
-    author: ({ authorId }, args, { Author }) => Author.get({ id: authorId }),
+    author: ({ authorId, author }, args, { Author }) =>
+      author ? { ...author } : Author.get({ id: authorId }),
     isFavorited: ({ isFavorited, prefs }) => {
       if (isFavorited) return isFavorited;
       if (prefs) return prefs.isFavorited;

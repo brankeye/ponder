@@ -1,4 +1,4 @@
-import { Model } from 'objection';
+import { Model } from '../model';
 import Poem from '../Poem';
 
 class PoemPref extends Model {

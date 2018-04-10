@@ -1,4 +1,4 @@
-import { Model } from 'objection';
+import { Model } from '../model';
 
 class Author extends Model {
   static get tableName() {

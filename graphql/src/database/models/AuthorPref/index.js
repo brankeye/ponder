@@ -1,4 +1,4 @@
-import { Model } from 'objection';
+import { Model } from '../model';
 import Author from '../Author';
 
 class AuthorPref extends Model {

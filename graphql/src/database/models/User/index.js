@@ -1,4 +1,4 @@
-import { Model } from 'objection';
+import { Model } from '../model';
 import AuthorPref from '../AuthorPref';
 import PoemPref from '../PoemPref';
 

@@ -1,92 +1,64 @@
 import ModelConnector from '../ModelConnector';
 import { Author, AuthorPref, Poem } from '../../database/models';
 import { map, merge } from 'ramda';
+
 class AuthorConnector extends ModelConnector {
   constructor(config) {
     super({ modelName: 'Author', ...config });
   }
 
-  get = ({ id }) =>
-    this.load({
-      fn: () =>
-        Author.query()
-          .eager('prefs')
-          .findById(id),
-      name: 'get',
-      key: id,
-    });
+  get = this.load('get', {
+    fn: ({ id }) =>
+      Author.query()
+        .eager('prefs')
+        .findById(id),
+  });
 
-  findOne = ({ select = ['*'], where, orderBy }) =>
-    this.load({
-      fn: () =>
-        Author.query()
-          .findOne(...where)
-          .select(...select)
-          .orderBy(...orderBy),
-      name: 'findOne',
-      key: { where, orderBy },
-    });
+  findOne = this.load('findOne', {
+    fn: ({ select = ['*'], where, orderBy }) =>
+      Author.query()
+        .eager('prefs')
+        .findOne(...where)
+        .select(...select)
+        .orderBy(...orderBy),
+  });
 
-  getAll = ({ where, orderBy, limit }) =>
-    this.load({
-      fn: () =>
-        where
-          ? Author.query()
-              .eager('prefs')
-              .where(...where)
-              .orderBy(...orderBy)
-              .limit(...limit)
-          : Author.query()
-              .eager('prefs')
-              .orderBy(...orderBy)
-              .limit(...limit),
-      name: 'getAll',
-      key: { where, orderBy, limit },
-    });
+  getAll = this.load('getAll', {
+    fn: ({ where, orderBy, limit }) =>
+      Author.query()
+        .eager('prefs')
+        .filter({ where, orderBy, limit }),
+  });
 
-  getPoems = ({ id }) =>
-    this.load({
-      fn: () => Poem.query().where('authorId', id),
-      name: 'getPoems',
-      key: id,
-    });
+  getPoems = this.load('getPoems', {
+    fn: ({ id }) => Poem.query().where('authorId', id),
+  });
 
-  getLibrary = () =>
-    this.load({
-      fn: () =>
-        AuthorPref.query()
-          .eager('author')
-          .where('userId', this.userId)
-          .then(
-            map(({ author, ...rest }) => ({
-              ...author,
-              ...rest,
-            }))
-          ),
-      name: 'getLibrary',
-      key: true,
-    });
-
-  addPrefs = ({ input }) =>
-    this.load({
-      fn: () =>
-        AuthorPref.query().insert(merge({ userId: this.userId }, input)),
-      name: 'addPrefs',
-      key: input,
-    });
-
-  updatePrefs = ({ input }) =>
-    this.load({
-      fn: () =>
-        AuthorPref.query().patchAndFetchById(
-          [this.userId, input.authorId],
-          merge({ userId: this.userId }, input)
+  getLibrary = this.load('getLibrary', {
+    fn: () =>
+      AuthorPref.query()
+        .eager('author')
+        .where('userId', this.userId)
+        .then(
+          map(({ author, ...rest }) => ({
+            ...author,
+            ...rest,
+          }))
         ),
-      name: 'updatePrefs',
-      key: input,
-    });
+  });
 
-  updateLibrary;
+  addPrefs = this.load('addPrefs', {
+    fn: ({ input }) =>
+      AuthorPref.query().insert(merge({ userId: this.userId }, input)),
+  });
+
+  updatePrefs = this.load('updatePrefs', {
+    fn: ({ input }) =>
+      AuthorPref.query().patchAndFetchById(
+        [this.userId, input.authorId],
+        merge({ userId: this.userId }, input)
+      ),
+  });
 }
 
 export default AuthorConnector;
