@@ -4,7 +4,7 @@ import { createEdges, encodeCursor, decodeCursor } from '@@schema/utils';
 const resolver = {
   Query: {
     poem: (root, { id }, { Poem }) => Poem.get({ id }),
-    poemList: (root, { first, last, before, after }, { Poem }) => {
+    poemList: (root, { first, last, before, after, sortBy }, { Poem }) => {
       if (first && first <= 0 && (!last || last <= 0)) {
         throw new Error("Argument 'first' must not be less than zero.");
       } else if (last && last <= 0 && (!first || first <= 0)) {
@@ -17,7 +17,7 @@ const resolver = {
       const sign = first ? '<' : '>';
       const nextSign = first ? '<' : '<';
       const prevSign = first ? '>' : '>';
-      const orderBy = first ? ['id', 'desc'] : ['id'];
+      const orderBy = sortBy ? sortBy : first ? ['id', 'desc'] : ['id'];
       return Poem.getAll({
         where: cursorId && ['id', sign, cursorId],
         orderBy,

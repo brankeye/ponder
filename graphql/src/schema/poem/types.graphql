@@ -1,6 +1,12 @@
 extend type Query {
   poem(id: ID): Poem
-  poemList(first: Int, after: String, last: Int, before: String): PoemConnection
+  poemList(
+    first: Int
+    after: String
+    last: Int
+    before: String
+    sortBy: [String]
+  ): PoemConnection
 }
 
 type PoemConnection {

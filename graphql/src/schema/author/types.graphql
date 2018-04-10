@@ -5,6 +5,7 @@ extend type Query {
     after: String
     last: Int
     before: String
+    sortBy: [String]
   ): AuthorConnection
 }
 
