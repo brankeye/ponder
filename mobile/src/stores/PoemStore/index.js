@@ -19,7 +19,7 @@ class PoemStore {
   fetchPoems = async () => {
     const { data } = await client.query({ query: poemListQuery });
     runInAction(() => {
-      this.list = data.poemList;
+      this.list = data.poemList.edges.map(({ node }) => ({ ...node }));
     }, this);
   };
 

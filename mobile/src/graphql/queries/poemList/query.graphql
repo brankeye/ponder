@@ -1,10 +1,14 @@
 query {
-  poemList {
-    id
-    title
-    teaser
-    author {
-      name
+  poemList(first: 100) {
+    edges {
+      node {
+        id
+        title
+        teaser
+        author {
+          name
+        }
+      }
     }
   }
 }

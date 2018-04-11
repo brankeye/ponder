@@ -63,8 +63,6 @@ const resolver = {
   },
   Poem: {
     teaser: ({ lines }) => lines.slice(0, 4),
-    author: ({ authorId, author }, args, { Author }) =>
-      author ? { ...author } : Author.get({ id: authorId }),
     isFavorited: ({ isFavorited, prefs }) => {
       if (isFavorited) return isFavorited;
       if (prefs) return prefs.isFavorited;
@@ -75,6 +73,8 @@ const resolver = {
       if (prefs) return prefs.isFavorited;
       return false;
     },
+    author: ({ authorId, author }, args, { Author }) =>
+      author ? { ...author } : Author.get({ id: authorId }),
   },
 };
 

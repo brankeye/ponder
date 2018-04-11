@@ -31,9 +31,5 @@ type Author {
   name: String
   isFavorited: Boolean
   isBookmarked: Boolean
-  poems: [Poem]
-}
-
-input AuthorInput {
-  name: String!
+  poems: [Poem] @capture
 }

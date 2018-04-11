@@ -4,7 +4,12 @@ import { createEdges, encodeCursor, decodeCursor } from '@@schema/utils';
 const resolver = {
   Query: {
     author: (root, { id }, { Author }) => Author.get({ id }),
-    authorList: (root, { first, last, before, after, sortBy }, { Author }) => {
+    authorList: (
+      root,
+      { first, last, before, after, sortBy, hasType },
+      { Author }
+    ) => {
+      console.log(hasType);
       if (first && first <= 0 && (!last || last <= 0)) {
         throw new Error("Argument 'first' must not be less than zero.");
       } else if (last && last <= 0 && (!first || first <= 0)) {
@@ -63,8 +68,6 @@ const resolver = {
     },
   },
   Author: {
-    poems: ({ id, poems }, args, { Author }) =>
-      poems ? { ...poems } : Author.getPoems({ id }),
     isFavorited: ({ isFavorited, prefs }) => {
       if (isFavorited) return isFavorited;
       if (prefs) return prefs.isFavorited;
@@ -75,6 +78,8 @@ const resolver = {
       if (prefs) return prefs.isFavorited;
       return false;
     },
+    poems: ({ id, poems }, args, { Author }) =>
+      poems ? { ...poems } : Author.getPoems({ id }),
   },
   PageInfo: {
     hasNextPage: connection => connection.hasNextPage(),

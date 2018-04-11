@@ -22,7 +22,7 @@ const PoemCard = ({ poem, underlayColor, onPress }) => {
           {poem.title} by {poem.author.name}
         </Text>
         <Text style={{ textAlign: 'center', fontStyle: 'italic' }}>
-          {poem.teaser}
+          {poem.teaser.join('\n')}
         </Text>
       </View>
     </TouchableHighlight>

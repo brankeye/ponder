@@ -8,7 +8,10 @@ class PoemConnector extends ModelConnector {
   }
 
   get = this.load('get', {
-    fn: ({ id }) => Poem.eager('author', 'prefs').findById(id),
+    fn: ({ id }) =>
+      Poem.query()
+        .eager('author', 'prefs')
+        .findById(id),
   });
 
   findOne = this.load('findOne', {
