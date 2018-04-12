@@ -7,10 +7,8 @@ class UserConnector extends ModelConnector {
   }
 
   get = this.load('get', {
-    fn: () =>
-      User.query()
-        .where('id', this.userId)
-        .first(),
+    fn: () => User.query().findById(this.userId),
+    verbose: true,
   });
 
   getByOauthId = this.load('getByOauthId', {

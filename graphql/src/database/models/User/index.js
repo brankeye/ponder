@@ -1,6 +1,4 @@
 import { Model } from '../model';
-import AuthorPref from '../AuthorPref';
-import PoemPref from '../PoemPref';
 
 class User extends Model {
   static tableName = 'Users';
@@ -8,7 +6,7 @@ class User extends Model {
   static relationMappings = {
     authorPrefs: {
       relation: Model.HasManyRelation,
-      modelClass: AuthorPref,
+      modelClass: __dirname + '../../AuthorPref',
       join: {
         from: 'Users.id',
         to: 'AuthorPrefs.userId',
@@ -16,7 +14,7 @@ class User extends Model {
     },
     poemPrefs: {
       relation: Model.HasManyRelation,
-      modelClass: PoemPref,
+      modelClass: __dirname + '../../PoemPref',
       join: {
         from: 'Users.id',
         to: 'PoemPrefs.userId',

@@ -19,15 +19,15 @@ class PoemConnector extends ModelConnector {
       Poem.query()
         .eager('author', 'prefs')
         .findOne(...where)
-        .select(...select)
-        .orderBy(...orderBy),
+        .filter({ select, orderBy }),
   });
 
   getAll = this.load('getAll', {
-    fn: ({ where, orderBy, limit }) =>
+    fn: ({ select, where, orderBy, limit }) =>
       Poem.query()
         .eager('author', 'prefs')
-        .filter({ where, orderBy, limit }),
+        .filter({ select, where, orderBy, limit })
+        .debug(),
   });
 
   getLibrary = this.load('getLibrary', {

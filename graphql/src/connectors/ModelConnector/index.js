@@ -1,6 +1,5 @@
 import BaseConnector from '../BaseConnector';
 import DataLoader from 'dataloader';
-import { curry } from 'ramda';
 
 class ModelConnector extends BaseConnector {
   constructor({ modelName, ...config }) {
@@ -27,16 +26,14 @@ class ModelConnector extends BaseConnector {
         cacheKeyFn: ({ name, args }) => {
           const argsKey = JSON.stringify(args);
           const cacheKey = `${modelName}/${name}'/'${argsKey}`;
-          console.log(cacheKey);
           return cacheKey;
         },
       }
     );
   }
 
-  load = curry((name, { fn, ...options }, args) =>
-    this.loader.load({ name, fn, options: options || {}, args })
-  );
+  load = (name, { fn, ...options }) => args =>
+    this.loader.load({ name, fn, options: options || {}, args });
 }
 
 export default ModelConnector;

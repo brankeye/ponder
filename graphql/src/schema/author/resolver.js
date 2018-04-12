@@ -67,7 +67,12 @@ const resolver = {
       });
     },
   },
-  Author: {
+  PageInfo: {
+    hasNextPage: connection => connection.hasNextPage(),
+    hasPreviousPage: connection => connection.hasPreviousPage(),
+  },
+  AuthorContract: {
+    __resolveType: ({ poems }) => (poems ? 'Author' : 'AuthorDetails'),
     isFavorited: ({ isFavorited, prefs }) => {
       if (isFavorited) return isFavorited;
       if (prefs) return prefs.isFavorited;
@@ -78,12 +83,10 @@ const resolver = {
       if (prefs) return prefs.isFavorited;
       return false;
     },
+  },
+  Author: {
     poems: ({ id, poems }, args, { Author }) =>
       poems ? { ...poems } : Author.getPoems({ id }),
-  },
-  PageInfo: {
-    hasNextPage: connection => connection.hasNextPage(),
-    hasPreviousPage: connection => connection.hasPreviousPage(),
   },
 };
 

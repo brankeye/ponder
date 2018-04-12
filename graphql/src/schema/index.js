@@ -1,5 +1,6 @@
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
 import { map, prop, propOr, flatten, reduce, mergeDeepLeft } from 'ramda';
+import { addMiddlewareToSchema } from './middleware';
 
 import * as user from './user';
 import * as author from './author';
@@ -18,7 +19,9 @@ const getSchema = ({ enableMocks } = {}) => {
   const schema = makeExecutableSchema({
     typeDefs,
     resolvers,
+    inheritResolversFromInterfaces: true,
   });
+  addMiddlewareToSchema(schema);
   if (enableMocks) {
     addMockFunctionsToSchema({ schema, mocks: mockResolvers });
   }

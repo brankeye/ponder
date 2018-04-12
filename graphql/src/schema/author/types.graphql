@@ -26,10 +26,24 @@ type PageInfo {
   endCursor: String
 }
 
-type Author {
+type Author implements AuthorContract {
   id: ID
   name: String
   isFavorited: Boolean
   isBookmarked: Boolean
-  poems: [Poem] @capture
+  poems: [PoemDetails]
+}
+
+type AuthorDetails implements AuthorContract {
+  id: ID
+  name: String
+  isFavorited: Boolean
+  isBookmarked: Boolean
+}
+
+interface AuthorContract {
+  id: ID
+  name: String
+  isFavorited: Boolean
+  isBookmarked: Boolean
 }
