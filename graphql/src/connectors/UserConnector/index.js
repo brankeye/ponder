@@ -14,7 +14,7 @@ class UserConnector extends ModelConnector {
   getByOauthId = this.load('getByOauthId', {
     fn: ({ oauthId }) =>
       User.query()
-        .where('oauthId', oauthId)
+        .where('oauth_id', oauthId)
         .first(),
   });
 }

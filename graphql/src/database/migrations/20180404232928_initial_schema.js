@@ -1,29 +1,30 @@
 exports.up = function(knex) {
   return knex.schema
-    .createTable('Users', table => {
+    .createTable('users', table => {
       table
         .uuid('id')
         .primary()
         .notNullable();
       table.string('email').notNullable();
-      table.string('oauthId').notNullable();
+      table.string('oauth_id').notNullable();
+      table.string('timezone').nullable();
     })
-    .createTable('Authors', table => {
+    .createTable('authors', table => {
       table
         .uuid('id')
         .primary()
         .notNullable();
       table.string('name').notNullable();
     })
-    .createTable('Poems', table => {
+    .createTable('poems', table => {
       table
         .uuid('id')
         .primary()
         .notNullable();
       table
-        .uuid('authorId')
+        .uuid('author_id')
         .references('id')
-        .inTable('Authors');
+        .inTable('authors');
       table.string('title').notNullable();
       table.string('classification').nullable();
       table.string('region').nullable();
@@ -32,43 +33,51 @@ exports.up = function(knex) {
       table.specificType('lines', 'text[]').notNullable();
       table.specificType('keywords', 'text[]').notNullable();
     })
-    .createTable('AuthorPrefs', table => {
+    .createTable('user_authors', table => {
       table
-        .uuid('userId')
+        .uuid('user_id')
         .notNullable()
         .references('id')
-        .inTable('Users');
+        .inTable('users');
       table
-        .uuid('authorId')
+        .uuid('author_id')
         .notNullable()
         .references('id')
-        .inTable('Authors');
-      table.primary(['userId', 'authorId']);
-      table.boolean('isFavorited').notNullable();
-      table.boolean('isBookmarked').notNullable();
+        .inTable('authors');
+      table.primary(['user_id', 'author_id']);
+      table.boolean('is_favorited').notNullable();
+      table.boolean('is_bookmarked').notNullable();
+      table
+        .timestamp('viewed_at')
+        .notNullable()
+        .defaultTo(knex.fn.now());
     })
-    .createTable('PoemPrefs', table => {
+    .createTable('user_poems', table => {
       table
-        .uuid('userId')
+        .uuid('user_id')
         .notNullable()
         .references('id')
-        .inTable('Users');
+        .inTable('users');
       table
-        .uuid('poemId')
+        .uuid('poem_id')
         .notNullable()
         .references('id')
-        .inTable('Poems');
-      table.primary(['userId', 'poemId']);
-      table.boolean('isFavorited').notNullable();
-      table.boolean('isBookmarked').notNullable();
+        .inTable('poems');
+      table.primary(['user_id', 'poem_id']);
+      table.boolean('is_favorited').notNullable();
+      table.boolean('is_bookmarked').notNullable();
+      table
+        .timestamp('viewed_at')
+        .notNullable()
+        .defaultTo(knex.fn.now());
     });
 };
 
 exports.down = function(knex) {
   return knex.schema
-    .dropTableIfExists('PoemPrefs')
-    .dropTableIfExists('AuthorPrefs')
-    .dropTableIfExists('Poems')
-    .dropTableIfExists('Authors')
-    .dropTableIfExists('Users');
+    .dropTableIfExists('user_poems')
+    .dropTableIfExists('user_authors')
+    .dropTableIfExists('poems')
+    .dropTableIfExists('authors')
+    .dropTableIfExists('users');
 };

@@ -1,19 +1,31 @@
 # source: http://localhost:3000/graphql
-# timestamp: Tue Apr 10 2018 23:55:00 GMT-0400 (EDT)
+# timestamp: Thu Apr 12 2018 23:35:32 GMT-0400 (EDT)
 
-directive @capture on FIELD_DEFINITION
-
-type Author {
+type Author implements AuthorContract {
   id: ID
   name: String
   isFavorited: Boolean
   isBookmarked: Boolean
-  poems: [Poem]
+  poems: [PoemDetails]
 }
 
 type AuthorConnection {
   edges: [AuthorEdge]
   pageInfo: PageInfo!
+}
+
+interface AuthorContract {
+  id: ID
+  name: String
+  isFavorited: Boolean
+  isBookmarked: Boolean
+}
+
+type AuthorDetails implements AuthorContract {
+  id: ID
+  name: String
+  isFavorited: Boolean
+  isBookmarked: Boolean
 }
 
 type AuthorEdge {
@@ -47,7 +59,7 @@ type PageInfo {
   endCursor: String
 }
 
-type Poem {
+type Poem implements PoemContract {
   id: ID
   title: String
   teaser: [String]
@@ -58,12 +70,38 @@ type Poem {
   keywords: [String]
   isFavorited: Boolean
   isBookmarked: Boolean
-  author: Author
+  author: AuthorDetails
 }
 
 type PoemConnection {
   edges: [PoemEdge]
   pageInfo: PageInfo!
+}
+
+interface PoemContract {
+  id: ID
+  title: String
+  teaser: [String]
+  classification: String
+  region: String
+  period: String
+  lines: [String]
+  keywords: [String]
+  isFavorited: Boolean
+  isBookmarked: Boolean
+}
+
+type PoemDetails implements PoemContract {
+  id: ID
+  title: String
+  teaser: [String]
+  classification: String
+  region: String
+  period: String
+  lines: [String]
+  keywords: [String]
+  isFavorited: Boolean
+  isBookmarked: Boolean
 }
 
 type PoemEdge {

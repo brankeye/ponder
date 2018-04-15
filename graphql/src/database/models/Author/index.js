@@ -2,7 +2,7 @@ import { Model } from '../model';
 
 class Author extends Model {
   static get tableName() {
-    return 'Authors';
+    return 'authors';
   }
 
   static relationMappings = {
@@ -10,16 +10,16 @@ class Author extends Model {
       relation: Model.HasManyRelation,
       modelClass: __dirname + '../../Poem',
       join: {
-        from: 'Authors.id',
-        to: 'Poems.authorId',
+        from: 'authors.id',
+        to: 'poems.author_id',
       },
     },
     prefs: {
       relation: Model.HasOneRelation,
-      modelClass: __dirname + '../../AuthorPref',
+      modelClass: __dirname + '../../UserAuthor',
       join: {
-        from: 'Authors.id',
-        to: 'AuthorPrefs.authorId',
+        from: 'authors.id',
+        to: 'user_authors.author_id',
       },
     },
   };

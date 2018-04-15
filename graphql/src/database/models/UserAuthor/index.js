@@ -1,33 +1,32 @@
 import { Model } from '../model';
-import Author from '../Author';
 
-class AuthorPref extends Model {
+class UserAuthor extends Model {
   static get tableName() {
-    return 'AuthorPrefs';
+    return 'user_authors';
   }
 
   static get idColumn() {
-    return ['userId', 'authorId'];
+    return ['user_id', 'author_id'];
   }
 
   static relationMappings = {
     author: {
       relation: Model.BelongsToOneRelation,
-      modelClass: Author,
+      modelClass: __dirname + '../../Author',
       join: {
-        from: 'AuthorPrefs.authorId',
-        to: 'Authors.id',
+        from: 'user_authors.authorId',
+        to: 'authors.id',
       },
     },
     user: {
       relation: Model.BelongsToOneRelation,
       modelClass: __dirname + '../../User',
       join: {
-        from: 'AuthorPrefs.userId',
-        to: 'Users.id',
+        from: 'user_authors.userId',
+        to: 'users.id',
       },
     },
   };
 }
 
-export default AuthorPref;
+export default UserAuthor;

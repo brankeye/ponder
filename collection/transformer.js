@@ -19,7 +19,7 @@ const dirs = path =>
       readdirSync(authorDir).map(poemName => {
         const poem = require(path + "/" + authorName + "/" + poemName);
         poem.id = uuid();
-        poem.authorId = authorId;
+        poem.author_id = authorId;
         delete poem.author;
         delete poem.reference;
         poem.lines = poem.text;

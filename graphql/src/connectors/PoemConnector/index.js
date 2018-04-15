@@ -34,7 +34,7 @@ class PoemConnector extends ModelConnector {
     fn: () =>
       PoemPref.query()
         .eager('poem')
-        .where('userId', this.userId)
+        .where('user_id', this.userId)
         .then(
           map(({ poem, ...rest }) => ({
             ...poem,
@@ -45,14 +45,14 @@ class PoemConnector extends ModelConnector {
 
   addPrefs = this.load('addPrefs', {
     fn: ({ input }) =>
-      PoemPref.query().insert(merge({ userId: this.userId }, input)),
+      PoemPref.query().insert(merge({ user_id: this.userId }, input)),
   });
 
   updatePrefs = this.load('updatePrefs', {
     fn: ({ input }) =>
       PoemPref.query().patchAndFetchById(
         [this.userId, input.poemId],
-        merge({ userId: this.userId }, input)
+        merge({ user_id: this.userId }, input)
       ),
   });
 }

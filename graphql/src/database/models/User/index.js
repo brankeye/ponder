@@ -1,23 +1,23 @@
 import { Model } from '../model';
 
 class User extends Model {
-  static tableName = 'Users';
+  static tableName = 'users';
 
   static relationMappings = {
     authorPrefs: {
       relation: Model.HasManyRelation,
-      modelClass: __dirname + '../../AuthorPref',
+      modelClass: __dirname + '../../UserAuthor',
       join: {
         from: 'Users.id',
-        to: 'AuthorPrefs.userId',
+        to: 'user_authors.userId',
       },
     },
     poemPrefs: {
       relation: Model.HasManyRelation,
-      modelClass: __dirname + '../../PoemPref',
+      modelClass: __dirname + '../../UserPoem',
       join: {
-        from: 'Users.id',
-        to: 'PoemPrefs.userId',
+        from: 'users.id',
+        to: 'user_poems.userId',
       },
     },
   };

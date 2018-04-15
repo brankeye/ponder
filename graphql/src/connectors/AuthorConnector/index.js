@@ -38,7 +38,7 @@ class AuthorConnector extends ModelConnector {
     fn: () =>
       AuthorPref.query()
         .eager('author')
-        .where('userId', this.userId)
+        .where('user_id', this.userId)
         .then(
           map(({ author, ...rest }) => ({
             ...author,
@@ -49,14 +49,14 @@ class AuthorConnector extends ModelConnector {
 
   addPrefs = this.load('addPrefs', {
     fn: ({ input }) =>
-      AuthorPref.query().insert(merge({ userId: this.userId }, input)),
+      AuthorPref.query().insert(merge({ user_id: this.userId }, input)),
   });
 
   updatePrefs = this.load('updatePrefs', {
     fn: ({ input }) =>
       AuthorPref.query().patchAndFetchById(
         [this.userId, input.authorId],
-        merge({ userId: this.userId }, input)
+        merge({ user_id: this.userId }, input)
       ),
   });
 }

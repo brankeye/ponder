@@ -1,5 +1,5 @@
-query {
-  poemList(first: 100) {
+query PoemList($first: Int) {
+  poemList(first: $first) {
     edges {
       node {
         id

@@ -2,7 +2,12 @@ import { StackNavigator, TabNavigator } from 'react-navigation';
 import { LandingPage, FavoritesPage, PoemPage } from '@@components/pages';
 
 const MainNavigator = TabNavigator({
-  Landing: { screen: LandingPage },
+  Landing: {
+    screen: LandingPage,
+    navigationOptions: {
+      title: 'Poems',
+    },
+  },
   Favorites: { screen: FavoritesPage },
 });
 

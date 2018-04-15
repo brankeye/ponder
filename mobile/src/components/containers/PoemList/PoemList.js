@@ -12,7 +12,7 @@ class PoemList extends Component {
   renderItem = ({ item }) => (
     <PoemCard
       poem={item}
-      underlayColor={'#CCCCCC'}
+      underlayColor={'rgba(220, 220, 220, 0.4)'}
       onPress={this.handleSelectPoem}
     />
   );

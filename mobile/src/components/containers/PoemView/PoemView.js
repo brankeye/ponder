@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, ScrollView, Text, Toggle } from '@@components/presenters';
 
-const PoemView = ({ poem, onFavorite }) => {
-  return (
-    <View style={{ flex: 1 }}>
+const PoemView = ({ poem, onFavorite, ...props }) => {
+  const { title, lines, isBookmarked, author } = poem;
+  return !poem ? null : (
+    <View style={{ flex: 1 }} {...props}>
       <ScrollView
         contentContainerStyle={{
           justifyContent: 'flex-start',
@@ -11,11 +12,11 @@ const PoemView = ({ poem, onFavorite }) => {
           padding: 20,
         }}
       >
-        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{poem.title}</Text>
-        <Text>by {poem.author.name}</Text>
+        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{title}</Text>
+        <Text>by {author.name}</Text>
         <Text style={{ padding: 15, flex: 1 }}>{poem.lines.join('\n')}</Text>
         <Toggle
-          isActive={poem.isFavorite}
+          isActive={isBookmarked}
           activeText="Unfavorite"
           inactiveText="Favorite"
           onToggle={onFavorite}

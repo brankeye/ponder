@@ -4,12 +4,12 @@ import { View, Text } from '@@components/presenters';
 import { PoemList } from '@@components/containers';
 
 class FavoritesPage extends Component {
-  async componentDidMount() {
-    await this.props.poems.fetchPoems();
+  componentDidMount() {
+    this.props.poems.fetchLibrary();
   }
 
-  handleSelectPoem = async id => {
-    await this.props.poems.selectPoem(id);
+  handleSelectPoem = id => {
+    this.props.poems.selectPoem(id);
     this.props.navigation.navigate('Poem');
   };
 
@@ -24,7 +24,7 @@ class FavoritesPage extends Component {
         }}
       >
         <PoemList
-          poems={this.props.poems.favorites}
+          poems={this.props.poems.library}
           onSelectPoem={this.handleSelectPoem}
         />
       </View>
