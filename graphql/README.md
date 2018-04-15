@@ -2,17 +2,18 @@
 
 # run postgres
 
-`docker run --name CONTAINER_NAME -p 5432:5432 -e POSTGRES_PASSWORD=YOUR_PASSWORD -d postgres`
+`docker run --name <CONTAINER_NAME> -p 5432:5432 -e POSTGRES_PASSWORD=<PASSWORD> -d postgres`
 
 # enter postgres container
 
-`docker exec -it CONTAINER_NAME /bin/bash`
+`docker exec -it <CONTAINER_NAME> /bin/bash`
 
 # create new postgres user
 
 ```
 psql -U postgres
-CREATE USER name;
-CREATE DATABASE name_db;
-GRANT ALL PRIVILEGES ON DATABASE name_db TO name;
+CREATE USER <name>;
+CREATE DATABASE <name_db>;
+GRANT ALL PRIVILEGES ON DATABASE <name_db> TO <name>;
+ALTER USER <username> WITH ENCRYPTED PASSWORD '<password>';
 ```

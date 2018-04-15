@@ -1,5 +1,7 @@
 .env
 
+dist/
+
 __collection__/
 
 # Logs
