@@ -1,0 +1,19 @@
+version: '3'
+services:
+  ponder_graphql:
+    image: ponder_graphql
+    ports:
+      - 80:3000
+    environment:
+      - DB_CONNECTION
+      - OAUTH_ID
+  ponder_postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD
+    volumes:
+      - data:/var/lib/postgresql/data
+volumes:
+  data: {}
