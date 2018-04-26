@@ -73,14 +73,14 @@ const resolver = {
   },
   AuthorContract: {
     __resolveType: ({ poems }) => (poems ? 'Author' : 'AuthorDetails'),
-    isFavorited: ({ isFavorited, prefs }) => {
-      if (isFavorited) return isFavorited;
-      if (prefs) return prefs.isFavorited;
+    isFavorited: ({ is_favorited, prefs }) => {
+      if (is_favorited) return is_favorited;
+      if (prefs) return prefs.is_favorited;
       return false;
     },
-    isBookmarked: ({ isBookmarked, prefs }) => {
-      if (isBookmarked) return isBookmarked;
-      if (prefs) return prefs.isFavorited;
+    isBookmarked: ({ is_bookmarked, prefs }) => {
+      if (is_bookmarked) return is_bookmarked;
+      if (prefs) return prefs.is_bookmarked;
       return false;
     },
   },

@@ -14,7 +14,7 @@ class UserAuthor extends Model {
       relation: Model.BelongsToOneRelation,
       modelClass: __dirname + '../../Author',
       join: {
-        from: 'user_authors.authorId',
+        from: 'user_authors.author_id',
         to: 'authors.id',
       },
     },
@@ -22,7 +22,7 @@ class UserAuthor extends Model {
       relation: Model.BelongsToOneRelation,
       modelClass: __dirname + '../../User',
       join: {
-        from: 'user_authors.userId',
+        from: 'user_authors.user_id',
         to: 'users.id',
       },
     },

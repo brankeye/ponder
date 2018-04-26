@@ -1,5 +1,5 @@
 import ModelConnector from '../ModelConnector';
-import { Poem, PoemPref } from '../../database/models';
+import { Poem, UserPoem } from '../../database/models';
 import { map, merge } from 'ramda';
 
 class PoemConnector extends ModelConnector {
@@ -32,7 +32,7 @@ class PoemConnector extends ModelConnector {
 
   getLibrary = this.load('getLibrary', {
     fn: () =>
-      PoemPref.query()
+      UserPoem.query()
         .eager('poem')
         .where('user_id', this.userId)
         .then(
@@ -45,12 +45,12 @@ class PoemConnector extends ModelConnector {
 
   addPrefs = this.load('addPrefs', {
     fn: ({ input }) =>
-      PoemPref.query().insert(merge({ user_id: this.userId }, input)),
+      UserPoem.query().insert(merge({ user_id: this.userId }, input)),
   });
 
   updatePrefs = this.load('updatePrefs', {
     fn: ({ input }) =>
-      PoemPref.query().patchAndFetchById(
+      UserPoem.query().patchAndFetchById(
         [this.userId, input.poemId],
         merge({ user_id: this.userId }, input)
       ),

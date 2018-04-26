@@ -4,11 +4,7 @@ import { createEdges, encodeCursor, decodeCursor } from '@@schema/utils';
 const resolver = {
   Query: {
     poem: (root, { id }, { Poem }) => Poem.get({ id }),
-    poemList: (
-      root,
-      { first, last, before, after, sortBy },
-      { Poem, requestedFields }
-    ) => {
+    poemList: (root, { first, last, before, after, sortBy }, { Poem }) => {
       /*
       const poemSelect = requestedFields
         .filter(x => x.startsWith('edges.node'))
@@ -81,20 +77,20 @@ const resolver = {
   PoemContract: {
     __resolveType: ({ author }) => (author ? 'Poem' : 'PoemDetails'),
     teaser: ({ lines }) => lines.slice(0, 4),
-    isFavorited: ({ isFavorited, prefs }) => {
-      if (isFavorited) return isFavorited;
-      if (prefs) return prefs.isFavorited;
+    isFavorited: ({ is_favorited, prefs }) => {
+      if (is_favorited) return is_favorited;
+      if (prefs) return prefs.is_favorited;
       return false;
     },
-    isBookmarked: ({ isBookmarked, prefs }) => {
-      if (isBookmarked) return isBookmarked;
-      if (prefs) return prefs.isFavorited;
+    isBookmarked: ({ is_bookmarked, prefs }) => {
+      if (is_bookmarked) return is_bookmarked;
+      if (prefs) return prefs.is_bookmarked;
       return false;
     },
   },
   Poem: {
-    author: ({ authorId, author }, args, { Author }) =>
-      author ? { ...author } : Author.get({ id: authorId }),
+    author: ({ author_id, author }, args, { Author }) =>
+      author ? { ...author } : Author.get({ id: author_id }),
   },
 };
 

@@ -1,5 +1,5 @@
 import ModelConnector from '../ModelConnector';
-import { Author, AuthorPref, Poem } from '../../database/models';
+import { Author, UserAuthor, Poem } from '../../database/models';
 import { map, merge } from 'ramda';
 
 class AuthorConnector extends ModelConnector {
@@ -31,12 +31,12 @@ class AuthorConnector extends ModelConnector {
   });
 
   getPoems = this.load('getPoems', {
-    fn: ({ id }) => Poem.query().where('authorId', id),
+    fn: ({ id }) => Poem.query().where('author_id', id),
   });
 
   getLibrary = this.load('getLibrary', {
     fn: () =>
-      AuthorPref.query()
+      UserAuthor.query()
         .eager('author')
         .where('user_id', this.userId)
         .then(
@@ -49,12 +49,12 @@ class AuthorConnector extends ModelConnector {
 
   addPrefs = this.load('addPrefs', {
     fn: ({ input }) =>
-      AuthorPref.query().insert(merge({ user_id: this.userId }, input)),
+      UserAuthor.query().insert(merge({ user_id: this.userId }, input)),
   });
 
   updatePrefs = this.load('updatePrefs', {
     fn: ({ input }) =>
-      AuthorPref.query().patchAndFetchById(
+      UserAuthor.query().patchAndFetchById(
         [this.userId, input.authorId],
         merge({ user_id: this.userId }, input)
       ),

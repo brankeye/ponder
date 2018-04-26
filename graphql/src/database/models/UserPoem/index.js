@@ -14,7 +14,7 @@ class UserPoem extends Model {
       relation: Model.BelongsToOneRelation,
       modelClass: __dirname + '../../Poem',
       join: {
-        from: 'user_poems.poemId',
+        from: 'user_poems.poem_id',
         to: 'poems.id',
       },
     },
@@ -22,7 +22,7 @@ class UserPoem extends Model {
       relation: Model.BelongsToOneRelation,
       modelClass: __dirname + '../../User',
       join: {
-        from: 'user_poems.userId',
+        from: 'user_poems.user_id',
         to: 'users.id',
       },
     },
