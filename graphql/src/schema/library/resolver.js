@@ -1,16 +1,13 @@
 const resolver = {
   Query: {
-    authorLibrary: (root, args, { Author }) => Author.getLibrary(),
-    poemLibrary: (root, args, { Poem }) => Poem.getLibrary(),
+    authorLibrary: (root, args, { Author }) => Author.getAllLibrary(),
+    poemLibrary: (root, args, { Poem }) => Poem.getAllLibrary(),
   },
   Mutation: {
-    authorLibraryAdd: (root, { input }, { Author }) =>
-      Author.addPrefs({ input }),
-    poemLibraryAdd: (root, { input }, { Poem }) => Poem.addPrefs({ input }),
-    authorLibraryUpdate: (root, { input }, { Author }) =>
-      Author.updatePrefs({ input }),
-    poemLibraryUpdate: (root, { input }, { Poem }) =>
-      Poem.updatePrefs({ input }),
+    authorLibraryUpsert: (root, { input }, { Author }) =>
+      Author.upsertLibrary({ input }),
+    poemLibraryUpsert: (root, { input }, { Poem }) =>
+      Poem.upsertLibrary({ input }),
   },
 };
 

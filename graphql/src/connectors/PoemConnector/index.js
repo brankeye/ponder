@@ -1,6 +1,13 @@
 import ModelConnector from '../ModelConnector';
 import { Poem, UserPoem } from '../../database/models';
 import { map, merge } from 'ramda';
+import { renameKeys } from '../utils';
+
+const renameLibraryPoem = renameKeys({
+  poemId: 'poem_id',
+  isFavorited: 'is_favorited',
+  isBookmarked: 'is_bookmarked',
+});
 
 class PoemConnector extends ModelConnector {
   constructor(config) {
@@ -30,7 +37,7 @@ class PoemConnector extends ModelConnector {
         .debug(),
   });
 
-  getLibrary = this.load('getLibrary', {
+  getAllLibrary = this.load('getLibrary', {
     fn: () =>
       UserPoem.query()
         .eager('poem')
@@ -43,17 +50,36 @@ class PoemConnector extends ModelConnector {
         ),
   });
 
-  addPrefs = this.load('addPrefs', {
-    fn: ({ input }) =>
-      UserPoem.query().insert(merge({ user_id: this.userId }, input)),
+  getLibrary = this.load('get', {
+    fn: ({ id }) => UserPoem.query().findById(id),
   });
 
-  updatePrefs = this.load('updatePrefs', {
+  insertLibrary = this.load('insertLibrary', {
+    fn: ({ input }) =>
+      UserPoem.query().insert(
+        merge({ user_id: this.userId }, renameLibraryPoem(input))
+      ),
+  });
+
+  updateLibrary = this.load('updateLibrary', {
     fn: ({ input }) =>
       UserPoem.query().patchAndFetchById(
         [this.userId, input.poemId],
-        merge({ user_id: this.userId }, input)
+        merge({ user_id: this.userId }, renameLibraryPoem(input))
       ),
+  });
+
+  upsertLibrary = this.load('upsertLibrary', {
+    fn: async ({ input }) => {
+      const authorLib = await this.getLibrary({
+        id: [this.userId, input.poemId],
+      });
+      if (authorLib) {
+        return this.updateLibrary({ input });
+      } else {
+        return this.insertLibrary({ input });
+      }
+    },
   });
 }
 

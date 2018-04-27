@@ -2,12 +2,13 @@ import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
 import { map, prop, propOr, flatten, reduce, mergeDeepLeft } from 'ramda';
 import { addMiddlewareToSchema } from './middleware';
 
+import * as scalars from './scalars';
 import * as user from './user';
 import * as author from './author';
 import * as poem from './poem';
 import * as library from './library';
 
-const models = [user, author, poem, library];
+const models = [scalars, user, author, poem, library];
 
 const mergeDeepLeftAll = reduce(mergeDeepLeft, {});
 
