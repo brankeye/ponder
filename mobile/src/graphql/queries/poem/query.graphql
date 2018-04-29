@@ -4,6 +4,7 @@ query poem($id: ID!) {
     title
     teaser
     lines
+    isFavorited
     isBookmarked
     author {
       name

@@ -77,7 +77,8 @@ const resolver = {
   PoemContract: {
     __resolveType: ({ author }) => (author ? 'Poem' : 'PoemDetails'),
     teaser: ({ lines }) => lines.slice(0, 4),
-    isFavorited: ({ is_favorited, prefs }) => {
+    isFavorited: ({ is_favorited, prefs, ...other }) => {
+      console.log({ is_favorited, prefs, other });
       if (is_favorited) return is_favorited;
       if (prefs) return prefs.is_favorited;
       return false;

@@ -6,7 +6,7 @@ services:
     ports:
       - 80:3000
     volumes:
-      - .:/usr/src/app
+      - .:/usr/src/graphql
     environment:
       - DB_CONNECTION
       - OAUTH_ID

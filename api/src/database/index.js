@@ -14,3 +14,4 @@ const database = {
 };
 
 export default database;
+export * from './models';

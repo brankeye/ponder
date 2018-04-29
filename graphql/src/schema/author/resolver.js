@@ -4,12 +4,7 @@ import { createEdges, encodeCursor, decodeCursor } from '@@schema/utils';
 const resolver = {
   Query: {
     author: (root, { id }, { Author }) => Author.get({ id }),
-    authorList: (
-      root,
-      { first, last, before, after, sortBy, hasType },
-      { Author }
-    ) => {
-      console.log(hasType);
+    authorList: (root, { first, last, before, after, sortBy }, { Author }) => {
       if (first && first <= 0 && (!last || last <= 0)) {
         throw new Error("Argument 'first' must not be less than zero.");
       } else if (last && last <= 0 && (!first || first <= 0)) {
@@ -22,11 +17,13 @@ const resolver = {
       const sign = first ? '<' : '>';
       const nextSign = first ? '<' : '<';
       const prevSign = first ? '>' : '>';
+      const where = cursorId && ['id', sign, cursorId];
       const orderBy = sortBy ? sortBy : first ? ['id', 'desc'] : ['id'];
+      const limit = [first || last];
       return Author.getAll({
-        where: cursorId && ['id', sign, cursorId],
+        where,
         orderBy,
-        limit: [first || last],
+        limit,
       }).then(authors => {
         let edges;
 

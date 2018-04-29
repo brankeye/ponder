@@ -5,6 +5,8 @@ query PoemList($first: Int) {
         id
         title
         teaser
+        isFavorited
+        isBookmarked
         author {
           name
         }

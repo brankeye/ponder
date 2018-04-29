@@ -4,6 +4,7 @@ query {
     title
     teaser
     lines
+    isFavorited
     isBookmarked
     author {
       name

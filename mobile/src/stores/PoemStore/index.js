@@ -10,11 +10,8 @@ class PoemStore {
   }
 
   @observable loading = true;
-
   @observable list = [];
-
   @observable library = [];
-
   @observable selectedPoem = {};
 
   @action

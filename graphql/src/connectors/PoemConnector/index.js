@@ -33,8 +33,7 @@ class PoemConnector extends ModelConnector {
     fn: ({ select, where, orderBy, limit }) =>
       Poem.query()
         .eager('author', 'prefs')
-        .filter({ select, where, orderBy, limit })
-        .debug(),
+        .filter({ select, where, orderBy, limit }),
   });
 
   getAllLibrary = this.load('getLibrary', {
@@ -71,10 +70,10 @@ class PoemConnector extends ModelConnector {
 
   upsertLibrary = this.load('upsertLibrary', {
     fn: async ({ input }) => {
-      const authorLib = await this.getLibrary({
+      const poemLib = await this.getLibrary({
         id: [this.userId, input.poemId],
       });
-      if (authorLib) {
+      if (poemLib) {
         return this.updateLibrary({ input });
       } else {
         return this.insertLibrary({ input });

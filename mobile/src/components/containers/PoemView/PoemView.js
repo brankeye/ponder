@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ScrollView, Text, Toggle } from '@@components/presenters';
 
 const PoemView = ({ poem, onFavorite, ...props }) => {
-  const { title, lines, isBookmarked, author } = poem;
+  const { title, lines, isFavorited, isBookmarked, author } = poem;
   return !poem ? null : (
     <View style={{ flex: 1 }} {...props}>
       <ScrollView
@@ -16,7 +16,7 @@ const PoemView = ({ poem, onFavorite, ...props }) => {
         <Text>by {author.name}</Text>
         <Text style={{ padding: 15, flex: 1 }}>{poem.lines.join('\n')}</Text>
         <Toggle
-          isActive={isBookmarked}
+          isActive={isFavorited}
           activeText="Unfavorite"
           inactiveText="Favorite"
           onToggle={onFavorite}

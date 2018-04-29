@@ -2,17 +2,14 @@ import React, { Component } from 'react';
 import { Button } from 'react-native';
 
 class Toggle extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isActive: props.isActive
-    };
-  }
+  state = {
+    isActive: this.props.isActive,
+  };
 
   handlePress = () => {
     const isActive = !this.state.isActive;
-    this.props.onToggle(isActive);
     this.setState({ isActive });
+    this.props.onToggle(isActive);
   };
 
   render() {
@@ -24,7 +21,7 @@ class Toggle extends Component {
 }
 
 Toggle.defaultProps = {
-  isActive: false
+  isActive: false,
 };
 
 export default Toggle;

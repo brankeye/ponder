@@ -1,0 +1,30 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    "ramda",
+    "transform-class-properties",
+    "transform-object-rest-spread",
+    [
+      "module-resolver",
+      {
+        "root": ["./src"],
+        "alias": {
+          "@@routes": "./src/routes",
+          "@@database": "./src/database",
+          "@@config": "./src/config",
+          "@@utils": "./src/utils"
+        },
+        "extensions": [".js"]
+      }
+    ]
+  ]
+}
