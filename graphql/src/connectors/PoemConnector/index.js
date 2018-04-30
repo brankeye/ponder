@@ -1,4 +1,4 @@
-import ModelConnector from '../ModelConnector';
+import BaseConnector from '../BaseConnector';
 import { Poem, UserPoem } from '../../database/models';
 import { map, merge } from 'ramda';
 import { renameKeys } from '../utils';
@@ -9,77 +9,32 @@ const renameLibraryPoem = renameKeys({
   isBookmarked: 'is_bookmarked',
 });
 
-class PoemConnector extends ModelConnector {
+class PoemConnector extends BaseConnector {
   constructor(config) {
     super({ modelName: 'Poem', ...config });
   }
 
-  get = this.load('get', {
-    fn: ({ id }) =>
-      Poem.query()
-        .eager('author', 'prefs')
-        .findById(id),
-  });
+  get = ({ id }) =>
+    this.request({
+      path: `/poems/${id}`,
+    });
 
-  findOne = this.load('findOne', {
-    fn: ({ select = ['*'], where, orderBy }) =>
-      Poem.query()
-        .eager('author', 'prefs')
-        .findOne(...where)
-        .filter({ select, orderBy }),
-  });
+  getAll = ({ first, after, last, before }) =>
+    this.request({
+      path: '/poems',
+      qs: { first, after, last, before },
+    });
 
-  getAll = this.load('getAll', {
-    fn: ({ select, where, orderBy, limit }) =>
-      Poem.query()
-        .eager('author', 'prefs')
-        .filter({ select, where, orderBy, limit }),
-  });
+  getAllLibrary = ({ first, after, last, before }) =>
+    this.request({
+      path: '/library/poems',
+      qs: { first, after, last, before },
+    });
 
-  getAllLibrary = this.load('getLibrary', {
-    fn: () =>
-      UserPoem.query()
-        .eager('poem')
-        .where('user_id', this.userId)
-        .then(
-          map(({ poem, ...rest }) => ({
-            ...poem,
-            ...rest,
-          }))
-        ),
-  });
-
-  getLibrary = this.load('get', {
-    fn: ({ id }) => UserPoem.query().findById(id),
-  });
-
-  insertLibrary = this.load('insertLibrary', {
-    fn: ({ input }) =>
-      UserPoem.query().insert(
-        merge({ user_id: this.userId }, renameLibraryPoem(input))
-      ),
-  });
-
-  updateLibrary = this.load('updateLibrary', {
-    fn: ({ input }) =>
-      UserPoem.query().patchAndFetchById(
-        [this.userId, input.poemId],
-        merge({ user_id: this.userId }, renameLibraryPoem(input))
-      ),
-  });
-
-  upsertLibrary = this.load('upsertLibrary', {
-    fn: async ({ input }) => {
-      const poemLib = await this.getLibrary({
-        id: [this.userId, input.poemId],
-      });
-      if (poemLib) {
-        return this.updateLibrary({ input });
-      } else {
-        return this.insertLibrary({ input });
-      }
-    },
-  });
+  getLibrary = ({ poemId }) =>
+    this.request({
+      path: `/library/poems/${poemId}`,
+    });
 }
 
 export default PoemConnector;

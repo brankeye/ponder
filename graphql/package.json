@@ -17,6 +17,7 @@
     "objection": "^1.1.1",
     "pg": "^7.4.1",
     "ramda": "^0.25.0",
+    "rp": "^0.2.0",
     "uuid": "^3.2.1"
   },
   "devDependencies": {

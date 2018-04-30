@@ -1,4 +1,4 @@
-import ModelConnector from '../ModelConnector';
+import BaseConnector from '../BaseConnector';
 import { Author, UserAuthor, Poem } from '../../database/models';
 import { map, merge } from 'ramda';
 import { renameKeys } from '../utils';
@@ -9,7 +9,7 @@ const renameLibraryAuthor = renameKeys({
   isBookmarked: 'is_bookmarked',
 });
 
-class AuthorConnector extends ModelConnector {
+class AuthorConnector extends BaseConnector {
   constructor(config) {
     super({ modelName: 'Author', ...config });
   }

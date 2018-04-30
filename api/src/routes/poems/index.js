@@ -1,9 +1,10 @@
+import { merge } from 'ramda';
 import { Poem, UserPoem } from '@@database';
 import { parseFilters, parseConnection } from '@@utils/pagination';
 import { authenticate } from '@@utils/authentication';
 
 const routes = {
-  getAuthor: {
+  getPoem: {
     method: 'GET',
     route: '/poems/:poem_id',
     handler: ({ params: { poem_id } }, res) =>
@@ -11,7 +12,7 @@ const routes = {
         .findById(poem_id)
         .then(data => res.json(data)),
   },
-  getAuthors: {
+  getPoems: {
     method: 'GET',
     route: '/poems',
     handler: ({ query }, res) => {
@@ -22,23 +23,55 @@ const routes = {
         .then(data => res.json(data));
     },
   },
-  getLibrary: {
+  getPoemFromLibrary: {
+    method: 'GET',
+    route: '/library/poems/:poem_id',
+    handler: async (
+      { params: { poem_id }, headers: { authorization } },
+      res
+    ) => {
+      const { user_id } = await authenticate(authorization);
+      return res.json(await UserPoem.query().findById([user_id, poem_id]));
+    },
+  },
+  getPoemsFromLibrary: {
     method: 'GET',
     route: '/library/poems',
     handler: async ({ query, headers: { authorization } }, res) => {
       const { user_id } = await authenticate(authorization);
-      const filters = parseFilters({ id: 'poem_id', ...query });
+      const id = 'poem_id';
+      const filters = parseFilters(merge({ id }, query));
       return UserPoem.query()
         .where('user_id', user_id)
         .filter(filters)
         .then(
           parseConnection(UserPoem, {
-            id: 'poem_id',
+            id,
             query,
             filters,
           })
         )
         .then(data => res.json(data));
+    },
+  },
+  updatePoemFromLibrary: {
+    method: 'PUT',
+    route: '/library/poems',
+    handler: async ({ body, headers: { authorization } }, res) => {
+      const { user_id } = await authenticate(authorization);
+      const poemLib = await UserPoem.query().findById([user_id, body.poem_id]);
+      if (poemLib) {
+        res.json(
+          await UserPoem.query().patchAndFetchById(
+            [this.userId, body.poemId],
+            merge({ user_id: this.userId }, body)
+          )
+        );
+      } else {
+        res.json(
+          await UserPoem.query().insert(merge({ user_id: this.userId }, body))
+        );
+      }
     },
   },
 };

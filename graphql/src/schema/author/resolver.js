@@ -17,13 +17,11 @@ const resolver = {
       const sign = first ? '<' : '>';
       const nextSign = first ? '<' : '<';
       const prevSign = first ? '>' : '>';
-      const where = cursorId && ['id', sign, cursorId];
       const orderBy = sortBy ? sortBy : first ? ['id', 'desc'] : ['id'];
-      const limit = [first || last];
       return Author.getAll({
-        where,
+        where: cursorId && ['id', sign, cursorId],
         orderBy,
-        limit,
+        limit: [first || last],
       }).then(authors => {
         let edges;
 

@@ -1,3 +1,4 @@
+import { merge } from 'ramda';
 import { Author, UserAuthor } from '@@database';
 import { parseFilters, parseConnection } from '@@utils/pagination';
 import { authenticate } from '@@utils/authentication';
@@ -22,7 +23,18 @@ const routes = {
         .then(data => res.json(data));
     },
   },
-  getLibrary: {
+  getAuthorFromLibrary: {
+    method: 'GET',
+    route: '/library/author/:author_id',
+    handler: async (
+      { params: { author_id }, headers: { authorization } },
+      res
+    ) => {
+      const { user_id } = await authenticate(authorization);
+      return res.json(await UserAuthor.query().findById([user_id, author_id]));
+    },
+  },
+  getAuthorsFromLibrary: {
     method: 'GET',
     route: '/library/authors',
     handler: async ({ query, headers: { authorization } }, res) => {
@@ -39,6 +51,29 @@ const routes = {
           })
         )
         .then(data => res.json(data));
+    },
+  },
+  updatePoemFromLibrary: {
+    method: 'PUT',
+    route: '/library/authors',
+    handler: async ({ body, headers: { authorization } }, res) => {
+      const { user_id } = await authenticate(authorization);
+      const poemLib = await UserAuthor.query().findById([
+        user_id,
+        body.author_id,
+      ]);
+      if (poemLib) {
+        res.json(
+          await UserAuthor.query().patchAndFetchById(
+            [this.userId, body.poemId],
+            merge({ user_id: this.userId }, body)
+          )
+        );
+      } else {
+        res.json(
+          await UserAuthor.query().insert(merge({ user_id: this.userId }, body))
+        );
+      }
     },
   },
 };
