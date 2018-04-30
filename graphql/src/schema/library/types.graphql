@@ -1,6 +1,16 @@
 type Query {
-  authorLibrary: [Author]
-  poemLibrary: [Poem]
+  authorLibrary(
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): [AuthorConnection]
+  poemLibrary(
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): [PoemConnection]
 }
 
 type Mutation {

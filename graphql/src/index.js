@@ -4,20 +4,11 @@ import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import config from '@@config';
 import getSchema from './schema';
 import getContext from './context';
-import { UserConnector } from './connectors';
-import database from '@@database';
-
-database.setup();
 
 const makeGraphqlExpress = () =>
-  graphqlExpress(async () => {
-    const { oauthId } = config;
-    const userConnector = new UserConnector({});
-    const { id } = await userConnector.getByOauthId({ oauthId });
-    return {
-      schema: getSchema(),
-      context: getContext({ userId: id }),
-    };
+  graphqlExpress({
+    schema: getSchema(),
+    context: getContext(config),
   });
 
 const app = express();

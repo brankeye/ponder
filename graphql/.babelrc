@@ -24,7 +24,6 @@
           "@@config": "./src/config",
           "@@connectors": "./src/connectors",
           "@@schema": "./src/schema",
-          "@@database": "./src/database",
           "@@utilities": "./src/utilities"
         },
         "extensions": [".js"]

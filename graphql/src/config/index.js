@@ -3,7 +3,7 @@ dotenv.config();
 
 class Config {
   constructor() {
-    const { NODE_ENV, PORT, HOST, PONDER_API, OAUTH_ID, USER_ID } = process.env;
+    const { NODE_ENV, PORT, HOST, PONDER_API, OAUTH_ID } = process.env;
 
     if (NODE_ENV !== 'development') {
       this.prod = true;
@@ -14,7 +14,6 @@ class Config {
     this.host = HOST || 'localhost';
     this.api = PONDER_API;
     this.oauthId = OAUTH_ID;
-    this.userId = USER_ID;
   }
 }
 
