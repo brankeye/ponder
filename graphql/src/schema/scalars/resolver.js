@@ -1,22 +1,18 @@
 import { GraphQLScalarType } from 'graphql';
-import { Kind } from 'graphql/language';
+import format from 'date-fns/format';
+import { pipe, prop } from 'ramda';
+
+const dateFormat = date => {
+  if (!isNaN(date)) date = parseInt(date, 10) * 1000;
+  return format(date, 'YYYY-MM-DDTHH:mm:ss');
+};
 
 const resolver = {
   Date: new GraphQLScalarType({
     name: 'Date',
-    description: 'Date custom scalar type',
-    parseValue(value) {
-      return new Date(value); // value from the client
-    },
-    serialize(value) {
-      return value.getTime(); // value sent to the client
-    },
-    parseLiteral(ast) {
-      if (ast.kind === Kind.INT) {
-        return parseInt(ast.value, 10); // ast value is always in string format
-      }
-      return null;
-    },
+    serialize: dateFormat,
+    parseValue: dateFormat,
+    parseLiteral: pipe(prop('value'), dateFormat),
   }),
 };
 

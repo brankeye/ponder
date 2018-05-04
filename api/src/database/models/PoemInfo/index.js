@@ -1,32 +1,32 @@
 import { Model } from '../model';
 
-class UserAuthor extends Model {
+class PoemInfo extends Model {
   static get tableName() {
-    return 'user_authors';
+    return 'poem_infos';
   }
 
   static get idColumn() {
-    return ['user_id', 'author_id'];
+    return ['user_id', 'poem_id'];
   }
 
   static relationMappings = {
-    author: {
+    poem: {
       relation: Model.BelongsToOneRelation,
-      modelClass: __dirname + '../../Author',
+      modelClass: __dirname + '../../Poem',
       join: {
-        from: 'user_authors.author_id',
-        to: 'authors.id',
+        from: 'poem_infos.poem_id',
+        to: 'poems.id',
       },
     },
     user: {
       relation: Model.BelongsToOneRelation,
       modelClass: __dirname + '../../User',
       join: {
-        from: 'user_authors.user_id',
+        from: 'poem_infos.user_id',
         to: 'users.id',
       },
     },
   };
 }
 
-export default UserAuthor;
+export default PoemInfo;

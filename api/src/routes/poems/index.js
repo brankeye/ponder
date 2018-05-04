@@ -1,7 +1,8 @@
 import { merge } from 'ramda';
-import { Poem, UserPoem } from '@@database';
+import { Poem, PoemInfo } from '@@database';
 import { parseFilters, parseConnection } from '@@utils/pagination';
 import { authenticate } from '@@utils/authentication';
+import { flattenProp, map, resolveP } from '@@utils/ramda';
 
 const routes = {
   getPoem: {
@@ -31,7 +32,7 @@ const routes = {
       res
     ) => {
       const { user_id } = await authenticate(authorization);
-      return res.json(await UserPoem.query().findById([user_id, poem_id]));
+      return res.json(await PoemInfo.query().findById([user_id, poem_id]));
     },
   },
   getPoemsFromLibrary: {
@@ -41,11 +42,13 @@ const routes = {
       const { user_id } = await authenticate(authorization);
       const id = 'poem_id';
       const filters = parseFilters(merge({ id }, query));
-      return UserPoem.query()
+      return PoemInfo.query()
         .where('user_id', user_id)
+        .eager('poem')
         .filter(filters)
+        .then(resolveP(map(flattenProp('poem'))))
         .then(
-          parseConnection(UserPoem, {
+          parseConnection(PoemInfo, {
             id,
             query,
             filters,
@@ -59,18 +62,16 @@ const routes = {
     route: '/library/poems',
     handler: async ({ body, headers: { authorization } }, res) => {
       const { user_id } = await authenticate(authorization);
-      const poemLib = await UserPoem.query().findById([user_id, body.poem_id]);
+      const poemLib = await PoemInfo.query().findById([user_id, body.poem_id]);
       if (poemLib) {
         res.json(
-          await UserPoem.query().patchAndFetchById(
+          await PoemInfo.query().patchAndFetchById(
             [this.userId, body.poemId],
-            merge({ user_id: this.userId }, body)
+            merge({ user_id }, body)
           )
         );
       } else {
-        res.json(
-          await UserPoem.query().insert(merge({ user_id: this.userId }, body))
-        );
+        res.json(await PoemInfo.query().insert(merge({ user_id }, body)));
       }
     },
   },

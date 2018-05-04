@@ -33,7 +33,7 @@ exports.up = function(knex) {
       table.specificType('lines', 'text[]').notNullable();
       table.specificType('keywords', 'text[]').notNullable();
     })
-    .createTable('user_authors', table => {
+    .createTable('author_infos', table => {
       table
         .uuid('user_id')
         .notNullable()
@@ -45,14 +45,13 @@ exports.up = function(knex) {
         .references('id')
         .inTable('authors');
       table.primary(['user_id', 'author_id']);
-      table.boolean('is_favorited').notNullable();
-      table.boolean('is_bookmarked').notNullable();
+      table.boolean('in_library').notNullable();
       table
         .timestamp('viewed_at')
         .notNullable()
         .defaultTo(knex.fn.now());
     })
-    .createTable('user_poems', table => {
+    .createTable('poem_infos', table => {
       table
         .uuid('user_id')
         .notNullable()
@@ -64,8 +63,7 @@ exports.up = function(knex) {
         .references('id')
         .inTable('poems');
       table.primary(['user_id', 'poem_id']);
-      table.boolean('is_favorited').notNullable();
-      table.boolean('is_bookmarked').notNullable();
+      table.boolean('in_library').notNullable();
       table
         .timestamp('viewed_at')
         .notNullable()
@@ -75,8 +73,8 @@ exports.up = function(knex) {
 
 exports.down = function(knex) {
   return knex.schema
-    .dropTableIfExists('user_poems')
-    .dropTableIfExists('user_authors')
+    .dropTableIfExists('poem_infos')
+    .dropTableIfExists('author_infos')
     .dropTableIfExists('poems')
     .dropTableIfExists('authors')
     .dropTableIfExists('users');

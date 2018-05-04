@@ -14,12 +14,12 @@ class Poems extends Model {
         to: 'authors.id',
       },
     },
-    prefs: {
+    info: {
       relation: Model.HasOneRelation,
-      modelClass: __dirname + '../../UserPoem',
+      modelClass: __dirname + '../../PoemInfo',
       join: {
         from: 'poems.id',
-        to: 'user_poems.poem_id',
+        to: 'poem_infos.poem_id',
       },
     },
   };

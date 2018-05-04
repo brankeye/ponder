@@ -1,12 +1,6 @@
 extend type Query {
   poem(id: ID): Poem
-  poemList(
-    first: Int
-    after: String
-    last: Int
-    before: String
-    sortBy: [String]
-  ): PoemConnection
+  poemList(first: Int, after: String, last: Int, before: String): PoemConnection
 }
 
 type PoemConnection {
@@ -28,8 +22,7 @@ type Poem implements PoemContract {
   period: String
   lines: [String]
   keywords: [String]
-  isFavorited: Boolean
-  isBookmarked: Boolean
+  inLibrary: Boolean
   author: AuthorDetails
 }
 
@@ -42,8 +35,7 @@ type PoemDetails implements PoemContract {
   period: String
   lines: [String]
   keywords: [String]
-  isFavorited: Boolean
-  isBookmarked: Boolean
+  inLibrary: Boolean
 }
 
 interface PoemContract {
@@ -55,6 +47,5 @@ interface PoemContract {
   period: String
   lines: [String]
   keywords: [String]
-  isFavorited: Boolean
-  isBookmarked: Boolean
+  inLibrary: Boolean
 }

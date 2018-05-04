@@ -4,13 +4,13 @@ type Query {
     after: String
     last: Int
     before: String
-  ): [AuthorConnection]
+  ): AuthorConnection
   poemLibrary(
     first: Int
     after: String
     last: Int
     before: String
-  ): [PoemConnection]
+  ): PoemConnection
 }
 
 type Mutation {
@@ -20,12 +20,12 @@ type Mutation {
 
 input AuthorPrefsInput {
   authorId: ID!
-  isFavorited: Boolean!
-  isBookmarked: Boolean!
+  inLibrary: Boolean!
+  viewedAt: Date!
 }
 
 input PoemPrefsInput {
   poemId: ID!
-  isFavorited: Boolean!
-  isBookmarked: Boolean!
+  inLibrary: Boolean!
+  viewedAt: Date!
 }

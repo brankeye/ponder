@@ -14,12 +14,12 @@ class Author extends Model {
         to: 'poems.author_id',
       },
     },
-    prefs: {
+    info: {
       relation: Model.HasOneRelation,
-      modelClass: __dirname + '../../UserAuthor',
+      modelClass: __dirname + '../../AuthorInfo',
       join: {
         from: 'authors.id',
-        to: 'user_authors.author_id',
+        to: 'author_infos.author_id',
       },
     },
   };

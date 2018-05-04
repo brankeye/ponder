@@ -28,21 +28,18 @@ type PageInfo {
 type Author implements AuthorContract {
   id: ID
   name: String
-  isFavorited: Boolean
-  isBookmarked: Boolean
+  inLibrary: Boolean
   poems: [PoemDetails]
 }
 
 type AuthorDetails implements AuthorContract {
   id: ID
   name: String
-  isFavorited: Boolean
-  isBookmarked: Boolean
+  inLibrary: Boolean
 }
 
 interface AuthorContract {
   id: ID
   name: String
-  isFavorited: Boolean
-  isBookmarked: Boolean
+  inLibrary: Boolean
 }

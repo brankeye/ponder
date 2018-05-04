@@ -6,18 +6,18 @@ class User extends Model {
   static relationMappings = {
     authorPrefs: {
       relation: Model.HasManyRelation,
-      modelClass: __dirname + '../../UserAuthor',
+      modelClass: __dirname + '../../AuthorInfo',
       join: {
         from: 'Users.id',
-        to: 'user_authors.userId',
+        to: 'author_infos.userId',
       },
     },
     poemPrefs: {
       relation: Model.HasManyRelation,
-      modelClass: __dirname + '../../UserPoem',
+      modelClass: __dirname + '../../PoemInfo',
       join: {
         from: 'users.id',
-        to: 'user_poems.userId',
+        to: 'poem_infos.userId',
       },
     },
   };

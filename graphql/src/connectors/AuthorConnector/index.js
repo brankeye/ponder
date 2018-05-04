@@ -1,10 +1,10 @@
 import BaseConnector from '../BaseConnector';
 import { renameKeys } from '../utils';
 
-const renameLibraryAuthor = renameKeys({
+const rename = renameKeys({
   authorId: 'author_id',
-  isFavorited: 'is_favorited',
-  isBookmarked: 'is_bookmarked',
+  inLibrary: 'in_library',
+  viewedAt: 'viewed_at',
 });
 
 class AuthorConnector extends BaseConnector {
@@ -23,11 +23,27 @@ class AuthorConnector extends BaseConnector {
     this.request({
       path: '/api/library/authors',
       qs: { first, after, last, before },
+      headers: {
+        authorization: this.oauthId,
+      },
     });
 
-  getLibrary = ({ authorId }) =>
+  getLibrary = ({ id }) =>
     this.request({
-      path: `/api/library/authors/${authorId}`,
+      path: `/api/library/authors/${id}`,
+      headers: {
+        authorization: this.oauthId,
+      },
+    });
+
+  upsertLibrary = ({ input }) =>
+    this.request({
+      path: '/api/library/authors',
+      method: 'PUT',
+      headers: {
+        authorization: this.oauthId,
+      },
+      body: rename(input),
     });
 }
 
