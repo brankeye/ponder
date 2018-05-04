@@ -2,7 +2,7 @@ version: '3'
 services:
   ponder_api:
     build: .
-    image: ponder_api
+    image: ponder-api
     ports:
       - 3100:3100
     volumes:

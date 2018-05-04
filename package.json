@@ -1,3 +1,10 @@
 {
+  "scripts": {
+    "build-api": "cd api && docker build -t ponder-api .",
+    "build-graphql": "cd graphql && docker build -t ponder-graphql .",
+    "save-api": "cd images && docker save ponder-api | gzip > ponder-api.tgz",
+    "save-graphql":
+      "cd images && docker save ponder-graphql | gzip > ponder-graphql.tgz"
+  },
   "devDependencies": {}
 }
