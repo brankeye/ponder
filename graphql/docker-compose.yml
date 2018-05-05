@@ -2,11 +2,10 @@ version: '3'
 services:
   ponder_graphql:
     build: .
-    image: ponder-graphql
+    image: ponder_graphql
     ports:
       - 80:3000
     volumes:
       - .:/usr/src/graphql
-    environment:
-      - PONDER_API
-      - OAUTH_ID
+    env_file:
+      - .env

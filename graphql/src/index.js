@@ -2,14 +2,14 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import config from '@@config';
-import getSchema from './schema';
+import schema from './schema';
 import getContext from './context';
 
 const makeGraphqlExpress = () =>
-  graphqlExpress({
-    schema: getSchema(),
+  graphqlExpress(() => ({
+    schema,
     context: getContext(config),
-  });
+  }));
 
 const app = express();
 app.use(bodyParser.json());

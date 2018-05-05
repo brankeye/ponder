@@ -67,12 +67,16 @@ const routes = {
       if (poemLib) {
         res.json(
           await AuthorInfo.query().patchAndFetchById(
-            [this.userId, body.poemId],
+            [user_id, body.author_id],
             merge({ user_id }, body)
           )
         );
       } else {
-        res.json(await AuthorInfo.query().insert(merge({ user_id }, body)));
+        res.json(
+          await AuthorInfo.query()
+            .insert(merge({ user_id }, body))
+            .returning('*')
+        );
       }
     },
   },

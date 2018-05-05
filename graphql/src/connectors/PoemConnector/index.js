@@ -2,7 +2,7 @@ import BaseConnector from '../BaseConnector';
 import { renameKeys } from '../utils';
 
 const rename = renameKeys({
-  poemId: 'poem_id',
+  id: 'poem_id',
   inLibrary: 'in_library',
   viewedAt: 'viewed_at',
 });

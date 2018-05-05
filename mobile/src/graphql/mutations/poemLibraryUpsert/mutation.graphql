@@ -1,0 +1,3 @@
+mutation($input: PoemPrefsInput!) {
+  poemLibraryUpsert(input: $input)
+}

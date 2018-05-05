@@ -29,4 +29,4 @@ const getSchema = ({ enableMocks } = {}) => {
   return schema;
 };
 
-export default getSchema;
+export default getSchema();

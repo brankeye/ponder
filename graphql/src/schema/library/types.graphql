@@ -14,18 +14,30 @@ type Query {
 }
 
 type Mutation {
-  authorLibraryUpsert(input: AuthorPrefsInput!): Boolean
-  poemLibraryUpsert(input: PoemPrefsInput!): Boolean
+  authorLibraryUpsert(input: AuthorInfoInput!): AuthorInfo
+  poemLibraryUpsert(input: PoemInfoInput!): PoemInfo
 }
 
-input AuthorPrefsInput {
-  authorId: ID!
+type AuthorInfo {
+  id: ID!
   inLibrary: Boolean!
   viewedAt: Date!
 }
 
-input PoemPrefsInput {
-  poemId: ID!
+type PoemInfo {
+  id: ID!
+  inLibrary: Boolean!
+  viewedAt: Date!
+}
+
+input AuthorInfoInput {
+  id: ID!
+  inLibrary: Boolean!
+  viewedAt: Date!
+}
+
+input PoemInfoInput {
+  id: ID!
   inLibrary: Boolean!
   viewedAt: Date!
 }

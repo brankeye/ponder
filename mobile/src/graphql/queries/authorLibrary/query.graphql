@@ -1,16 +1,14 @@
 query($first: Int, $after: String, $last: Int, $before: String) {
-  poemLibrary(first: $first, after: $after, last: $last, before: $before) {
+  authorLibrary(first: $first, after: $after, last: $last, before: $before) {
     edges {
       node {
         id
-        title
-        teaser
-        lines
+        name
         inLibrary
-        author {
+        poems {
           id
-          name
-          inLibrary
+          title
+          teaser
         }
       }
     }

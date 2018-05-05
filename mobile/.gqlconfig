@@ -9,6 +9,22 @@
         match: 'src/graphql/queries/**/*.graphql',
         parser: 'QueryParser',
       },
+      {
+        match: 'src/graphql/mutations/**/*.graphql',
+        parser: 'QueryParser',
+      },
+      {
+        match: 'src/graphql/fragments/**/*.graphql',
+        parser: 'QueryParser',
+      },
     ],
+  },
+  match: 'src/graphql/fragments/**/*.graphql',
+  validate: {
+    extends: 'gql-rules-query',
+    rules: {
+      KnownFragmentNames: 'off',
+      NoUnusedFragments: 'off',
+    },
   },
 }

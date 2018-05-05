@@ -1,13 +1,14 @@
-query poem($id: ID!) {
+query($id: ID!) {
   poem(id: $id) {
     id
     title
     teaser
     lines
-    isFavorited
-    isBookmarked
+    inLibrary
     author {
+      id
       name
+      inLibrary
     }
   }
 }

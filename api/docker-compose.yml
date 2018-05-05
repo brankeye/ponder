@@ -2,10 +2,10 @@ version: '3'
 services:
   ponder_api:
     build: .
-    image: ponder-api
+    image: ponder_api
     ports:
       - 3100:3100
     volumes:
       - .:/usr/src/api
-    environment:
-      - DB_CONNECTION
+    env_file:
+      - .env

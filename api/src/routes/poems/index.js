@@ -63,10 +63,11 @@ const routes = {
     handler: async ({ body, headers: { authorization } }, res) => {
       const { user_id } = await authenticate(authorization);
       const poemLib = await PoemInfo.query().findById([user_id, body.poem_id]);
+      console.log({ poemLib });
       if (poemLib) {
         res.json(
           await PoemInfo.query().patchAndFetchById(
-            [this.userId, body.poemId],
+            [user_id, body.poem_id],
             merge({ user_id }, body)
           )
         );

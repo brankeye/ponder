@@ -1,11 +1,10 @@
-# source: http://localhost:3000/graphql
-# timestamp: Thu Apr 12 2018 23:35:32 GMT-0400 (EDT)
+# source: http://159.89.125.208/graphql
+# timestamp: Fri May 04 2018 20:21:46 GMT-0400 (EDT)
 
 type Author implements AuthorContract {
   id: ID
   name: String
-  isFavorited: Boolean
-  isBookmarked: Boolean
+  inLibrary: Boolean
   poems: [PoemDetails]
 }
 
@@ -17,15 +16,13 @@ type AuthorConnection {
 interface AuthorContract {
   id: ID
   name: String
-  isFavorited: Boolean
-  isBookmarked: Boolean
+  inLibrary: Boolean
 }
 
 type AuthorDetails implements AuthorContract {
   id: ID
   name: String
-  isFavorited: Boolean
-  isBookmarked: Boolean
+  inLibrary: Boolean
 }
 
 type AuthorEdge {
@@ -33,23 +30,17 @@ type AuthorEdge {
   node: Author
 }
 
-type AuthorPrefs {
-  authorId: ID!
-  isFavorited: Boolean!
-  isBookmarked: Boolean!
-}
-
 input AuthorPrefsInput {
   authorId: ID!
-  isFavorited: Boolean!
-  isBookmarked: Boolean!
+  inLibrary: Boolean!
+  viewedAt: Date!
 }
 
+scalar Date
+
 type Mutation {
-  authorLibraryAdd(input: AuthorPrefsInput!): AuthorPrefs
-  poemLibraryAdd(input: PoemPrefsInput!): PoemPrefs
-  authorLibraryUpdate(input: AuthorPrefsInput!): AuthorPrefs
-  poemLibraryUpdate(input: PoemPrefsInput!): PoemPrefs
+  authorLibraryUpsert(input: AuthorPrefsInput!): Boolean
+  poemLibraryUpsert(input: PoemPrefsInput!): Boolean
 }
 
 type PageInfo {
@@ -68,8 +59,7 @@ type Poem implements PoemContract {
   period: String
   lines: [String]
   keywords: [String]
-  isFavorited: Boolean
-  isBookmarked: Boolean
+  inLibrary: Boolean
   author: AuthorDetails
 }
 
@@ -87,8 +77,7 @@ interface PoemContract {
   period: String
   lines: [String]
   keywords: [String]
-  isFavorited: Boolean
-  isBookmarked: Boolean
+  inLibrary: Boolean
 }
 
 type PoemDetails implements PoemContract {
@@ -100,8 +89,7 @@ type PoemDetails implements PoemContract {
   period: String
   lines: [String]
   keywords: [String]
-  isFavorited: Boolean
-  isBookmarked: Boolean
+  inLibrary: Boolean
 }
 
 type PoemEdge {
@@ -109,26 +97,20 @@ type PoemEdge {
   node: Poem
 }
 
-type PoemPrefs {
-  poemId: ID!
-  isFavorited: Boolean!
-  isBookmarked: Boolean!
-}
-
 input PoemPrefsInput {
   poemId: ID!
-  isFavorited: Boolean!
-  isBookmarked: Boolean!
+  inLibrary: Boolean!
+  viewedAt: Date!
 }
 
 type Query {
-  authorLibrary: [Author]
-  poemLibrary: [Poem]
+  authorLibrary(first: Int, after: String, last: Int, before: String): AuthorConnection
+  poemLibrary(first: Int, after: String, last: Int, before: String): PoemConnection
   user: User
   author(id: ID): Author
-  authorList(first: Int, after: String, last: Int, before: String, sortBy: [String]): AuthorConnection
+  authorList(first: Int, after: String, last: Int, before: String): AuthorConnection
   poem(id: ID): Poem
-  poemList(first: Int, after: String, last: Int, before: String, sortBy: [String]): PoemConnection
+  poemList(first: Int, after: String, last: Int, before: String): PoemConnection
 }
 
 type User {

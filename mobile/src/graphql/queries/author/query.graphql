@@ -1,0 +1,12 @@
+query($id: ID!) {
+  author(id: $id) {
+    id
+    name
+    inLibrary
+    poems {
+      id
+      title
+      teaser
+    }
+  }
+}

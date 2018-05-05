@@ -2,23 +2,23 @@ version: '3'
 services:
   ponder_api:
     image: ponder_api
-    environment:
-      - DB_CONNECTION
     ports:
       - 3100:3100
+    environment:
+      DB_CONNECTION: ${DB_CONNECTION}
   ponder_graphql:
     image: ponder_graphql
     ports:
       - 80:3000
     environment:
-      - PONDER_API
-      - OAUTH_ID
+      PONDER_API: ${PONDER_API}
+      OAUTH_ID: ${OAUTH_ID}
   ponder_postgres:
     image: postgres
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_PASSWORD
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - data:/var/lib/postgresql/data
 volumes:

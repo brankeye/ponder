@@ -2,7 +2,7 @@ import BaseConnector from '../BaseConnector';
 import { renameKeys } from '../utils';
 
 const rename = renameKeys({
-  authorId: 'author_id',
+  id: 'author_id',
   inLibrary: 'in_library',
   viewedAt: 'viewed_at',
 });
