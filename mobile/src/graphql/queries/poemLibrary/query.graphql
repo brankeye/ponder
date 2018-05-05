@@ -1,5 +1,10 @@
 query($first: Int, $after: String, $last: Int, $before: String) {
-  poemLibrary(first: $first, after: $after, last: $last, before: $before) {
+  poemList: poemLibrary(
+    first: $first
+    after: $after
+    last: $last
+    before: $before
+  ) {
     edges {
       node {
         id

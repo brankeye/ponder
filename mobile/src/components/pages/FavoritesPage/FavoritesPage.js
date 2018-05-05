@@ -4,10 +4,6 @@ import { View, Text } from '@@components/presenters';
 import { PoemList } from '@@components/containers';
 
 class FavoritesPage extends Component {
-  componentDidMount() {
-    this.props.poems.fetchLibrary();
-  }
-
   handleSelectPoem = id => {
     this.props.poems.selectPoem(id);
     this.props.navigation.navigate('Poem');
@@ -23,10 +19,7 @@ class FavoritesPage extends Component {
           backgroundColor: '#EEEEEE',
         }}
       >
-        <PoemList
-          poems={this.props.poems.library}
-          onSelectPoem={this.handleSelectPoem}
-        />
+        <PoemList inLibrary onSelectPoem={this.handleSelectPoem} />
       </View>
     );
   }

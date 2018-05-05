@@ -18,11 +18,13 @@ class PoemList extends Component {
   );
 
   render() {
+    const { poems, onFetchMore } = this.props;
     return (
       <FlatList
-        data={this.props.poems}
+        data={poems}
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
+        onEndReached={onFetchMore}
       />
     );
   }

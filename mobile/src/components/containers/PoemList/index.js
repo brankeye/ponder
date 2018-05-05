@@ -1,4 +1,4 @@
-import PoemList from './PoemList';
+import PoemListWithData from './PoemListWithData';
 import { inject, observer } from 'mobx-react/native';
 
-export default observer(PoemList);
+export default observer(PoemListWithData);
