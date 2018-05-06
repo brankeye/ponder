@@ -1,8 +1,17 @@
-extend type Query {
+type Query {
   user: User
+}
+
+type Mutation {
+  userRegister(input: UserInput!): User
 }
 
 type User {
   id: ID
   email: String
+}
+
+input UserInput {
+  email: String!
+  oauthId: ID!
 }

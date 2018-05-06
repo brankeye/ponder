@@ -1,5 +1,17 @@
-query($first: Int, $after: String, $last: Int, $before: String) {
-  authorList(first: $first, after: $after, last: $last, before: $before) {
+query(
+  $from: AuthorCategory!
+  $first: Int
+  $after: String
+  $last: Int
+  $before: String
+) {
+  authorList(
+    from: $from
+    first: $first
+    after: $after
+    last: $last
+    before: $before
+  ) @connection(key: "authorList", filter: ["from"]) {
     edges {
       node {
         id

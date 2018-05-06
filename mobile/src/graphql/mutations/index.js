@@ -1,2 +1,2 @@
-export { default as authorLibraryUpsertMutation } from './authorLibraryUpsert';
-export { default as poemLibraryUpsertMutation } from './poemLibraryUpsert';
+export { default as authorSaveMutation } from './authorSave';
+export { default as poemSaveMutation } from './poemSave';

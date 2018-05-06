@@ -2,10 +2,11 @@ import React from 'react';
 import { View, Text, TouchableHighlight } from '@@components/presenters';
 
 const PoemCard = ({ poem, underlayColor, onPress }) => {
+  const { title, teaser, author } = poem;
   return (
     <TouchableHighlight
       underlayColor={underlayColor}
-      onPress={() => onPress(poem.id)}
+      onPress={() => onPress(poem)}
     >
       <View
         style={{
@@ -19,10 +20,10 @@ const PoemCard = ({ poem, underlayColor, onPress }) => {
         }}
       >
         <Text style={{ textAlign: 'center' }}>
-          {poem.title} by {poem.author.name}
+          {title} by {author.name}
         </Text>
         <Text style={{ textAlign: 'center', fontStyle: 'italic' }}>
-          {poem.teaser.join('\n')}
+          {teaser.join('\n')}
         </Text>
       </View>
     </TouchableHighlight>

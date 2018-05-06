@@ -1,0 +1,7 @@
+mutation($input: PoemInfoInput!) {
+  poemSave(input: $input) {
+    id
+    inLibrary
+    viewedAt
+  }
+}

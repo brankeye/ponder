@@ -1,5 +1,0 @@
-mutation($authorId: ID!, $inLibrary: Boolean!, $viewedAt: Date!) {
-  authorLibraryUpsert(
-    input: { authorId: $authorId, inLibrary: $inLibrary, viewedAt: $viewedAt }
-  )
-}

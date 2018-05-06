@@ -6,9 +6,8 @@ import * as scalars from './scalars';
 import * as user from './user';
 import * as author from './author';
 import * as poem from './poem';
-import * as library from './library';
 
-const models = [scalars, user, author, poem, library];
+const models = [scalars, user, author, poem];
 
 const mergeDeepLeftAll = reduce(mergeDeepLeft, {});
 

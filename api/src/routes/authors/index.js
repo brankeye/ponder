@@ -3,6 +3,7 @@ import { Author, AuthorInfo } from '@@database';
 import { parseFilters, parseConnection } from '@@utils/pagination';
 import { authenticate } from '@@utils/authentication';
 import { flattenProp, map, resolveP } from '@@utils/ramda';
+import { format } from 'date-fns';
 
 const routes = {
   getAuthor: {
@@ -24,6 +25,15 @@ const routes = {
         .then(data => res.json(data));
     },
   },
+  getPoemsForAuthor: {
+    method: 'GET',
+    route: '/authors/:author_id/poems',
+    handler: ({ params: { author_id } }, res) =>
+      Author.query()
+        .findById(author_id)
+        .eager('poems')
+        .then(({ poems }) => res.json(poems)),
+  },
   getAuthorFromLibrary: {
     method: 'GET',
     route: '/library/authors/:author_id',
@@ -43,6 +53,7 @@ const routes = {
       const filters = parseFilters({ id: 'author_id', ...query });
       return AuthorInfo.query()
         .where('user_id', user_id)
+        .andWhere('in_library', true)
         .filter(filters)
         .then(resolveP(map(flattenProp('author'))))
         .then(
@@ -68,13 +79,24 @@ const routes = {
         res.json(
           await AuthorInfo.query().patchAndFetchById(
             [user_id, body.author_id],
-            merge({ user_id }, body)
+            merge(
+              { user_id, viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss') },
+              body
+            )
           )
         );
       } else {
         res.json(
           await AuthorInfo.query()
-            .insert(merge({ user_id }, body))
+            .insert(
+              merge(
+                {
+                  user_id,
+                  viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
+                },
+                body
+              )
+            )
             .returning('*')
         );
       }

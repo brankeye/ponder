@@ -1,0 +1,7 @@
+mutation($input: AuthorInfoInput!) {
+  authorSave(input: $input) {
+    id
+    inLibrary
+    viewedAt
+  }
+}

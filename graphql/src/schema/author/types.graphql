@@ -1,11 +1,16 @@
 extend type Query {
   author(id: ID): Author
   authorList(
+    from: AuthorCategory!
     first: Int
     after: String
     last: Int
     before: String
   ): AuthorConnection
+}
+
+extend type Mutation {
+  authorSave(input: AuthorInfoInput!): AuthorInfo
 }
 
 type AuthorConnection {
@@ -38,8 +43,24 @@ type AuthorDetails implements AuthorContract {
   inLibrary: Boolean
 }
 
+type AuthorInfo {
+  id: ID!
+  inLibrary: Boolean!
+  viewedAt: Date!
+}
+
 interface AuthorContract {
   id: ID
   name: String
   inLibrary: Boolean
+}
+
+input AuthorInfoInput {
+  id: ID!
+  inLibrary: Boolean!
+}
+
+enum AuthorCategory {
+  Default
+  Library
 }

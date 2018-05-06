@@ -1,39 +1,87 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
-import { inject, observer } from 'mobx-react/native';
 import { View, Text } from '@@components/presenters';
 import { PoemView } from '@@components/containers';
-import { poemLibraryUpsertMutation, poemListQuery } from '@@graphql';
+import { poemSaveMutation, poemListQuery } from '@@graphql';
+
+class PoemPage extends Component {
+  render() {
+    const { poem } = this.props;
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <PoemView poem={poem} onLibraryChange={() => {}} />
+      </View>
+    );
+  }
+}
+
+export default PoemPage;
+
+/*
 
 class PoemPage extends Component {
   handleLibraryChange = upsert => () => {
-    const { id, inLibrary } = this.props.poems.selectedPoem;
+    const { id, inLibrary } = this.props.poem;
     const input = {
-      poemId: id,
+      id,
       inLibrary: !inLibrary,
-      viewedAt: new Date().getTime(),
     };
-    console.log({ input });
     upsert({ variables: { input } });
   };
 
+  handleUpdatePoemList = (cache, { data: { poemLibraryUpsert } }) => {
+    const currentPoem = this.props.poem;
+    const { poemList } = cache.readQuery({ query: poemListQuery });
+    const poem = poemList.edges.find(({ node }) => node.id === currentPoem.id);
+    poem.inLibrary = poemLibraryUpsert.inLibrary;
+    poem.viewedAt = poemLibraryUpsert.viewedAt;
+    cache.writeQuery({
+      query: poemListQuery,
+      data: { poemList },
+    });
+  };
+
+  handleUpdatePoemLibrary = (cache, { data: { poemLibraryUpsert } }) => {
+    const currentPoem = this.props.poem;
+    const { poemList } = cache.readQuery({ query: poemListQuery });
+    const poemEdge = poemList.edges.find(
+      ({ node }) => node.id === currentPoem.id
+    );
+    if (poemEdge) {
+      const poemLibrary = cache.readQuery({ query: poemListQuery }).poemList;
+      const poemLibraryEdge = poemLibrary.edges.find(
+        ({ node }) => node.id === currentPoem.id
+      );
+      if (poemLibraryEdge) {
+        const index = poemLibrary.edges.indexOf(poemLibraryEdge);
+        poemLibrary.edges[index] = poemEdge;
+      } else {
+        poemLibrary.edges.push(poemEdge);
+      }
+      cache.writeQuery({
+        query: poemLibraryQuery,
+        data: { poemList: poemLibrary },
+      });
+    }
+  };
+
+  handleUpdateCache = (...args) => {
+    this.handleUpdatePoemList(...args);
+    //this.handleUpdatePoemLibrary(...args);
+  };
+
   render() {
-    const {
-      poems: { loading, selectedPoem },
-    } = this.props;
+    const { poem } = this.props;
     return (
       <Mutation
         mutation={poemLibraryUpsertMutation}
-        update={cache => {
-          const { poemList } = cache.readQuery({ query: poemListQuery });
-          const poem = poemList.find(x => x.id === selectedPoem.id);
-          poem.inLibrary = !poem.inLibrary;
-          poem.viewedAt = new Date().getTime();
-          cache.writeQuery({
-            query: poemListQuery,
-            data: { poemList },
-          });
-        }}
+        update={this.handleUpdateCache}
       >
         {upsert => {
           return (
@@ -46,7 +94,7 @@ class PoemPage extends Component {
               }}
             >
               <PoemView
-                poem={selectedPoem}
+                poem={poem}
                 onLibraryChange={this.handleLibraryChange(upsert)}
               />
             </View>
@@ -57,4 +105,4 @@ class PoemPage extends Component {
   }
 }
 
-export default PoemPage;
+*/

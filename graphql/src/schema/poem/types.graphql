@@ -1,6 +1,16 @@
 extend type Query {
   poem(id: ID): Poem
-  poemList(first: Int, after: String, last: Int, before: String): PoemConnection
+  poemList(
+    from: PoemCategory!
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): PoemConnection
+}
+
+extend type Mutation {
+  poemSave(input: PoemInfoInput!): PoemInfo
 }
 
 type PoemConnection {
@@ -38,6 +48,12 @@ type PoemDetails implements PoemContract {
   inLibrary: Boolean
 }
 
+type PoemInfo {
+  id: ID
+  inLibrary: Boolean
+  viewedAt: Date
+}
+
 interface PoemContract {
   id: ID
   title: String
@@ -48,4 +64,14 @@ interface PoemContract {
   lines: [String]
   keywords: [String]
   inLibrary: Boolean
+}
+
+input PoemInfoInput {
+  id: ID!
+  inLibrary: Boolean!
+}
+
+enum PoemCategory {
+  Default
+  Library
 }

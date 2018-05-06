@@ -1,24 +1,25 @@
-import { StackNavigator, TabNavigator } from 'react-navigation';
-import { LandingPage, FavoritesPage, PoemPage } from '@@components/pages';
+import React from 'react';
+import { DrawerNavigator } from 'react-navigation';
+import {
+  HomeScreen,
+  RecentsScreen,
+  LibraryScreen,
+  SettingsScreen,
+} from '@@components/screens';
 
-const MainNavigator = TabNavigator({
-  Landing: {
-    screen: LandingPage,
-    navigationOptions: {
-      title: 'Poems',
-    },
+const AppNavigator = DrawerNavigator({
+  Home: {
+    screen: HomeScreen,
   },
-  Favorites: { screen: FavoritesPage },
+  Recents: {
+    screen: RecentsScreen,
+  },
+  Library: {
+    screen: LibraryScreen,
+  },
+  Settings: {
+    screen: SettingsScreen,
+  },
 });
 
-const RootNavigator = StackNavigator(
-  {
-    Main: { screen: MainNavigator },
-    Poem: { screen: PoemPage },
-  },
-  {
-    headerMode: 'none',
-  }
-);
-
-export default RootNavigator;
+export default AppNavigator;

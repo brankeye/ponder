@@ -2,6 +2,7 @@
   "schemaPath": "schema.graphql",
   "extensions": {
     "endpoints": {
+      "default": "http://0.0.0.0:3000/graphql",
       "dev": "http://159.89.125.208/graphql"
     }
   }

@@ -3,6 +3,7 @@ import { Poem, PoemInfo } from '@@database';
 import { parseFilters, parseConnection } from '@@utils/pagination';
 import { authenticate } from '@@utils/authentication';
 import { flattenProp, map, resolveP } from '@@utils/ramda';
+import { format } from 'date-fns';
 
 const routes = {
   getPoem: {
@@ -44,6 +45,7 @@ const routes = {
       const filters = parseFilters(merge({ id }, query));
       return PoemInfo.query()
         .where('user_id', user_id)
+        .andWhere('in_library', true)
         .eager('poem')
         .filter(filters)
         .then(resolveP(map(flattenProp('poem'))))
@@ -68,11 +70,21 @@ const routes = {
         res.json(
           await PoemInfo.query().patchAndFetchById(
             [user_id, body.poem_id],
-            merge({ user_id }, body)
+            merge(
+              { user_id, viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss') },
+              body
+            )
           )
         );
       } else {
-        res.json(await PoemInfo.query().insert(merge({ user_id }, body)));
+        res.json(
+          await PoemInfo.query().insert(
+            merge(
+              { user_id, viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss') },
+              body
+            )
+          )
+        );
       }
     },
   },

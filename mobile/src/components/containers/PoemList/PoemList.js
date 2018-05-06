@@ -5,15 +5,11 @@ import { PoemCard } from '@@components/containers';
 class PoemList extends Component {
   keyExtractor = ({ id }) => id;
 
-  handleSelectPoem = id => {
-    this.props.onSelectPoem(id);
-  };
-
   renderItem = ({ item }) => (
     <PoemCard
       poem={item}
       underlayColor={'rgba(220, 220, 220, 0.4)'}
-      onPress={this.handleSelectPoem}
+      onPress={this.props.onSelect}
     />
   );
 

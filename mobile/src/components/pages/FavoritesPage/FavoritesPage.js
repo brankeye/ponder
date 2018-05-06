@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react/native';
 import { View, Text } from '@@components/presenters';
 import { PoemList } from '@@components/containers';
 
 class FavoritesPage extends Component {
-  handleSelectPoem = id => {
-    this.props.poems.selectPoem(id);
-    this.props.navigation.navigate('Poem');
+  handleSelectPoem = poem => {
+    this.props.navigation.navigate('Poem', { options: { params: { poem } } });
   };
 
   render() {

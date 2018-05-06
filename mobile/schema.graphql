@@ -1,11 +1,16 @@
-# source: http://159.89.125.208/graphql
-# timestamp: Fri May 04 2018 20:21:46 GMT-0400 (EDT)
+# source: http://0.0.0.0:3000/graphql
+# timestamp: Sat May 05 2018 22:54:06 GMT-0400 (EDT)
 
 type Author implements AuthorContract {
   id: ID
   name: String
   inLibrary: Boolean
   poems: [PoemDetails]
+}
+
+enum AuthorCategory {
+  Default
+  Library
 }
 
 type AuthorConnection {
@@ -30,17 +35,23 @@ type AuthorEdge {
   node: Author
 }
 
-input AuthorPrefsInput {
-  authorId: ID!
+type AuthorInfo {
+  id: ID!
   inLibrary: Boolean!
   viewedAt: Date!
+}
+
+input AuthorInfoInput {
+  id: ID!
+  inLibrary: Boolean!
 }
 
 scalar Date
 
 type Mutation {
-  authorLibraryUpsert(input: AuthorPrefsInput!): Boolean
-  poemLibraryUpsert(input: PoemPrefsInput!): Boolean
+  userRegister(input: UserInput!): User
+  authorSave(input: AuthorInfoInput!): AuthorInfo
+  poemSave(input: PoemInfoInput!): PoemInfo
 }
 
 type PageInfo {
@@ -61,6 +72,11 @@ type Poem implements PoemContract {
   keywords: [String]
   inLibrary: Boolean
   author: AuthorDetails
+}
+
+enum PoemCategory {
+  Default
+  Library
 }
 
 type PoemConnection {
@@ -97,23 +113,31 @@ type PoemEdge {
   node: Poem
 }
 
-input PoemPrefsInput {
-  poemId: ID!
+type PoemInfo {
+  id: ID
+  inLibrary: Boolean
+  viewedAt: Date
+}
+
+input PoemInfoInput {
+  id: ID!
   inLibrary: Boolean!
-  viewedAt: Date!
 }
 
 type Query {
-  authorLibrary(first: Int, after: String, last: Int, before: String): AuthorConnection
-  poemLibrary(first: Int, after: String, last: Int, before: String): PoemConnection
   user: User
   author(id: ID): Author
-  authorList(first: Int, after: String, last: Int, before: String): AuthorConnection
+  authorList(from: AuthorCategory!, first: Int, after: String, last: Int, before: String): AuthorConnection
   poem(id: ID): Poem
-  poemList(first: Int, after: String, last: Int, before: String): PoemConnection
+  poemList(from: PoemCategory!, first: Int, after: String, last: Int, before: String): PoemConnection
 }
 
 type User {
   id: ID
   email: String
+}
+
+input UserInput {
+  email: String!
+  oauthId: ID!
 }

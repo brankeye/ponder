@@ -1,5 +1,17 @@
-query($first: Int, $after: String, $last: Int, $before: String) {
-  poemList(first: $first, after: $after, last: $last, before: $before) {
+query(
+  $from: PoemCategory!
+  $first: Int
+  $after: String
+  $last: Int
+  $before: String
+) {
+  poemList(
+    from: $from
+    first: $first
+    after: $after
+    last: $last
+    before: $before
+  ) @connection(key: "poemList", filter: ["from"]) {
     edges {
       node {
         id

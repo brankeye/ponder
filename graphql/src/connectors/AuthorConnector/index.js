@@ -4,7 +4,6 @@ import { renameKeys } from '../utils';
 const rename = renameKeys({
   id: 'author_id',
   inLibrary: 'in_library',
-  viewedAt: 'viewed_at',
 });
 
 class AuthorConnector extends BaseConnector {
@@ -19,7 +18,12 @@ class AuthorConnector extends BaseConnector {
       qs: { first, after, last, before },
     });
 
-  getAllLibrary = ({ first, after, last, before }) =>
+  getPoems = ({ id }) =>
+    this.request({
+      path: `/api/authors/${id}/poems`,
+    });
+
+  getLibrary = ({ first, after, last, before }) =>
     this.request({
       path: '/api/library/authors',
       qs: { first, after, last, before },
@@ -28,7 +32,7 @@ class AuthorConnector extends BaseConnector {
       },
     });
 
-  getLibrary = ({ id }) =>
+  getInfo = ({ id }) =>
     this.request({
       path: `/api/library/authors/${id}`,
       headers: {
@@ -36,7 +40,7 @@ class AuthorConnector extends BaseConnector {
       },
     });
 
-  upsertLibrary = ({ input }) =>
+  upsertInfo = ({ input }) =>
     this.request({
       path: '/api/library/authors',
       method: 'PUT',

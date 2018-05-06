@@ -13,7 +13,6 @@
             "alias": {
               "@@components": "./src/components",
               "@@constants": "./src/constants",
-              "@@stores": "./src/stores",
               "@@navigation": "./src/navigation",
               "@@utilities": "./src/utilities",
               "@@config": "./src/config",
