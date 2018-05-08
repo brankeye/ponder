@@ -1,5 +1,5 @@
 import BaseConnector from '../BaseConnector';
-import { renameKeys } from '../utils';
+import { renameKeys, parsePaginationOptions } from '../utils';
 
 const rename = renameKeys({
   id: 'author_id',
@@ -12,10 +12,10 @@ class AuthorConnector extends BaseConnector {
       path: `/api/authors/${id}`,
     });
 
-  getAll = ({ first, after, last, before, hasNextPage, hasPreviousPage }) =>
+  getAll = paginationArgs =>
     this.request({
       path: '/api/authors',
-      qs: { first, after, last, before, hasNextPage, hasPreviousPage },
+      qs: parsePaginationOptions(paginationArgs),
     });
 
   getPoems = ({ id }) =>
@@ -23,10 +23,10 @@ class AuthorConnector extends BaseConnector {
       path: `/api/authors/${id}/poems`,
     });
 
-  getLibrary = ({ first, after, last, before, hasNextPage, hasPreviousPage }) =>
+  getLibrary = paginationArgs =>
     this.request({
       path: '/api/library/authors',
-      qs: { first, after, last, before, hasNextPage, hasPreviousPage },
+      qs: parsePaginationOptions(paginationArgs),
       headers: {
         authorization: this.oauthId,
       },
