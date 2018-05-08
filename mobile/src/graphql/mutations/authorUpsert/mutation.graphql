@@ -1,5 +1,5 @@
 mutation($input: AuthorInfoInput!) {
-  authorSave(input: $input) {
+  authorUpsert(input: $input) {
     id
     inLibrary
     viewedAt

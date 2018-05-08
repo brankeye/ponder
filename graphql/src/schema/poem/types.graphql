@@ -10,7 +10,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  poemSave(input: PoemInfoInput!): PoemInfo
+  poemUpsert(input: PoemInfoInput!): PoemInfo
 }
 
 type PoemConnection {

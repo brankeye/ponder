@@ -10,7 +10,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  authorSave(input: AuthorInfoInput!): AuthorInfo
+  authorUpsert(input: AuthorInfoInput!): AuthorInfo
 }
 
 type AuthorConnection {

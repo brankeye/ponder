@@ -13,11 +13,7 @@ const resolver = {
     },
   },
   Mutation: {
-    authorSave: (root, args, { Author }) => Author.upsertInfo(args),
-  },
-  PageInfo: {
-    hasNextPage: connection => connection.hasNextPage(),
-    hasPreviousPage: connection => connection.hasPreviousPage(),
+    authorUpsert: (root, args, { Author }) => Author.upsertInfo(args),
   },
   AuthorContract: {
     __resolveType: ({ poems }) => (poems ? 'Author' : 'AuthorDetails'),

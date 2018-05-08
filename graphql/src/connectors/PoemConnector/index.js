@@ -12,16 +12,16 @@ class PoemConnector extends BaseConnector {
       path: `/api/poems/${id}`,
     });
 
-  getAll = ({ first, after, last, before }) =>
+  getAll = ({ first, after, last, before, hasNextPage, hasPreviousPage }) =>
     this.request({
       path: '/api/poems',
-      qs: { first, after, last, before },
+      qs: { first, after, last, before, hasNextPage, hasPreviousPage },
     });
 
-  getLibrary = ({ first, after, last, before }) =>
+  getLibrary = ({ first, after, last, before, hasNextPage, hasPreviousPage }) =>
     this.request({
       path: '/api/library/poems',
-      qs: { first, after, last, before },
+      qs: { first, after, last, before, hasNextPage, hasPreviousPage },
       headers: {
         authorization: this.oauthId,
       },

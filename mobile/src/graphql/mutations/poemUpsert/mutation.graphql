@@ -1,5 +1,5 @@
 mutation($input: PoemInfoInput!) {
-  poemSave(input: $input) {
+  poemUpsert(input: $input) {
     id
     inLibrary
     viewedAt

@@ -13,7 +13,7 @@ const resolver = {
     },
   },
   Mutation: {
-    poemSave: (root, args, { Poem }) => Poem.upsertInfo(args),
+    poemUpsert: (root, args, { Poem }) => Poem.upsertInfo(args),
   },
   PoemContract: {
     __resolveType: ({ author }) => (author ? 'Poem' : 'PoemDetails'),
