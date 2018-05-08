@@ -1,5 +1,5 @@
 import React from 'react';
-import { DrawerNavigator } from 'react-navigation';
+import { createDrawerNavigator } from 'react-navigation';
 import {
   HomeScreen,
   RecentsScreen,
@@ -7,17 +7,17 @@ import {
   SettingsScreen,
 } from '@@components/screens';
 
-const AppNavigator = DrawerNavigator({
-  Home: {
+const AppNavigator = createDrawerNavigator({
+  HomeDrawer: {
     screen: HomeScreen,
   },
-  Recents: {
+  RecentsDrawer: {
     screen: RecentsScreen,
   },
-  Library: {
+  LibraryDrawer: {
     screen: LibraryScreen,
   },
-  Settings: {
+  SettingsDrawer: {
     screen: SettingsScreen,
   },
 });

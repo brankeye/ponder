@@ -4,7 +4,7 @@ import { PoemView } from '@@components/containers';
 
 class PoemScreen extends Component {
   render() {
-    const { poem } = this.props;
+    const poem = this.props.navigation.getParam('poem', null);
     return (
       <View
         style={{

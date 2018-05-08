@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { TabNavigator } from 'react-navigation';
+import { createMaterialTopTabNavigator } from 'react-navigation';
 import { PoemListWithData, AuthorListWithData } from '@@components/containers';
 
 class PoemListScreen extends React.Component {
@@ -23,7 +23,7 @@ class AuthorListScreen extends React.Component {
   }
 }
 
-export default TabNavigator({
-  LibraryPoems: { screen: PoemListScreen },
-  LibraryAuthors: { screen: AuthorListScreen },
+export default createMaterialTopTabNavigator({
+  PoemsLibrary: { screen: PoemListScreen },
+  AuthorsLibrary: { screen: AuthorListScreen },
 });

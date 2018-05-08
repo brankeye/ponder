@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { TabNavigator } from 'react-navigation';
+import { createMaterialTopTabNavigator } from 'react-navigation';
 
 class PoemListScreen extends React.Component {
   render() {
@@ -22,7 +22,7 @@ class AuthorListScreen extends React.Component {
   }
 }
 
-export default TabNavigator({
+export default createMaterialTopTabNavigator({
   RecentPoems: { screen: PoemListScreen },
   RecentAuthors: { screen: AuthorListScreen },
 });

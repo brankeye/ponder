@@ -20,7 +20,7 @@ const AuthorCard = ({ author, underlayColor, onPress }) => {
         }}
       >
         <Text style={{ textAlign: 'center' }}>{name}</Text>
-        {poems.map(poem => <Text>{poem.title}</Text>)}
+        {poems.map((poem, i) => <Text key={i}>{poem.title}</Text>)}
       </View>
     </TouchableHighlight>
   );

@@ -1,5 +1,5 @@
 # source: http://0.0.0.0:3000/graphql
-# timestamp: Sat May 05 2018 22:54:06 GMT-0400 (EDT)
+# timestamp: Mon May 07 2018 23:09:47 GMT-0400 (EDT)
 
 type Author implements AuthorContract {
   id: ID
@@ -50,8 +50,8 @@ scalar Date
 
 type Mutation {
   userRegister(input: UserInput!): User
-  authorSave(input: AuthorInfoInput!): AuthorInfo
-  poemSave(input: PoemInfoInput!): PoemInfo
+  authorUpsert(input: AuthorInfoInput!): AuthorInfo
+  poemUpsert(input: PoemInfoInput!): PoemInfo
 }
 
 type PageInfo {
