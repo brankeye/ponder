@@ -1,22 +1,34 @@
 import React from 'react';
-import { View, ScrollView, Text } from 'react-native';
-import { Toggle } from '@@components';
+import { View, Text, Button, ScrollView } from 'react-native';
+import { PoemCard } from '@@components';
 
-const AuthorView = ({ author, onLibraryChange, ...props }) => {
-  const { name } = author;
-  return !poem ? null : (
+const AuthorView = ({ author, poemsCount, onSelectPoem, ...props }) => {
+  const { name, poems } = author;
+  return (
     <View style={{ flex: 1 }} {...props}>
       <ScrollView
         contentContainerStyle={{
           justifyContent: 'flex-start',
-          alignItems: 'center',
-          padding: 20,
+          padding: '10%',
         }}
       >
-        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{name}</Text>
+        <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>{name}</Text>
+        {poems.map((poem, i) => {
+          return (
+            <PoemCard
+              key={poem.id}
+              poem={{ author, ...poem }}
+              onPress={onSelectPoem}
+            />
+          );
+        })}
       </ScrollView>
     </View>
   );
+};
+
+AuthorView.defaultProps = {
+  author: { poems: [] },
 };
 
 export default AuthorView;

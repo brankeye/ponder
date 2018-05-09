@@ -21,10 +21,18 @@ class PoemListScreen extends React.Component {
 }
 
 class AuthorListScreen extends React.Component {
+  handleSelect = author => {
+    this.props.navigation.navigate('Author', { author });
+  };
+
   render() {
     return (
       <Screen>
-        <AuthorListWithData type={'Library'} count={10} />
+        <AuthorListWithData
+          type={'Library'}
+          count={10}
+          onSelect={this.handleSelect}
+        />
       </Screen>
     );
   }

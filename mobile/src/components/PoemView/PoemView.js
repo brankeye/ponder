@@ -9,8 +9,7 @@ const PoemView = ({ poem, onLibraryChange, ...props }) => {
       <ScrollView
         contentContainerStyle={{
           justifyContent: 'flex-start',
-          alignItems: 'center',
-          padding: 20,
+          padding: '10%',
         }}
       >
         <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{title}</Text>

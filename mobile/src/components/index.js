@@ -9,3 +9,4 @@ export { default as AuthorView } from './AuthorView';
 export { default as Screen } from './Screen';
 export { default as Toggle } from './Toggle';
 export { default as StatusBar } from './StatusBar';
+export { default as Card } from './Card';

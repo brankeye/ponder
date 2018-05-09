@@ -6,11 +6,7 @@ class PoemList extends Component {
   keyExtractor = ({ id }) => id;
 
   renderItem = ({ item }) => (
-    <PoemCard
-      poem={item}
-      underlayColor={'rgba(220, 220, 220, 0.4)'}
-      onPress={this.props.onSelect}
-    />
+    <PoemCard poem={item} onPress={this.props.onSelect} />
   );
 
   render() {

@@ -4,10 +4,21 @@ import {
 } from 'react-navigation';
 import { PoemListScreen, AuthorListScreen } from './screens';
 import PoemScreen from '../PoemScreen';
+import AuthorScreen from '../AuthorScreen';
 
 const HomeScreen = createMaterialTopTabNavigator({
-  PoemsList: { screen: PoemListScreen },
-  AuthorsList: { screen: AuthorListScreen },
+  PoemsList: {
+    screen: PoemListScreen,
+    navigationOptions: {
+      title: 'Poems',
+    },
+  },
+  AuthorsList: {
+    screen: AuthorListScreen,
+    navigationOptions: {
+      title: 'Authors',
+    },
+  },
 });
 
 export default createStackNavigator(
@@ -17,6 +28,9 @@ export default createStackNavigator(
     },
     Poem: {
       screen: PoemScreen,
+    },
+    Author: {
+      screen: AuthorScreen,
     },
   },
   {
