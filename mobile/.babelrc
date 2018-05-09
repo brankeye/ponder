@@ -12,8 +12,8 @@
             "root": ["./"],
             "alias": {
               "@@components": "./src/components",
+              "@@screens": "./src/screens",
               "@@constants": "./src/constants",
-              "@@navigation": "./src/navigation",
               "@@utilities": "./src/utilities",
               "@@config": "./src/config",
               "@@graphql": "./src/graphql"

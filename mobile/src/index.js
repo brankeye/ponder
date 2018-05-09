@@ -2,24 +2,16 @@ import React, { Component } from 'react';
 import Expo from 'expo';
 import { ApolloProvider } from 'react-apollo';
 import client from '@@graphql';
-import AppNavigator from '@@navigation';
-import { View, StatusBar, Text } from '@@components/presenters';
+import AppNavigator from '@@screens';
+import { StatusBar } from '@@components';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <ApolloProvider client={client}>
-        <View style={{ flex: 1 }}>
-          <StatusBar />
-          <AppNavigator />
-        </View>
-      </ApolloProvider>
-    );
-  }
-}
+const App = () => (
+  <ApolloProvider client={client}>
+    <React.Fragment>
+      <StatusBar />
+      <AppNavigator />
+    </React.Fragment>
+  </ApolloProvider>
+);
 
 Expo.registerRootComponent(App);
