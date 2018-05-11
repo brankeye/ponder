@@ -6,7 +6,6 @@ import { ApolloLink } from 'apollo-link';
 import { withClientState } from 'apollo-link-state';
 import { compose } from 'recompose';
 import { themeQuery } from '@@graphql';
-import { darkTheme } from '@@constants';
 import config from '@@config';
 
 const cache = new InMemoryCache();
@@ -28,12 +27,7 @@ const httpLink = new HttpLink({
 
 const stateLink = withClientState({
   cache,
-  defaults: {
-    theme: {
-      __typename: 'Theme',
-      ...darkTheme,
-    },
-  },
+  defaults: {},
   resolvers: {},
 });
 

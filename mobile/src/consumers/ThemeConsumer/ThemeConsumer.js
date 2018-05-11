@@ -3,19 +3,30 @@ import { Query } from 'react-apollo';
 import { themeQuery } from '@@graphql';
 import { lightTheme, darkTheme } from '@@constants';
 
-const ThemeConsumer = ({ children, ...props }) => (
-  <Query {...props} query={themeQuery}>
-    {({ data: { theme }, client }) => {
-      const nextTheme = theme.type === 'light' ? darkTheme : lightTheme;
-      return children({
-        theme,
-        toggleTheme: () =>
-          client.writeData({
-            data: { theme: { __typename: 'Theme', ...nextTheme } },
-          }),
-      });
-    }}
-  </Query>
-);
+const { Provider, Consumer } = React.createContext();
 
-export default ThemeConsumer;
+class ThemeProvider extends React.Component {
+  state = { theme: darkTheme };
+
+  toggleTheme = () => {
+    const { theme } = this.state;
+    const nextTheme = theme.type === 'light' ? darkTheme : lightTheme;
+    this.setState({ theme: nextTheme });
+  };
+
+  render() {
+    return (
+      <Provider
+        value={{
+          theme: this.state.theme,
+          toggleTheme: this.toggleTheme,
+        }}
+      >
+        {this.props.children}
+      </Provider>
+    );
+  }
+}
+
+const ThemeConsumer = Consumer;
+export { ThemeProvider, ThemeConsumer };

@@ -4,13 +4,16 @@ import { ApolloProvider } from 'react-apollo';
 import client from '@@graphql';
 import AppNavigator from '@@screens';
 import { StatusBar } from '@@components';
+import { ThemeProvider } from '@@consumers';
 
 const App = () => (
   <ApolloProvider client={client}>
-    <React.Fragment>
-      <StatusBar />
-      <AppNavigator />
-    </React.Fragment>
+    <ThemeProvider>
+      <React.Fragment>
+        <StatusBar />
+        <AppNavigator />
+      </React.Fragment>
+    </ThemeProvider>
   </ApolloProvider>
 );
 
