@@ -1,9 +1,21 @@
 import React from 'react';
 import { View } from 'react-native';
 import styles from './styles';
+import { ThemeConsumer } from '@@consumers';
 
 const Screen = ({ style, ...props }) => (
-  <View {...props} style={[styles.screen, style]} />
+  <ThemeConsumer>
+    {({ theme: { screenBackgroundColor } }) => (
+      <View
+        {...props}
+        style={[
+          { backgroundColor: screenBackgroundColor },
+          styles.screen,
+          style,
+        ]}
+      />
+    )}
+  </ThemeConsumer>
 );
 
 export default Screen;

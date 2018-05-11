@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, ScrollView, Text } from 'react-native';
-import { Toggle } from '@@components';
+import { Toggle, Typography } from '@@components';
 
 const PoemView = ({ poem, onLibraryChange, ...props }) => {
   const { title, lines, inLibrary, author } = poem;
@@ -12,9 +12,9 @@ const PoemView = ({ poem, onLibraryChange, ...props }) => {
           padding: '10%',
         }}
       >
-        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{title}</Text>
-        <Text>by {author.name}</Text>
-        <Text style={{ padding: 15, flex: 1 }}>{poem.lines.join('\n')}</Text>
+        <Typography type={'title'}>{title}</Typography>
+        <Typography type={'subtitle'}>by {author.name}</Typography>
+        <Typography type={'body'}>{poem.lines.join('\n')}</Typography>
         <Toggle
           isActive={inLibrary}
           activeText="Remove from library"

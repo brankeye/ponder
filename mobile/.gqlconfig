@@ -19,12 +19,14 @@
       },
     ],
   },
-  match: 'src/graphql/fragments/**/*.graphql',
+  match: 'src/graphql/**/**/*.graphql',
   validate: {
     extends: 'gql-rules-query',
     rules: {
       KnownFragmentNames: 'off',
       NoUnusedFragments: 'off',
+      FieldsOnCorrectType: 'off',
+      KnownDirectives: 'off',
     },
   },
 }

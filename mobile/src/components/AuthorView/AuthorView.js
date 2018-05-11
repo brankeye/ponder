@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, Button, ScrollView } from 'react-native';
-import { PoemCard } from '@@components';
+import { View, Button, ScrollView } from 'react-native';
+import { PoemCard, Typography } from '@@components';
 
 const AuthorView = ({ author, poemsCount, onSelectPoem, ...props }) => {
   const { name, poems } = author;
@@ -12,7 +12,9 @@ const AuthorView = ({ author, poemsCount, onSelectPoem, ...props }) => {
           padding: '10%',
         }}
       >
-        <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>{name}</Text>
+        <Typography type={'title'} style={{ textAlign: 'center' }}>
+          {name}
+        </Typography>
         {poems.map((poem, i) => {
           return (
             <PoemCard

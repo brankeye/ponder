@@ -1,0 +1,10 @@
+query {
+  theme @client {
+    type
+    primaryColor
+    textColor
+    screenBackgroundColor
+    navBarTextColor
+    underlayColor
+  }
+}

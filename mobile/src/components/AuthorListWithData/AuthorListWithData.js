@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { authorListQuery } from '@@graphql';
 import { AuthorList } from '@@components';
 
@@ -30,7 +30,6 @@ class AuthorListWithData extends Component {
                   query: authorListQuery,
                   variables: { from: type, first: count, after: endCursor },
                   updateQuery: (previousResult, { fetchMoreResult }) => {
-                    console.log({ endCursor, fetchMoreResult });
                     const newEdges = fetchMoreResult.authorList.edges;
                     const pageInfo = fetchMoreResult.authorList.pageInfo;
                     return newEdges.length

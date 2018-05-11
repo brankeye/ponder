@@ -1,18 +1,22 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
-import { Card } from '@@components';
+import { View, Button } from 'react-native';
+import { Card, Typography } from '@@components';
 
 const AuthorCard = ({ author, poemsCount, onPress }) => {
   const { name } = author;
   const poems = author.poems.slice(0, poemsCount);
   return (
     <Card onPress={() => onPress(author)}>
-      <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>{name}</Text>
+      <Typography type={'title'} style={{ textAlign: 'center' }}>
+        {name}
+      </Typography>
       {poems.map((poem, i) => {
         return (
           <View key={i} style={{ flex: 1, padding: '4%' }}>
-            <Text style={{ fontWeight: 'bold' }}>{poem.title}</Text>
-            <Text style={{ color: '#222222' }}>{poem.teaser.join('\n')}</Text>
+            <Typography type={'subtitle'} style={{ fontWeight: 'bold' }}>
+              {poem.title}
+            </Typography>
+            <Typography type={'body'}>{poem.teaser.join('\n')}</Typography>
           </View>
         );
       })}

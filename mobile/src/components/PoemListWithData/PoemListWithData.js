@@ -30,7 +30,6 @@ class PoemListWithData extends Component {
                   query: poemListQuery,
                   variables: { from: type, first: count, after: endCursor },
                   updateQuery: (previousResult, { fetchMoreResult }) => {
-                    console.log({ endCursor, fetchMoreResult });
                     const newEdges = fetchMoreResult.poemList.edges;
                     const pageInfo = fetchMoreResult.poemList.pageInfo;
                     return newEdges.length

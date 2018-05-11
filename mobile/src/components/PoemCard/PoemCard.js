@@ -1,16 +1,18 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { Card } from '@@components';
+import { Card, Typography } from '@@components';
 
 const PoemCard = ({ poem, underlayColor, onPress }) => {
   const { title, teaser, author } = poem;
   return (
     <Card onPress={() => onPress(poem)}>
-      <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>{title}</Text>
-      <Text>{author.name}</Text>
-      <Text style={{ textAlign: 'left', fontStyle: 'italic' }}>
+      <Typography type={'title'} style={{ textAlign: 'center' }}>
+        {title}
+      </Typography>
+      <Typography type={'subtitle'}>{author.name}</Typography>
+      <Typography type={'body'} style={{ textAlign: 'left' }}>
         {teaser.join('\n')}
-      </Text>
+      </Typography>
     </Card>
   );
 };

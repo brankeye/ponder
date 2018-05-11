@@ -17,6 +17,8 @@ class PoemList extends Component {
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
         onEndReached={onFetchMore}
+        showsVerticalScrollIndicator={false}
+        style={{ flex: 1, width: '100%' }}
       />
     );
   }
