@@ -1,7 +1,7 @@
-import { createMaterialTopTabNavigator } from 'react-navigation';
+import { TabNavigator } from 'react-navigation';
 import { PoemListScreen, AuthorListScreen } from './screens';
 
-export default createMaterialTopTabNavigator({
+export default TabNavigator({
   RecentPoems: {
     screen: PoemListScreen,
     navigationOptions: {

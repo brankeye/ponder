@@ -1,12 +1,12 @@
 import React from 'react';
-import { createDrawerNavigator } from 'react-navigation';
+import { DrawerNavigator } from 'react-navigation';
 import { Drawer } from '@@components';
 import HomeScreen from './HomeScreen';
 import LibraryScreen from './LibraryScreen';
 import RecentsScreen from './RecentsScreen';
 import SettingsScreen from './SettingsScreen';
 
-export default createDrawerNavigator(
+export default DrawerNavigator(
   {
     HomeDrawer: {
       screen: HomeScreen,

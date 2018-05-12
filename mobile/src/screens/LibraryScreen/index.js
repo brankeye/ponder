@@ -1,12 +1,9 @@
-import {
-  createMaterialTopTabNavigator,
-  createStackNavigator,
-} from 'react-navigation';
+import { TabNavigator, StackNavigator } from 'react-navigation';
 import { PoemListScreen, AuthorListScreen } from './screens';
 import PoemScreen from '../PoemScreen';
 import AuthorScreen from '../AuthorScreen';
 
-const LibraryScreen = createMaterialTopTabNavigator({
+const LibraryScreen = TabNavigator({
   PoemsLibrary: {
     screen: PoemListScreen,
     navigationOptions: {
@@ -21,7 +18,7 @@ const LibraryScreen = createMaterialTopTabNavigator({
   },
 });
 
-export default createStackNavigator(
+export default StackNavigator(
   {
     Home: {
       screen: LibraryScreen,
