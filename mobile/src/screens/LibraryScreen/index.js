@@ -5,21 +5,27 @@ import {
 import { PoemListScreen, AuthorListScreen } from './screens';
 import PoemScreen from '../PoemScreen';
 import AuthorScreen from '../AuthorScreen';
+import { TabBar } from '@@components';
 
-const LibraryScreen = createMaterialTopTabNavigator({
-  PoemsLibrary: {
-    screen: PoemListScreen,
-    navigationOptions: {
-      title: 'Poems',
+const LibraryScreen = createMaterialTopTabNavigator(
+  {
+    PoemsLibrary: {
+      screen: PoemListScreen,
+      navigationOptions: {
+        title: 'Poems',
+      },
+    },
+    AuthorsLibrary: {
+      screen: AuthorListScreen,
+      navigationOptions: {
+        title: 'Authors',
+      },
     },
   },
-  AuthorsLibrary: {
-    screen: AuthorListScreen,
-    navigationOptions: {
-      title: 'Authors',
-    },
-  },
-});
+  {
+    tabBarComponent: TabBar,
+  }
+);
 
 export default createStackNavigator(
   {

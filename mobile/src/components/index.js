@@ -12,3 +12,4 @@ export { default as StatusBar } from './StatusBar';
 export { default as Card } from './Card';
 export { default as Drawer } from './Drawer';
 export { default as Typography } from './Typography';
+export { default as TabBar } from './TabBar';
