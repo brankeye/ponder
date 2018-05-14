@@ -8,6 +8,7 @@
     "apollo-link-error": "^1.0.9",
     "apollo-link-http": "^1.5.4",
     "apollo-link-state": "^0.4.1",
+    "color": "^3.0.0",
     "expo": "^27.0.0",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",

@@ -1,17 +1,15 @@
 export const lightTheme = {
   type: 'light',
   primaryColor: '#191beb',
+  accentColor: '#607D8B',
   textColor: '#404040',
-  screenBackgroundColor: '#e6e6e6',
-  navBarTextColor: '#000000',
-  underlayColor: '#CCCCCC',
+  backgroundColor: '#e6e6e6',
 };
 
 export const darkTheme = {
   type: 'dark',
   primaryColor: '#000000',
+  accentColor: '#607D8B',
   textColor: '#F3F3F3',
-  screenBackgroundColor: '#404040',
-  navBarTextColor: '#FFFFFF',
-  underlayColor: '#CCCCCC',
+  backgroundColor: '#404040',
 };

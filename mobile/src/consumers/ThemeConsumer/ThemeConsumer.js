@@ -1,12 +1,14 @@
 import React from 'react';
-import { Query } from 'react-apollo';
-import { themeQuery } from '@@graphql';
 import { lightTheme, darkTheme } from '@@constants';
 
 const { Provider, Consumer } = React.createContext();
 
 class ThemeProvider extends React.Component {
-  state = { theme: darkTheme };
+  static defaultProps = {
+    theme: darkTheme,
+  };
+
+  state = { theme: this.props.theme };
 
   toggleTheme = () => {
     const { theme } = this.state;
