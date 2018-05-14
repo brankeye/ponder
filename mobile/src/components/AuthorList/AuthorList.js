@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { AuthorCard } from '@@components';
+import * as Animatable from 'react-native-animatable';
 
 class AuthorList extends Component {
   keyExtractor = ({ id }) => id;
@@ -16,14 +17,21 @@ class AuthorList extends Component {
   render() {
     const { authors, onFetchMore } = this.props;
     return (
-      <FlatList
-        data={authors}
-        renderItem={this.renderItem}
-        keyExtractor={this.keyExtractor}
-        onEndReached={onFetchMore}
-        showsVerticalScrollIndicator={false}
+      <Animatable.View
+        animation={'fadeIn'}
+        duration={500}
         style={{ flex: 1, width: '100%' }}
-      />
+        useNativeDriver={true}
+      >
+        <FlatList
+          data={authors}
+          renderItem={this.renderItem}
+          keyExtractor={this.keyExtractor}
+          onEndReached={onFetchMore}
+          showsVerticalScrollIndicator={false}
+          style={{ flex: 1, width: '100%' }}
+        />
+      </Animatable.View>
     );
   }
 }

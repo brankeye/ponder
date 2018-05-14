@@ -1,12 +1,28 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { Screen } from '@@components';
+import { Text, AsyncStorage } from 'react-native';
+import { PoemList, Screen, Typography } from '@@components';
 
 class PoemListScreen extends React.Component {
+  state = { poems: [] };
+
+  async componentDidMount() {
+    const recents = JSON.parse(await AsyncStorage.getItem('recents')) || [];
+    this.setState({ poems: recents });
+  }
+
+  handleSelect = ({ id }) => {
+    this.props.navigation.navigate('Poem', { id });
+  };
+
   render() {
+    const { poems } = this.state;
     return (
       <Screen>
-        <Text>Recent Poems!</Text>
+        {poems.length === 0 ? (
+          <Typography type={'body'}>{'No poems'}</Typography>
+        ) : (
+          <PoemList poems={poems} onSelect={this.handleSelect} />
+        )}
       </Screen>
     );
   }
@@ -15,9 +31,9 @@ class PoemListScreen extends React.Component {
 class AuthorListScreen extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Screen>
         <Text>Recent Authors!</Text>
-      </View>
+      </Screen>
     );
   }
 }

@@ -1,31 +1,38 @@
 import React from 'react';
 import { View, Button, ScrollView } from 'react-native';
 import { PoemCard, Typography } from '@@components';
+import * as Animatable from 'react-native-animatable';
 
-const AuthorView = ({ author, poemsCount, onSelectPoem, ...props }) => {
+const AuthorView = ({ author, onSelectPoem, ...props }) => {
   const { name, poems } = author;
   return (
-    <View style={{ flex: 1 }} {...props}>
+    <Animatable.View
+      animation={'fadeIn'}
+      duration={500}
+      style={{ flex: 1 }}
+      useNativeDriver={true}
+      {...props}
+    >
       <ScrollView
         contentContainerStyle={{
           justifyContent: 'flex-start',
-          padding: '10%',
+          paddingHorizontal: '5%',
+          paddingVertical: '10%',
         }}
       >
-        <Typography type={'title'} style={{ textAlign: 'center' }}>
-          {name}
-        </Typography>
+        <Typography type={'title'}>{name}</Typography>
         {poems.map((poem, i) => {
           return (
             <PoemCard
               key={poem.id}
               poem={{ author, ...poem }}
               onPress={onSelectPoem}
+              style={{ paddingHorizontal: 0 }}
             />
           );
         })}
       </ScrollView>
-    </View>
+    </Animatable.View>
   );
 };
 

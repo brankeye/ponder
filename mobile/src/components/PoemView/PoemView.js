@@ -1,11 +1,18 @@
 import React from 'react';
 import { View, ScrollView, Text } from 'react-native';
 import { Toggle, Typography } from '@@components';
+import * as Animatable from 'react-native-animatable';
 
-const PoemView = ({ poem, onLibraryChange, ...props }) => {
+const PoemView = ({ poem, onChangeLibrary, ...props }) => {
   const { title, lines, inLibrary, author } = poem;
   return !poem ? null : (
-    <View style={{ flex: 1 }} {...props}>
+    <Animatable.View
+      animation={'fadeIn'}
+      duration={500}
+      style={{ flex: 1 }}
+      useNativeDriver={true}
+      {...props}
+    >
       <ScrollView
         contentContainerStyle={{
           justifyContent: 'flex-start',
@@ -19,10 +26,10 @@ const PoemView = ({ poem, onLibraryChange, ...props }) => {
           isActive={inLibrary}
           activeText="Remove from library"
           inactiveText="Add to library"
-          onToggle={onLibraryChange}
+          onToggle={() => onChangeLibrary(poem)}
         />
       </ScrollView>
-    </View>
+    </Animatable.View>
   );
 };
 

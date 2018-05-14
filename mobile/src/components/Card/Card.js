@@ -2,14 +2,19 @@ import React from 'react';
 import { View, TouchableHighlight } from 'react-native';
 import styles from './styles';
 
-const Card = ({ style, underlayColor, onPress, ...props }) => (
-  <TouchableHighlight underlayColor={underlayColor} onPress={onPress}>
-    <View {...props} style={[style, styles.card]} />
+const Card = ({ style, underlayColor, onPress, children, ...props }) => (
+  <TouchableHighlight
+    onPress={onPress}
+    underlayColor={underlayColor}
+    style={[styles.card, style]}
+    {...props}
+  >
+    <React.Fragment>{children}</React.Fragment>
   </TouchableHighlight>
 );
 
 Card.defaultProps = {
-  underlayColor: 'rgba(220, 220, 220, 0.4)',
+  underlayColor: '#AAAAAA',
   onPress: () => {},
 };
 

@@ -1,20 +1,20 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { Card, Typography } from '@@components';
 
-const PoemCard = ({ poem, underlayColor, onPress }) => {
+const PoemCard = ({ poem, onPress, ...props }) => {
   const { title, teaser, author } = poem;
   return (
-    <Card onPress={() => onPress(poem)}>
-      <Typography type={'title'} style={{ textAlign: 'center' }}>
-        {title}
-      </Typography>
+    <Card onPress={() => onPress(poem)} {...props}>
+      <Typography type={'title'}>{title}</Typography>
       <Typography type={'subtitle'}>{author.name}</Typography>
-      <Typography type={'body'} style={{ textAlign: 'left' }}>
-        {teaser.join('\n')}
-      </Typography>
+      <Typography type={'body'}>{teaser.join('\n')}</Typography>
     </Card>
   );
+};
+
+PoemCard.defaultProps = {
+  onPress: () => {},
 };
 
 export default PoemCard;

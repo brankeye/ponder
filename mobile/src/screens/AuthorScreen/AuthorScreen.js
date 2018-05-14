@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
-import { Screen, AuthorView } from '@@components';
+import { AsyncStorage } from 'react-native';
+import { Screen, AuthorViewWithData } from '@@components';
 
 class AuthorScreen extends Component {
-  handleSelectPoem = poem => {
-    this.props.navigation.navigate('Poem', { poem });
+  handleSelectPoem = async poem => {
+    const recents = JSON.parse(await AsyncStorage.getItem('recents')) || [];
+    if (poem && !recents.find(p => p.id === poem.id)) {
+      recents.unshift(poem);
+      await AsyncStorage.setItem('recents', JSON.stringify(recents));
+    }
+    await this.props.navigation.navigate('Poem', { id: poem.id });
   };
 
   render() {
-    const author = this.props.navigation.getParam('author', null);
+    const id = this.props.navigation.getParam('id', null);
     return (
       <Screen>
-        <AuthorView author={author} onSelectPoem={this.handleSelectPoem} />
+        <AuthorViewWithData id={id} onSelectPoem={this.handleSelectPoem} />
       </Screen>
     );
   }

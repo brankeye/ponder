@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import { View, Text } from 'react-native';
 import { poemListQuery } from '@@graphql';
-import { PoemList } from '@@components';
+import PoemList from './PoemList';
 
 class PoemListWithData extends Component {
   static defaultProps = {

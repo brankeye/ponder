@@ -7,6 +7,8 @@ query($id: ID!) {
       id
       title
       teaser
+      lines
+      inLibrary
     }
   }
 }
