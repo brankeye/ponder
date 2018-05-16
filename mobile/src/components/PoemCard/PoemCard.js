@@ -8,7 +8,9 @@ const PoemCard = ({ poem, onPress, ...props }) => {
     <Card onPress={() => onPress(poem)} {...props}>
       <Typography type={'title'}>{title}</Typography>
       <Typography type={'subtitle'}>{author.name}</Typography>
-      <Typography type={'body'}>{teaser.join('\n')}</Typography>
+      <Typography type={'body'} style={{ marginTop: '3%' }}>
+        {teaser.join('\n')}
+      </Typography>
     </Card>
   );
 };

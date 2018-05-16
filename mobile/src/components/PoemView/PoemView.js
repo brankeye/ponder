@@ -14,14 +14,21 @@ const PoemView = ({ poem, onChangeLibrary, ...props }) => {
       {...props}
     >
       <ScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           justifyContent: 'flex-start',
           padding: '10%',
         }}
       >
-        <Typography type={'title'}>{title}</Typography>
-        <Typography type={'subtitle'}>by {author.name}</Typography>
-        <Typography type={'body'}>{poem.lines.join('\n')}</Typography>
+        <Typography type={'title'} selectable={true}>
+          {title}
+        </Typography>
+        <Typography type={'subtitle'} selectable={true}>
+          by {author.name}
+        </Typography>
+        <Typography type={'body'} selectable={true}>
+          {poem.lines.join('\n')}
+        </Typography>
         <Toggle
           isActive={inLibrary}
           activeText="Remove from library"

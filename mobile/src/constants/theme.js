@@ -4,6 +4,7 @@ export const lightTheme = {
   accentColor: '#607D8B',
   textColor: '#404040',
   backgroundColor: '#e6e6e6',
+  underlayColor: '#00000011',
 };
 
 export const darkTheme = {
@@ -12,4 +13,5 @@ export const darkTheme = {
   accentColor: '#607D8B',
   textColor: '#F3F3F3',
   backgroundColor: '#404040',
+  underlayColor: '#FFFFFF11',
 };

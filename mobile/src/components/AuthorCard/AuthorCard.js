@@ -14,7 +14,9 @@ const AuthorCard = ({ author, poemsCount, onPress }) => {
             <Typography type={'subtitle'} style={{ fontWeight: 'bold' }}>
               {poem.title}
             </Typography>
-            <Typography type={'body'}>{poem.teaser.join('\n')}</Typography>
+            <Typography type={'body'} style={{ marginTop: '3%' }}>
+              {poem.teaser.join('\n')}
+            </Typography>
           </View>
         );
       })}

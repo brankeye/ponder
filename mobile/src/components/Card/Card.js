@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, TouchableHighlight } from 'react-native';
+import { View } from 'react-native';
+import { TouchableHighlight } from '@@components';
 import styles from './styles';
 
 const Card = ({ style, underlayColor, onPress, children, ...props }) => (
@@ -14,7 +15,6 @@ const Card = ({ style, underlayColor, onPress, children, ...props }) => (
 );
 
 Card.defaultProps = {
-  underlayColor: '#AAAAAA',
   onPress: () => {},
 };
 

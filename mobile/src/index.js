@@ -17,6 +17,12 @@ class App extends React.Component {
         EBGaramond: require('@@assets/fonts/EBGaramond-Regular.ttf'),
         'EBGaramond-Bold': require('@@assets/fonts/EBGaramond-Bold.ttf'),
         'EBGaramond-Italic': require('@@assets/fonts/EBGaramond-Italic.ttf'),
+        Vollkorn: require('@@assets/fonts/Vollkorn-Regular.ttf'),
+        'Vollkorn-Bold': require('@@assets/fonts/Vollkorn-Bold.ttf'),
+        'Vollkorn-Italic': require('@@assets/fonts/Vollkorn-Italic.ttf'),
+        Crimson: require('@@assets/fonts/CrimsonText-Regular.ttf'),
+        'Crimson-Bold': require('@@assets/fonts/CrimsonText-Bold.ttf'),
+        'Crimson-Italic': require('@@assets/fonts/CrimsonText-Italic.ttf'),
       })
     );
 

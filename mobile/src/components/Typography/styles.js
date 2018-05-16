@@ -2,15 +2,16 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   title: {
-    fontSize: 18,
-    fontFamily: 'EBGaramond-Bold',
+    fontSize: 20,
+    fontFamily: 'Vollkorn-Bold',
   },
   subtitle: {
-    fontSize: 16,
-    fontFamily: 'EBGaramond',
+    fontSize: 18,
+    fontFamily: 'Vollkorn',
   },
   body: {
-    fontSize: 14,
-    fontFamily: 'EBGaramond',
+    fontSize: 16,
+    fontFamily: 'Vollkorn',
+    lineHeight: 30,
   },
 });
