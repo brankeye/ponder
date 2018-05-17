@@ -1,28 +1,24 @@
 {
   "presets": ["babel-preset-expo", "react-native-dotenv"],
-  "env": {
-    "development": {
-      "plugins": [
-        "babel-plugin-inline-import",
-        "transform-decorators-legacy",
-        "transform-react-jsx-source",
-        [
-          "module-resolver",
-          {
-            "root": ["./"],
-            "alias": {
-              "@@assets": "./src/assets",
-              "@@components": "./src/components",
-              "@@consumers": "./src/consumers",
-              "@@screens": "./src/screens",
-              "@@constants": "./src/constants",
-              "@@utilities": "./src/utilities",
-              "@@config": "./src/config",
-              "@@graphql": "./src/graphql"
-            }
-          }
-        ]
-      ]
-    }
-  }
+  "plugins": [
+    "babel-plugin-inline-import",
+    "transform-decorators-legacy",
+    "transform-react-jsx-source",
+    [
+      "module-resolver",
+      {
+        "root": ["./"],
+        "alias": {
+          "@@assets": "./src/assets",
+          "@@components": "./src/components",
+          "@@consumers": "./src/consumers",
+          "@@screens": "./src/screens",
+          "@@constants": "./src/constants",
+          "@@utilities": "./src/utilities",
+          "@@config": "./src/config",
+          "@@graphql": "./src/graphql"
+        }
+      }
+    ]
+  ]
 }

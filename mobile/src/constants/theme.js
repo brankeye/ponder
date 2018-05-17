@@ -1,6 +1,6 @@
 export const lightTheme = {
   type: 'light',
-  primaryColor: '#191beb',
+  primaryColor: '#FFFFFF',
   accentColor: '#607D8B',
   textColor: '#404040',
   backgroundColor: '#e6e6e6',

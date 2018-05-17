@@ -10,15 +10,27 @@ export default createDrawerNavigator(
   {
     HomeDrawer: {
       screen: HomeScreen,
+      navigationOptions: {
+        drawerLabel: 'Home',
+      },
     },
     RecentsDrawer: {
       screen: RecentsScreen,
+      navigationOptions: {
+        drawerLabel: 'Recents',
+      },
     },
     LibraryDrawer: {
       screen: LibraryScreen,
+      navigationOptions: {
+        drawerLabel: 'Library',
+      },
     },
     SettingsDrawer: {
       screen: SettingsScreen,
+      navigationOptions: {
+        drawerLabel: 'Settings',
+      },
     },
   },
   {

@@ -6,7 +6,7 @@ import {
 import { PoemListScreen, AuthorListScreen } from './screens';
 import PoemScreen from '../PoemScreen';
 import AuthorScreen from '../AuthorScreen';
-import { TabBar } from '@@components';
+import { TabBar, HeaderBar } from '@@components';
 
 const HomeScreen = createMaterialTopTabNavigator(
   {
@@ -28,19 +28,28 @@ const HomeScreen = createMaterialTopTabNavigator(
   }
 );
 
-export default createStackNavigator(
-  {
-    Home: {
-      screen: HomeScreen,
-    },
-    Poem: {
-      screen: PoemScreen,
-    },
-    Author: {
-      screen: AuthorScreen,
+export default createStackNavigator({
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: {
+      title: 'Home',
+      header: props => (
+        <HeaderBar {...props} stateKey="Home" title="Home" searchable />
+      ),
     },
   },
-  {
-    headerMode: 'none',
-  }
-);
+  Poem: {
+    screen: PoemScreen,
+    navigationOptions: {
+      title: 'Poem',
+      header: props => <HeaderBar {...props} title="Poem" />,
+    },
+  },
+  Author: {
+    screen: AuthorScreen,
+    navigationOptions: {
+      title: 'Author',
+      header: props => <HeaderBar {...props} title="Author" searchable />,
+    },
+  },
+});

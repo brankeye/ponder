@@ -4,7 +4,7 @@ import { ApolloProvider } from 'react-apollo';
 import client from '@@graphql';
 import AppNavigator from '@@screens';
 import { StatusBar } from '@@components';
-import { ThemeProvider } from '@@consumers';
+import { ThemeProvider, StateProvider } from '@@consumers';
 
 class App extends React.Component {
   state = {
@@ -46,10 +46,12 @@ class App extends React.Component {
     return (
       <ApolloProvider client={client}>
         <ThemeProvider>
-          <React.Fragment>
-            <StatusBar />
-            <AppNavigator />
-          </React.Fragment>
+          <StateProvider>
+            <React.Fragment>
+              <StatusBar />
+              <AppNavigator />
+            </React.Fragment>
+          </StateProvider>
         </ThemeProvider>
       </ApolloProvider>
     );
