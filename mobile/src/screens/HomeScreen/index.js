@@ -34,7 +34,7 @@ export default createStackNavigator({
     navigationOptions: {
       title: 'Home',
       header: props => (
-        <HeaderBar {...props} stateKey="Home" title="Home" searchable />
+        <HeaderBar {...props} name="HomeHeader" title="Home" searchable />
       ),
     },
   },
@@ -49,7 +49,7 @@ export default createStackNavigator({
     screen: AuthorScreen,
     navigationOptions: {
       title: 'Author',
-      header: props => <HeaderBar {...props} title="Author" searchable />,
+      header: props => <HeaderBar {...props} title="Author" />,
     },
   },
 });

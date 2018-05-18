@@ -1,4 +1,4 @@
-import { merge } from 'ramda';
+import { merge, filter, prop } from 'ramda';
 import { Poem, PoemInfo } from '@@database';
 import { parseFilters, parseConnection } from '@@utils/pagination';
 import { authenticate } from '@@utils/authentication';
@@ -19,8 +19,13 @@ const routes = {
     route: '/poems',
     handler: ({ query }, res) => {
       const filters = parseFilters(query);
-      return Poem.query()
-        .filter(filters)
+      const dbQuery = Poem.query().filter(filters);
+
+      if (query.search) {
+        dbQuery.andWhere('title', 'ilike', `%${query.search}%`);
+      }
+
+      return dbQuery
         .then(parseConnection(Poem, { query, filters }))
         .then(data => res.json(data));
     },
@@ -43,12 +48,20 @@ const routes = {
       const { user_id } = await authenticate(authorization);
       const id = 'poem_id';
       const filters = parseFilters(merge({ id }, query));
-      return PoemInfo.query()
+      const dbQuery = PoemInfo.query().eager('poem');
+
+      if (query.search) {
+        dbQuery.modifyEager('poem', builder => {
+          builder.andWhere('title', 'ilike', `%${query.search}%`);
+        });
+      }
+
+      return dbQuery
         .where('user_id', user_id)
         .andWhere('in_library', true)
-        .eager('poem')
         .filter(filters)
         .then(resolveP(map(flattenProp('poem'))))
+        .then(resolveP(filter(prop('poem'))))
         .then(
           parseConnection(PoemInfo, {
             id,

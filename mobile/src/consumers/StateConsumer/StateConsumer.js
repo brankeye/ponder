@@ -34,20 +34,20 @@ class StateProvider extends React.Component {
   }
 }
 
-const StateConsumer = ({ stateKey, children }) => (
+const StateConsumer = ({ name, children }) => (
   <Consumer>
     {({ state, setState }) =>
       children({
-        stateKey,
-        state: state(stateKey),
-        setState: setState(stateKey),
+        name,
+        state: state(name),
+        setState: setState(name),
       })
     }
   </Consumer>
 );
 
 StateConsumer.defaultProps = {
-  stateKey: 'default',
+  name: 'default',
 };
 
 export { StateProvider, StateConsumer };

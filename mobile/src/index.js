@@ -4,7 +4,18 @@ import { ApolloProvider } from 'react-apollo';
 import client from '@@graphql';
 import AppNavigator from '@@screens';
 import { StatusBar } from '@@components';
-import { ThemeProvider, StateProvider } from '@@consumers';
+import { ThemeProvider, PropsProvider } from '@@consumers';
+
+const getActiveRoute = navigationState => {
+  if (!navigationState) {
+    return null;
+  }
+  const route = navigationState.routes[navigationState.index];
+  if (route.routes) {
+    return getActiveRoute(route);
+  }
+  return route;
+};
 
 class App extends React.Component {
   state = {
@@ -46,12 +57,24 @@ class App extends React.Component {
     return (
       <ApolloProvider client={client}>
         <ThemeProvider>
-          <StateProvider>
+          <PropsProvider>
             <React.Fragment>
               <StatusBar />
-              <AppNavigator />
+              <AppNavigator
+                onNavigationStateChange={(prevState, currentState) => {
+                  const currentScreen = getActiveRoute(currentState);
+                  const prevScreen = getActiveRoute(prevState);
+
+                  if (prevScreen.routeName !== currentScreen.routeName) {
+                    prevScreen.params = prevScreen.params || {};
+                    currentScreen.params = currentScreen.params || {};
+                    prevScreen.params.isActive = false;
+                    currentScreen.params.isActive = true;
+                  }
+                }}
+              />
             </React.Fragment>
-          </StateProvider>
+          </PropsProvider>
         </ThemeProvider>
       </ApolloProvider>
     );

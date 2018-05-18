@@ -1,5 +1,5 @@
 # source: http://0.0.0.0:3000/graphql
-# timestamp: Mon May 07 2018 23:09:47 GMT-0400 (EDT)
+# timestamp: Thu May 17 2018 22:07:26 GMT-0400 (EDT)
 
 type Author implements AuthorContract {
   id: ID
@@ -127,9 +127,9 @@ input PoemInfoInput {
 type Query {
   user: User
   author(id: ID): Author
-  authorList(from: AuthorCategory!, first: Int, after: String, last: Int, before: String): AuthorConnection
+  authorList(from: AuthorCategory!, search: String, first: Int, after: String, last: Int, before: String): AuthorConnection
   poem(id: ID): Poem
-  poemList(from: PoemCategory!, first: Int, after: String, last: Int, before: String): PoemConnection
+  poemList(from: PoemCategory!, search: String, first: Int, after: String, last: Int, before: String): PoemConnection
 }
 
 type User {

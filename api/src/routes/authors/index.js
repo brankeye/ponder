@@ -19,7 +19,13 @@ const routes = {
     route: '/authors',
     handler: ({ query }, res) => {
       const filters = parseFilters(query);
-      return Author.query()
+      const dbQuery = Author.query();
+
+      if (query.search) {
+        dbQuery.where('name', 'ilike', `%${query.search}%`);
+      }
+
+      return dbQuery
         .filter(filters)
         .then(parseConnection(Author, { query, filters }))
         .then(data => res.json(data));
@@ -51,9 +57,17 @@ const routes = {
     handler: async ({ query, headers: { authorization } }, res) => {
       const { user_id } = await authenticate(authorization);
       const filters = parseFilters({ id: 'author_id', ...query });
-      return AuthorInfo.query()
+      const dbQuery = AuthorInfo.query();
+
+      if (query.search) {
+        dbQuery.eager('author').modifyEager('author', builder => {
+          builder.select('name').where('name', 'ilike', `%${query.search}%`);
+        });
+      }
+
+      return dbQuery
         .where('user_id', user_id)
-        .andWhere('in_library', true)
+        .where('in_library', true)
         .filter(filters)
         .then(resolveP(map(flattenProp('author'))))
         .then(

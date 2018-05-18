@@ -1,5 +1,6 @@
 query(
   $from: PoemCategory!
+  $search: String
   $first: Int
   $after: String
   $last: Int
@@ -7,11 +8,12 @@ query(
 ) {
   poemList(
     from: $from
+    search: $search
     first: $first
     after: $after
     last: $last
     before: $before
-  ) @connection(key: "poemList", filter: ["from"]) {
+  ) @connection(key: "poemList", filter: ["from", "search"]) {
     edges {
       node {
         id

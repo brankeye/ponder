@@ -2,6 +2,7 @@ extend type Query {
   poem(id: ID): Poem
   poemList(
     from: PoemCategory!
+    search: String
     first: Int
     after: String
     last: Int

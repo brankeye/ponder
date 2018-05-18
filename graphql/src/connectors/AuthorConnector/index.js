@@ -12,10 +12,13 @@ class AuthorConnector extends BaseConnector {
       path: `/api/authors/${id}`,
     });
 
-  getAll = paginationArgs =>
+  getAll = ({ search, ...paginationArgs }) =>
     this.request({
       path: '/api/authors',
-      qs: parsePaginationOptions(paginationArgs),
+      qs: {
+        search,
+        ...parsePaginationOptions(paginationArgs),
+      },
     });
 
   getPoems = ({ id }) =>
@@ -23,10 +26,13 @@ class AuthorConnector extends BaseConnector {
       path: `/api/authors/${id}/poems`,
     });
 
-  getLibrary = paginationArgs =>
+  getLibrary = ({ search, ...paginationArgs }) =>
     this.request({
       path: '/api/library/authors',
-      qs: parsePaginationOptions(paginationArgs),
+      qs: {
+        search,
+        ...parsePaginationOptions(paginationArgs),
+      },
       headers: {
         authorization: this.oauthId,
       },

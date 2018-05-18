@@ -10,9 +10,12 @@ class AuthorListWithData extends Component {
   };
 
   render() {
-    const { type, count, ...props } = this.props;
+    const { type, count, search, ...props } = this.props;
     return (
-      <Query query={authorListQuery} variables={{ from: type, first: count }}>
+      <Query
+        query={authorListQuery}
+        variables={{ from: type, first: count, search }}
+      >
         {({
           loading,
           error,
@@ -28,7 +31,12 @@ class AuthorListWithData extends Component {
               onFetchMore={() => {
                 fetchMore({
                   query: authorListQuery,
-                  variables: { from: type, first: count, after: endCursor },
+                  variables: {
+                    from: type,
+                    first: count,
+                    after: endCursor,
+                    search,
+                  },
                   updateQuery: (previousResult, { fetchMoreResult }) => {
                     const newEdges = fetchMoreResult.authorList.edges;
                     const pageInfo = fetchMoreResult.authorList.pageInfo;

@@ -15,3 +15,4 @@ export { default as Styles } from './Styles';
 export { default as TouchableHighlight } from './TouchableHighlight';
 export { default as HeaderBar } from './HeaderBar';
 export { default as State } from './State';
+export * from './PubSub';

@@ -1,17 +1,30 @@
 import React from 'react';
 import { Toolbar } from 'react-native-material-ui';
-import { StateConsumer } from '@@consumers';
+import PubSub from 'pubsub-js';
 
-const HeaderBar = ({
-  stateKey,
-  navigation,
-  title,
-  searchable,
-  onLeftElementPress,
-  ...props
-}) => (
-  <StateConsumer stateKey={stateKey}>
-    {({ state, setState }) => (
+class HeaderBar extends React.Component {
+  static defaultProps = {
+    searchable: false,
+  };
+
+  state = {};
+
+  handleChangeText = text => this.setState({ searchTerm: text });
+
+  handleSearch = () => {
+    PubSub.publish(`${this.props.name}/onSearch`, this.state.searchTerm);
+  };
+
+  render() {
+    const {
+      navigation,
+      title,
+      searchable,
+      onLeftElementPress,
+      ...props
+    } = this.props;
+
+    return (
       <Toolbar
         {...props}
         leftElement="menu"
@@ -21,13 +34,8 @@ const HeaderBar = ({
             ? {
                 autoFocus: true,
                 placeholder: 'Search',
-                onChangeText: searchText => {
-                  setState({ searchText });
-                },
-                onSubmitEditing: () => {
-                  const { searchText } = state;
-                  setState({ searchRequested: true });
-                },
+                onChangeText: this.handleChangeText,
+                onSubmitEditing: this.handleSearch,
               }
             : undefined
         }
@@ -36,12 +44,8 @@ const HeaderBar = ({
           if (onLeftElementPress) onLeftElementPress();
         }}
       />
-    )}
-  </StateConsumer>
-);
-
-HeaderBar.defaultProps = {
-  searchable: false,
-};
+    );
+  }
+}
 
 export default HeaderBar;

@@ -10,9 +10,12 @@ class PoemListWithData extends Component {
   };
 
   render() {
-    const { type, count, ...props } = this.props;
+    const { type, count, search, ...props } = this.props;
     return (
-      <Query query={poemListQuery} variables={{ from: type, first: count }}>
+      <Query
+        query={poemListQuery}
+        variables={{ from: type, first: count, search }}
+      >
         {({
           loading,
           error,
@@ -28,7 +31,12 @@ class PoemListWithData extends Component {
               onFetchMore={() => {
                 fetchMore({
                   query: poemListQuery,
-                  variables: { from: type, first: count, after: endCursor },
+                  variables: {
+                    from: type,
+                    first: count,
+                    after: endCursor,
+                    search,
+                  },
                   updateQuery: (previousResult, { fetchMoreResult }) => {
                     const newEdges = fetchMoreResult.poemList.edges;
                     const pageInfo = fetchMoreResult.poemList.pageInfo;

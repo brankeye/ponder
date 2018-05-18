@@ -12,16 +12,22 @@ class PoemConnector extends BaseConnector {
       path: `/api/poems/${id}`,
     });
 
-  getAll = paginationArgs =>
+  getAll = ({ search, ...paginationArgs }) =>
     this.request({
       path: '/api/poems',
-      qs: parsePaginationOptions(paginationArgs),
+      qs: {
+        search,
+        ...parsePaginationOptions(paginationArgs),
+      },
     });
 
-  getLibrary = paginationArgs =>
+  getLibrary = ({ search, ...paginationArgs }) =>
     this.request({
       path: '/api/library/poems',
-      qs: parsePaginationOptions(paginationArgs),
+      qs: {
+        search,
+        ...parsePaginationOptions(paginationArgs),
+      },
       headers: {
         authorization: this.oauthId,
       },

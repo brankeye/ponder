@@ -1,5 +1,6 @@
 query(
   $from: AuthorCategory!
+  $search: String
   $first: Int
   $after: String
   $last: Int
@@ -7,11 +8,12 @@ query(
 ) {
   authorList(
     from: $from
+    search: $search
     first: $first
     after: $after
     last: $last
     before: $before
-  ) @connection(key: "authorList", filter: ["from"]) {
+  ) @connection(key: "authorList", filter: ["from", "search"]) {
     edges {
       node {
         id
