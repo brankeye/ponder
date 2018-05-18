@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   createMaterialTopTabNavigator,
   createStackNavigator,
@@ -5,7 +6,7 @@ import {
 import { PoemListScreen, AuthorListScreen } from './screens';
 import PoemScreen from '../PoemScreen';
 import AuthorScreen from '../AuthorScreen';
-import { TabBar } from '@@components';
+import { TabBar, HeaderBar } from '@@components';
 
 const LibraryScreen = createMaterialTopTabNavigator(
   {
@@ -27,19 +28,28 @@ const LibraryScreen = createMaterialTopTabNavigator(
   }
 );
 
-export default createStackNavigator(
-  {
-    Home: {
-      screen: LibraryScreen,
-    },
-    Poem: {
-      screen: PoemScreen,
-    },
-    Author: {
-      screen: AuthorScreen,
+export default createStackNavigator({
+  Home: {
+    screen: LibraryScreen,
+    navigationOptions: {
+      title: 'Library',
+      header: props => (
+        <HeaderBar {...props} name="LibraryHeader" title="Library" searchable />
+      ),
     },
   },
-  {
-    headerMode: 'none',
-  }
-);
+  Poem: {
+    screen: PoemScreen,
+    navigationOptions: {
+      title: 'Poem',
+      header: props => <HeaderBar {...props} title="Poem" />,
+    },
+  },
+  Author: {
+    screen: AuthorScreen,
+    navigationOptions: {
+      title: 'Author',
+      header: props => <HeaderBar {...props} title="Author" />,
+    },
+  },
+});

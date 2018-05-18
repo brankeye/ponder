@@ -29,17 +29,15 @@ class PoemListScreen extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <Screen>
         <Subscriber topic={'HomeHeader/onSearch'} handler={this.handleSearch} />
-        <Screen>
-          <PoemListWithData
-            type={'Default'}
-            count={10}
-            search={this.state.searchTerm}
-            onSelect={this.handleSelect}
-          />
-        </Screen>
-      </React.Fragment>
+        <PoemListWithData
+          type={'Default'}
+          count={10}
+          search={this.state.searchTerm}
+          onSelect={this.handleSelect}
+        />
+      </Screen>
     );
   }
 }
@@ -61,17 +59,15 @@ class AuthorListScreen extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <Screen>
         <Subscriber topic={'HomeHeader/onSearch'} handler={this.handleSearch} />
-        <Screen>
-          <AuthorListWithData
-            type={'Default'}
-            count={10}
-            search={this.state.searchTerm}
-            onSelect={this.handleSelect}
-          />
-        </Screen>
-      </React.Fragment>
+        <AuthorListWithData
+          type={'Default'}
+          count={10}
+          search={this.state.searchTerm}
+          onSelect={this.handleSelect}
+        />
+      </Screen>
     );
   }
 }
