@@ -4,7 +4,12 @@ import { ApolloProvider } from 'react-apollo';
 import client from '@@graphql';
 import AppNavigator from '@@screens';
 import { StatusBar } from '@@components';
-import { ThemeProvider, PropsProvider } from '@@consumers';
+import {
+  AuthProvider,
+  AuthConsumer,
+  ThemeProvider,
+  PropsProvider,
+} from '@@consumers';
 
 const getActiveRoute = navigationState => {
   if (!navigationState) {
@@ -55,28 +60,34 @@ class App extends React.Component {
     }
 
     return (
-      <ApolloProvider client={client}>
-        <ThemeProvider>
-          <PropsProvider>
-            <React.Fragment>
-              <StatusBar />
-              <AppNavigator
-                onNavigationStateChange={(prevState, currentState) => {
-                  const currentScreen = getActiveRoute(currentState);
-                  const prevScreen = getActiveRoute(prevState);
+      <AuthProvider>
+        <AuthConsumer>
+          {({ encodedToken }) => (
+            <ApolloProvider client={client({ encodedToken })}>
+              <ThemeProvider>
+                <PropsProvider>
+                  <React.Fragment>
+                    <StatusBar />
+                    <AppNavigator
+                      onNavigationStateChange={(prevState, currentState) => {
+                        const currentScreen = getActiveRoute(currentState);
+                        const prevScreen = getActiveRoute(prevState);
 
-                  if (prevScreen.routeName !== currentScreen.routeName) {
-                    prevScreen.params = prevScreen.params || {};
-                    currentScreen.params = currentScreen.params || {};
-                    prevScreen.params.isActive = false;
-                    currentScreen.params.isActive = true;
-                  }
-                }}
-              />
-            </React.Fragment>
-          </PropsProvider>
-        </ThemeProvider>
-      </ApolloProvider>
+                        if (prevScreen.routeName !== currentScreen.routeName) {
+                          prevScreen.params = prevScreen.params || {};
+                          currentScreen.params = currentScreen.params || {};
+                          prevScreen.params.isActive = false;
+                          currentScreen.params.isActive = true;
+                        }
+                      }}
+                    />
+                  </React.Fragment>
+                </PropsProvider>
+              </ThemeProvider>
+            </ApolloProvider>
+          )}
+        </AuthConsumer>
+      </AuthProvider>
     );
   }
 }

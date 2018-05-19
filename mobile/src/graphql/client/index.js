@@ -12,19 +12,19 @@ import { Auth } from '@@utils';
 
 const cache = new InMemoryCache();
 
-const authLink = setContext((_, { headers }) => {
-  const accessToken = Auth.getAccessToken();
-  if (accessToken) {
-    return {
-      headers: {
-        ...headers,
-        authorization: accessToken,
-      },
-    };
-  } else {
-    return { headers };
-  }
-});
+const authLink = encodedToken =>
+  setContext((_, { headers }) => {
+    if (encodedToken) {
+      return {
+        headers: {
+          ...headers,
+          authorization: encodedToken,
+        },
+      };
+    } else {
+      return { headers };
+    }
+  });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -47,9 +47,15 @@ const stateLink = withClientState({
   resolvers: {},
 });
 
-const client = new ApolloClient({
-  link: ApolloLink.from([errorLink, stateLink, authLink, httpLink]),
-  cache,
-});
+const client = ({ encodedToken }) =>
+  new ApolloClient({
+    link: ApolloLink.from([
+      errorLink,
+      stateLink,
+      authLink(encodedToken),
+      httpLink,
+    ]),
+    cache,
+  });
 
 export default client;
