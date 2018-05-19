@@ -1,7 +1,4 @@
-import { GRAPHQL_URL } from 'react-native-dotenv';
+import config from './config';
 
-const config = {
-  GRAPHQL_URL,
-};
-
-export default config;
+export const GRAPHQL_URL = config.GRAPHQL_URL;
+export const FACEBOOK_APP_ID = config.FACEBOOK_APP_ID;

@@ -28,6 +28,7 @@ class PoemConnector extends BaseConnector {
         search,
         ...parsePaginationOptions(paginationArgs),
       },
+      auth: true,
       headers: {
         authorization: this.oauthId,
       },
@@ -36,6 +37,7 @@ class PoemConnector extends BaseConnector {
   getInfo = ({ id }) =>
     this.request({
       path: `/api/library/poems/${id}`,
+      auth: true,
       headers: {
         authorization: this.oauthId,
       },
@@ -45,6 +47,7 @@ class PoemConnector extends BaseConnector {
     this.request({
       path: '/api/library/poems',
       method: 'PUT',
+      auth: true,
       headers: {
         authorization: this.oauthId,
       },

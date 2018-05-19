@@ -30,7 +30,7 @@ class BaseConnector {
     };
 
     return Promise.all(
-      options.map(({ method = 'GET', url, path, data, ...rest }) => {
+      options.map(({ method = 'GET', url, path, data, auth, ...rest }) => {
         path = path && path.startsWith('/') ? path.slice(1) : path;
 
         const urlOptions = {
@@ -38,6 +38,11 @@ class BaseConnector {
           uri: url || this.api + path,
           ...rest,
         };
+
+        if (auth) {
+          urlOptions.headers = urlOptions.headers || {};
+          urlOptions.headers.token = this.authorization;
+        }
 
         if (data) {
           if (method === 'POST') urlOptions.body = data;

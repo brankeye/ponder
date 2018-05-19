@@ -4,7 +4,7 @@ class UserConnector extends BaseConnector {
   get = () =>
     this.request({
       path: 'api/user',
-      headers: { authorization: this.oauthId },
+      auth: true,
     });
 }
 

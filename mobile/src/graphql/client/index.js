@@ -4,11 +4,27 @@ import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 import { withClientState } from 'apollo-link-state';
+import { setContext } from 'apollo-link-context';
 import { compose } from 'recompose';
 import { themeQuery } from '@@graphql';
-import config from '@@config';
+import { GRAPHQL_URL } from '@@config';
+import { Auth } from '@@utils';
 
 const cache = new InMemoryCache();
+
+const authLink = setContext((_, { headers }) => {
+  const accessToken = Auth.getAccessToken();
+  if (accessToken) {
+    return {
+      headers: {
+        ...headers,
+        authorization: accessToken,
+      },
+    };
+  } else {
+    return { headers };
+  }
+});
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -21,7 +37,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: config.GRAPHQL_URL,
+  uri: GRAPHQL_URL,
   credentials: 'same-origin',
 });
 
@@ -32,7 +48,7 @@ const stateLink = withClientState({
 });
 
 const client = new ApolloClient({
-  link: ApolloLink.from([errorLink, stateLink, httpLink]),
+  link: ApolloLink.from([errorLink, stateLink, authLink, httpLink]),
   cache,
 });
 

@@ -6,9 +6,12 @@ import schema from './schema';
 import getContext from './context';
 
 const makeGraphqlExpress = () =>
-  graphqlExpress(() => ({
+  graphqlExpress(req => ({
     schema,
-    context: getContext(config),
+    context: getContext({
+      ...config,
+      authorization: req.headers.authorization,
+    }),
   }));
 
 const app = express();

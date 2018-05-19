@@ -16,7 +16,8 @@
           "@@constants": "./src/constants",
           "@@utilities": "./src/utilities",
           "@@config": "./src/config",
-          "@@graphql": "./src/graphql"
+          "@@graphql": "./src/graphql",
+          "@@utils": "./src/utils"
         }
       }
     ]

@@ -33,6 +33,7 @@ class AuthorConnector extends BaseConnector {
         search,
         ...parsePaginationOptions(paginationArgs),
       },
+      auth: true,
       headers: {
         authorization: this.oauthId,
       },
@@ -41,6 +42,7 @@ class AuthorConnector extends BaseConnector {
   getInfo = ({ id }) =>
     this.request({
       path: `/api/library/authors/${id}`,
+      auth: true,
       headers: {
         authorization: this.oauthId,
       },
@@ -50,6 +52,7 @@ class AuthorConnector extends BaseConnector {
     this.request({
       path: '/api/library/authors',
       method: 'PUT',
+      auth: true,
       headers: {
         authorization: this.oauthId,
       },
