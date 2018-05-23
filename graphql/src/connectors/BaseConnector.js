@@ -41,7 +41,7 @@ class BaseConnector {
 
         if (auth) {
           urlOptions.headers = urlOptions.headers || {};
-          urlOptions.headers.token = this.authorization;
+          urlOptions.headers.authorization = this.authorization;
         }
 
         if (data) {

@@ -7,15 +7,17 @@ const { Provider, Consumer } = React.createContext();
 
 class ThemeProvider extends React.Component {
   static defaultProps = {
-    theme: darkTheme,
+    type: 'dark',
+    onThemeToggled: () => {},
   };
 
-  state = { theme: this.props.theme };
+  state = { theme: this.props.type === 'light' ? lightTheme : darkTheme };
 
   toggleTheme = () => {
     const { theme } = this.state;
     const nextTheme = theme.type === 'light' ? darkTheme : lightTheme;
     this.setState({ theme: nextTheme });
+    this.props.onThemeToggled(nextTheme.type);
   };
 
   render() {

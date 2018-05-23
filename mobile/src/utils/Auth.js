@@ -1,19 +1,12 @@
-import { AsyncStorage } from 'react-native';
+import Storage from './Storage';
 import { Buffer } from 'buffer';
 
 class Auth {
   key = 'oauth';
 
-  saveToken = async token =>
-    await AsyncStorage.setItem(
-      this.key,
-      JSON.stringify(this.encodeToken(token))
-    );
+  saveToken = token => Storage.setItem(this.key, this.encodeToken(token));
 
-  getToken = async () => {
-    const token = await AsyncStorage.getItem(this.key);
-    return token ? JSON.parse(token) : null;
-  };
+  getToken = () => Storage.getItem(this.key);
 
   encodeToken = token => Buffer.from(JSON.stringify(token)).toString('base64');
 }

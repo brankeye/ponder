@@ -37,6 +37,7 @@ class AuthProvider extends React.Component {
         const encodedToken = Auth.encodeToken(accessToken);
         await Auth.saveToken({ accessToken, encodedToken });
         console.log('Success: ', { type, token, expires });
+        this.setState({ accessToken, encodedToken, isAuthenticated: true });
         return { type, accessToken, encodedToken };
       }
     }

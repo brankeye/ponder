@@ -29,18 +29,12 @@ class PoemConnector extends BaseConnector {
         ...parsePaginationOptions(paginationArgs),
       },
       auth: true,
-      headers: {
-        authorization: this.oauthId,
-      },
     });
 
   getInfo = ({ id }) =>
     this.request({
       path: `/api/library/poems/${id}`,
       auth: true,
-      headers: {
-        authorization: this.oauthId,
-      },
     });
 
   upsertInfo = ({ input }) =>
@@ -48,9 +42,6 @@ class PoemConnector extends BaseConnector {
       path: '/api/library/poems',
       method: 'PUT',
       auth: true,
-      headers: {
-        authorization: this.oauthId,
-      },
       body: rename(input),
     });
 }

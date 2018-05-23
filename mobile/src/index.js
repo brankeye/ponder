@@ -9,6 +9,7 @@ import {
   AuthConsumer,
   ThemeProvider,
   PropsProvider,
+  SettingsProvider,
 } from '@@consumers';
 
 const getActiveRoute = navigationState => {
@@ -62,28 +63,46 @@ class App extends React.Component {
     return (
       <AuthProvider>
         <AuthConsumer>
-          {({ encodedToken }) => (
+          {({ isAuthenticated, encodedToken }) => (
             <ApolloProvider client={client({ encodedToken })}>
-              <ThemeProvider>
-                <PropsProvider>
-                  <React.Fragment>
-                    <StatusBar />
-                    <AppNavigator
-                      onNavigationStateChange={(prevState, currentState) => {
-                        const currentScreen = getActiveRoute(currentState);
-                        const prevScreen = getActiveRoute(prevState);
+              <SettingsProvider>
+                <SettingsConsumer>
+                  {({ themeType, toggleTheme }) => (
+                    <ThemeProvider
+                      type={themeType}
+                      onThemeToggled={toggleTheme}
+                    >
+                      <PropsProvider>
+                        <React.Fragment>
+                          <StatusBar />
+                          <AppNavigator
+                            isAuthenticated={isAuthenticated}
+                            onNavigationStateChange={(
+                              prevState,
+                              currentState
+                            ) => {
+                              const currentScreen = getActiveRoute(
+                                currentState
+                              );
+                              const prevScreen = getActiveRoute(prevState);
 
-                        if (prevScreen.routeName !== currentScreen.routeName) {
-                          prevScreen.params = prevScreen.params || {};
-                          currentScreen.params = currentScreen.params || {};
-                          prevScreen.params.isActive = false;
-                          currentScreen.params.isActive = true;
-                        }
-                      }}
-                    />
-                  </React.Fragment>
-                </PropsProvider>
-              </ThemeProvider>
+                              if (
+                                prevScreen.routeName !== currentScreen.routeName
+                              ) {
+                                prevScreen.params = prevScreen.params || {};
+                                currentScreen.params =
+                                  currentScreen.params || {};
+                                prevScreen.params.isActive = false;
+                                currentScreen.params.isActive = true;
+                              }
+                            }}
+                          />
+                        </React.Fragment>
+                      </PropsProvider>
+                    </ThemeProvider>
+                  )}
+                </SettingsConsumer>
+              </SettingsProvider>
             </ApolloProvider>
           )}
         </AuthConsumer>

@@ -16,18 +16,20 @@ app.use(boolParser());
 app.use(
   asyncHandler(async (req, res, next) => {
     req.context = {};
-    const auth = req.headers.token;
+    const auth = req.headers.authorization;
     if (auth) {
       const { provider, token } = JSON.parse(
         Buffer(auth, 'base64').toString('ascii')
       );
       switch (provider) {
         case 'facebook': {
-          const { id, name } = await rp({
-            uri: `https://graph.facebook.com/me?fields=id,name&access_token=${token}`,
+          const { id, name, email } = await rp({
+            uri: `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`,
           }).json();
-          console.log(`fb, id: ${id}, name: ${name}`);
+          console.log(`fb, id: ${id}, name: ${name}, email: ${email}`);
           req.context.oauth_id = id;
+          req.context.name = name;
+          req.context.email = email;
         }
       }
     }

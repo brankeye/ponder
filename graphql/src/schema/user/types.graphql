@@ -3,15 +3,10 @@ type Query {
 }
 
 type Mutation {
-  userRegister(input: UserInput!): User
+  userRegister: User
 }
 
 type User {
   id: ID
   email: String
-}
-
-input UserInput {
-  email: String!
-  oauthId: ID!
 }

@@ -33,19 +33,16 @@ const routes = {
   getPoemFromLibrary: {
     method: 'GET',
     route: '/library/poems/:poem_id',
-    handler: async (
-      { params: { poem_id }, headers: { authorization } },
-      res
-    ) => {
-      const { user_id } = await authenticate(authorization);
+    handler: async ({ params: { poem_id }, context: { oauth_id } }, res) => {
+      const { user_id } = await authenticate(oauth_id);
       return res.json(await PoemInfo.query().findById([user_id, poem_id]));
     },
   },
   getPoemsFromLibrary: {
     method: 'GET',
     route: '/library/poems',
-    handler: async ({ query, headers: { authorization } }, res) => {
-      const { user_id } = await authenticate(authorization);
+    handler: async ({ query, context: { oauth_id } }, res) => {
+      const { user_id } = await authenticate(oauth_id);
       const id = 'poem_id';
       const filters = parseFilters(merge({ id }, query));
       const dbQuery = PoemInfo.query().eager('poem');
@@ -75,8 +72,8 @@ const routes = {
   updatePoemFromLibrary: {
     method: 'PUT',
     route: '/library/poems',
-    handler: async ({ body, headers: { authorization } }, res) => {
-      const { user_id } = await authenticate(authorization);
+    handler: async ({ body, context: { oauth_id } }, res) => {
+      const { user_id } = await authenticate(oauth_id);
       const poemLib = await PoemInfo.query().findById([user_id, body.poem_id]);
       console.log({ poemLib });
       if (poemLib) {
