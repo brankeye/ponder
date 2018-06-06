@@ -10,6 +10,7 @@ import {
   ThemeProvider,
   PropsProvider,
   SettingsProvider,
+  SettingsConsumer,
 } from '@@consumers';
 
 const getActiveRoute = navigationState => {
@@ -76,7 +77,6 @@ class App extends React.Component {
                         <React.Fragment>
                           <StatusBar />
                           <AppNavigator
-                            isAuthenticated={isAuthenticated}
                             onNavigationStateChange={(
                               prevState,
                               currentState

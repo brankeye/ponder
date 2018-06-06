@@ -1,1 +1,1 @@
-export { default } from './SettingsConsumer';
+export * from './SettingsConsumer';

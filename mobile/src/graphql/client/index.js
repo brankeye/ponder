@@ -41,20 +41,9 @@ const httpLink = new HttpLink({
   credentials: 'same-origin',
 });
 
-const stateLink = withClientState({
-  cache,
-  defaults: {},
-  resolvers: {},
-});
-
 const client = ({ encodedToken }) =>
   new ApolloClient({
-    link: ApolloLink.from([
-      errorLink,
-      stateLink,
-      authLink(encodedToken),
-      httpLink,
-    ]),
+    link: ApolloLink.from([errorLink, authLink(encodedToken), httpLink]),
     cache,
   });
 

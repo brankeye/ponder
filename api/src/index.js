@@ -23,10 +23,14 @@ app.use(
       );
       switch (provider) {
         case 'facebook': {
-          const { id, name, email } = await rp({
-            uri: `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`,
-          }).json();
+          const { id, name, email } =
+            (await rp({
+              uri: `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`,
+            }).json()) || {};
           console.log(`fb, id: ${id}, name: ${name}, email: ${email}`);
+          if (!id) {
+            throw new Error('Failed authentication.');
+          }
           req.context.oauth_id = id;
           req.context.name = name;
           req.context.email = email;
