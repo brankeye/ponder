@@ -1,7 +1,6 @@
 import { merge } from 'ramda';
 import { Author, AuthorInfo } from '@@database';
 import { parseFilters, parseConnection } from '@@utils/pagination';
-import { authenticate } from '@@utils/authentication';
 import { flattenProp, map, resolveP } from '@@utils/ramda';
 import { format } from 'date-fns';
 
@@ -43,19 +42,16 @@ const routes = {
   getAuthorFromLibrary: {
     method: 'GET',
     route: '/library/authors/:author_id',
-    handler: async (
-      { params: { author_id }, context: { email, oauth_id } },
-      res
-    ) => {
-      const { user_id } = await authenticate({ email, oauth_id });
+    handler: async ({ params: { author_id }, context: { user } }, res) => {
+      const user_id = user.id;
       return res.json(await AuthorInfo.query().findById([user_id, author_id]));
     },
   },
   getAuthorsFromLibrary: {
     method: 'GET',
     route: '/library/authors',
-    handler: async ({ query, context: { email, oauth_id } }, res) => {
-      const { user_id } = await authenticate({ email, oauth_id });
+    handler: async ({ query, context: { user } }, res) => {
+      const user_id = user.id;
       const filters = parseFilters({ id: 'author_id', ...query });
       const dbQuery = AuthorInfo.query();
 
@@ -83,8 +79,8 @@ const routes = {
   updatePoemFromLibrary: {
     method: 'PUT',
     route: '/library/authors',
-    handler: async ({ body, context: { email, oauth_id } }, res) => {
-      const { user_id } = await authenticate({ email, oauth_id });
+    handler: async ({ body, context: { user } }, res) => {
+      const user_id = user.id;
       const poemLib = await AuthorInfo.query().findById([
         user_id,
         body.author_id,

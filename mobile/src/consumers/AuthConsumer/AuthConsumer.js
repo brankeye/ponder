@@ -18,6 +18,13 @@ class AuthProvider extends React.Component {
       const { accessToken, encodedToken } = token;
       this.setState({ accessToken, encodedToken, isAuthenticated: true });
       console.log('Already authenticated...');
+    } else {
+      const clientId = Expo.Constants.deviceId;
+      const token = { clientId };
+      const encodedToken = Auth.encodeToken(token);
+      await Auth.saveToken({ encodedToken });
+      console.log('Success: ', { clientId, encodedToken });
+      this.setState({ encodedToken, isAuthenticated: true });
     }
   }
 

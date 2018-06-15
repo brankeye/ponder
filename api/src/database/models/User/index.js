@@ -8,8 +8,8 @@ class User extends Model {
       relation: Model.HasManyRelation,
       modelClass: __dirname + '../../AuthorInfo',
       join: {
-        from: 'Users.id',
-        to: 'author_infos.userId',
+        from: 'users.id',
+        to: 'author_infos.user_id',
       },
     },
     poemPrefs: {
@@ -17,7 +17,7 @@ class User extends Model {
       modelClass: __dirname + '../../PoemInfo',
       join: {
         from: 'users.id',
-        to: 'poem_infos.userId',
+        to: 'poem_infos.user_id',
       },
     },
   };

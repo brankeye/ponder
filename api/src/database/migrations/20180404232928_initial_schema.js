@@ -5,9 +5,15 @@ exports.up = function(knex) {
         .uuid('id')
         .primary()
         .notNullable();
-      table.string('email').notNullable();
-      table.string('oauth_id').notNullable();
-      table.string('timezone').nullable();
+      table.string('email').nullable();
+      table.string('client_id').notNullable();
+      table.string('oauth_id').nullable();
+      table
+        .boolean('anonymous')
+        .notNullable()
+        .defaultTo(true);
+      table.string('timeZone').nullable();
+      table.index(['client_id', 'oauth_id']);
     })
     .createTable('authors', table => {
       table
@@ -15,6 +21,7 @@ exports.up = function(knex) {
         .primary()
         .notNullable();
       table.string('name').notNullable();
+      table.index('name');
     })
     .createTable('poems', table => {
       table
@@ -32,6 +39,7 @@ exports.up = function(knex) {
       table.string('year').nullable();
       table.specificType('lines', 'text[]').notNullable();
       table.specificType('keywords', 'text[]').notNullable();
+      table.index('title');
     })
     .createTable('author_infos', table => {
       table

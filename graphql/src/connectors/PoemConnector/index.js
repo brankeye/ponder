@@ -32,12 +32,10 @@ class PoemConnector extends BaseConnector {
     });
 
   getInfo = ({ id }) =>
-    this.authorization
-      ? this.request({
-          path: `/api/library/poems/${id}`,
-          auth: true,
-        })
-      : { inLibrary: false };
+    this.request({
+      path: `/api/library/poems/${id}`,
+      auth: true,
+    });
 
   upsertInfo = ({ input }) =>
     this.request({

@@ -37,12 +37,10 @@ class AuthorConnector extends BaseConnector {
     });
 
   getInfo = ({ id }) =>
-    this.authorization
-      ? this.request({
-          path: `/api/library/authors/${id}`,
-          auth: true,
-        })
-      : { inLibrary: false };
+    this.request({
+      path: `/api/library/authors/${id}`,
+      auth: true,
+    });
 
   upsertInfo = ({ input }) =>
     this.request({

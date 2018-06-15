@@ -64,7 +64,7 @@ class App extends React.Component {
     return (
       <AuthProvider>
         <AuthConsumer>
-          {({ isAuthenticated, encodedToken }) => (
+          {({ isAuthenticated, encodedToken }) => isAuthenticated && (
             <ApolloProvider client={client({ encodedToken })}>
               <SettingsProvider>
                 <SettingsConsumer>

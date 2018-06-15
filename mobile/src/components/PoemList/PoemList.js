@@ -6,8 +6,7 @@ import * as Animatable from 'react-native-animatable';
 class PoemList extends Component {
   keyExtractor = ({ id }) => id;
 
-  renderItem = ({ item }) =>
-    console.log(item) || <PoemCard poem={item} onPress={this.props.onSelect} />;
+  renderItem = ({ item }) => <PoemCard poem={item} onPress={this.props.onSelect} />;
 
   render() {
     const { poems, onFetchMore } = this.props;

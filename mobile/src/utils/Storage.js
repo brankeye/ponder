@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 
 class Storage {
-  getItem = async (key, cb) => JSON.parse(await AsyncStorage.getItem(item, cb));
+  getItem = async (key, cb) => JSON.parse(await AsyncStorage.getItem(key, cb));
 
   setItem = (key, item, cb) =>
     AsyncStorage.setItem(key, JSON.stringify(item), cb);

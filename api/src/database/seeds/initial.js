@@ -11,19 +11,6 @@ const readAuthorPaths = path =>
 
 const authorPaths = readAuthorPaths(contentDir);
 
-let users = [
-  {
-    id: 'f60f6fc4-a76a-46d6-be65-746400200fd4',
-    email: 'brankeye@gmail.com',
-    oauth_id: 'a062e4d8-0b95-44d2-a3a0-652b325d53a1',
-  },
-  {
-    id: 'b66e13e2-e301-4315-8c96-8903befc660d',
-    email: 'brankeye+1@gmail.com',
-    oauth_id: 'ef2abc12-d48d-4e80-9546-80b4b4511f4a',
-  },
-];
-
 exports.seed = function(knex, Promise) {
   return knex('authors')
     .then(() => {
@@ -45,10 +32,5 @@ exports.seed = function(knex, Promise) {
           })
         );
       });
-    })
-    .then(() => {
-      return knex('users')
-        .del()
-        .insert(users);
     });
 };

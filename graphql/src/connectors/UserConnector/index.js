@@ -4,6 +4,7 @@ class UserConnector extends BaseConnector {
   get = () =>
     this.request({
       path: 'api/user',
+      method: 'GET',
       auth: true,
     });
 

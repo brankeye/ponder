@@ -2,11 +2,12 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import boolParser from 'express-query-boolean';
 import asyncHandler from 'express-async-handler';
+import { merge } from 'ramda';
 import config from '@@config';
 import routes from '@@routes';
 import database from '@@database';
+import { authenticate } from '@@utils';
 database.setup();
-import rp from 'request-promise';
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,28 +16,9 @@ app.use(boolParser());
 
 app.use(
   asyncHandler(async (req, res, next) => {
-    req.context = {};
-    const auth = req.headers.authorization;
-    if (auth) {
-      const { provider, token } = JSON.parse(
-        Buffer(auth, 'base64').toString('ascii')
-      );
-      switch (provider) {
-        case 'facebook': {
-          const { id, name, email } =
-            (await rp({
-              uri: `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`,
-            }).json()) || {};
-          console.log(`fb, id: ${id}, name: ${name}, email: ${email}`);
-          if (!id) {
-            throw new Error('Failed authentication.');
-          }
-          req.context.oauth_id = id;
-          req.context.name = name;
-          req.context.email = email;
-        }
-      }
-    }
+    const { authorization } = req.headers;
+    const context = await authenticate({ authorization });
+    req.context = merge(req.context || {}, context);
     next();
   })
 );
