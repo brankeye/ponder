@@ -3,7 +3,10 @@ import uuid from 'uuid/v4';
 import rp from 'request-promise';
 import config from '@@config';
 
-const socialLogin = async ({ provider, token }) => {
+export const parseAuth = authorization =>
+  JSON.parse(Buffer(authorization, 'base64').toString('ascii'));
+
+export const socialLogin = async ({ provider, token }) => {
   switch (provider) {
     case 'facebook': {
       const { id, name, email } =
@@ -25,15 +28,12 @@ const socialLogin = async ({ provider, token }) => {
 
 export const authenticate = async ({ authorization }) => {
   if (authorization) {
-    const { provider, token, clientId } = JSON.parse(
-      Buffer(authorization, 'base64').toString('ascii')
-    );
+    const { provider, token, clientId } = authorization;
     if (token) {
       const { oauthId } = await socialLogin({ provider, token });
       const user = await User.query().findOne('oauth_id', oauthId);
       return { user };
     } else if (clientId) {
-      console.log('Client id: ', clientId);
       const user = await User.query().findOne('client_id', clientId);
       if (!user) {
         const newUser = await User.query()

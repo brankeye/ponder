@@ -6,7 +6,7 @@ import { merge } from 'ramda';
 import config from '@@config';
 import routes from '@@routes';
 import database from '@@database';
-import { authenticate } from '@@utils';
+import { parseAuth, authenticate, socialLogin } from '@@utils';
 database.setup();
 
 const app = express();
@@ -16,18 +16,36 @@ app.use(boolParser());
 
 app.use(
   asyncHandler(async (req, res, next) => {
-    const { authorization } = req.headers;
-    const context = await authenticate({ authorization });
-    req.context = merge(req.context || {}, context);
+    if (req.headers.authorization) {
+      const authorization = parseAuth(req.headers.authorization);
+      if (authorization.provider) {
+        const { oauthId, email } = await socialLogin(authorization);
+        authorization.oauthId = oauthId;
+        authorization.email = email;
+      }
+      req.context = merge(req.context || {}, { authorization });
+    }
     next();
   })
 );
 
-routes.map(({ method, route, handler }) => {
+const authMiddleware = fn =>
+  asyncHandler(async (req, res, next, ...args) => {
+    const { authorization } = req.context;
+    const context = await authenticate({ authorization });
+    req.context = merge(req.context || {}, context);
+    const fnReturn = fn(req, res, next, ...args);
+    return Promise.resolve(fnReturn).catch(next);
+  });
+
+routes.map(({ method, route, handler, auth }) => {
   const httpMethod = method.toLowerCase();
   const cleanedRoute = route.startsWith('/') ? route : `/${route}`;
   const apiRoute = '/api' + cleanedRoute;
-  app[httpMethod](apiRoute, asyncHandler(handler));
+  app[httpMethod](
+    apiRoute,
+    asyncHandler(auth ? authMiddleware(handler) : handler)
+  );
 });
 
 app.use((err, req, res) => {

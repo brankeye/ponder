@@ -42,6 +42,7 @@ const routes = {
   getAuthorFromLibrary: {
     method: 'GET',
     route: '/library/authors/:author_id',
+    auth: true,
     handler: async ({ params: { author_id }, context: { user } }, res) => {
       const user_id = user.id;
       return res.json(await AuthorInfo.query().findById([user_id, author_id]));
@@ -50,6 +51,7 @@ const routes = {
   getAuthorsFromLibrary: {
     method: 'GET',
     route: '/library/authors',
+    auth: true,
     handler: async ({ query, context: { user } }, res) => {
       const user_id = user.id;
       const filters = parseFilters({ id: 'author_id', ...query });
@@ -79,6 +81,7 @@ const routes = {
   updatePoemFromLibrary: {
     method: 'PUT',
     route: '/library/authors',
+    auth: true,
     handler: async ({ body, context: { user } }, res) => {
       const user_id = user.id;
       const poemLib = await AuthorInfo.query().findById([

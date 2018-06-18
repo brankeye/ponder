@@ -3,7 +3,8 @@ const resolver = {
     user: (root, args, { User }) => User.get(),
   },
   Mutation: {
-    userRegister: (root, args, { User }) => User.tryRegister(),
+    userRegisterAnon: (root, args, { User }) => User.registerAnonUser(),
+    userRegisterSocial: (root, args, { User }) => User.registerSocialUser(),
   },
 };
 

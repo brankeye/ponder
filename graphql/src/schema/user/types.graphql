@@ -3,7 +3,8 @@ type Query {
 }
 
 type Mutation {
-  userRegister: User
+  userRegisterAnon(timeZone: String): User
+  userRegisterSocial: User
 }
 
 type User {

@@ -64,47 +64,50 @@ class App extends React.Component {
     return (
       <AuthProvider>
         <AuthConsumer>
-          {({ isAuthenticated, encodedToken }) => isAuthenticated && (
-            <ApolloProvider client={client({ encodedToken })}>
-              <SettingsProvider>
-                <SettingsConsumer>
-                  {({ themeType, toggleTheme }) => (
-                    <ThemeProvider
-                      type={themeType}
-                      onThemeToggled={toggleTheme}
-                    >
-                      <PropsProvider>
-                        <React.Fragment>
-                          <StatusBar />
-                          <AppNavigator
-                            onNavigationStateChange={(
-                              prevState,
-                              currentState
-                            ) => {
-                              const currentScreen = getActiveRoute(
+          {({ isAuthenticated, encodedToken }) =>
+            isAuthenticated && (
+              <ApolloProvider client={client({ encodedToken })}>
+                <SettingsProvider>
+                  <SettingsConsumer>
+                    {({ themeType, toggleTheme }) => (
+                      <ThemeProvider
+                        type={themeType}
+                        onThemeToggled={toggleTheme}
+                      >
+                        <PropsProvider>
+                          <React.Fragment>
+                            <StatusBar />
+                            <AppNavigator
+                              onNavigationStateChange={(
+                                prevState,
                                 currentState
-                              );
-                              const prevScreen = getActiveRoute(prevState);
+                              ) => {
+                                const currentScreen = getActiveRoute(
+                                  currentState
+                                );
+                                const prevScreen = getActiveRoute(prevState);
 
-                              if (
-                                prevScreen.routeName !== currentScreen.routeName
-                              ) {
-                                prevScreen.params = prevScreen.params || {};
-                                currentScreen.params =
-                                  currentScreen.params || {};
-                                prevScreen.params.isActive = false;
-                                currentScreen.params.isActive = true;
-                              }
-                            }}
-                          />
-                        </React.Fragment>
-                      </PropsProvider>
-                    </ThemeProvider>
-                  )}
-                </SettingsConsumer>
-              </SettingsProvider>
-            </ApolloProvider>
-          )}
+                                if (
+                                  prevScreen.routeName !==
+                                  currentScreen.routeName
+                                ) {
+                                  prevScreen.params = prevScreen.params || {};
+                                  currentScreen.params =
+                                    currentScreen.params || {};
+                                  prevScreen.params.isActive = false;
+                                  currentScreen.params.isActive = true;
+                                }
+                              }}
+                            />
+                          </React.Fragment>
+                        </PropsProvider>
+                      </ThemeProvider>
+                    )}
+                  </SettingsConsumer>
+                </SettingsProvider>
+              </ApolloProvider>
+            )
+          }
         </AuthConsumer>
       </AuthProvider>
     );

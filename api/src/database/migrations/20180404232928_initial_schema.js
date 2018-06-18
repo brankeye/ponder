@@ -12,7 +12,7 @@ exports.up = function(knex) {
         .boolean('anonymous')
         .notNullable()
         .defaultTo(true);
-      table.string('timeZone').nullable();
+      table.string('time_zone').nullable();
       table.index(['client_id', 'oauth_id']);
     })
     .createTable('authors', table => {

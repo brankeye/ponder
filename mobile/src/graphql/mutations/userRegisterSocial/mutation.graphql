@@ -1,0 +1,6 @@
+mutation {
+  userRegisterSocial {
+    id
+    email
+  }
+}

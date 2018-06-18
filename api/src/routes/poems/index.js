@@ -32,6 +32,7 @@ const routes = {
   getPoemFromLibrary: {
     method: 'GET',
     route: '/library/poems/:poem_id',
+    auth: true,
     handler: async ({ params: { poem_id }, context: { user } }, res) => {
       const user_id = user.id;
       return res.json(await PoemInfo.query().findById([user_id, poem_id]));
@@ -40,6 +41,7 @@ const routes = {
   getPoemsFromLibrary: {
     method: 'GET',
     route: '/library/poems',
+    auth: true,
     handler: async ({ query, context: { user } }, res) => {
       const user_id = user.id;
       const id = 'poem_id';
@@ -71,6 +73,7 @@ const routes = {
   updatePoemFromLibrary: {
     method: 'PUT',
     route: '/library/poems',
+    auth: true,
     handler: async ({ body, context: { user } }, res) => {
       const user_id = user.id;
       const poemLib = await PoemInfo.query().findById([user_id, body.poem_id]);
