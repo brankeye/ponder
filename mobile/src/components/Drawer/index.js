@@ -21,7 +21,7 @@ export default props => (
           },
         }}
       >
-        {({ styles }) => <Drawer {...props} styles={styles} />}
+        {styles => <Drawer {...props} styles={styles} />}
       </Styles>
     )}
   </ThemeConsumer>

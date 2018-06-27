@@ -17,7 +17,7 @@ export default props => (
           },
         }}
       >
-        {({ styles }) => <Screen {...props} styles={styles} />}
+        {styles => <Screen {...props} styles={styles} />}
       </Styles>
     )}
   </ThemeConsumer>

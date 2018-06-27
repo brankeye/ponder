@@ -18,7 +18,7 @@ export default props => (
           indicator: { backgroundColor: accentColor },
         }}
       >
-        {({ styles }) => <TabBar {...props} styles={styles} />}
+        {styles => <TabBar {...props} styles={styles} />}
       </Styles>
     )}
   </ThemeConsumer>

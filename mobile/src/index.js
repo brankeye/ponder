@@ -8,9 +8,10 @@ import {
   AuthProvider,
   AuthConsumer,
   ThemeProvider,
-  PropsProvider,
+  ThemeConsumer,
   SettingsProvider,
   SettingsConsumer,
+  StylesProvider,
 } from '@@consumers';
 
 const getActiveRoute = navigationState => {
@@ -74,33 +75,40 @@ class App extends React.Component {
                         type={themeType}
                         onThemeToggled={toggleTheme}
                       >
-                        <PropsProvider>
-                          <React.Fragment>
-                            <StatusBar />
-                            <AppNavigator
-                              onNavigationStateChange={(
-                                prevState,
-                                currentState
-                              ) => {
-                                const currentScreen = getActiveRoute(
-                                  currentState
-                                );
-                                const prevScreen = getActiveRoute(prevState);
+                        <ThemeConsumer>
+                          {({ theme }) => (
+                            <StylesProvider context={theme}>
+                              <React.Fragment>
+                                <StatusBar />
+                                <AppNavigator
+                                  onNavigationStateChange={(
+                                    prevState,
+                                    currentState
+                                  ) => {
+                                    const currentScreen = getActiveRoute(
+                                      currentState
+                                    );
+                                    const prevScreen = getActiveRoute(
+                                      prevState
+                                    );
 
-                                if (
-                                  prevScreen.routeName !==
-                                  currentScreen.routeName
-                                ) {
-                                  prevScreen.params = prevScreen.params || {};
-                                  currentScreen.params =
-                                    currentScreen.params || {};
-                                  prevScreen.params.isActive = false;
-                                  currentScreen.params.isActive = true;
-                                }
-                              }}
-                            />
-                          </React.Fragment>
-                        </PropsProvider>
+                                    if (
+                                      prevScreen.routeName !==
+                                      currentScreen.routeName
+                                    ) {
+                                      prevScreen.params =
+                                        prevScreen.params || {};
+                                      currentScreen.params =
+                                        currentScreen.params || {};
+                                      prevScreen.params.isActive = false;
+                                      currentScreen.params.isActive = true;
+                                    }
+                                  }}
+                                />
+                              </React.Fragment>
+                            </StylesProvider>
+                          )}
+                        </ThemeConsumer>
                       </ThemeProvider>
                     )}
                   </SettingsConsumer>

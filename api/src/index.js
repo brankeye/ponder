@@ -16,6 +16,7 @@ app.use(boolParser());
 
 app.use(
   asyncHandler(async (req, res, next) => {
+    req.context = req.context || {};
     if (req.headers.authorization) {
       const authorization = parseAuth(req.headers.authorization);
       if (authorization.provider) {
@@ -23,29 +24,27 @@ app.use(
         authorization.oauthId = oauthId;
         authorization.email = email;
       }
-      req.context = merge(req.context || {}, { authorization });
+      req.context = merge(req.context, { authorization });
     }
     next();
   })
 );
 
-const authMiddleware = fn =>
-  asyncHandler(async (req, res, next, ...args) => {
-    const { authorization } = req.context;
-    const context = await authenticate({ authorization });
-    req.context = merge(req.context || {}, context);
-    const fnReturn = fn(req, res, next, ...args);
-    return Promise.resolve(fnReturn).catch(next);
-  });
+const authMiddleware = async (req, res, next) => {
+  const { authorization } = req.context;
+  const context = await authenticate({ authorization });
+  req.context = merge(req.context || {}, context);
+  next();
+};
 
 routes.map(({ method, route, handler, auth }) => {
   const httpMethod = method.toLowerCase();
   const cleanedRoute = route.startsWith('/') ? route : `/${route}`;
   const apiRoute = '/api' + cleanedRoute;
-  app[httpMethod](
-    apiRoute,
-    asyncHandler(auth ? authMiddleware(handler) : handler)
-  );
+  if (auth) {
+    app.use(apiRoute, asyncHandler(authMiddleware));
+  }
+  app[httpMethod](apiRoute, asyncHandler(handler));
 });
 
 app.use((err, req, res) => {

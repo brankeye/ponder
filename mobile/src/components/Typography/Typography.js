@@ -1,14 +1,32 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { ThemeConsumer } from '@@consumers';
-import styles from './styles';
+import { StylesConsumer } from '@@consumers';
 
 const Typography = ({ type, style, ...props }) => (
-  <ThemeConsumer>
-    {({ theme: { textColor } }) => (
-      <Text {...props} style={[{ color: textColor }, styles[type], style]} />
+  <StylesConsumer
+    styles={({ textColor }) => ({
+      root: {
+        color: textColor,
+      },
+      title: {
+        fontSize: 20,
+        fontFamily: 'Vollkorn-Bold',
+      },
+      subtitle: {
+        fontSize: 18,
+        fontFamily: 'Vollkorn',
+      },
+      body: {
+        fontSize: 16,
+        fontFamily: 'Vollkorn',
+        lineHeight: 30,
+      },
+    })}
+  >
+    {({ root, ...styles }) => (
+      <Text {...props} style={[root, styles[type], style]} />
     )}
-  </ThemeConsumer>
+  </StylesConsumer>
 );
 
 Typography.defaultProps = {

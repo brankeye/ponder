@@ -6,10 +6,12 @@ class Styles extends React.PureComponent {
     styles: {},
   };
 
+  state = {
+    styles: StyleSheet.create(this.props.styles),
+  };
+
   render() {
-    return this.props.children({
-      styles: StyleSheet.create(this.props.styles),
-    });
+    return this.props.children(this.state.styles);
   }
 }
 
