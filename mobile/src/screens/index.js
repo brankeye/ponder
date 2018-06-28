@@ -1,12 +1,18 @@
-import React from 'react';
-import { createDrawerNavigator } from 'react-navigation';
+import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import { Drawer } from '@@components';
+import LandingScreen from './LandingScreen';
 import HomeScreen from './HomeScreen';
 import LibraryScreen from './LibraryScreen';
 import RecentsScreen from './RecentsScreen';
 import SettingsScreen from './SettingsScreen';
 
-export default createDrawerNavigator(
+const AuthNavigator = createStackNavigator({
+  Landing: {
+    screen: LandingScreen,
+  },
+});
+
+const AppNavigator = createDrawerNavigator(
   {
     HomeDrawer: {
       screen: HomeScreen,
@@ -37,3 +43,5 @@ export default createDrawerNavigator(
     contentComponent: Drawer,
   }
 );
+
+export { AppNavigator, AuthNavigator };

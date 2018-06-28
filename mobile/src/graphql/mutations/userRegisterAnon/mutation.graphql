@@ -1,6 +1,0 @@
-mutation($timeZone: String!) {
-  userRegisterAnon(timeZone: $timeZone) {
-    id
-    email
-  }
-}

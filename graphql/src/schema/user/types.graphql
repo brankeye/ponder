@@ -3,11 +3,27 @@ type Query {
 }
 
 type Mutation {
-  userRegisterAnon(timeZone: String): User
-  userRegisterSocial: User
+  userSignInAnon(input: UserAnonInput!): User
+  userSignInSocial(input: UserSocialInput!): User
 }
 
 type User {
   id: ID
   email: String
+}
+
+input UserAnonInput {
+  clientId: ID!
+}
+
+input UserSocialInput {
+  clientId: ID!
+  provider: SocialProvider!
+  token: String!
+}
+
+enum SocialProvider {
+  Facebook
+  Google
+  Twitter
 }

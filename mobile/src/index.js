@@ -2,7 +2,7 @@ import React from 'react';
 import Expo, { AppLoading, Font } from 'expo';
 import { ApolloProvider } from 'react-apollo';
 import client from '@@graphql';
-import AppNavigator from '@@screens';
+import { AppNavigator, AuthNavigator } from '@@screens';
 import { StatusBar } from '@@components';
 import {
   AuthProvider,
@@ -65,21 +65,21 @@ class App extends React.Component {
     return (
       <AuthProvider>
         <AuthConsumer>
-          {({ isAuthenticated, encodedToken }) =>
-            isAuthenticated && (
-              <ApolloProvider client={client({ encodedToken })}>
-                <SettingsProvider>
-                  <SettingsConsumer>
-                    {({ themeType, toggleTheme }) => (
-                      <ThemeProvider
-                        type={themeType}
-                        onThemeToggled={toggleTheme}
-                      >
-                        <ThemeConsumer>
-                          {({ theme }) => (
-                            <StylesProvider context={theme}>
-                              <React.Fragment>
-                                <StatusBar />
+          {({ isAuthenticated, encodedToken }) => (
+            <ApolloProvider client={client({ encodedToken })}>
+              <SettingsProvider>
+                <SettingsConsumer>
+                  {({ themeType, toggleTheme }) => (
+                    <ThemeProvider
+                      type={themeType}
+                      onThemeToggled={toggleTheme}
+                    >
+                      <ThemeConsumer>
+                        {({ theme }) => (
+                          <StylesProvider context={theme}>
+                            <React.Fragment>
+                              <StatusBar />
+                              {isAuthenticated ? (
                                 <AppNavigator
                                   onNavigationStateChange={(
                                     prevState,
@@ -105,17 +105,19 @@ class App extends React.Component {
                                     }
                                   }}
                                 />
-                              </React.Fragment>
-                            </StylesProvider>
-                          )}
-                        </ThemeConsumer>
-                      </ThemeProvider>
-                    )}
-                  </SettingsConsumer>
-                </SettingsProvider>
-              </ApolloProvider>
-            )
-          }
+                              ) : (
+                                <AuthNavigator />
+                              )}
+                            </React.Fragment>
+                          </StylesProvider>
+                        )}
+                      </ThemeConsumer>
+                    </ThemeProvider>
+                  )}
+                </SettingsConsumer>
+              </SettingsProvider>
+            </ApolloProvider>
+          )}
         </AuthConsumer>
       </AuthProvider>
     );

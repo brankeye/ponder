@@ -1,0 +1,6 @@
+mutation($input: UserAnonInput!) {
+  userSignInAnon(input: $input) {
+    id
+    email
+  }
+}

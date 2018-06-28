@@ -1,4 +1,5 @@
 import { User } from '@@database';
+import { socialLogin } from '@@utils';
 import uuid from 'uuid/v4';
 import { merge } from 'ramda';
 
@@ -11,33 +12,64 @@ const routes = {
       return res.json(user);
     },
   },
-  registerAnonymous: {
+  signInAnonymous: {
     method: 'POST',
-    route: '/user',
-    handler: async ({ body: { clientId, timeZone } }, res) => {
+    route: '/user/anon',
+    handler: async ({ body: { clientId } }, res) => {
+      const user = await User.query().findOne('client_id', clientId);
+      if (user) {
+        console.log('Anon user: ', user);
+        return user;
+      }
+
       const newUser = await User.query()
         .insert({
           id: uuid(),
           client_id: clientId,
           anonymous: true,
-          time_zone: timeZone,
         })
         .returning('*');
-      console.log('New User: ', newUser);
+      console.log('Anon user: ', newUser);
       return res.json(newUser);
     },
   },
-  registerUser: {
-    method: 'PUT',
-    route: '/user',
-    handler: async ({ context: { user, authorization } }, res) => {
-      const { email, oauthId } = authorization;
-      const updatedUser = await User.query().patchAndFetchById(
-        user.id,
-        merge(user, { email, oauth_id: oauthId })
-      );
-      console.log('Updated user: ', updatedUser);
-      return res.json(updatedUser);
+  signInSocial: {
+    method: 'POST',
+    route: '/user/social',
+    handler: async ({ clientId, provider, token }, res) => {
+      const { email, oauthId } = await socialLogin({ provider, token });
+      const user = await User.query().findOne('client_id', clientId);
+      if (user) {
+        if (user.anonymous) {
+          const updatedUser = await User.query().patchAndFetchById(
+            user.id,
+            merge(user, {
+              email,
+              provider,
+              oauth_id: oauthId,
+              anonymous: false,
+            })
+          );
+          console.log('Social user: ', updatedUser);
+          return res.json(updatedUser);
+        } else {
+          console.log('Social user: ', user);
+          return user;
+        }
+      } else {
+        const newUser = await User.query()
+          .insert({
+            id: uuid(),
+            client_id: clientId,
+            email,
+            provider,
+            oauth_id: oauthId,
+            anonymous: false,
+          })
+          .returning('*');
+        console.log('Social user: ', newUser);
+        return res.json(newUser);
+      }
     },
   },
 };

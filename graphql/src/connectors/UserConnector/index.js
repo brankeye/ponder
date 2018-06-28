@@ -8,18 +8,18 @@ class UserConnector extends BaseConnector {
       auth: true,
     });
 
-  registerAnonUser = () =>
+  signInAnon = input =>
     this.request({
-      path: 'api/user',
+      path: 'api/user/anon',
       method: 'POST',
-      auth: true,
+      body: input,
     });
 
-  registerSocialUser = () =>
+  signInSocial = input =>
     this.request({
-      path: 'api/user',
-      method: 'PUT',
-      auth: true,
+      path: 'api/user/social',
+      method: 'POST',
+      body: input,
     });
 }
 

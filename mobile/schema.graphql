@@ -1,5 +1,5 @@
 # source: http://0.0.0.0:3000/graphql
-# timestamp: Sun Jun 17 2018 22:41:12 GMT-0400 (EDT)
+# timestamp: Wed Jun 27 2018 22:44:24 GMT-0400 (EDT)
 
 type Author implements AuthorContract {
   id: ID
@@ -49,8 +49,8 @@ input AuthorInfoInput {
 scalar Date
 
 type Mutation {
-  userRegisterAnon(timeZone: String): User
-  userRegisterSocial: User
+  userSignInAnon(input: UserAnonInput!): User
+  userSignInSocial(input: UserSocialInput!): User
   authorUpsert(input: AuthorInfoInput!): AuthorInfo
   poemUpsert(input: PoemInfoInput!): PoemInfo
 }
@@ -133,7 +133,23 @@ type Query {
   poemList(from: PoemCategory!, search: String, first: Int, after: String, last: Int, before: String): PoemConnection
 }
 
+enum SocialProvider {
+  Facebook
+  Google
+  Twitter
+}
+
 type User {
   id: ID
   email: String
+}
+
+input UserAnonInput {
+  clientId: ID!
+}
+
+input UserSocialInput {
+  clientId: ID!
+  provider: SocialProvider!
+  token: String!
 }
