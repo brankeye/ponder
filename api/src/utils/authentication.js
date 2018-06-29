@@ -26,7 +26,10 @@ export const socialLogin = async ({ provider, token }) => {
   }
 };
 
-export const authenticate = async ({ authorization }) => {
+export const authenticate = async ({
+  authorization,
+  clientId: devClientId,
+}) => {
   if (authorization) {
     const { provider, token, clientId } = authorization;
     if (token) {
@@ -47,8 +50,8 @@ export const authenticate = async ({ authorization }) => {
     } else {
       throw new Error('Unknown client.');
     }
-  } else if (config.dev) {
-    const user = await User.query().findOne('client_id', 'default');
+  } else if (config.dev && devClientId) {
+    const user = await User.query().findOne('client_id', devClientId);
     console.log('User: ', user);
     if (!user) {
       const newUser = await User.query()

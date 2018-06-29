@@ -28,6 +28,7 @@ class PoemListScreen extends React.Component {
   };
 
   render() {
+    console.log('Active A: ', this.isActive());
     return (
       <Screen>
         <Subscriber topic={'HomeHeader/onSearch'} handler={this.handleSearch} />
@@ -58,6 +59,7 @@ class AuthorListScreen extends React.Component {
   };
 
   render() {
+    console.log('Active B: ', this.isActive());
     return (
       <Screen>
         <Subscriber topic={'HomeHeader/onSearch'} handler={this.handleSearch} />

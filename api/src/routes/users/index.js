@@ -19,7 +19,7 @@ const routes = {
       const user = await User.query().findOne('client_id', clientId);
       if (user) {
         console.log('Anon user: ', user);
-        return user;
+        return res.json(user);
       }
 
       const newUser = await User.query()
@@ -54,7 +54,7 @@ const routes = {
           return res.json(updatedUser);
         } else {
           console.log('Social user: ', user);
-          return user;
+          return res.json(user);
         }
       } else {
         const newUser = await User.query()

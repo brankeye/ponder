@@ -32,7 +32,10 @@ app.use(
 
 const authMiddleware = async (req, res, next) => {
   const { authorization } = req.context;
-  const context = await authenticate({ authorization });
+  const context = await authenticate({
+    authorization,
+    clientId: req.params.client_id,
+  });
   req.context = merge(req.context || {}, context);
   next();
 };

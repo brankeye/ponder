@@ -2,10 +2,9 @@ import React from 'react';
 import { Button } from 'react-native';
 import { Mutation } from 'react-apollo';
 import { Screen, Typography } from '@@components';
+import { withAuth } from '@@consumers';
 import { userSignInAnonMutation, userSignInSocialMutation } from '@@graphql';
 import Expo from 'expo';
-
-const enhance = compose(graphql);
 
 class LandingScreen extends React.Component {
   handleAnonymousSignIn = async signIn => {
@@ -13,7 +12,10 @@ class LandingScreen extends React.Component {
       variables: { input: { clientId: Expo.Constants.deviceId } },
     });
     console.log('User: ', user);
-    this.props.navigation.navigate('Home');
+    if (user) {
+      await this.props.signInAnonymously();
+      this.props.navigation.navigate('App');
+    }
   };
 
   handleFacebook = () => {};
@@ -21,7 +23,9 @@ class LandingScreen extends React.Component {
   render() {
     return (
       <Screen>
-        <Typography type={'title'}>Ponder</Typography>
+        <Typography type={'title'}>
+          Ponder: {Expo.Constants.deviceId}
+        </Typography>
         <Button title={'Sign in with Facebook'} onPress={this.handleFacebook} />
         <Typography type={'title'}>... or ...</Typography>
         <GuestButton
@@ -39,4 +43,4 @@ const GuestButton = ({ onPress, ...props }) => (
   </Mutation>
 );
 
-export { LandingScreen };
+export default withAuth(LandingScreen);

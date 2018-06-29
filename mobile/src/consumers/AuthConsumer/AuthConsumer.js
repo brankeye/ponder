@@ -16,17 +16,23 @@ class AuthProvider extends React.Component {
     const token = await Auth.getToken();
     if (token) {
       const { accessToken, encodedToken } = token;
-      this.setState({ accessToken, encodedToken, isAuthenticated: true });
+      this.setState({
+        accessToken,
+        encodedToken,
+        isAuthenticated: true,
+      });
       console.log('Already authenticated...');
-    } else {
-      const clientId = Expo.Constants.deviceId;
-      const token = { clientId };
-      const encodedToken = Auth.encodeToken(token);
-      await Auth.saveToken({ encodedToken });
-      console.log('Success: ', { clientId, encodedToken });
-      this.setState({ encodedToken, isAuthenticated: true });
     }
   }
+
+  signInAnonymously = async () => {
+    const clientId = Expo.Constants.deviceId;
+    const token = { clientId };
+    const encodedToken = Auth.encodeToken(token);
+    await Auth.saveToken({ encodedToken });
+    console.log('Success: ', { clientId, encodedToken });
+    this.setState({ encodedToken, isAuthenticated: true });
+  };
 
   signInWithFacebook = async () => {
     const {
@@ -57,6 +63,7 @@ class AuthProvider extends React.Component {
           isAuthenticated: this.state.isAuthenticated,
           accessToken: this.state.accessToken,
           encodedToken: this.state.encodedToken,
+          signInAnonymously: this.signInAnonymously,
           signInWithFacebook: this.signInWithFacebook,
         }}
       >
