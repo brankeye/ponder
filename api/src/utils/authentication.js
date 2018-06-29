@@ -1,5 +1,4 @@
 import { User } from '@@database';
-import uuid from 'uuid/v4';
 import rp from 'request-promise';
 import config from '@@config';
 
@@ -38,14 +37,6 @@ export const authenticate = async ({
       return { user };
     } else if (clientId) {
       const user = await User.query().findOne('client_id', clientId);
-      if (!user) {
-        const newUser = await User.query()
-          .insert({ id: uuid(), client_id: clientId, anonymous: true })
-          .returning('*');
-        return {
-          user: newUser,
-        };
-      }
       return { user };
     } else {
       throw new Error('Unknown client.');
@@ -53,15 +44,6 @@ export const authenticate = async ({
   } else if (config.dev && devClientId) {
     const user = await User.query().findOne('client_id', devClientId);
     console.log('User: ', user);
-    if (!user) {
-      const newUser = await User.query()
-        .insert({ id: uuid(), client_id: 'default', anonymous: true })
-        .returning('*');
-      console.log('New User: ', newUser);
-      return {
-        user: newUser,
-      };
-    }
     return { user };
   }
 };

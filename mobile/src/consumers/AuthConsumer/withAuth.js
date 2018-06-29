@@ -3,6 +3,6 @@ import { AuthConsumer } from './index';
 
 export const withAuth = WrappedComponent => props => (
   <AuthConsumer>
-    {args => <WrappedComponent {...props} {...args} />}
+    {authProps => <WrappedComponent {...props} auth={authProps} />}
   </AuthConsumer>
 );

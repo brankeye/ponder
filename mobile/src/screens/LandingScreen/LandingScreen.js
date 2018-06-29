@@ -13,7 +13,7 @@ class LandingScreen extends React.Component {
     });
     console.log('User: ', user);
     if (user) {
-      await this.props.signInAnonymously();
+      await this.props.auth.signInAnonymously();
       this.props.navigation.navigate('App');
     }
   };

@@ -12,6 +12,7 @@ import {
   SettingsProvider,
   SettingsConsumer,
   StylesProvider,
+  withAuth,
 } from '@@consumers';
 
 const getActiveRoute = navigationState => {
@@ -54,6 +55,7 @@ class App extends React.Component {
       'Crimson-Bold': require('@@assets/fonts/CrimsonText-Bold.ttf'),
       'Crimson-Italic': require('@@assets/fonts/CrimsonText-Italic.ttf'),
     });
+    await this.props.auth.loadAsync();
     this.setState({
       loading: false,
     });
@@ -63,41 +65,38 @@ class App extends React.Component {
     if (this.state.loading) return null;
 
     return (
-      <AuthProvider>
-        <AuthConsumer>
-          {({ encodedToken }) => (
-            <ApolloProvider client={client({ encodedToken })}>
-              <SettingsProvider>
-                <SettingsConsumer>
-                  {({ themeType, toggleTheme }) => (
-                    <ThemeProvider
-                      type={themeType}
-                      onThemeToggled={toggleTheme}
-                    >
-                      <ThemeConsumer>
-                        {({ theme }) => (
-                          <StylesProvider context={theme}>
-                            <React.Fragment>
-                              <StatusBar />
-                              <MainNavigator
-                                onNavigationStateChange={
-                                  onNavigationStateChange
-                                }
-                              />
-                            </React.Fragment>
-                          </StylesProvider>
-                        )}
-                      </ThemeConsumer>
-                    </ThemeProvider>
-                  )}
-                </SettingsConsumer>
-              </SettingsProvider>
-            </ApolloProvider>
-          )}
-        </AuthConsumer>
-      </AuthProvider>
+      <React.Fragment>
+        <StatusBar />
+        <MainNavigator onNavigationStateChange={onNavigationStateChange} />
+      </React.Fragment>
     );
   }
 }
 
-Expo.registerRootComponent(App);
+const withProviders = WrappedComponent => () => (
+  <AuthProvider>
+    <AuthConsumer>
+      {({ encodedToken }) => (
+        <ApolloProvider client={client({ encodedToken })}>
+          <SettingsProvider>
+            <SettingsConsumer>
+              {({ themeType, toggleTheme }) => (
+                <ThemeProvider type={themeType} onThemeToggled={toggleTheme}>
+                  <ThemeConsumer>
+                    {({ theme }) => (
+                      <StylesProvider context={theme}>
+                        <WrappedComponent />
+                      </StylesProvider>
+                    )}
+                  </ThemeConsumer>
+                </ThemeProvider>
+              )}
+            </SettingsConsumer>
+          </SettingsProvider>
+        </ApolloProvider>
+      )}
+    </AuthConsumer>
+  </AuthProvider>
+);
+
+Expo.registerRootComponent(withProviders(withAuth(App)));

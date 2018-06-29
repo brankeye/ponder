@@ -4,7 +4,7 @@ import { Buffer } from 'buffer';
 class Auth {
   key = 'oauth';
 
-  saveToken = token => Storage.setItem(this.key, this.encodeToken(token));
+  saveToken = token => Storage.setItem(this.key, token);
 
   getToken = () => Storage.getItem(this.key);
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Auth } from '@@utils';
 import { FACEBOOK_APP_ID } from '@@config';
 import Expo from 'expo';
+import { Promise } from 'core-js';
 
 const { Provider, Consumer } = React.createContext();
 
@@ -12,18 +13,27 @@ class AuthProvider extends React.Component {
     isAuthenticated: false,
   };
 
-  async componentDidMount() {
+  setStateAsync = newState => {
+    return new Promise(resolve => {
+      this.setState(newState, resolve);
+    });
+  };
+
+  loadAsync = async () => {
     const token = await Auth.getToken();
+    console.log({ token });
     if (token) {
       const { accessToken, encodedToken } = token;
-      this.setState({
+      console.log({ accessToken, encodedToken });
+      await this.setStateAsync({
         accessToken,
         encodedToken,
         isAuthenticated: true,
+        loading: false,
       });
       console.log('Already authenticated...');
     }
-  }
+  };
 
   signInAnonymously = async () => {
     const clientId = Expo.Constants.deviceId;
@@ -60,6 +70,7 @@ class AuthProvider extends React.Component {
     return (
       <Provider
         value={{
+          loadAsync: this.loadAsync,
           isAuthenticated: this.state.isAuthenticated,
           accessToken: this.state.accessToken,
           encodedToken: this.state.encodedToken,
