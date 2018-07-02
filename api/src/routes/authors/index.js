@@ -48,6 +48,36 @@ const routes = {
       return res.json(await AuthorInfo.query().findById([user_id, author_id]));
     },
   },
+  getRecentAuthors: {
+    method: 'GET',
+    route: 'recents/authors',
+    auth: true,
+    handler: async ({ query, context: { user } }, res) => {
+      const user_id = user.id;
+      const filters = parseFilters({ id: 'author_id', ...query });
+      const dbQuery = AuthorInfo.query();
+
+      if (query.search) {
+        dbQuery.eager('author').modifyEager('author', builder => {
+          builder.select('name').where('name', 'ilike', `%${query.search}%`);
+        });
+      }
+
+      return dbQuery
+        .where('user_id', user_id)
+        .orderBy('viewed_at')
+        .filter(filters)
+        .then(resolveP(map(flattenProp('author'))))
+        .then(
+          parseConnection(AuthorInfo, {
+            id: 'author_id',
+            query,
+            filters,
+          })
+        )
+        .then(data => res.json(data));
+    },
+  },
   getAuthorsFromLibrary: {
     method: 'GET',
     route: '/library/authors',

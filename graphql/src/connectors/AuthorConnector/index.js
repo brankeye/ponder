@@ -26,6 +26,16 @@ class AuthorConnector extends BaseConnector {
       path: `/api/authors/${id}/poems`,
     });
 
+  getRecents = ({ search, ...paginationArgs }) =>
+    this.request({
+      path: '/api/recents/authors',
+      qs: {
+        search,
+        ...parsePaginationOptions(paginationArgs),
+      },
+      auth: true,
+    });
+
   getLibrary = ({ search, ...paginationArgs }) =>
     this.request({
       path: '/api/library/authors',

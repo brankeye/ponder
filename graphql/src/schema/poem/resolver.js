@@ -7,6 +7,8 @@ const resolver = {
       switch (from) {
         case 'Default':
           return Poem.getAll(args);
+        case 'Recents':
+          return Poem.getRecents(args);
         case 'Library':
           return Poem.getLibrary(args);
       }
@@ -20,6 +22,8 @@ const resolver = {
     teaser: ({ lines }) => lines.slice(0, 4),
     inLibrary: async ({ in_library, id }, args, { Poem }) =>
       in_library || propOr(false, 'in_library', await Poem.getInfo({ id })),
+    viewedAt: async ({ viewed_at, id }, args, { Poem }) =>
+      viewed_at || propOr(null, 'viewed_at', await Poem.getInfo({ id })),
   },
   Poem: {
     author: ({ author_id }, args, { Author }) => Author.get({ id: author_id }),

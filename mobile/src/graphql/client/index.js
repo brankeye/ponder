@@ -3,12 +3,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
-import { withClientState } from 'apollo-link-state';
 import { setContext } from 'apollo-link-context';
-import { compose } from 'recompose';
-import { themeQuery } from '@@graphql';
 import { GRAPHQL_URL } from '@@config';
-import { Auth } from '@@utils';
 
 const cache = new InMemoryCache();
 

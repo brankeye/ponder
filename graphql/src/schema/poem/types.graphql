@@ -34,6 +34,7 @@ type Poem implements PoemContract {
   lines: [String]
   keywords: [String]
   inLibrary: Boolean
+  viewedAt: Date
   author: AuthorDetails
 }
 
@@ -47,6 +48,7 @@ type PoemDetails implements PoemContract {
   lines: [String]
   keywords: [String]
   inLibrary: Boolean
+  viewedAt: Date
 }
 
 type PoemInfo {
@@ -65,6 +67,7 @@ interface PoemContract {
   lines: [String]
   keywords: [String]
   inLibrary: Boolean
+  viewedAt: Date
 }
 
 input PoemInfoInput {
@@ -74,5 +77,6 @@ input PoemInfoInput {
 
 enum PoemCategory {
   Default
+  Recents
   Library
 }

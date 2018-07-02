@@ -21,6 +21,16 @@ class PoemConnector extends BaseConnector {
       },
     });
 
+  getRecents = ({ search, ...paginationArgs }) =>
+    this.request({
+      path: '/api/recents/poems',
+      qs: {
+        search,
+        ...parsePaginationOptions(paginationArgs),
+      },
+      auth: true,
+    });
+
   getLibrary = ({ search, ...paginationArgs }) =>
     this.request({
       path: '/api/library/poems',

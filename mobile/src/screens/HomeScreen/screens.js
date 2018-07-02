@@ -12,13 +12,8 @@ class PoemListScreen extends React.Component {
 
   isActive = () => this.props.navigation.getParam('isActive', true);
 
-  handleSelect = async poem => {
-    const recents = JSON.parse(await AsyncStorage.getItem('recents')) || [];
-    if (poem && !recents.find(p => p.id === poem.id)) {
-      recents.unshift(poem);
-      await AsyncStorage.setItem('recents', JSON.stringify(recents));
-    }
-    await this.props.navigation.navigate('Poem', { id: poem.id });
+  handleSelect = ({ id }) => {
+    this.props.navigation.navigate('Poem', { id });
   };
 
   handleSearch = term => {
@@ -28,7 +23,6 @@ class PoemListScreen extends React.Component {
   };
 
   render() {
-    console.log('Active A: ', this.isActive());
     return (
       <Screen>
         <Subscriber topic={'HomeHeader/onSearch'} handler={this.handleSearch} />

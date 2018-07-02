@@ -70,6 +70,38 @@ const routes = {
         .then(data => res.json(data));
     },
   },
+  getRecentPoems: {
+    method: 'GET',
+    route: 'recents/poems',
+    auth: true,
+    handler: async ({ query, context: { user } }, res) => {
+      const user_id = user.id;
+      const id = 'poem_id';
+      const filters = parseFilters(merge({ id }, query));
+      const dbQuery = PoemInfo.query().eager('poem');
+
+      if (query.search) {
+        dbQuery.modifyEager('poem', builder => {
+          builder.andWhere('title', 'ilike', `%${query.search}%`);
+        });
+      }
+
+      return dbQuery
+        .where('user_id', user_id)
+        .orderBy('viewed_at')
+        .filter(filters)
+        .then(resolveP(map(flattenProp('poem'))))
+        .then(resolveP(filter(prop('poem'))))
+        .then(
+          parseConnection(PoemInfo, {
+            id,
+            query,
+            filters,
+          })
+        )
+        .then(data => res.json(data));
+    },
+  },
   updatePoemFromLibrary: {
     method: 'PUT',
     route: '/library/poems',

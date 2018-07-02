@@ -32,7 +32,6 @@ app.use(
 
 const authMiddleware = async (req, res, next) => {
   const { authorization } = req.context;
-  console.log({ authorization });
   const context = await authenticate({
     authorization,
   });

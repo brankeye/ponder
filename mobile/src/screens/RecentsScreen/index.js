@@ -1,16 +1,22 @@
-import { createMaterialTopTabNavigator } from 'react-navigation';
+import React from 'react';
+import {
+  createMaterialTopTabNavigator,
+  createStackNavigator,
+} from 'react-navigation';
 import { PoemListScreen, AuthorListScreen } from './screens';
-import { TabBar } from '@@components';
+import PoemScreen from '../PoemScreen';
+import AuthorScreen from '../AuthorScreen';
+import { TabBar, HeaderBar } from '@@components';
 
-export default createMaterialTopTabNavigator(
+const RecentsScreen = createMaterialTopTabNavigator(
   {
-    RecentPoems: {
+    PoemsLibrary: {
       screen: PoemListScreen,
       navigationOptions: {
         title: 'Poems',
       },
     },
-    RecentAuthors: {
+    AuthorsLibrary: {
       screen: AuthorListScreen,
       navigationOptions: {
         title: 'Authors',
@@ -21,3 +27,29 @@ export default createMaterialTopTabNavigator(
     tabBarComponent: TabBar,
   }
 );
+
+export default createStackNavigator({
+  Home: {
+    screen: RecentsScreen,
+    navigationOptions: {
+      title: 'Recents',
+      header: props => (
+        <HeaderBar {...props} name="RecentsHeader" title="Recents" searchable />
+      ),
+    },
+  },
+  Poem: {
+    screen: PoemScreen,
+    navigationOptions: {
+      title: 'Poem',
+      header: props => <HeaderBar {...props} title="Poem" />,
+    },
+  },
+  Author: {
+    screen: AuthorScreen,
+    navigationOptions: {
+      title: 'Author',
+      header: props => <HeaderBar {...props} title="Author" />,
+    },
+  },
+});
