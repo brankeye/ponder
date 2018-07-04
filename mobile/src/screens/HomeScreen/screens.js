@@ -1,5 +1,4 @@
 import React from 'react';
-import { Text, View, AsyncStorage } from 'react-native';
 import {
   Screen,
   PoemListWithData,

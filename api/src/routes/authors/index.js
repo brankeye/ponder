@@ -114,11 +114,11 @@ const routes = {
     auth: true,
     handler: async ({ body, context: { user } }, res) => {
       const user_id = user.id;
-      const poemLib = await AuthorInfo.query().findById([
+      const authorLib = await AuthorInfo.query().findById([
         user_id,
         body.author_id,
       ]);
-      if (poemLib) {
+      if (authorLib) {
         res.json(
           await AuthorInfo.query().patchAndFetchById(
             [user_id, body.author_id],

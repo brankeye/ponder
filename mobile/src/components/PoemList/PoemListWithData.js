@@ -27,7 +27,7 @@ class PoemListWithData extends Component {
             <PoemList
               {...props}
               poems={edges.map(({ node }) => ({ ...node }))}
-              onFetchMore={() => {
+              onEndReached={() => {
                 fetchMore({
                   query: poemListQuery,
                   variables: {

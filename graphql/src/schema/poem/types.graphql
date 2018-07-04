@@ -11,7 +11,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  poemUpsert(input: PoemInfoInput!): PoemInfo
+  poemUpsert(input: PoemInput!): Poem
 }
 
 type PoemConnection {
@@ -51,12 +51,6 @@ type PoemDetails implements PoemContract {
   viewedAt: Date
 }
 
-type PoemInfo {
-  id: ID
-  inLibrary: Boolean
-  viewedAt: Date
-}
-
 interface PoemContract {
   id: ID
   title: String
@@ -70,7 +64,7 @@ interface PoemContract {
   viewedAt: Date
 }
 
-input PoemInfoInput {
+input PoemInput {
   id: ID!
   inLibrary: Boolean!
 }

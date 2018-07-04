@@ -11,6 +11,7 @@ const makeGraphqlExpress = () =>
     context: getContext({
       ...config,
       authorization: req.headers.authorization,
+      clientId: req.headers['client-id'],
     }),
   }));
 
@@ -22,6 +23,7 @@ app.use(
   '/graphiql',
   graphiqlExpress({
     endpointURL: '/graphql',
+    passHeader: "'Client-Id': 'default'",
   })
 );
 

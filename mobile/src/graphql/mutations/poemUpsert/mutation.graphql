@@ -1,7 +1,14 @@
-mutation($input: PoemInfoInput!) {
+mutation($input: PoemInput!) {
   poemUpsert(input: $input) {
     id
+    title
+    teaser
+    lines
     inLibrary
-    viewedAt
+    author {
+      id
+      name
+      inLibrary
+    }
   }
 }

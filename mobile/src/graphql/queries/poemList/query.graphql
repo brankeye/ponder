@@ -19,7 +19,6 @@ query(
         id
         title
         teaser
-        lines
         inLibrary
         author {
           id

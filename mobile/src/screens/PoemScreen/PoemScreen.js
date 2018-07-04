@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 import { Screen, PoemViewWithData } from '@@components';
 import { Mutation } from 'react-apollo';
-import { poemUpsertMutation } from '@@graphql';
+import { poemUpsertMutation, poemListQuery } from '@@graphql';
 
 class PoemScreen extends Component {
+  refetchQueries = types =>
+    types.map(type => ({
+      query: poemListQuery,
+      variables: { from: type, first: 10 },
+    }));
+
   render() {
     const id = this.props.navigation.getParam('id', null);
     return (
-      <Mutation mutation={poemUpsertMutation}>
+      <Mutation
+        mutation={poemUpsertMutation}
+        refetchQueries={this.refetchQueries(['Default', 'Recents', 'Library'])}
+      >
         {poemUpsert => {
           return (
             <Screen>

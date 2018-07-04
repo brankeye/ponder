@@ -1,4 +1,4 @@
-mutation($input: AuthorInfoInput!) {
+mutation($input: AuthorInput!) {
   authorUpsert(input: $input) {
     id
     inLibrary

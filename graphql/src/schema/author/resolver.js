@@ -15,7 +15,10 @@ const resolver = {
     },
   },
   Mutation: {
-    authorUpsert: (root, args, { Author }) => Author.upsertInfo(args),
+    authorUpsert: async (root, args, { Author }) => {
+      await Author.upsertInfo(args);
+      return Author.get({ id: args.input.id });
+    },
   },
   AuthorContract: {
     __resolveType: ({ poems }) => (poems ? 'Author' : 'AuthorDetails'),
@@ -26,11 +29,6 @@ const resolver = {
   },
   Author: {
     poems: ({ id }, args, { Author }) => Author.getPoems({ id }),
-  },
-  AuthorInfo: {
-    id: prop('author_id'),
-    inLibrary: prop('in_library'),
-    viewedAt: prop('viewed_at'),
   },
 };
 

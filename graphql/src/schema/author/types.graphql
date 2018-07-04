@@ -11,7 +11,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  authorUpsert(input: AuthorInfoInput!): AuthorInfo
+  authorUpsert(input: AuthorInput!): Author
 }
 
 type AuthorConnection {
@@ -46,12 +46,6 @@ type AuthorDetails implements AuthorContract {
   viewedAt: Date
 }
 
-type AuthorInfo {
-  id: ID!
-  inLibrary: Boolean!
-  viewedAt: Date!
-}
-
 interface AuthorContract {
   id: ID
   name: String
@@ -59,7 +53,7 @@ interface AuthorContract {
   viewedAt: Date
 }
 
-input AuthorInfoInput {
+input AuthorInput {
   id: ID!
   inLibrary: Boolean!
 }

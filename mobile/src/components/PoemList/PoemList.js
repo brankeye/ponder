@@ -6,10 +6,12 @@ import * as Animatable from 'react-native-animatable';
 class PoemList extends Component {
   keyExtractor = ({ id }) => id;
 
-  renderItem = ({ item }) => <PoemCard poem={item} onPress={this.props.onSelect} />;
+  renderItem = ({ item }) => (
+    <PoemCard poem={item} onPress={this.props.onSelect} />
+  );
 
   render() {
-    const { poems, onFetchMore } = this.props;
+    const { poems, onEndReached } = this.props;
     return (
       <Animatable.View
         animation={'fadeIn'}
@@ -21,7 +23,7 @@ class PoemList extends Component {
           data={poems}
           renderItem={this.renderItem}
           keyExtractor={this.keyExtractor}
-          onEndReached={onFetchMore}
+          onEndReached={onEndReached}
           showsVerticalScrollIndicator={false}
           style={{ flex: 1, width: '100%' }}
           contentContainerStyle={{ justifyContent: 'center' }}

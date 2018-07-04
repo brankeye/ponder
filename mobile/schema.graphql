@@ -1,15 +1,17 @@
 # source: http://0.0.0.0:3000/graphql
-# timestamp: Wed Jun 27 2018 22:44:24 GMT-0400 (EDT)
+# timestamp: Tue Jul 03 2018 20:36:05 GMT-0400 (EDT)
 
 type Author implements AuthorContract {
   id: ID
   name: String
   inLibrary: Boolean
+  viewedAt: Date
   poems: [PoemDetails]
 }
 
 enum AuthorCategory {
   Default
+  Recents
   Library
 }
 
@@ -22,12 +24,14 @@ interface AuthorContract {
   id: ID
   name: String
   inLibrary: Boolean
+  viewedAt: Date
 }
 
 type AuthorDetails implements AuthorContract {
   id: ID
   name: String
   inLibrary: Boolean
+  viewedAt: Date
 }
 
 type AuthorEdge {
@@ -35,13 +39,7 @@ type AuthorEdge {
   node: Author
 }
 
-type AuthorInfo {
-  id: ID!
-  inLibrary: Boolean!
-  viewedAt: Date!
-}
-
-input AuthorInfoInput {
+input AuthorInput {
   id: ID!
   inLibrary: Boolean!
 }
@@ -51,8 +49,8 @@ scalar Date
 type Mutation {
   userSignInAnon(input: UserAnonInput!): User
   userSignInSocial(input: UserSocialInput!): User
-  authorUpsert(input: AuthorInfoInput!): AuthorInfo
-  poemUpsert(input: PoemInfoInput!): PoemInfo
+  authorUpsert(input: AuthorInput!): Author
+  poemUpsert(input: PoemInput!): Poem
 }
 
 type PageInfo {
@@ -72,11 +70,13 @@ type Poem implements PoemContract {
   lines: [String]
   keywords: [String]
   inLibrary: Boolean
+  viewedAt: Date
   author: AuthorDetails
 }
 
 enum PoemCategory {
   Default
+  Recents
   Library
 }
 
@@ -95,6 +95,7 @@ interface PoemContract {
   lines: [String]
   keywords: [String]
   inLibrary: Boolean
+  viewedAt: Date
 }
 
 type PoemDetails implements PoemContract {
@@ -107,6 +108,7 @@ type PoemDetails implements PoemContract {
   lines: [String]
   keywords: [String]
   inLibrary: Boolean
+  viewedAt: Date
 }
 
 type PoemEdge {
@@ -114,13 +116,7 @@ type PoemEdge {
   node: Poem
 }
 
-type PoemInfo {
-  id: ID
-  inLibrary: Boolean
-  viewedAt: Date
-}
-
-input PoemInfoInput {
+input PoemInput {
   id: ID!
   inLibrary: Boolean!
 }

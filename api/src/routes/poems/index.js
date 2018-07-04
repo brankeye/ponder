@@ -109,7 +109,7 @@ const routes = {
     handler: async ({ body, context: { user } }, res) => {
       const user_id = user.id;
       const poemLib = await PoemInfo.query().findById([user_id, body.poem_id]);
-      console.log({ poemLib });
+      //console.log({ poemLib });
       if (poemLib) {
         res.json(
           await PoemInfo.query().patchAndFetchById(

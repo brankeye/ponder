@@ -15,7 +15,7 @@ class AuthorList extends Component {
   );
 
   render() {
-    const { authors, onFetchMore } = this.props;
+    const { authors, onEndReached } = this.props;
     return (
       <Animatable.View
         animation={'fadeIn'}
@@ -27,7 +27,7 @@ class AuthorList extends Component {
           data={authors}
           renderItem={this.renderItem}
           keyExtractor={this.keyExtractor}
-          onEndReached={onFetchMore}
+          onEndReached={onEndReached}
           showsVerticalScrollIndicator={false}
           style={{ flex: 1, width: '100%' }}
         />

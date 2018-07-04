@@ -39,6 +39,11 @@ class BaseConnector {
           ...rest,
         };
 
+        if (this.clientId) {
+          urlOptions.headers = urlOptions.headers || {};
+          urlOptions.headers['Client-Id'] = this.clientId;
+        }
+
         if (auth) {
           urlOptions.headers = urlOptions.headers || {};
           urlOptions.headers.authorization = this.authorization;

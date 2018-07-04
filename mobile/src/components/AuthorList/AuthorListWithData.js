@@ -28,7 +28,7 @@ class AuthorListWithData extends Component {
             <AuthorList
               {...props}
               authors={edges.map(({ node }) => ({ ...node }))}
-              onFetchMore={() => {
+              onEndReached={() => {
                 fetchMore({
                   query: authorListQuery,
                   variables: {

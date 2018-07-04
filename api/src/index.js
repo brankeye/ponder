@@ -26,13 +26,17 @@ app.use(
       }
       req.context = merge(req.context, { authorization });
     }
+    if (req.headers['client-id']) {
+      req.context = merge(req.context, { clientId: req.headers['client-id'] });
+    }
     next();
   })
 );
 
 const authMiddleware = async (req, res, next) => {
-  const { authorization } = req.context;
+  const { clientId, authorization } = req.context;
   const context = await authenticate({
+    clientId,
     authorization,
   });
   req.context = merge(req.context || {}, context);
