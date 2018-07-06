@@ -11,9 +11,9 @@ import {
   ThemeConsumer,
   SettingsProvider,
   SettingsConsumer,
-  StylesProvider,
   withAuth,
 } from '@@consumers';
+import { StylesProvider } from '@@utils';
 
 const getActiveRoute = navigationState => {
   if (!navigationState) {
@@ -84,7 +84,7 @@ const withProviders = WrappedComponent => () => (
                 <ThemeProvider type={themeType} onThemeToggled={toggleTheme}>
                   <ThemeConsumer>
                     {({ theme }) => (
-                      <StylesProvider context={theme}>
+                      <StylesProvider id={themeType} context={theme}>
                         <WrappedComponent />
                       </StylesProvider>
                     )}

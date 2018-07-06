@@ -1,25 +1,20 @@
 import React from 'react';
 import TabBar from './TabBar';
-import { ThemeConsumer } from '@@consumers';
-import { Styles } from '@@components';
 import Color from 'color';
+import { Styles } from '@@utils';
+
+const StylesConsumer = Styles.consumer(theme => ({
+  bar: {
+    backgroundColor: Color(theme.backgroundColor)
+      .darken(0.05)
+      .string(),
+  },
+  label: { color: theme.textColor },
+  indicator: { backgroundColor: theme.accentColor },
+}));
 
 export default props => (
-  <ThemeConsumer>
-    {({ theme: { backgroundColor, textColor, accentColor } }) => (
-      <Styles
-        styles={{
-          bar: {
-            backgroundColor: Color(backgroundColor)
-              .darken(0.05)
-              .string(),
-          },
-          label: { color: textColor },
-          indicator: { backgroundColor: accentColor },
-        }}
-      >
-        {styles => <TabBar {...props} styles={styles} />}
-      </Styles>
-    )}
-  </ThemeConsumer>
+  <StylesConsumer>
+    {styles => <TabBar {...props} styles={styles} />}
+  </StylesConsumer>
 );

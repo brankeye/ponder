@@ -1,28 +1,23 @@
 import React from 'react';
 import Drawer from './Drawer';
-import { ThemeConsumer } from '@@consumers';
-import { Styles } from '@@components';
+import { Styles } from '@@utils';
+
+const StylesConsumer = Styles.consumer(theme => ({
+  scrollView: {
+    flex: 1,
+    backgroundColor: theme.backgroundColor,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  drawerItem: {
+    color: theme.textColor,
+  },
+}));
 
 export default props => (
-  <ThemeConsumer>
-    {({ theme: { backgroundColor, textColor } }) => (
-      <Styles
-        styles={{
-          scrollView: {
-            flex: 1,
-            backgroundColor,
-          },
-          container: {
-            flex: 1,
-            justifyContent: 'center',
-          },
-          drawerItem: {
-            color: textColor,
-          },
-        }}
-      >
-        {styles => <Drawer {...props} styles={styles} />}
-      </Styles>
-    )}
-  </ThemeConsumer>
+  <StylesConsumer>
+    {styles => <Drawer {...props} styles={styles} />}
+  </StylesConsumer>
 );
