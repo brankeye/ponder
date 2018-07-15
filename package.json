@@ -1,11 +1,12 @@
 {
+  "license": "MIT",
   "scripts": {
     "run-api": "cd api && docker-compose up -d",
     "run-graphql": "cd graphql && docker-compose up -d",
     "build-api": "cd api && docker build -t ponder_api .",
     "build-graphql": "cd graphql && docker build -t ponder_graphql .",
     "save-api": "cd images && docker save ponder_api | gzip > ponder_api.tgz",
-    "save-graphql": "cd images && docker save ponder_graphql | gzip > ponder_graphql.tgz"
-  },
-  "devDependencies": {}
+    "save-graphql":
+      "cd images && docker save ponder_graphql | gzip > ponder_graphql.tgz"
+  }
 }

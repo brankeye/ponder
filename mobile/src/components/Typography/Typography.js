@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { Styles } from '@@utils';
+import Paint, { StylesConsumer } from 'react-native-paint';
 
-const StylesConsumer = Styles.consumer(({ textColor }) => ({
+const paint = Paint.create(theme => ({
   root: {
-    color: textColor,
+    color: theme.textColor,
   },
   title: {
     fontSize: 20,
@@ -22,10 +22,8 @@ const StylesConsumer = Styles.consumer(({ textColor }) => ({
 }));
 
 const Typography = ({ type, style, ...props }) => (
-  <StylesConsumer>
-    {({ root, ...styles }) => (
-      <Text {...props} style={[root, styles[type], style]} />
-    )}
+  <StylesConsumer paint={paint}>
+    {styles => <Text {...props} style={[styles.root, styles[type], style]} />}
   </StylesConsumer>
 );
 

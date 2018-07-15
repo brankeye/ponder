@@ -1,5 +1,5 @@
-import { User } from '@@database';
-import { socialLogin } from '@@utils';
+import { User } from 'database';
+import { socialLogin } from 'utils';
 import uuid from 'uuid/v4';
 import { merge } from 'ramda';
 
@@ -8,14 +8,14 @@ const routes = {
     method: 'GET',
     route: '/user',
     auth: true,
-    handler: ({ context: { user } }, res) => {
+    handler: (_, { context: { user } }, res) => {
       return res.json(user);
     },
   },
   signInAnonymous: {
     method: 'POST',
     route: '/user/anon',
-    handler: async ({ body: { clientId } }, res) => {
+    handler: async (_, { body: { clientId } }, res) => {
       const user = await User.query().findOne('client_id', clientId);
       if (user) {
         console.log('Anon user: ', user);
@@ -36,7 +36,7 @@ const routes = {
   signInSocial: {
     method: 'POST',
     route: '/user/social',
-    handler: async ({ clientId, provider, token }, res) => {
+    handler: async (_, { clientId, provider, token }, res) => {
       const { email, oauthId } = await socialLogin({ provider, token });
       const user = await User.query().findOne('client_id', clientId);
       if (user) {

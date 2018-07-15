@@ -1,9 +1,9 @@
 import React from 'react';
 import TabBar from './TabBar';
 import Color from 'color';
-import { Styles } from '@@utils';
+import Paint, { StylesConsumer } from 'react-native-paint';
 
-const StylesConsumer = Styles.consumer(theme => ({
+const paint = Paint.create(theme => ({
   bar: {
     backgroundColor: Color(theme.backgroundColor)
       .darken(0.05)
@@ -14,7 +14,7 @@ const StylesConsumer = Styles.consumer(theme => ({
 }));
 
 export default props => (
-  <StylesConsumer>
+  <StylesConsumer paint={paint}>
     {styles => <TabBar {...props} styles={styles} />}
   </StylesConsumer>
 );

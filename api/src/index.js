@@ -1,12 +1,15 @@
+// @flow
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import boolParser from 'express-query-boolean';
 import asyncHandler from 'express-async-handler';
 import { merge } from 'ramda';
-import config from '@@config';
-import routes from '@@routes';
-import database from '@@database';
-import { parseAuth, authenticate, socialLogin } from '@@utils';
+import config from 'config';
+import routes from 'routes';
+import database from 'database';
+import { parseAuth, authenticate, socialLogin } from 'utils';
+import createContext, { type Context } from 'context';
 database.setup();
 
 const app = express();
@@ -14,9 +17,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(boolParser());
 
+export type Request = {
+  context: Context,
+  headers: Object,
+};
+
 app.use(
-  asyncHandler(async (req, res, next) => {
-    req.context = req.context || {};
+  asyncHandler(async (req: Request, res, next) => {
+    req.context = createContext();
     if (req.headers.authorization) {
       const authorization = parseAuth(req.headers.authorization);
       if (authorization.provider) {
@@ -50,7 +58,14 @@ routes.map(({ method, route, handler, auth }) => {
   if (auth) {
     app.use(apiRoute, asyncHandler(authMiddleware));
   }
-  app[httpMethod](apiRoute, asyncHandler(handler));
+  app[httpMethod](
+    apiRoute,
+    asyncHandler((req, res, next, ...args) => {
+      const context = createContext();
+      const fnReturn = handler(context, req, res, next, ...args);
+      return Promise.resolve(fnReturn).catch(next);
+    })
+  );
 });
 
 app.use((err, req, res) => {

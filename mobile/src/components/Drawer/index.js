@@ -1,8 +1,8 @@
 import React from 'react';
 import Drawer from './Drawer';
-import { Styles } from '@@utils';
+import Paint, { StylesConsumer } from 'react-native-paint';
 
-const StylesConsumer = Styles.consumer(theme => ({
+const paint = Paint.create(theme => ({
   scrollView: {
     flex: 1,
     backgroundColor: theme.backgroundColor,
@@ -17,7 +17,7 @@ const StylesConsumer = Styles.consumer(theme => ({
 }));
 
 export default props => (
-  <StylesConsumer>
+  <StylesConsumer paint={paint}>
     {styles => <Drawer {...props} styles={styles} />}
   </StylesConsumer>
 );

@@ -1,5 +1,5 @@
 {
-  "presets": ["babel-preset-expo", "react-native-dotenv"],
+  "presets": ["flow", "babel-preset-expo", "react-native-dotenv"],
   "plugins": [
     "babel-plugin-inline-import",
     "transform-decorators-legacy",

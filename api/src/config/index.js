@@ -1,20 +1,26 @@
+// @flow
+
 import dotenv from 'dotenv';
 dotenv.config();
 
-class Config {
-  constructor() {
-    const { NODE_ENV, PORT, HOST, DB_CONNECTION, OAUTH_ID } = process.env;
+const { NODE_ENV, PORT, HOST, DB_CONNECTION, OAUTH_ID } = process.env;
 
-    if (NODE_ENV !== 'development') {
-      this.prod = true;
-    } else {
-      this.dev = true;
-    }
-    this.port = PORT || 3100;
-    this.host = HOST || 'localhost';
-    this.dbConnection = DB_CONNECTION;
-    this.oauthId = OAUTH_ID;
-  }
-}
+export type Config = {
+  dev: boolean,
+  prod: boolean,
+  port: number,
+  host: string,
+  dbConnection: ?string,
+  oauthId: ?string,
+};
 
-export default new Config();
+const config: Config = {
+  dev: NODE_ENV === 'development',
+  prod: NODE_ENV === 'production',
+  port: parseInt(PORT) || 3100,
+  host: HOST || 'localhost',
+  dbConnection: DB_CONNECTION,
+  oauthId: OAUTH_ID,
+};
+
+export default config;

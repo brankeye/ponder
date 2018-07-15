@@ -13,7 +13,7 @@ import {
   SettingsConsumer,
   withAuth,
 } from '@@consumers';
-import { StylesProvider } from '@@utils';
+import { StylesProvider } from 'react-native-paint';
 
 const getActiveRoute = navigationState => {
   if (!navigationState) {

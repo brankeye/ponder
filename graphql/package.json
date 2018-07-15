@@ -35,8 +35,10 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
+    "babel-preset-flow": "^6.23.0",
     "eslint": "^4.19.1",
     "eslint-import-resolver-babel-module": "^4.0.0",
+    "flow-bin": "^0.76.0",
     "glob": "^7.1.2",
     "graceful-fs": "^4.1.11",
     "nodemon": "^1.17.2",
@@ -44,6 +46,7 @@
   },
   "scripts": {
     "start": "BABEL_DISABLE_CACHE=1 nodemon ./src/index.js --exec babel-node",
-    "build": "babel ./src -d ./dist"
+    "build": "babel ./src -d ./dist",
+    "flow": "flow"
   }
 }

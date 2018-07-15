@@ -1,6 +1,8 @@
+// @flow
+
 import { Model } from 'objection';
 import Knex from 'knex';
-import config from '@@config';
+import config from 'config';
 
 const database = {
   setup: () => {
@@ -14,4 +16,5 @@ const database = {
 };
 
 export default database;
-export * from './models';
+
+export { Author, AuthorInfo, Poem, PoemInfo, User } from './models';

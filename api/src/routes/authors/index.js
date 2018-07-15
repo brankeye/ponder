@@ -1,14 +1,14 @@
 import { merge } from 'ramda';
-import { Author, AuthorInfo } from '@@database';
-import { parseFilters, parseConnection } from '@@utils/pagination';
-import { flattenProp, map, resolveP } from '@@utils/ramda';
+import { Author, AuthorInfo } from 'database';
+import { parseFilters, parseConnection } from 'utils/pagination';
+import { flattenProp, map, resolveP } from 'utils/ramda';
 import { format } from 'date-fns';
 
 const routes = {
   getAuthor: {
     method: 'GET',
     route: '/authors/:author_id',
-    handler: ({ params: { author_id } }, res) =>
+    handler: (_, { params: { author_id } }, res) =>
       Author.query()
         .findById(author_id)
         .then(data => res.json(data)),
@@ -16,8 +16,8 @@ const routes = {
   getAuthors: {
     method: 'GET',
     route: '/authors',
-    handler: ({ query }, res) => {
-      const filters = parseFilters(query);
+    handler: (_, { query }, res) => {
+      const filters = parseFilters({ ...query, random: true });
       const dbQuery = Author.query();
 
       if (query.search) {
@@ -33,7 +33,7 @@ const routes = {
   getPoemsForAuthor: {
     method: 'GET',
     route: '/authors/:author_id/poems',
-    handler: ({ params: { author_id } }, res) =>
+    handler: (_, { params: { author_id } }, res) =>
       Author.query()
         .findById(author_id)
         .eager('poems')
@@ -43,7 +43,7 @@ const routes = {
     method: 'GET',
     route: '/library/authors/:author_id',
     auth: true,
-    handler: async ({ params: { author_id }, context: { user } }, res) => {
+    handler: async (_, { params: { author_id }, context: { user } }, res) => {
       const user_id = user.id;
       return res.json(await AuthorInfo.query().findById([user_id, author_id]));
     },
@@ -52,7 +52,7 @@ const routes = {
     method: 'GET',
     route: 'recents/authors',
     auth: true,
-    handler: async ({ query, context: { user } }, res) => {
+    handler: async (_, { query, context: { user } }, res) => {
       const user_id = user.id;
       const filters = parseFilters({ id: 'author_id', ...query });
       const dbQuery = AuthorInfo.query();
@@ -82,7 +82,7 @@ const routes = {
     method: 'GET',
     route: '/library/authors',
     auth: true,
-    handler: async ({ query, context: { user } }, res) => {
+    handler: async (_, { query, context: { user } }, res) => {
       const user_id = user.id;
       const filters = parseFilters({ id: 'author_id', ...query });
       const dbQuery = AuthorInfo.query();
@@ -112,7 +112,7 @@ const routes = {
     method: 'PUT',
     route: '/library/authors',
     auth: true,
-    handler: async ({ body, context: { user } }, res) => {
+    handler: async (_, { body, context: { user } }, res) => {
       const user_id = user.id;
       const authorLib = await AuthorInfo.query().findById([
         user_id,

@@ -1,6 +1,6 @@
-import { User } from '@@database';
+import { User } from 'database';
 import rp from 'request-promise';
-import config from '@@config';
+import config from 'config';
 
 export const parseAuth = authorization =>
   JSON.parse(Buffer(authorization, 'base64').toString('ascii'));

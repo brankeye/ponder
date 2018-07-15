@@ -1,9 +1,12 @@
+// @flow
+
 import { curry, prop, reverse } from 'ramda';
+import { raw } from 'objection';
 
-export const encodeCursor = cursor =>
-  cursor ? Buffer.from(cursor.toString()).toString('base64') : undefined;
+export const encodeCursor = (cursor: any) =>
+  cursor ? Buffer.from(cursor).toString('base64') : undefined;
 
-export const decodeCursor = cursor =>
+export const decodeCursor = (cursor: string) =>
   cursor ? Buffer.from(cursor, 'base64').toString() : undefined;
 
 export const createEdge = curry((cursorKey, input) => ({
@@ -15,7 +18,21 @@ export const createEdges = curry((cursorKey, inputs) =>
   inputs.map(createEdge(cursorKey))
 );
 
-export const parseFilters = ({ id = 'id', first, last, before, after }) => {
+export const parseFilters = ({
+  id = 'id',
+  first,
+  last,
+  before,
+  after,
+  random,
+}: {
+  id: string,
+  first: number,
+  last: number,
+  before: string,
+  after: string,
+  random: ?boolean,
+}) => {
   if (first && first <= 0 && (!last || last <= 0)) {
     throw new Error("Argument 'first' must not be less than zero.");
   } else if (last && last <= 0 && (!first || first <= 0)) {
@@ -27,9 +44,9 @@ export const parseFilters = ({ id = 'id', first, last, before, after }) => {
     : after
       ? decodeCursor(after)
       : undefined;
-  const { sign } = parseSigns({ first });
-  const where = cursorId && [id, sign, cursorId];
-  const orderBy = first ? [id, 'desc'] : [id];
+  const { sign } = parseSigns(first);
+  const where = random && cursorId && [id, sign, cursorId];
+  const orderBy = random ? [raw('random()')] : first ? [id, 'desc'] : [id];
   const limit = [first || last];
 
   return {
@@ -39,21 +56,21 @@ export const parseFilters = ({ id = 'id', first, last, before, after }) => {
   };
 };
 
-export const parseSigns = ({ first }) => ({
+export const parseSigns = (first: number) => ({
   sign: first ? '<' : '>',
   nextSign: first ? '<' : '<',
   prevSign: first ? '>' : '>',
 });
 
 export const parseConnection = (
-  Model,
+  Model: Object,
   {
     id = 'id',
     query: { first, hasNextPage, hasPreviousPage },
     filters: { orderBy },
-  }
-) => async data => {
-  const { nextSign, prevSign } = parseSigns({ first });
+  }: { id: string, query: Object, filters: Object }
+) => async (data: any) => {
+  const { nextSign, prevSign } = parseSigns(first);
 
   let edges;
 
@@ -70,6 +87,8 @@ export const parseConnection = (
   const pageInfo = {
     startCursor: encodeCursor(startId),
     endCursor: encodeCursor(endId),
+    hasNextPage: undefined,
+    hasPreviousPage: undefined,
   };
 
   if (hasNextPage) {
