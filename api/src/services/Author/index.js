@@ -1,6 +1,7 @@
 import { Author, AuthorInfo } from 'database';
 import { parseFilters, parseConnection } from 'utils/pagination';
 import { flattenProp, map, resolveP } from 'utils/ramda';
+import { format } from 'date-fns';
 
 class AuthorService {
   get = ({ authorId }) => Author.query().findById(authorId);
@@ -48,10 +49,10 @@ class AuthorService {
       after,
       before,
     });
-    const dbQuery = AuthorInfo.query();
+    const dbQuery = AuthorInfo.query().eager('author');
 
     if (search) {
-      dbQuery.eager('author').modifyEager('author', builder => {
+      dbQuery.modifyEager('author', builder => {
         builder.select('name').where('name', 'ilike', `%${search}%`);
       });
     }
@@ -89,10 +90,10 @@ class AuthorService {
       after,
       before,
     });
-    const dbQuery = AuthorInfo.query();
+    const dbQuery = AuthorInfo.query().eager('author');
 
     if (search) {
-      dbQuery.eager('author').modifyEager('author', builder => {
+      dbQuery.modifyEager('author', builder => {
         builder.select('name').where('name', 'ilike', `%${search}%`);
       });
     }
@@ -121,6 +122,23 @@ class AuthorService {
       .findById(authorId)
       .eager('poems')
       .then(({ poems }) => poems);
+
+  updateLibrary = async ({ userId, authorId, inLibrary }) => {
+    const authorLib = await AuthorInfo.query().findById([userId, authorId]);
+    if (authorLib) {
+      return AuthorInfo.query().patchAndFetchById([userId, authorId], {
+        in_library: inLibrary,
+        viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
+      });
+    } else {
+      return AuthorInfo.query().insert({
+        user_id: userId,
+        author_id: authorId,
+        in_library: inLibrary,
+        viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
+      });
+    }
+  };
 }
 
 export default AuthorService;

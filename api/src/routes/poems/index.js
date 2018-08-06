@@ -1,13 +1,9 @@
-import { merge } from 'ramda';
-import { Poem, PoemInfo } from 'database';
-import { format } from 'date-fns';
-
 const routes = {
   getPoem: {
     method: 'GET',
     route: '/poems/:poem_id',
     handler: ({ PoemService }, { params: { poem_id } }, res) =>
-      PoemService.get({ id: poem_id }).then(data => res.json(data)),
+      PoemService.get({ poemId: poem_id }).then(data => res.json(data)),
   },
   getPoems: {
     method: 'GET',
@@ -116,47 +112,12 @@ const routes = {
     method: 'PUT',
     route: '/library/poems',
     auth: true,
-    handler: async (_, { body, context: { user } }, res) => {
-      const user_id = user.id;
-      const poemLib = await PoemInfo.query().findById([user_id, body.poem_id]);
-
-      if (poemLib) {
-        const poemInfo = await PoemInfo.query().patchAndFetchById(
-          [user_id, body.poem_id],
-          merge(
-            { user_id, viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss') },
-            body
-          )
-        );
-        /*
-        const poemInfosForAuthor = await Author.getPoemInfos({
-          id: poemInfo.author_id,
-        });
-        
-        if (poemInfosForAuthor.length > 0) {
-          
-        } else {
-
-        }
-        */
-        res.json(poemInfo);
-      } else {
-        const poemWithAuthor = await Poem.query()
-          .eager('author')
-          .findById(body.poem_id);
-        const poemInfo = await PoemInfo.query().insert(
-          merge(
-            {
-              user_id,
-              author_id: poemWithAuthor.author.id,
-              viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
-            },
-            body
-          )
-        );
-        res.json(poemInfo);
-      }
-    },
+    handler: ({ PoemService }, { body, context: { user } }, res) =>
+      PoemService.updateLibrary({
+        userId: user.id,
+        poemId: body.poem_id,
+        inLibrary: body.in_library,
+      }).then(data => res.json(data)),
   },
 };
 

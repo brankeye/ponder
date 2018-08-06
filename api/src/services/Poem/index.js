@@ -1,7 +1,8 @@
 import { Poem, PoemInfo } from 'database';
 import { parseFilters, parseConnection } from 'utils/pagination';
 import { flattenProp, map, resolveP } from 'utils/ramda';
-import { merge, filter, prop } from 'ramda';
+import { filter, prop } from 'ramda';
+import { format } from 'date-fns';
 
 class PoemService {
   get = ({ poemId }) => Poem.query().findById(poemId);
@@ -105,6 +106,23 @@ class PoemService {
   };
 
   getInfo = ({ userId, poemId }) => PoemInfo.query().findById([userId, poemId]);
+
+  updateLibrary = async ({ userId, poemId, inLibrary }) => {
+    const poemLib = await PoemInfo.query().findById([userId, poemId]);
+    if (poemLib) {
+      return PoemInfo.query().patchAndFetchById([userId, poemId], {
+        in_library: inLibrary,
+        viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
+      });
+    } else {
+      return PoemInfo.query().insert({
+        user_id: userId,
+        poem_id: poemId,
+        in_library: inLibrary,
+        viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
+      });
+    }
+  };
 }
 
 export default PoemService;

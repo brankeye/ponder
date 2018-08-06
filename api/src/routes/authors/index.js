@@ -1,7 +1,3 @@
-import { merge } from 'ramda';
-import { AuthorInfo } from 'database';
-import { format } from 'date-fns';
-
 const routes = {
   getAuthor: {
     method: 'GET',
@@ -118,42 +114,16 @@ const routes = {
         search,
       }).then(data => res.json(data)),
   },
-  updatePoemFromLibrary: {
+  updateAuthorFromLibrary: {
     method: 'PUT',
     route: '/library/authors',
     auth: true,
-    handler: async (_, { body, context: { user } }, res) => {
-      const user_id = user.id;
-      const authorLib = await AuthorInfo.query().findById([
-        user_id,
-        body.author_id,
-      ]);
-      if (authorLib) {
-        res.json(
-          await AuthorInfo.query().patchAndFetchById(
-            [user_id, body.author_id],
-            merge(
-              { user_id, viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss') },
-              body
-            )
-          )
-        );
-      } else {
-        res.json(
-          await AuthorInfo.query()
-            .insert(
-              merge(
-                {
-                  user_id,
-                  viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
-                },
-                body
-              )
-            )
-            .returning('*')
-        );
-      }
-    },
+    handler: ({ AuthorService }, { body, context: { user } }, res) =>
+      AuthorService.updateLibrary({
+        userId: user.id,
+        authorId: body.author_id,
+        inLibrary: body.in_library,
+      }).then(data => res.json(data)),
   },
 };
 
