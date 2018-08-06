@@ -1,5 +1,5 @@
 import { merge } from 'ramda';
-import { Author, AuthorInfo } from 'database';
+import { AuthorInfo } from 'database';
 import { format } from 'date-fns';
 
 const routes = {

@@ -1,7 +1,5 @@
-import { merge, filter, prop } from 'ramda';
+import { merge } from 'ramda';
 import { Poem, PoemInfo } from 'database';
-import { parseFilters, parseConnection } from 'utils/pagination';
-import { flattenProp, map, resolveP } from 'utils/ramda';
 import { format } from 'date-fns';
 
 const routes = {
@@ -14,97 +12,111 @@ const routes = {
   getPoems: {
     method: 'GET',
     route: '/poems',
-    handler: (_, { query }, res) => {
-      const filters = parseFilters({ ...query, random: true });
-      const dbQuery = Poem.query().filter(filters);
-
-      if (query.search) {
-        dbQuery.andWhere('title', 'ilike', `%${query.search}%`);
-      }
-
-      return dbQuery
-        .then(parseConnection(Poem, { query, filters }))
-        .then(data => res.json(data));
-    },
+    handler: (
+      { PoemService },
+      {
+        query: {
+          first,
+          last,
+          before,
+          after,
+          hasNextPage,
+          hasPreviousPage,
+          search,
+        },
+      },
+      res
+    ) =>
+      PoemService.getAll({
+        first,
+        last,
+        after,
+        before,
+        hasNextPage,
+        hasPreviousPage,
+        search,
+      }).then(data => res.json(data)),
   },
   getPoemFromLibrary: {
     method: 'GET',
     route: '/library/poems/:poem_id',
     auth: true,
-    handler: async (_, { params: { poem_id }, context: { user } }, res) => {
-      const user_id = user.id;
-      return res.json(await PoemInfo.query().findById([user_id, poem_id]));
-    },
+    handler: (
+      { PoemService },
+      { params: { poem_id }, context: { user } },
+      res
+    ) =>
+      PoemService.getInfo({ userId: user.id, poemId: poem_id }).then(data =>
+        res.json(data)
+      ),
   },
   getPoemsFromLibrary: {
     method: 'GET',
     route: '/library/poems',
     auth: true,
-    handler: async (_, { query, context: { user } }, res) => {
-      const user_id = user.id;
-      const id = 'poem_id';
-      const filters = parseFilters(merge({ id }, query));
-      const dbQuery = PoemInfo.query().eager('poem');
-
-      if (query.search) {
-        dbQuery.modifyEager('poem', builder => {
-          builder.andWhere('title', 'ilike', `%${query.search}%`);
-        });
-      }
-
-      return dbQuery
-        .where('user_id', user_id)
-        .andWhere('in_library', true)
-        .filter(filters)
-        .then(resolveP(map(flattenProp('poem'))))
-        .then(resolveP(filter(prop('poem'))))
-        .then(
-          parseConnection(PoemInfo, {
-            id,
-            query,
-            filters,
-          })
-        )
-        .then(data => res.json(data));
-    },
+    handler: (
+      { PoemService },
+      {
+        query: {
+          first,
+          last,
+          before,
+          after,
+          hasNextPage,
+          hasPreviousPage,
+          search,
+        },
+        context: { user },
+      },
+      res
+    ) =>
+      PoemService.getLibrary({
+        userId: user.id,
+        first,
+        last,
+        after,
+        before,
+        hasNextPage,
+        hasPreviousPage,
+        search,
+      }).then(data => res.json(data)),
   },
   getRecentPoems: {
     method: 'GET',
     route: 'recents/poems',
     auth: true,
-    handler: async (_, { query, context: { user } }, res) => {
-      const user_id = user.id;
-      const id = 'poem_id';
-      const filters = parseFilters(merge({ id }, query));
-      const dbQuery = PoemInfo.query().eager('poem');
-
-      if (query.search) {
-        dbQuery.modifyEager('poem', builder => {
-          builder.andWhere('title', 'ilike', `%${query.search}%`);
-        });
-      }
-
-      return dbQuery
-        .where('user_id', user_id)
-        .orderBy('viewed_at')
-        .filter(filters)
-        .then(resolveP(map(flattenProp('poem'))))
-        .then(resolveP(filter(prop('poem'))))
-        .then(
-          parseConnection(PoemInfo, {
-            id,
-            query,
-            filters,
-          })
-        )
-        .then(data => res.json(data));
-    },
+    handler: (
+      { PoemService },
+      {
+        query: {
+          first,
+          last,
+          before,
+          after,
+          hasNextPage,
+          hasPreviousPage,
+          search,
+        },
+        context: { user },
+      },
+      res
+    ) =>
+      PoemService.getRecents({
+        userId: user.id,
+        first,
+        last,
+        after,
+        before,
+        hasNextPage,
+        hasPreviousPage,
+        search,
+      }).then(data => res.json(data)),
   },
   updatePoemFromLibrary: {
     method: 'PUT',
     route: '/library/poems',
     auth: true,
-    handler: async (_, { body, context: { user, Author } }, res) => {
+    handler: async (_, { body, context: { user } }, res) => {
       const user_id = user.id;
       const poemLib = await PoemInfo.query().findById([user_id, body.poem_id]);
 

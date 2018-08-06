@@ -1,6 +1,7 @@
 import { User } from 'database';
 import rp from 'request-promise';
 import config from 'config';
+import uuid from 'uuid/v4';
 
 export const parseAuth = authorization =>
   JSON.parse(Buffer(authorization, 'base64').toString('ascii'));
@@ -28,7 +29,15 @@ export const socialLogin = async ({ provider, token }) => {
 export const authenticate = async ({ clientId, authorization }) => {
   if (config.dev && clientId) {
     const user = await User.query().findOne('client_id', clientId);
-    //console.log('User: ', user);
+    if (!user) {
+      return User.query()
+        .insert({
+          id: uuid(),
+          client_id: clientId,
+          anonymous: true,
+        })
+        .returning('*');
+    }
     return { user };
   } else if (authorization) {
     const { provider, token, clientId } = authorization;
