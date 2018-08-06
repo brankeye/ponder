@@ -1,16 +1,11 @@
 // @flow
 
-import { Poem, Author, User } from 'services';
+import { PoemService, AuthorService, UserService } from 'services';
 
-export type Context = {
-  Poem: Object,
-  Author: Object,
-  User: Object,
-};
+class Context {
+  PoemService = new PoemService(this);
+  AuthorService = new AuthorService(this);
+  UserService = new UserService(this);
+}
 
-export default (input: ?Object = {}): Context => ({
-  ...input,
-  PoemService: new Poem(),
-  AuthorService: new Author(),
-  UserService: new User(),
-});
+export default (): Context => new Context();

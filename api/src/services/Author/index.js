@@ -4,6 +4,10 @@ import { flattenProp, map, resolveP } from 'utils/ramda';
 import { format } from 'date-fns';
 
 class AuthorService {
+  constructor(context) {
+    this.context = context;
+  }
+
   get = ({ authorId }) => Author.query().findById(authorId);
 
   getAll = ({

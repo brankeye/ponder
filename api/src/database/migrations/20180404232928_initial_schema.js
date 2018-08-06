@@ -79,6 +79,11 @@ exports.up = function(knex) {
         .references('id')
         .inTable('poems');
       table.primary(['user_id', 'poem_id']);
+      table
+        .uuid('author_id')
+        .notNullable()
+        .references('id')
+        .inTable('authors');
       table.boolean('in_library').notNullable();
       table
         .timestamp('viewed_at')
