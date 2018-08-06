@@ -66,9 +66,17 @@ export const parseConnection = (
   Model: Object,
   {
     id = 'id',
-    query: { first, hasNextPage, hasPreviousPage },
+    first,
+    hasNextPage,
+    hasPreviousPage,
     filters: { orderBy },
-  }: { id: string, query: Object, filters: Object }
+  }: {
+    id: string,
+    first: number,
+    hasNextPage: boolean,
+    hasPreviousPage: boolean,
+    filters: Object,
+  }
 ) => async (data: any) => {
   const { nextSign, prevSign } = parseSigns(first);
 
@@ -92,27 +100,23 @@ export const parseConnection = (
   };
 
   if (hasNextPage) {
-    const hasNextPageFn = async () => {
-      if (!endId) return false;
-      return Model.query()
-        .findOne(...[id, nextSign, endId])
-        .select(...[id])
-        .orderBy(...orderBy)
-        .then(Boolean);
-    };
-    pageInfo.hasNextPage = await hasNextPageFn();
+    pageInfo.hasNextPage = !endId
+      ? false
+      : await Model.query()
+          .findOne(...[id, nextSign, endId])
+          .select(...[id])
+          .orderBy(...orderBy)
+          .then(Boolean);
   }
 
   if (hasPreviousPage) {
-    const hasPreviousPageFn = async () => {
-      if (!startId) return false;
-      return Model.query()
-        .findOne(...[id, prevSign, startId])
-        .select(...[id])
-        .orderBy(...orderBy)
-        .then(Boolean);
-    };
-    pageInfo.hasPreviousPage = await hasPreviousPageFn();
+    pageInfo.hasPreviousPage = !startId
+      ? false
+      : await Model.query()
+          .findOne(...[id, prevSign, startId])
+          .select(...[id])
+          .orderBy(...orderBy)
+          .then(Boolean);
   }
 
   return {
