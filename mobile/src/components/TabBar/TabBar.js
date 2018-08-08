@@ -1,18 +1,33 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import { TabBar } from 'react-native-tab-view';
+import Paint, { StylesConsumer } from 'react-native-paint';
+import Color from 'color';
 
-const Component = ({ styles, ...props }) => (
-  <TabBar
-    {...props}
-    style={styles.bar}
-    labelStyle={styles.label}
-    indicatorStyle={styles.indicator}
-  />
+const paint = Paint.create(theme => ({
+  bar: {
+    backgroundColor: Color(theme.backgroundColor)
+      .darken(0.05)
+      .string(),
+  },
+  label: { color: theme.textColor },
+  indicator: { backgroundColor: theme.accentColor },
+}));
+
+const Component = props => (
+  <StylesConsumer paint={paint}>
+    {styles => (
+      <TabBar
+        {...props}
+        style={styles.bar}
+        labelStyle={styles.label}
+        indicatorStyle={styles.indicator}
+      />
+    )}
+  </StylesConsumer>
 );
 
 Component.defaultProps = {
-  styles: {},
   useNativeDriver: true,
   bounces: false,
 };

@@ -14,7 +14,11 @@ class SettingsProvider extends React.Component {
 
   async componentDidMount() {
     const settings = await Storage.getItem('settings');
-    this.setState({ settings });
+    if (settings) {
+      this.setState({ settings });
+    } else {
+      await this.saveSettings();
+    }
   }
 
   async componentWillUnmount() {

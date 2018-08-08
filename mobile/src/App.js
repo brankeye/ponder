@@ -1,8 +1,7 @@
 import React from 'react';
 import Expo, { Font } from 'expo';
-import { ApolloProvider } from 'react-apollo';
-import client from '@@graphql';
 import MainNavigator from '@@screens';
+import { Providers } from '@@utils';
 import { StatusBar } from '@@components';
 import {
   AuthProvider,
@@ -55,7 +54,6 @@ class App extends React.Component {
       'Crimson-Bold': require('@@assets/fonts/CrimsonText-Bold.ttf'),
       'Crimson-Italic': require('@@assets/fonts/CrimsonText-Italic.ttf'),
     });
-    await this.props.auth.loadAsync();
     this.setState({
       loading: false,
     });
@@ -65,38 +63,14 @@ class App extends React.Component {
     if (this.state.loading) return null;
 
     return (
-      <React.Fragment>
-        <StatusBar />
-        <MainNavigator onNavigationStateChange={onNavigationStateChange} />
-      </React.Fragment>
+      <Providers>
+        <React.Fragment>
+          <StatusBar />
+          <MainNavigator onNavigationStateChange={onNavigationStateChange} />
+        </React.Fragment>
+      </Providers>
     );
   }
 }
 
-const withProviders = WrappedComponent => () => (
-  <AuthProvider>
-    <AuthConsumer>
-      {({ encodedToken }) => (
-        <ApolloProvider client={client({ encodedToken })}>
-          <SettingsProvider>
-            <SettingsConsumer>
-              {({ themeType, toggleTheme }) => (
-                <ThemeProvider type={themeType} onThemeToggled={toggleTheme}>
-                  <ThemeConsumer>
-                    {({ theme }) => (
-                      <StylesProvider id={themeType} context={theme}>
-                        <WrappedComponent />
-                      </StylesProvider>
-                    )}
-                  </ThemeConsumer>
-                </ThemeProvider>
-              )}
-            </SettingsConsumer>
-          </SettingsProvider>
-        </ApolloProvider>
-      )}
-    </AuthConsumer>
-  </AuthProvider>
-);
-
-Expo.registerRootComponent(withProviders(withAuth(App)));
+Expo.registerRootComponent(App);

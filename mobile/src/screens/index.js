@@ -36,7 +36,7 @@ const AppNavigator = createDrawerNavigator(
     },
   },
   {
-    contentComponent: Drawer,
+    contentComponent: props => <Drawer {...props} />,
   }
 );
 

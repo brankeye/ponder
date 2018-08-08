@@ -7,7 +7,6 @@ class PoemScreen extends Component {
   refetchQueries = types =>
     types.map(type => ({
       query: poemListQuery,
-      variables: { from: type, first: 10 },
     }));
 
   render() {

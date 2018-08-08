@@ -13,13 +13,7 @@ class AuthProvider extends React.Component {
     isAuthenticated: false,
   };
 
-  setStateAsync = newState => {
-    return new Promise(resolve => {
-      this.setState(newState, resolve);
-    });
-  };
-
-  loadAsync = async () => {
+  async componentDidMount() {
     const token = await Auth.getToken();
     console.log({ token });
     if (token) {
@@ -33,6 +27,12 @@ class AuthProvider extends React.Component {
       });
       console.log('Already authenticated...');
     }
+  }
+
+  setStateAsync = newState => {
+    return new Promise(resolve => {
+      this.setState(newState, resolve);
+    });
   };
 
   signInAnonymously = async () => {
