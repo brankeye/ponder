@@ -19,7 +19,12 @@ class AuthorListWithData extends Component {
         {({
           loading,
           error,
-          data: { authorList: { edges, pageInfo: { endCursor } = {} } = {} },
+          data: {
+            authorList: {
+              edges,
+              pageInfo: { endCursor, hasNextPage } = {},
+            } = {},
+          },
           fetchMore,
         }) => {
           if (loading) return null;
@@ -29,31 +34,32 @@ class AuthorListWithData extends Component {
               {...props}
               authors={edges.map(({ node }) => ({ ...node }))}
               onEndReached={() => {
-                fetchMore({
-                  query: authorListQuery,
-                  variables: {
-                    from: type,
-                    first: count,
-                    after: endCursor,
-                    search,
-                  },
-                  updateQuery: (previousResult, { fetchMoreResult }) => {
-                    const newEdges = fetchMoreResult.authorList.edges;
-                    const pageInfo = fetchMoreResult.authorList.pageInfo;
-                    return newEdges.length
-                      ? {
-                          authorList: {
-                            __typename: previousResult.authorList.__typename,
-                            edges: [
-                              ...previousResult.authorList.edges,
-                              ...newEdges,
-                            ],
-                            pageInfo,
-                          },
-                        }
-                      : previousResult;
-                  },
-                });
+                hasNextPage &&
+                  fetchMore({
+                    query: authorListQuery,
+                    variables: {
+                      from: type,
+                      first: count,
+                      after: endCursor,
+                      search,
+                    },
+                    updateQuery: (previousResult, { fetchMoreResult }) => {
+                      const newEdges = fetchMoreResult.authorList.edges;
+                      const pageInfo = fetchMoreResult.authorList.pageInfo;
+                      return newEdges.length
+                        ? {
+                            authorList: {
+                              __typename: previousResult.authorList.__typename,
+                              edges: [
+                                ...previousResult.authorList.edges,
+                                ...newEdges,
+                              ],
+                              pageInfo,
+                            },
+                          }
+                        : previousResult;
+                    },
+                  });
               }}
             />
           );

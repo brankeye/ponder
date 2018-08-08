@@ -18,7 +18,9 @@ class PoemListWithData extends Component {
         {({
           loading,
           error,
-          data: { poemList: { edges, pageInfo: { endCursor } = {} } = {} },
+          data: {
+            poemList: { edges, pageInfo: { endCursor, hasNextPage } = {} } = {},
+          },
           fetchMore,
         }) => {
           if (loading) return null;
@@ -28,31 +30,32 @@ class PoemListWithData extends Component {
               {...props}
               poems={edges.map(({ node }) => ({ ...node }))}
               onEndReached={() => {
-                fetchMore({
-                  query: poemListQuery,
-                  variables: {
-                    from: type,
-                    first: count,
-                    after: endCursor,
-                    search,
-                  },
-                  updateQuery: (previousResult, { fetchMoreResult }) => {
-                    const newEdges = fetchMoreResult.poemList.edges;
-                    const pageInfo = fetchMoreResult.poemList.pageInfo;
-                    return newEdges.length
-                      ? {
-                          poemList: {
-                            __typename: previousResult.poemList.__typename,
-                            edges: [
-                              ...previousResult.poemList.edges,
-                              ...newEdges,
-                            ],
-                            pageInfo,
-                          },
-                        }
-                      : previousResult;
-                  },
-                });
+                hasNextPage &&
+                  fetchMore({
+                    query: poemListQuery,
+                    variables: {
+                      from: type,
+                      first: count,
+                      after: endCursor,
+                      search,
+                    },
+                    updateQuery: (previousResult, { fetchMoreResult }) => {
+                      const newEdges = fetchMoreResult.poemList.edges;
+                      const pageInfo = fetchMoreResult.poemList.pageInfo;
+                      return newEdges.length
+                        ? {
+                            poemList: {
+                              __typename: previousResult.poemList.__typename,
+                              edges: [
+                                ...previousResult.poemList.edges,
+                                ...newEdges,
+                              ],
+                              pageInfo,
+                            },
+                          }
+                        : previousResult;
+                    },
+                  });
               }}
             />
           );

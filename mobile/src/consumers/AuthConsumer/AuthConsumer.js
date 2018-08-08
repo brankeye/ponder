@@ -8,6 +8,7 @@ const { Provider, Consumer } = React.createContext();
 
 class AuthProvider extends React.Component {
   state = {
+    loading: true,
     accessToken: null,
     encodedToken: null,
     isAuthenticated: false,
@@ -26,6 +27,12 @@ class AuthProvider extends React.Component {
         loading: false,
       });
       console.log('Already authenticated...');
+    } else {
+      await this.setStateAsync({
+        isAuthenticated: false,
+        loading: false,
+      });
+      console.log('Not authenticated...');
     }
   }
 
@@ -70,7 +77,7 @@ class AuthProvider extends React.Component {
     return (
       <Provider
         value={{
-          loadAsync: this.loadAsync,
+          loading: this.state.loading,
           isAuthenticated: this.state.isAuthenticated,
           accessToken: this.state.accessToken,
           encodedToken: this.state.encodedToken,

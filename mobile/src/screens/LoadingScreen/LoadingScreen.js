@@ -6,7 +6,8 @@ class LoadingScreen extends React.Component {
     const { navigation } = this.props;
     return (
       <AuthConsumer>
-        {({ isAuthenticated }) => {
+        {({ loading, isAuthenticated }) => {
+          if (loading) return null;
           console.log('auth: ', isAuthenticated);
           navigation.navigate(isAuthenticated ? 'App' : 'Landing');
           return null;
