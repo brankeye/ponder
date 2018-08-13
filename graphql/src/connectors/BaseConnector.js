@@ -30,7 +30,7 @@ class BaseConnector {
     };
 
     return Promise.all(
-      options.map(({ method = 'GET', url, path, data, auth, ...rest }) => {
+      options.map(({ method = 'GET', url, path, data, auth, log, ...rest }) => {
         path = path && path.startsWith('/') ? path.slice(1) : path;
 
         const urlOptions = {
@@ -52,6 +52,11 @@ class BaseConnector {
         if (data) {
           if (method === 'POST') urlOptions.body = data;
           else urlOptions.qs = data;
+        }
+
+        if (log) {
+          console.log('Req config: ', JSON.stringify(requestConfig, null, 2));
+          console.log('Url options: ', JSON.stringify(urlOptions, null, 2));
         }
 
         return new Promise((resolve, reject) => {

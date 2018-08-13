@@ -5,25 +5,50 @@ type Query {
 type Mutation {
   userSignInAnon(input: UserAnonInput!): User
   userSignInSocial(input: UserSocialInput!): User
+  userSettings(input: UserSettingsInput!): User
 }
 
 type User {
   id: ID
   email: String
+  settings: UserSettings
+}
+
+type UserSettings {
+  pushToken: String
+  timeZone: String
+  notify: Boolean
+  notifyTime: Date
+  theme: ThemeType
 }
 
 input UserAnonInput {
   clientId: ID!
+  settings: UserSettingsInput
 }
 
 input UserSocialInput {
   clientId: ID!
   provider: SocialProvider!
-  token: String!
+  oauthToken: String!
+  settings: UserSettingsInput
+}
+
+input UserSettingsInput {
+  pushToken: String!
+  timeZone: String!
+  notify: Boolean!
+  notifyTime: Time!
+  theme: ThemeType!
 }
 
 enum SocialProvider {
   Facebook
   Google
   Twitter
+}
+
+enum ThemeType {
+  Dark
+  Light
 }

@@ -12,15 +12,14 @@ exports.up = function(knex) {
         .boolean('anonymous')
         .notNullable()
         .defaultTo(true);
+      table.string('time_zone').notNullable();
       table
         .boolean('notify')
         .notNullable()
-        .defaultTo(true);
-      table
-        .timestamp('notify_at')
-        .notNullable()
-        .defaultTo(knex.fn.now());
+        .defaultTo(false);
+      table.string('notify_time').nullable();
       table.string('push_token').nullable();
+      table.string('theme').nullable();
       table.index(['client_id', 'oauth_id']);
     })
     .createTable('authors', table => {

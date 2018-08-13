@@ -23,7 +23,7 @@ app.use(
   '/graphiql',
   graphiqlExpress({
     endpointURL: '/graphql',
-    passHeader: "'Client-Id': 'default'",
+    passHeader: `'Client-Id': '${config.clientId}'`,
   })
 );
 

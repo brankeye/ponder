@@ -7,12 +7,20 @@ const dateFormat = date => {
   return format(date, 'YYYY-MM-DDTHH:mm:ss');
 };
 
+const timeFormat = time => time;
+
 const resolver = {
   Date: new GraphQLScalarType({
     name: 'Date',
     serialize: dateFormat,
     parseValue: dateFormat,
     parseLiteral: pipe(prop('value'), dateFormat),
+  }),
+  Time: new GraphQLScalarType({
+    name: 'Time',
+    serialize: timeFormat,
+    parseValue: timeFormat,
+    parseLiteral: pipe(prop('value'), timeFormat),
   }),
 };
 

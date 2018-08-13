@@ -1,4 +1,12 @@
 import BaseConnector from '../BaseConnector';
+import { renameKeys } from '../utils';
+import { merge } from 'ramda';
+
+const rename = renameKeys({
+  pushToken: 'push_token',
+  timeZone: 'time_zone',
+  notifyTime: 'notify_time',
+});
 
 class UserConnector extends BaseConnector {
   get = () =>
@@ -8,11 +16,11 @@ class UserConnector extends BaseConnector {
       auth: true,
     });
 
-  signInAnon = input =>
+  signInAnon = ({ settings, ...input }) =>
     this.request({
       path: 'api/user/anon',
       method: 'POST',
-      body: input,
+      body: merge(input, rename(settings)),
     });
 
   signInSocial = input =>
@@ -20,6 +28,13 @@ class UserConnector extends BaseConnector {
       path: 'api/user/social',
       method: 'POST',
       body: input,
+    });
+
+  updateSettings = input =>
+    this.request({
+      path: 'api/user/settings',
+      method: 'PUT',
+      body: rename(input),
     });
 }
 

@@ -5,6 +5,7 @@ const resolver = {
   Mutation: {
     userSignInAnon: (root, { input }, { User }) => User.signInAnon(input),
     userSignInSocial: (root, { input }, { User }) => User.signInSocial(input),
+    userSettings: (root, { input }, { User }) => User.updateSettings(input),
   },
 };
 

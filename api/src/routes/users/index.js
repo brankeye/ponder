@@ -1,5 +1,5 @@
 import { User } from 'database';
-import { socialLogin } from 'utils';
+import { socialLogin, notify } from 'utils';
 import uuid from 'uuid/v4';
 import { merge } from 'ramda';
 
@@ -15,20 +15,31 @@ const routes = {
   signInAnonymous: {
     method: 'POST',
     route: '/user/anon',
-    handler: async (_, { body: { clientId } }, res) => {
+    handler: async (_, { body: { clientId, ...body } }, res) => {
       const user = await User.query().findOne('client_id', clientId);
       if (user) {
         console.log('Anon user: ', user);
         return res.json(user);
       }
-
+      console.log('Body: ', body);
       const newUser = await User.query()
         .insert({
           id: uuid(),
           client_id: clientId,
           anonymous: true,
+          ...body,
         })
         .returning('*');
+      if (newUser.notify) {
+        const h = newUser.notify_time.split(':')[0];
+        const m = newUser.notify_time.split(':')[1];
+        notify({
+          userId: newUser.id,
+          pushToken: newUser.push_token,
+          time: `00 ${m} ${h} * * *`,
+          timeZone: newUser.time_zone,
+        });
+      }
       console.log('Anon user: ', newUser);
       return res.json(newUser);
     },
@@ -36,8 +47,12 @@ const routes = {
   signInSocial: {
     method: 'POST',
     route: '/user/social',
-    handler: async (_, { clientId, provider, token }, res) => {
-      const { email, oauthId } = await socialLogin({ provider, token });
+    handler: async (
+      _,
+      { body: { clientId, provider, oauthToken, ...body } },
+      res
+    ) => {
+      const { email, oauthId } = await socialLogin({ provider, oauthToken });
       const user = await User.query().findOne('client_id', clientId);
       if (user) {
         if (user.anonymous) {
@@ -65,12 +80,19 @@ const routes = {
             provider,
             oauth_id: oauthId,
             anonymous: false,
+            ...body,
           })
           .returning('*');
         console.log('Social user: ', newUser);
         return res.json(newUser);
       }
     },
+  },
+  updateSettings: {
+    method: 'PUT',
+    route: '/user/settings',
+    handler: ({ UserService }, { body }, res) =>
+      UserService.updateSettings(body).then(data => res.json(data)),
   },
 };
 

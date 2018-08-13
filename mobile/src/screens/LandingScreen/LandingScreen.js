@@ -7,9 +7,44 @@ import { userSignInAnonMutation, userSignInSocialMutation } from '@@graphql';
 import Expo from 'expo';
 
 class LandingScreen extends React.Component {
+  componentDidMount() {
+    console.log('Client Id: ', Expo.Constants.deviceId);
+  }
+
   handleAnonymousSignIn = async signIn => {
+    const { status: existingStatus } = await Expo.Permissions.getAsync(
+      Expo.Permissions.NOTIFICATIONS
+    );
+    let finalStatus = existingStatus;
+
+    if (existingStatus !== 'granted') {
+      const { status } = await Expo.Permissions.askAsync(
+        Expo.Permissions.NOTIFICATIONS
+      );
+      finalStatus = status;
+    }
+
+    const notify = finalStatus === 'granted';
+
+    // Get the token that uniquely identifies this device
+    let pushToken = notify
+      ? await Expo.Notifications.getExpoPushTokenAsync()
+      : null;
+
+    const timeZone = await Expo.DangerZone.Localization.getCurrentTimeZoneAsync();
     const user = await signIn({
-      variables: { input: { clientId: Expo.Constants.deviceId } },
+      variables: {
+        input: {
+          clientId: Expo.Constants.deviceId,
+          settings: {
+            pushToken,
+            timeZone,
+            notify,
+            notifyTime: notify ? '20:28' : null,
+            theme: 'Dark',
+          },
+        },
+      },
     });
     console.log('User: ', user);
     if (user) {
