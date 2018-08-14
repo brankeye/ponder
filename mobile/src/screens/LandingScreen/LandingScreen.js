@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button } from 'react-native';
 import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
 import { Screen, Typography } from '@@components';
 import { withAuth } from '@@consumers';
-import { userSignInAnonMutation, userSignInSocialMutation } from '@@graphql';
 import Expo from 'expo';
 
 class LandingScreen extends React.Component {
@@ -40,7 +40,7 @@ class LandingScreen extends React.Component {
             pushToken,
             timeZone,
             notify,
-            notifyTime: notify ? '20:28' : null,
+            notifyTime: notify ? '12:00' : null,
             theme: 'Dark',
           },
         },
@@ -73,9 +73,18 @@ class LandingScreen extends React.Component {
 }
 
 const GuestButton = ({ onPress, ...props }) => (
-  <Mutation mutation={userSignInAnonMutation}>
+  <Mutation mutation={UserAnonMutation}>
     {signInAnon => <Button onPress={() => onPress(signInAnon)} {...props} />}
   </Mutation>
 );
+
+const UserAnonMutation = gql`
+  mutation UserAnonSignIn($input: UserAnonInput!) {
+    userSignInAnon(input: $input) {
+      id
+      email
+    }
+  }
+`;
 
 export default withAuth(LandingScreen);

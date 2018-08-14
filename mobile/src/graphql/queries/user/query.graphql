@@ -1,6 +1,0 @@
-query {
-  user {
-    id
-    email
-  }
-}

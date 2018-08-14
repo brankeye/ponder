@@ -1,65 +1,102 @@
 import React from 'react';
 import { Storage } from '@@utils';
 import Expo from 'expo';
+import gql from 'graphql-tag';
+import { Query, Mutation } from 'react-apollo';
 
-const { Provider, Consumer } = React.createContext();
+const Context = React.createContext();
 
-class SettingsProvider extends React.Component {
-  state = {
+class Provider extends React.Component {
+  static defaultProps = {
     settings: {
-      themeType: 'dark',
-      animationsEnabled: true,
+      theme: 'Dark',
     },
   };
 
-  async componentDidMount() {
-    const settings = await Storage.getItem('settings');
-    if (settings) {
-      this.setState({ settings });
-    } else {
-      await this.saveSettings();
-    }
-  }
-
-  async componentWillUnmount() {
-    await this.saveSettings();
-  }
-
-  saveSettings = async () => {
-    const { settings } = this.state;
-    await Storage.setItem('settings', settings);
+  updateSettings = fn => {
+    const { settings, update } = this.props;
+    const newSettings = fn(settings);
+    return update({
+      variables: {
+        ...settings,
+        ...newSettings,
+      },
+    });
   };
 
-  toggleTheme = () => {
-    const settings = { ...this.state.settings };
-    if (settings.themeType === 'light') {
-      settings.themeType = 'dark';
-    } else {
-      settings.themeType = 'light';
-    }
-    this.setState({ settings }, () => this.saveSettings());
-  };
-
-  toggleAnimations = () => {
-    const settings = { ...this.state.settings };
-    settings.animationsEnabled = !settings.animationsEnabled;
-    this.setState({ settings }, () => this.saveSettings());
-  };
+  toggleTheme = () =>
+    this.updateSettings(({ theme }) => ({
+      theme: theme === 'Dark' ? 'Light' : 'Dark',
+    }));
 
   render() {
     return (
-      <Provider
+      <Context.Provider
         value={{
-          ...this.state.settings,
-          toggleAnimations: this.toggleAnimations,
+          ...this.props.settings,
           toggleTheme: this.toggleTheme,
         }}
       >
         {this.props.children}
-      </Provider>
+      </Context.Provider>
     );
   }
 }
 
-const SettingsConsumer = Consumer;
+const defaultSettings = {
+  pushToken: null,
+  timeZone: null,
+  notify: false,
+  notifyTime: null,
+  theme: 'Dark',
+};
+
+const withUser = WrappedComponent => props => (
+  <Query query={UserQuery}>
+    {({ loading, data: { user } }) =>
+      loading ? null : (
+        <Mutation mutation={UserSettingsMutation} refetchQueries={['User']}>
+          {userSettings => (
+            <WrappedComponent
+              {...props}
+              settings={user ? user.settings : defaultSettings}
+              update={userSettings}
+            />
+          )}
+        </Mutation>
+      )
+    }
+  </Query>
+);
+
+export const UserQuery = gql`
+  query User {
+    user {
+      settings {
+        pushToken
+        timeZone
+        notify
+        notifyTime
+        theme
+      }
+    }
+  }
+`;
+
+export const UserSettingsMutation = gql`
+  mutation UserSettings($input: UserSettingsInput!) {
+    userSettings(input: $input) {
+      settings {
+        pushToken
+        timeZone
+        notify
+        notifyTime
+        theme
+      }
+    }
+  }
+`;
+
+const SettingsConsumer = Context.Consumer;
+const SettingsProvider = withUser(Provider);
 export { SettingsProvider, SettingsConsumer };

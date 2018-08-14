@@ -1,2 +1,2 @@
 export { default } from './PoemView';
-export { default as PoemViewWithData } from './PoemViewWithData';
+export { default as PoemViewWithData, PoemQuery } from './PoemViewWithData';

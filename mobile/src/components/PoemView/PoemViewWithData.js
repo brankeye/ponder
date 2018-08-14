@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-import { poemQuery } from '@@graphql';
+import gql from 'graphql-tag';
 import PoemView from './PoemView';
 
 class PoemViewWithData extends Component {
@@ -11,7 +11,7 @@ class PoemViewWithData extends Component {
   render() {
     const { id, ...props } = this.props;
     return (
-      <Query query={poemQuery} variables={{ id }}>
+      <Query query={PoemQuery} variables={{ id }}>
         {({ loading, error, data: { poem } }) => {
           if (loading) return null;
           if (error) return `Error!: ${error}`;
@@ -21,5 +21,22 @@ class PoemViewWithData extends Component {
     );
   }
 }
+
+export const PoemQuery = gql`
+  query Poem($id: ID!) {
+    poem(id: $id) {
+      id
+      title
+      teaser
+      lines
+      inLibrary
+      author {
+        id
+        name
+        inLibrary
+      }
+    }
+  }
+`;
 
 export default PoemViewWithData;

@@ -1,7 +1,6 @@
 import React from 'react';
 import Expo, { Font } from 'expo';
-import { ApolloProvider } from 'react-apollo';
-import client from '@@graphql';
+import { ApolloProvider } from '@@utils/graphql';
 import MainNavigator from '@@screens';
 import { StatusBar } from '@@components';
 import {
@@ -19,11 +18,11 @@ const AppProviders = ({ children }) => (
   <AuthProvider>
     <AuthConsumer>
       {({ encodedToken }) => (
-        <ApolloProvider client={client({ encodedToken })}>
+        <ApolloProvider token={encodedToken}>
           <SettingsProvider>
             <SettingsConsumer>
-              {({ themeType, toggleTheme }) => (
-                <ThemeProvider type={themeType} onThemeToggled={toggleTheme}>
+              {({ theme: themeType }) => (
+                <ThemeProvider type={themeType}>
                   <ThemeConsumer>
                     {({ theme }) => (
                       <StylesProvider id={themeType} theme={theme}>

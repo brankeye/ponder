@@ -1,7 +1,0 @@
-mutation($input: AuthorInput!) {
-  authorUpsert(input: $input) {
-    id
-    inLibrary
-    viewedAt
-  }
-}

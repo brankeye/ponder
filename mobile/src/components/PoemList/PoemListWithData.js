@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-import { poemListQuery } from '@@graphql';
+import gql from 'graphql-tag';
 import PoemList from './PoemList';
 
 class PoemListWithData extends Component {
@@ -12,7 +12,7 @@ class PoemListWithData extends Component {
     const { type, count, search, ...props } = this.props;
     return (
       <Query
-        query={poemListQuery}
+        query={PoemListQuery}
         variables={{ from: type, first: count, search }}
       >
         {({
@@ -32,7 +32,7 @@ class PoemListWithData extends Component {
               onEndReached={() => {
                 hasNextPage &&
                   fetchMore({
-                    query: poemListQuery,
+                    query: PoemListQuery,
                     variables: {
                       from: type,
                       first: count,
@@ -64,5 +64,43 @@ class PoemListWithData extends Component {
     );
   }
 }
+
+export const PoemListQuery = gql`
+  query PoemList(
+    $from: PoemCategory!
+    $search: String
+    $first: Int
+    $after: String
+    $last: Int
+    $before: String
+  ) {
+    poemList(
+      from: $from
+      search: $search
+      first: $first
+      after: $after
+      last: $last
+      before: $before
+    ) @connection(key: "poemList", filter: ["from", "search"]) {
+      edges {
+        node {
+          id
+          title
+          teaser
+          inLibrary
+          author {
+            id
+            name
+            inLibrary
+          }
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+`;
 
 export default PoemListWithData;

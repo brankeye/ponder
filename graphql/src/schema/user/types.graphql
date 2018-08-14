@@ -18,7 +18,7 @@ type UserSettings {
   pushToken: String
   timeZone: String
   notify: Boolean
-  notifyTime: Date
+  notifyTime: Time
   theme: ThemeType
 }
 

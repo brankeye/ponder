@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { Screen, PoemViewWithData } from '@@components';
+import {
+  Screen,
+  PoemViewWithData,
+  PoemListQuery,
+  AuthorListQuery,
+} from '@@components';
 import { Mutation } from 'react-apollo';
-import { poemUpsertMutation } from '@@graphql';
+import gql from 'graphql-tag';
 
 class PoemScreen extends Component {
   render() {
     const id = this.props.navigation.getParam('id', null);
     return (
-      <Mutation
-        mutation={poemUpsertMutation}
-        refetchQueries={['poemList', 'authorList']}
-      >
+      <Mutation mutation={PoemUpsertMutation}>
         {poemUpsert => {
           return (
             <Screen>
@@ -24,6 +26,7 @@ class PoemScreen extends Component {
                         inLibrary: !inLibrary,
                       },
                     },
+                    refetchQueries: () => ['poemList', 'authorList'],
                   });
                 }}
               />
@@ -34,5 +37,22 @@ class PoemScreen extends Component {
     );
   }
 }
+
+const PoemUpsertMutation = gql`
+  mutation PoemUpsert($input: PoemInput!) {
+    poemUpsert(input: $input) {
+      id
+      title
+      teaser
+      lines
+      inLibrary
+      author {
+        id
+        name
+        inLibrary
+      }
+    }
+  }
+`;
 
 export default PoemScreen;

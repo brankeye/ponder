@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 import { View } from 'react-native';
-import { authorListQuery } from '@@graphql';
 import { AuthorList } from '@@components';
 
 class AuthorListWithData extends Component {
@@ -13,7 +13,7 @@ class AuthorListWithData extends Component {
     const { type, count, search, ...props } = this.props;
     return (
       <Query
-        query={authorListQuery}
+        query={AuthorListQuery}
         variables={{ from: type, first: count, search }}
       >
         {({
@@ -36,7 +36,7 @@ class AuthorListWithData extends Component {
               onEndReached={() => {
                 hasNextPage &&
                   fetchMore({
-                    query: authorListQuery,
+                    query: AuthorListQuery,
                     variables: {
                       from: type,
                       first: count,
@@ -68,5 +68,44 @@ class AuthorListWithData extends Component {
     );
   }
 }
+
+export const AuthorListQuery = gql`
+  query AuthorList(
+    $from: AuthorCategory!
+    $search: String
+    $first: Int
+    $after: String
+    $last: Int
+    $before: String
+  ) {
+    authorList(
+      from: $from
+      search: $search
+      first: $first
+      after: $after
+      last: $last
+      before: $before
+    ) @connection(key: "authorList", filter: ["from", "search"]) {
+      edges {
+        node {
+          id
+          name
+          inLibrary
+          poems {
+            id
+            title
+            teaser
+            lines
+            inLibrary
+          }
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+`;
 
 export default AuthorListWithData;

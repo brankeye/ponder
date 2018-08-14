@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-import { authorQuery } from '@@graphql';
+import gql from 'graphql-tag';
 import AuthorView from './AuthorView';
 
 class AuthorViewWithData extends Component {
@@ -11,7 +11,7 @@ class AuthorViewWithData extends Component {
   render() {
     const { id, ...props } = this.props;
     return (
-      <Query query={authorQuery} variables={{ id }}>
+      <Query query={AuthorQuery} variables={{ id }}>
         {({ loading, error, data: { author } }) => {
           if (loading) return null;
           if (error) return `Error!: ${error}`;
@@ -21,5 +21,22 @@ class AuthorViewWithData extends Component {
     );
   }
 }
+
+export const AuthorQuery = gql`
+  query Author($id: ID!) {
+    author(id: $id) {
+      id
+      name
+      inLibrary
+      poems {
+        id
+        title
+        teaser
+        lines
+        inLibrary
+      }
+    }
+  }
+`;
 
 export default AuthorViewWithData;

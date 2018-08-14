@@ -1,2 +1,5 @@
 export { default } from './AuthorList';
-export { default as AuthorListWithData } from './AuthorListWithData';
+export {
+  default as AuthorListWithData,
+  AuthorListQuery,
+} from './AuthorListWithData';
