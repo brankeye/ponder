@@ -26,6 +26,7 @@ class PoemScreen extends Component {
                         inLibrary: !inLibrary,
                       },
                     },
+                    awaitRefetchQueries: true,
                     refetchQueries: () => ['poemList', 'authorList'],
                   });
                 }}

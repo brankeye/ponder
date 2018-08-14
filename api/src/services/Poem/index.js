@@ -11,7 +11,7 @@ class PoemService {
 
   get = ({ poemId }) => Poem.query().findById(poemId);
 
-  getAll = ({
+  getAll = async ({
     first,
     last,
     after,
@@ -30,8 +30,24 @@ class PoemService {
     return dbQuery.filter(filters).then(
       parseConnection(Poem, {
         first,
-        hasNextPage,
-        hasPreviousPage,
+        hasNextPage: async endId =>
+          hasNextPage
+            ? await Poem.query()
+                .where('id', '<', endId)
+                .filter(filters)
+                .first()
+                .select('id')
+                .then(Boolean)
+            : false,
+        hasPreviousPage: async startId =>
+          hasPreviousPage
+            ? await Poem.query()
+                .where('id', '>', startId)
+                .filter(filters)
+                .first()
+                .select('id')
+                .then(Boolean)
+            : false,
         filters,
       })
     );
@@ -66,8 +82,30 @@ class PoemService {
         parseConnection(PoemInfo, {
           id: 'poem_id',
           first,
-          hasNextPage,
-          hasPreviousPage,
+          hasNextPage: async endId =>
+            hasNextPage
+              ? await PoemInfo.query()
+                  .filter(filters)
+                  .where('user_id', userId)
+                  .whereNot('viewed_at', null)
+                  .where('poem_id', '<', endId)
+                  .orderBy('viewed_at')
+                  .first()
+                  .select('poem_id')
+                  .then(Boolean)
+              : false,
+          hasPreviousPage: async startId =>
+            hasPreviousPage
+              ? await PoemInfo.query()
+                  .filter(filters)
+                  .where('user_id', userId)
+                  .whereNotNull('viewed_at')
+                  .where('poem_id', '>', startId)
+                  .orderBy('viewed_at')
+                  .first()
+                  .select('poem_id')
+                  .then(Boolean)
+              : false,
           filters,
         })
       );
@@ -102,9 +140,31 @@ class PoemService {
         parseConnection(PoemInfo, {
           id: 'poem_id',
           first,
-          hasNextPage,
-          hasPreviousPage,
+          hasNextPage: async endId =>
+            hasNextPage
+              ? await PoemInfo.query()
+                  .where('user_id', userId)
+                  .where('in_library', true)
+                  .where('poem_id', '<', endId)
+                  .filter(filters)
+                  .first()
+                  .select('poem_id')
+                  .then(Boolean)
+              : false,
+          hasPreviousPage: async startId =>
+            hasPreviousPage
+              ? await PoemInfo.query()
+                  .where('user_id', userId)
+                  .where('in_library', true)
+                  .where('poem_id', '>', startId)
+                  .filter(filters)
+                  .first()
+                  .select('poem_id')
+                  .then(Boolean)
+              : false,
           filters,
+          queryModifier: query =>
+            query.where('user_id', userId).andWhere('in_library', true),
         })
       );
   };

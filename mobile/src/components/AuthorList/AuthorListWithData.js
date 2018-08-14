@@ -46,7 +46,7 @@ class AuthorListWithData extends Component {
                     updateQuery: (previousResult, { fetchMoreResult }) => {
                       const newEdges = fetchMoreResult.authorList.edges;
                       const pageInfo = fetchMoreResult.authorList.pageInfo;
-                      return newEdges.length
+                      return pageInfo.hasNextPage
                         ? {
                             authorList: {
                               __typename: previousResult.authorList.__typename,

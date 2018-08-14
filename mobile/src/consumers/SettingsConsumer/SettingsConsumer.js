@@ -55,7 +55,10 @@ const withUser = WrappedComponent => props => (
   <Query query={UserQuery}>
     {({ loading, data: { user } }) =>
       loading ? null : (
-        <Mutation mutation={UserSettingsMutation} refetchQueries={['User']}>
+        <Mutation
+          mutation={UserSettingsMutation}
+          refetchQueries={() => ['User']}
+        >
           {userSettings => (
             <WrappedComponent
               {...props}

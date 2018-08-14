@@ -42,7 +42,7 @@ class PoemListWithData extends Component {
                     updateQuery: (previousResult, { fetchMoreResult }) => {
                       const newEdges = fetchMoreResult.poemList.edges;
                       const pageInfo = fetchMoreResult.poemList.pageInfo;
-                      return newEdges.length
+                      return pageInfo.hasNextPage
                         ? {
                             poemList: {
                               __typename: previousResult.poemList.__typename,

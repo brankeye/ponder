@@ -69,17 +69,14 @@ export const parseConnection = (
     first,
     hasNextPage,
     hasPreviousPage,
-    filters: { orderBy },
   }: {
     id: string,
     first: number,
-    hasNextPage: boolean,
-    hasPreviousPage: boolean,
+    hasNextPage: Function,
+    hasPreviousPage: Function,
     filters: Object,
   }
 ) => async (data: any) => {
-  const { nextSign, prevSign } = parseSigns(first);
-
   let edges;
 
   if (!data || !data.length || data.length === 0) {
@@ -95,29 +92,9 @@ export const parseConnection = (
   const pageInfo = {
     startCursor: encodeCursor(startId),
     endCursor: encodeCursor(endId),
-    hasNextPage: undefined,
-    hasPreviousPage: undefined,
+    hasNextPage: !endId ? false : await hasNextPage(endId),
+    hasPreviousPage: !startId ? false : await hasPreviousPage(startId),
   };
-
-  if (hasNextPage) {
-    pageInfo.hasNextPage = !endId
-      ? false
-      : await Model.query()
-          .findOne(...[id, nextSign, endId])
-          .select(...[id])
-          .orderBy(...orderBy)
-          .then(Boolean);
-  }
-
-  if (hasPreviousPage) {
-    pageInfo.hasPreviousPage = !startId
-      ? false
-      : await Model.query()
-          .findOne(...[id, prevSign, startId])
-          .select(...[id])
-          .orderBy(...orderBy)
-          .then(Boolean);
-  }
 
   return {
     edges,
