@@ -10,16 +10,15 @@ class AuthorService {
 
   get = ({ authorId }) => Author.query().findById(authorId);
 
-  getAll = ({
-    first,
-    last,
-    after,
-    before,
-    hasNextPage,
-    hasPreviousPage,
-    search,
-  }) => {
-    const filters = parseFilters({ first, last, after, before, random: true });
+  getAll = ({ first, last, after, before, search }) => {
+    const filters = parseFilters({
+      id: 'id',
+      first,
+      last,
+      after,
+      before,
+      random: true,
+    });
     const dbQuery = Author.query();
 
     if (search) {
@@ -28,24 +27,16 @@ class AuthorService {
 
     return dbQuery.filter(filters).then(
       parseConnection(Author, {
+        id: 'id',
         first,
-        hasNextPage,
-        hasPreviousPage,
-        filters,
+        last,
+        before,
+        after,
       })
     );
   };
 
-  getRecents = ({
-    userId,
-    first,
-    last,
-    after,
-    before,
-    hasNextPage,
-    hasPreviousPage,
-    search,
-  }) => {
+  getRecents = ({ userId, first, last, after, before, search }) => {
     const filters = parseFilters({
       id: 'author_id',
       first,
@@ -70,23 +61,14 @@ class AuthorService {
         parseConnection(AuthorInfo, {
           id: 'author_id',
           first,
-          hasNextPage,
-          hasPreviousPage,
-          filters,
+          last,
+          before,
+          after,
         })
       );
   };
 
-  getLibrary = ({
-    userId,
-    first,
-    last,
-    after,
-    before,
-    hasNextPage,
-    hasPreviousPage,
-    search,
-  }) => {
+  getLibrary = ({ userId, first, last, after, before, search }) => {
     const filters = parseFilters({
       id: 'author_id',
       first,
@@ -111,9 +93,9 @@ class AuthorService {
         parseConnection(AuthorInfo, {
           id: 'author_id',
           first,
-          hasNextPage,
-          hasPreviousPage,
-          filters,
+          last,
+          before,
+          after,
         })
       );
   };

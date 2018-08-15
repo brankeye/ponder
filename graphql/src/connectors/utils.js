@@ -4,11 +4,4 @@ export const renameKeys = curry((keysMap, obj) =>
   reduce((acc, key) => assoc(keysMap[key] || key, obj[key], acc), {}, keys(obj))
 );
 
-export const parsePaginationOptions = pick([
-  'first',
-  'after',
-  'last',
-  'before',
-  'hasNextPage',
-  'hasPreviousPage',
-]);
+export const pickPaginationOptions = pick(['first', 'after', 'last', 'before']);

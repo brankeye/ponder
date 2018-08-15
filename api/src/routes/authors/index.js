@@ -10,17 +10,7 @@ const routes = {
     route: '/authors',
     handler: (
       { AuthorService },
-      {
-        query: {
-          first,
-          last,
-          before,
-          after,
-          hasNextPage,
-          hasPreviousPage,
-          search,
-        },
-      },
+      { query: { first, last, before, after, search } },
       res
     ) =>
       AuthorService.getAll({
@@ -28,8 +18,6 @@ const routes = {
         last,
         before,
         after,
-        hasNextPage,
-        hasPreviousPage,
         search,
       }).then(data => res.json(data)),
   },
@@ -58,18 +46,7 @@ const routes = {
     auth: true,
     handler: (
       { AuthorService },
-      {
-        query: {
-          first,
-          last,
-          before,
-          after,
-          hasNextPage,
-          hasPreviousPage,
-          search,
-        },
-        context: { user },
-      },
+      { query: { first, last, before, after, search }, context: { user } },
       res
     ) =>
       AuthorService.getRecents({
@@ -78,8 +55,6 @@ const routes = {
         last,
         before,
         after,
-        hasNextPage,
-        hasPreviousPage,
         search,
       }).then(data => res.json(data)),
   },
@@ -89,18 +64,7 @@ const routes = {
     auth: true,
     handler: (
       { AuthorService },
-      {
-        query: {
-          first,
-          last,
-          before,
-          after,
-          hasNextPage,
-          hasPreviousPage,
-          search,
-        },
-        context: { user },
-      },
+      { query: { first, last, before, after, search }, context: { user } },
       res
     ) =>
       AuthorService.getLibrary({
@@ -109,8 +73,6 @@ const routes = {
         last,
         before,
         after,
-        hasNextPage,
-        hasPreviousPage,
         search,
       }).then(data => res.json(data)),
   },

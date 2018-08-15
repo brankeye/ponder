@@ -11,16 +11,15 @@ class PoemService {
 
   get = ({ poemId }) => Poem.query().findById(poemId);
 
-  getAll = async ({
-    first,
-    last,
-    after,
-    before,
-    hasNextPage,
-    hasPreviousPage,
-    search,
-  }) => {
-    const filters = parseFilters({ first, last, after, before, random: true });
+  getAll = async ({ first, last, after, before, search }) => {
+    const filters = parseFilters({
+      id: 'id',
+      first,
+      last,
+      after,
+      before,
+      random: true,
+    });
     const dbQuery = Poem.query();
 
     if (search) {
@@ -29,40 +28,16 @@ class PoemService {
 
     return dbQuery.filter(filters).then(
       parseConnection(Poem, {
+        id: 'id',
         first,
-        hasNextPage: async endId =>
-          hasNextPage
-            ? await Poem.query()
-                .where('id', '<', endId)
-                .filter(filters)
-                .first()
-                .select('id')
-                .then(Boolean)
-            : false,
-        hasPreviousPage: async startId =>
-          hasPreviousPage
-            ? await Poem.query()
-                .where('id', '>', startId)
-                .filter(filters)
-                .first()
-                .select('id')
-                .then(Boolean)
-            : false,
-        filters,
+        last,
+        before,
+        after,
       })
     );
   };
 
-  getRecents = ({
-    userId,
-    first,
-    last,
-    after,
-    before,
-    hasNextPage,
-    hasPreviousPage,
-    search,
-  }) => {
+  getRecents = ({ userId, first, last, after, before, search }) => {
     const filters = parseFilters({ id: 'poem_id', first, last, after, before });
     const dbQuery = PoemInfo.query().eager('poem');
 
@@ -82,45 +57,14 @@ class PoemService {
         parseConnection(PoemInfo, {
           id: 'poem_id',
           first,
-          hasNextPage: async endId =>
-            hasNextPage
-              ? await PoemInfo.query()
-                  .filter(filters)
-                  .where('user_id', userId)
-                  .whereNot('viewed_at', null)
-                  .where('poem_id', '<', endId)
-                  .orderBy('viewed_at')
-                  .first()
-                  .select('poem_id')
-                  .then(Boolean)
-              : false,
-          hasPreviousPage: async startId =>
-            hasPreviousPage
-              ? await PoemInfo.query()
-                  .filter(filters)
-                  .where('user_id', userId)
-                  .whereNotNull('viewed_at')
-                  .where('poem_id', '>', startId)
-                  .orderBy('viewed_at')
-                  .first()
-                  .select('poem_id')
-                  .then(Boolean)
-              : false,
-          filters,
+          last,
+          before,
+          after,
         })
       );
   };
 
-  getLibrary = ({
-    userId,
-    first,
-    last,
-    after,
-    before,
-    hasNextPage,
-    hasPreviousPage,
-    search,
-  }) => {
+  getLibrary = ({ userId, first, last, after, before, search }) => {
     const filters = parseFilters({ id: 'poem_id', first, last, after, before });
     const dbQuery = PoemInfo.query().eager('poem');
 
@@ -140,31 +84,9 @@ class PoemService {
         parseConnection(PoemInfo, {
           id: 'poem_id',
           first,
-          hasNextPage: async endId =>
-            hasNextPage
-              ? await PoemInfo.query()
-                  .where('user_id', userId)
-                  .where('in_library', true)
-                  .where('poem_id', '<', endId)
-                  .filter(filters)
-                  .first()
-                  .select('poem_id')
-                  .then(Boolean)
-              : false,
-          hasPreviousPage: async startId =>
-            hasPreviousPage
-              ? await PoemInfo.query()
-                  .where('user_id', userId)
-                  .where('in_library', true)
-                  .where('poem_id', '>', startId)
-                  .filter(filters)
-                  .first()
-                  .select('poem_id')
-                  .then(Boolean)
-              : false,
-          filters,
-          queryModifier: query =>
-            query.where('user_id', userId).andWhere('in_library', true),
+          last,
+          before,
+          after,
         })
       );
   };

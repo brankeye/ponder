@@ -33,11 +33,17 @@ export const parseFilters = ({
   after: string,
   random: ?boolean,
 }) => {
+  first = first ? parseInt(first) : first;
+  last = last ? parseInt(last) : last;
+
   if (first && first <= 0 && (!last || last <= 0)) {
     throw new Error("Argument 'first' must not be less than zero.");
   } else if (last && last <= 0 && (!first || first <= 0)) {
     throw new Error("Argument 'last' must not be less than zero.");
   }
+
+  if (first) first += 2;
+  if (last) last += 2;
 
   const cursorId = before
     ? decodeCursor(before)
@@ -57,9 +63,9 @@ export const parseFilters = ({
 };
 
 export const parseSigns = (first: number) => ({
-  sign: first ? '<' : '>',
-  nextSign: first ? '<' : '<',
-  prevSign: first ? '>' : '>',
+  sign: first ? '<=' : '>=',
+  nextSign: first ? '<=' : '<=',
+  prevSign: first ? '>=' : '>=',
 });
 
 export const parseConnection = (
@@ -67,17 +73,67 @@ export const parseConnection = (
   {
     id = 'id',
     first,
-    hasNextPage,
-    hasPreviousPage,
+    last,
+    before,
+    after,
   }: {
     id: string,
     first: number,
-    hasNextPage: Function,
-    hasPreviousPage: Function,
-    filters: Object,
+    last: number,
+    before: string,
+    after: string,
   }
 ) => async (data: any) => {
+  first = first ? parseInt(first) : first;
+  last = last ? parseInt(last) : last;
+
   let edges;
+  let hasNextPage = false;
+  let hasPreviousPage = false;
+
+  if (data && data.length > 0) {
+    const cursorId = before
+      ? decodeCursor(before)
+      : after
+        ? decodeCursor(after)
+        : undefined;
+
+    if (cursorId) {
+      if (first) {
+        hasPreviousPage = true;
+        data = data.filter(x => x[id] !== cursorId);
+        if (data.length > first) {
+          data.pop();
+          hasNextPage = true;
+        }
+      } else if (last) {
+        hasNextPage = true;
+        data = data.filter(x => x[id] !== cursorId);
+        if (data.length > last) {
+          data.shift();
+          hasPreviousPage = true;
+        }
+      }
+    } else {
+      if (first) {
+        hasPreviousPage = false;
+        if (data.length > first) {
+          hasNextPage = true;
+        }
+        while (data.length > first) {
+          data.pop();
+        }
+      } else if (last) {
+        hasNextPage = false;
+        if (data.length > last) {
+          hasPreviousPage = true;
+        }
+        while (data.length > last) {
+          data.shift();
+        }
+      }
+    }
+  }
 
   if (!data || !data.length || data.length === 0) {
     edges = [];
@@ -92,8 +148,8 @@ export const parseConnection = (
   const pageInfo = {
     startCursor: encodeCursor(startId),
     endCursor: encodeCursor(endId),
-    hasNextPage: !endId ? false : await hasNextPage(endId),
-    hasPreviousPage: !startId ? false : await hasPreviousPage(startId),
+    hasNextPage,
+    hasPreviousPage,
   };
 
   return {

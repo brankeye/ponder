@@ -12,8 +12,38 @@ class PoemScreen extends Component {
   render() {
     const id = this.props.navigation.getParam('id', null);
     return (
-      <Mutation mutation={PoemUpsertMutation}>
-        {poemUpsert => {
+      <Mutation
+        mutation={PoemUpsertMutation}
+        update={(store, { data: { poemUpsert: poem } }) => {
+          try {
+            const { poemList } = store.readQuery({
+              query: PoemListQuery,
+              variables: {
+                from: 'Library',
+              },
+            });
+            if (poemList) {
+              if (!poem.inLibrary) {
+                poemList.edges = poemList.edges.filter(
+                  ({ node }) => node.id !== poem.id
+                );
+              } else {
+                poemList.edges.unshift({ __typename: 'PoemEdge', node: poem });
+              }
+              store.writeQuery({
+                query: PoemListQuery,
+                variables: {
+                  from: 'Library',
+                },
+                data: { poemList },
+              });
+            }
+          } catch (err) {
+            console.log('Err: ', err);
+          }
+        }}
+      >
+        {(poemUpsert, { client }) => {
           return (
             <Screen>
               <PoemViewWithData
@@ -26,8 +56,6 @@ class PoemScreen extends Component {
                         inLibrary: !inLibrary,
                       },
                     },
-                    awaitRefetchQueries: true,
-                    refetchQueries: () => ['poemList', 'authorList'],
                   });
                 }}
               />

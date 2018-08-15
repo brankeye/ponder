@@ -1,5 +1,5 @@
 import BaseConnector from '../BaseConnector';
-import { renameKeys, parsePaginationOptions } from '../utils';
+import { renameKeys, pickPaginationOptions } from '../utils';
 
 const rename = renameKeys({
   id: 'author_id',
@@ -17,7 +17,7 @@ class AuthorConnector extends BaseConnector {
       path: '/api/authors',
       qs: {
         search,
-        ...parsePaginationOptions(paginationArgs),
+        ...pickPaginationOptions(paginationArgs),
       },
     });
 
@@ -31,7 +31,7 @@ class AuthorConnector extends BaseConnector {
       path: '/api/recents/authors',
       qs: {
         search,
-        ...parsePaginationOptions(paginationArgs),
+        ...pickPaginationOptions(paginationArgs),
       },
       auth: true,
     });
@@ -41,7 +41,7 @@ class AuthorConnector extends BaseConnector {
       path: '/api/library/authors',
       qs: {
         search,
-        ...parsePaginationOptions(paginationArgs),
+        ...pickPaginationOptions(paginationArgs),
       },
       auth: true,
     });

@@ -87,6 +87,7 @@ export const PoemListQuery = gql`
           id
           title
           teaser
+          lines
           inLibrary
           author {
             id

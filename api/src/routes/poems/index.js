@@ -10,17 +10,7 @@ const routes = {
     route: '/poems',
     handler: (
       { PoemService },
-      {
-        query: {
-          first,
-          last,
-          before,
-          after,
-          hasNextPage,
-          hasPreviousPage,
-          search,
-        },
-      },
+      { query: { first, last, before, after, search } },
       res
     ) =>
       PoemService.getAll({
@@ -28,8 +18,6 @@ const routes = {
         last,
         after,
         before,
-        hasNextPage,
-        hasPreviousPage,
         search,
       }).then(data => res.json(data)),
   },
@@ -52,18 +40,7 @@ const routes = {
     auth: true,
     handler: (
       { PoemService },
-      {
-        query: {
-          first,
-          last,
-          before,
-          after,
-          hasNextPage,
-          hasPreviousPage,
-          search,
-        },
-        context: { user },
-      },
+      { query: { first, last, before, after, search }, context: { user } },
       res
     ) =>
       PoemService.getLibrary({
@@ -72,8 +49,6 @@ const routes = {
         last,
         after,
         before,
-        hasNextPage,
-        hasPreviousPage,
         search,
       }).then(data => res.json(data)),
   },
@@ -83,18 +58,7 @@ const routes = {
     auth: true,
     handler: (
       { PoemService },
-      {
-        query: {
-          first,
-          last,
-          before,
-          after,
-          hasNextPage,
-          hasPreviousPage,
-          search,
-        },
-        context: { user },
-      },
+      { query: { first, last, before, after, search }, context: { user } },
       res
     ) =>
       PoemService.getRecents({
@@ -103,8 +67,6 @@ const routes = {
         last,
         after,
         before,
-        hasNextPage,
-        hasPreviousPage,
         search,
       }).then(data => res.json(data)),
   },

@@ -1,5 +1,5 @@
 import BaseConnector from '../BaseConnector';
-import { renameKeys, parsePaginationOptions } from '../utils';
+import { renameKeys, pickPaginationOptions } from '../utils';
 
 const rename = renameKeys({
   id: 'poem_id',
@@ -17,7 +17,7 @@ class PoemConnector extends BaseConnector {
       path: '/api/poems',
       qs: {
         search,
-        ...parsePaginationOptions(paginationArgs),
+        ...pickPaginationOptions(paginationArgs),
       },
     });
 
@@ -26,7 +26,7 @@ class PoemConnector extends BaseConnector {
       path: '/api/recents/poems',
       qs: {
         search,
-        ...parsePaginationOptions(paginationArgs),
+        ...pickPaginationOptions(paginationArgs),
       },
       auth: true,
     });
@@ -36,7 +36,7 @@ class PoemConnector extends BaseConnector {
       path: '/api/library/poems',
       qs: {
         search,
-        ...parsePaginationOptions(paginationArgs),
+        ...pickPaginationOptions(paginationArgs),
       },
       auth: true,
     });
