@@ -34,7 +34,13 @@ export default createStackNavigator({
     navigationOptions: {
       title: 'Library',
       header: props => (
-        <HeaderBar {...props} name="LibraryHeader" title="Library" searchable />
+        <HeaderBar
+          {...props}
+          name="LibraryHeader"
+          title="Library"
+          themeable
+          searchable
+        />
       ),
     },
   },
@@ -42,14 +48,14 @@ export default createStackNavigator({
     screen: PoemScreen,
     navigationOptions: {
       title: 'Poem',
-      header: props => <HeaderBar {...props} title="Poem" />,
+      header: props => <HeaderBar {...props} title="Poem" themeable />,
     },
   },
   Author: {
     screen: AuthorScreen,
     navigationOptions: {
       title: 'Author',
-      header: props => <HeaderBar {...props} title="Author" />,
+      header: props => <HeaderBar {...props} title="Author" themeable />,
     },
   },
 });

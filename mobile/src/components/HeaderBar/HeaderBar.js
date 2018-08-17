@@ -1,6 +1,7 @@
 import React from 'react';
-import { Toolbar } from 'react-native-material-ui';
+import { Toolbar, IconToggle } from 'react-native-material-ui';
 import PubSub from 'pubsub-js';
+import { ThemeConsumer, SettingsConsumer } from '@@consumers';
 
 class HeaderBar extends React.Component {
   static defaultProps = {
@@ -20,30 +21,57 @@ class HeaderBar extends React.Component {
       navigation,
       title,
       searchable,
+      themeable,
       onLeftElementPress,
       ...props
     } = this.props;
 
     return (
-      <Toolbar
-        {...props}
-        leftElement="menu"
-        centerElement={title}
-        searchable={
-          searchable
-            ? {
-                autoFocus: true,
-                placeholder: 'Search',
-                onChangeText: this.handleChangeText,
-                onSubmitEditing: this.handleSearch,
-              }
-            : undefined
-        }
-        onLeftElementPress={() => {
-          navigation.toggleDrawer();
-          if (onLeftElementPress) onLeftElementPress();
-        }}
-      />
+      <ThemeConsumer>
+        {({ theme }) => (
+          <SettingsConsumer>
+            {({ toggleTheme }) => (
+              <Toolbar
+                {...props}
+                leftElement={
+                  <IconToggle
+                    name={'menu'}
+                    color={theme.textColor}
+                    onPress={() => {
+                      navigation.toggleDrawer();
+                      if (onLeftElementPress) onLeftElementPress();
+                    }}
+                  />
+                }
+                centerElement={title}
+                searchable={
+                  searchable
+                    ? {
+                        autoFocus: true,
+                        placeholder: 'Search',
+                        onChangeText: this.handleChangeText,
+                        onSubmitEditing: this.handleSearch,
+                      }
+                    : undefined
+                }
+                rightElement={
+                  themeable && (
+                    <IconToggle
+                      name={'palette'}
+                      color={theme.textColor}
+                      onPress={() => {
+                        if (themeable) {
+                          toggleTheme();
+                        }
+                      }}
+                    />
+                  )
+                }
+              />
+            )}
+          </SettingsConsumer>
+        )}
+      </ThemeConsumer>
     );
   }
 }

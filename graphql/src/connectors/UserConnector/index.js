@@ -34,6 +34,7 @@ class UserConnector extends BaseConnector {
     this.request({
       path: 'api/user/settings',
       method: 'PUT',
+      auth: true,
       body: rename(input),
     });
 }

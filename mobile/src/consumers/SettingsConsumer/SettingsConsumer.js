@@ -3,23 +3,33 @@ import { Storage } from '@@utils';
 import Expo from 'expo';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
+import { omit } from 'ramda';
 
 const Context = React.createContext();
 
 class Provider extends React.Component {
-  static defaultProps = {
-    settings: {
-      theme: 'Dark',
-    },
-  };
-
   updateSettings = fn => {
-    const { settings, update } = this.props;
-    const newSettings = fn(settings);
-    return update({
+    const { settings, updateSettings } = this.props;
+    const input = typeof fn === 'function' ? fn(settings) : fn;
+    return updateSettings({
       variables: {
-        ...settings,
-        ...newSettings,
+        input,
+      },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        userSettings: {
+          __typename: 'User',
+          settings: {
+            __typename: 'UserSettings',
+            ...settings,
+            ...input,
+          },
+        },
+      },
+      update: (proxy, { data: { userSettings } }) => {
+        const data = proxy.readQuery({ query: UserQuery });
+        data.user.settings = userSettings.settings;
+        proxy.writeQuery({ query: UserQuery, data });
       },
     });
   };
@@ -55,15 +65,14 @@ const withUser = WrappedComponent => props => (
   <Query query={UserQuery}>
     {({ loading, data: { user } }) =>
       loading ? null : (
-        <Mutation
-          mutation={UserSettingsMutation}
-          refetchQueries={() => ['User']}
-        >
+        <Mutation mutation={UserSettingsMutation}>
           {userSettings => (
             <WrappedComponent
               {...props}
-              settings={user ? user.settings : defaultSettings}
-              update={userSettings}
+              settings={
+                user ? omit(['__typename'], user.settings) : defaultSettings
+              }
+              updateSettings={userSettings}
             />
           )}
         </Mutation>

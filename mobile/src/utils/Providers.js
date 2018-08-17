@@ -25,7 +25,7 @@ const AppProviders = ({ children }) => (
                 <ThemeProvider type={themeType}>
                   <ThemeConsumer>
                     {({ theme }) => (
-                      <StylesProvider id={themeType} theme={theme}>
+                      <StylesProvider id={theme.type} theme={theme}>
                         {children}
                       </StylesProvider>
                     )}

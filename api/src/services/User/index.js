@@ -9,12 +9,8 @@ class UserService {
 
   getAll = () => User.query();
 
-  updateSettings = ({ id, push_token, notify, notify_time }) =>
-    User.query().patchAndFetchById(id, {
-      push_token,
-      notify,
-      notify_time,
-    });
+  updateSettings = ({ id, settings }) =>
+    User.query().patchAndFetchById(id, settings);
 }
 
 export default UserService;

@@ -35,11 +35,11 @@ input UserSocialInput {
 }
 
 input UserSettingsInput {
-  pushToken: String!
-  timeZone: String!
-  notify: Boolean!
-  notifyTime: Time!
-  theme: ThemeType!
+  pushToken: String
+  timeZone: String
+  notify: Boolean
+  notifyTime: Time
+  theme: ThemeType
 }
 
 enum SocialProvider {

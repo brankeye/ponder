@@ -91,8 +91,11 @@ const routes = {
   updateSettings: {
     method: 'PUT',
     route: '/user/settings',
-    handler: ({ UserService }, { body }, res) =>
-      UserService.updateSettings(body).then(data => res.json(data)),
+    auth: true,
+    handler: ({ UserService }, { body, context: { user } }, res) =>
+      UserService.updateSettings({ id: user.id, settings: body }).then(data =>
+        res.json(data)
+      ),
   },
 };
 

@@ -10,63 +10,52 @@ class ThemeProvider extends React.Component {
     type: 'Dark',
   };
 
-  state = {
-    theme: this.props.type === 'Dark' ? darkTheme : lightTheme,
-  };
-
-  componentDidUpdate(lastProps) {
-    if (lastProps.type !== this.props.type) {
-      this.setState({
-        theme: this.props.type === 'Dark' ? darkTheme : lightTheme,
-      });
-    }
-  }
-
   render() {
+    const theme = this.props.type === 'Dark' ? darkTheme : lightTheme;
     return (
       <Provider
         value={{
-          theme: this.state.theme,
+          theme,
         }}
       >
         <MaterialThemeProvider
           uiTheme={{
             palette: {
-              primaryColor: this.state.theme.backgroundColor,
-              primaryTextColor: Color(this.state.theme.textColor)
+              primaryColor: theme.backgroundColor,
+              primaryTextColor: Color(theme.textColor)
                 .alpha(0.87)
                 .toString(),
-              secondaryTextColor: Color(this.state.theme.textColor)
+              secondaryTextColor: Color(theme.textColor)
                 .alpha(0.54)
                 .toString(),
-              activeIcon: Color(this.state.theme.primaryColor)
+              activeIcon: Color(theme.primaryColor)
                 .alpha(0.87)
                 .toString(),
-              inactiveIcon: Color(this.state.theme.primaryColor)
+              inactiveIcon: Color(theme.primaryColor)
                 .alpha(0.54)
                 .toString(),
-              canvasColor: this.state.theme.backgroundColor,
+              canvasColor: theme.backgroundColor,
             },
             toolbar: {
               container: {
                 height: 50,
               },
               titleText: {
-                color: this.state.theme.textColor,
+                color: theme.textColor,
               },
               rightElement: {
-                color: this.state.theme.textColor,
+                color: theme.textColor,
               },
               leftElement: {
-                color: this.state.theme.textColor,
+                color: theme.textColor,
               },
             },
             toolbarSearchActive: {
               rightElement: {
-                color: this.state.theme.textColor,
+                color: theme.textColor,
               },
               leftElement: {
-                color: this.state.theme.textColor,
+                color: theme.textColor,
               },
             },
           }}
