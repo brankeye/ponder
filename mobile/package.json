@@ -27,6 +27,7 @@
     "react-native-gesture-handler": "^1.0.0-alpha.43",
     "react-native-material-ui": "^1.22.3",
     "react-native-paint": "^1.1.0",
+    "react-native-paper": "^1.11.1",
     "react-native-tab-view": "^0.0.77",
     "react-navigation": "^2.0.1",
     "uuid": "^3.2.1"

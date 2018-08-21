@@ -1,25 +1,60 @@
-version: '3'
+version: "3.5"
 services:
   ponder_api:
-    image: ponder_api
-    ports:
-      - 3100:3100
-    environment:
-      DB_CONNECTION: ${DB_CONNECTION}
+    image: keybra/ponder_api
+    container_name: ponder_${ENV_ID}_api
+    depends_on:
+      - ponder_postgres
+    restart: always
+    networks:
+      - web
+      - ponder_network
+    expose:
+      - 3100
+    env_file:
+      - ${ENV_ID}.env
   ponder_graphql:
-    image: ponder_graphql
-    ports:
-      - 80:3000
-    environment:
-      PONDER_API: ${PONDER_API}
-      OAUTH_ID: ${OAUTH_ID}
+    image: keybra/ponder_graphql
+    container_name: ponder_${ENV_ID}_graphql
+    depends_on:
+      - ponder_api
+    restart: always
+    networks:
+      - web
+      - ponder_network
+    expose:
+      - 3000
+    labels:
+      - traefik.backend=ponder_graphql
+      - traefik.docker.network=web
+      - traefik.frontend.rule=Host:${ENV_ID}-gql.ponder-app.com
+      - traefik.enable=true
+      - traefik.port=3000
+    env_file:
+      - ${ENV_ID}.env
   ponder_postgres:
     image: postgres
-    ports:
-      - 5432:5432
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    container_name: ponder_${ENV_ID}_postgres
+    restart: always
+    networks:
+      - web
+      - ponder_network
+    expose:
+      - 5432
     volumes:
       - data:/var/lib/postgresql/data
+    env_file:
+      - ${ENV_ID}.env
+    labels:
+      - traefik.backend=ponder_postgres
+      - traefik.docker.network=web
+      - traefik.frontend.rule=Host:${ENV_ID}-pg.ponder-app.com
+      - traefik.enable=true
+      - traefik.port=5432
 volumes:
   data: {}
+networks:
+  ponder_network:
+    name: ponder_${ENV_ID}_network
+  web:
+    external: true
