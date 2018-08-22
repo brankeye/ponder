@@ -1,60 +1,60 @@
 version: "3.5"
 services:
-  ponder_api:
+  api:
+    build: ./api
     image: keybra/ponder_api
-    container_name: ponder_${ENV_ID}_api
     depends_on:
-      - ponder_postgres
+      - postgres
     restart: always
-    networks:
-      - web
-      - ponder_network
     expose:
-      - 3100
-    env_file:
-      - ${ENV_ID}.env
-  ponder_graphql:
+      - "${API_PORT}"
+    volumes:
+      - .:/usr/src/api
+    networks:
+      - proxy
+    environment:
+      - HOST
+      - NODE_ENV
+      - API_PORT
+      - POSTGRES_URL
+  graphql:
+    build: ./graphql
     image: keybra/ponder_graphql
-    container_name: ponder_${ENV_ID}_graphql
     depends_on:
-      - ponder_api
+      - api
     restart: always
-    networks:
-      - web
-      - ponder_network
     expose:
-      - 3000
+      - "${GRAPHQL_PORT}"
+    volumes:
+      - .:/usr/src/graphql
+    networks:
+      - proxy
+    environment:
+      - HOST
+      - NODE_ENV
+      - GRAPHQL_PORT
+      - API_URL
     labels:
-      - traefik.backend=ponder_graphql
-      - traefik.docker.network=web
+      - traefik.backend=graphql
+      - traefik.docker.network=proxy
       - traefik.frontend.rule=Host:${ENV_ID}-gql.ponder-app.com
       - traefik.enable=true
-      - traefik.port=3000
-    env_file:
-      - ${ENV_ID}.env
-  ponder_postgres:
+      - traefik.port=${GRAPHQL_PORT}
+  postgres:
     image: postgres
-    container_name: ponder_${ENV_ID}_postgres
     restart: always
+    ports:
+      - "${POSTGRES_PORT}:5432"
     networks:
-      - web
-      - ponder_network
-    expose:
-      - 5432
+      - proxy
     volumes:
       - data:/var/lib/postgresql/data
-    env_file:
-      - ${ENV_ID}.env
-    labels:
-      - traefik.backend=ponder_postgres
-      - traefik.docker.network=web
-      - traefik.frontend.rule=Host:${ENV_ID}-pg.ponder-app.com
-      - traefik.enable=true
-      - traefik.port=5432
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
 volumes:
   data: {}
 networks:
-  ponder_network:
-    name: ponder_${ENV_ID}_network
-  web:
+  proxy:
     external: true

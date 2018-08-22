@@ -3,7 +3,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-const { NODE_ENV, PORT, HOST, DB_CONNECTION, OAUTH_ID } = process.env;
+const { NODE_ENV, API_PORT, HOST, POSTGRES_URL } = process.env;
 
 export type Config = {
   dev: boolean,
@@ -11,16 +11,14 @@ export type Config = {
   port: number,
   host: string,
   dbConnection: ?string,
-  oauthId: ?string,
 };
 
 const config: Config = {
   dev: NODE_ENV === 'development',
   prod: NODE_ENV === 'production',
-  port: parseInt(PORT) || 3100,
+  port: parseInt(API_PORT) || 3100,
   host: HOST || 'localhost',
-  dbConnection: DB_CONNECTION,
-  oauthId: OAUTH_ID,
+  dbConnection: POSTGRES_URL,
 };
 
 export default config;

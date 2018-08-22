@@ -19,15 +19,14 @@ const app = express();
 app.use(bodyParser.json());
 app.use('/graphql', makeGraphqlExpress());
 
-app.use(
-  '/graphiql',
-  graphiqlExpress({
-    endpointURL: '/graphql',
-    passHeader: `'Client-Id': '${config.clientId}'`,
-  })
-);
-
 if (config.dev) {
+  app.use(
+    '/graphiql',
+    graphiqlExpress({
+      endpointURL: '/graphql',
+      passHeader: `'Client-Id': '${config.clientId}'`,
+    })
+  );
   app.use('/graphqlMocked', makeGraphqlExpress());
   app.use(
     '/graphiqlMocked',

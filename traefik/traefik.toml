@@ -3,6 +3,13 @@ debug = false
 logLevel = "ERROR"
 defaultEntryPoints = ["https","http"]
 
+[web]
+# Port for the status page
+address = ":8080"
+
+[web.auth.basic]
+  users = ["TRAEFIK_BASIC_AUTH"]
+
 [entryPoints]
   [entryPoints.http]
   address = ":80"
@@ -21,13 +28,15 @@ watch = true
 exposedByDefault = false
 
 [acme]
+caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
 email = "brankeye@gmail.com"
 storage = "acme.json"
 entryPoint = "https"
 onHostRule = true
+onDemand = false
 [acme.httpChallenge]
 entryPoint = "http"
 
-  [acme.dnsChallenge]
-    provider = "digitalocean"
-    delayBeforeCheck = 0
+[acme.dnsChallenge]
+  provider = "digitalocean"
+  delayBeforeCheck = 0
