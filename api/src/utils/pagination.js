@@ -1,5 +1,3 @@
-// @flow
-
 import { curry, prop, reverse } from 'ramda';
 import { raw } from 'objection';
 
@@ -25,13 +23,6 @@ export const parseFilters = ({
   before,
   after,
   random,
-}: {
-  id: string,
-  first: number,
-  last: number,
-  before: string,
-  after: string,
-  random: ?boolean,
 }) => {
   first = first ? parseInt(first) : first;
   last = last ? parseInt(last) : last;
@@ -62,27 +53,15 @@ export const parseFilters = ({
   };
 };
 
-export const parseSigns = (first: number) => ({
+export const parseSigns = first => ({
   sign: first ? '<=' : '>=',
   nextSign: first ? '<=' : '<=',
   prevSign: first ? '>=' : '>=',
 });
 
 export const parseConnection = (
-  Model: Object,
-  {
-    id = 'id',
-    first,
-    last,
-    before,
-    after,
-  }: {
-    id: string,
-    first: number,
-    last: number,
-    before: string,
-    after: string,
-  }
+  Model,
+  { id = 'id', first, last, before, after }
 ) => async (data: any) => {
   first = first ? parseInt(first) : first;
   last = last ? parseInt(last) : last;

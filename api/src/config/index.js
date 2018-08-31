@@ -1,24 +1,20 @@
-// @flow
+const {
+  NODE_ENV,
+  API_PORT,
+  HOST,
+  DATABASE_URL,
+  DATABASE_POOL_MIN,
+  DATABASE_POOL_MAX,
+} = process.env;
 
-import dotenv from 'dotenv';
-dotenv.config();
-
-const { NODE_ENV, API_PORT, HOST, POSTGRES_URL } = process.env;
-
-export type Config = {
-  dev: boolean,
-  prod: boolean,
-  port: number,
-  host: string,
-  dbConnection: ?string,
-};
-
-const config: Config = {
+const config = {
   dev: NODE_ENV === 'development',
   prod: NODE_ENV === 'production',
   port: parseInt(API_PORT) || 3100,
   host: HOST || 'localhost',
-  dbConnection: POSTGRES_URL,
+  dbConnection: DATABASE_URL,
+  dbPoolMin: parseInt(DATABASE_POOL_MIN),
+  dbPoolMax: parseInt(DATABASE_POOL_MAX),
 };
 
 export default config;

@@ -1,5 +1,3 @@
-// @flow
-
 import express from 'express';
 import bodyParser from 'body-parser';
 import boolParser from 'express-query-boolean';
@@ -9,7 +7,7 @@ import config from 'config';
 import routes from 'routes';
 import database from 'database';
 import { parseAuth, authenticate, socialLogin } from 'utils';
-import createContext, { type Context } from 'context';
+import createContext from 'context';
 database.setup();
 
 const app = express();
@@ -17,13 +15,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(boolParser());
 
-export type Request = {
-  context: Context,
-  headers: Object,
-};
-
 app.use(
-  asyncHandler(async (req: Request, res, next) => {
+  asyncHandler(async (req, res, next) => {
     req.context = createContext();
     if (req.headers.authorization) {
       const authorization = parseAuth(req.headers.authorization);
@@ -68,7 +61,9 @@ routes.map(({ method, route, handler, auth }) => {
   );
 });
 
-app.use((err, req, res) => {
+app.get('/', (req, res) => res.sendStatus(200));
+
+app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
     message: 'Something went wrong',

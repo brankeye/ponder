@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 class Config {
   constructor() {
     const { NODE_ENV, GRAPHQL_PORT, HOST, API_URL } = process.env;

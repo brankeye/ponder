@@ -5,10 +5,11 @@ services:
     image: keybra/ponder_web
     restart: always
     ports:
-      - "${WEB_PORT}:${WEB_PORT}"
+      - "${WEB_PORT}:9000"
     volumes:
       - .:/usr/src/web
     networks:
+      - default
       - proxy
     environment:
       - HOST
@@ -23,31 +24,36 @@ services:
   api:
     build: ./api
     image: keybra/ponder_api
-    depends_on:
-      - postgres
     restart: always
-    expose:
-      - "${API_PORT}"
+    depends_on:
+      - database
+    ports:
+      - "${API_PORT}:${API_PORT}"
     volumes:
       - .:/usr/src/api
     networks:
+      - default
       - proxy
     environment:
       - HOST
       - NODE_ENV
       - API_PORT
-      - POSTGRES_URL
+      - DATABASE_URL
+      - DATABASE_POOL_MIN
+      - DATABASE_POOL_MAX
+      - DEBUG=knex*
   graphql:
     build: ./graphql
     image: keybra/ponder_graphql
     depends_on:
       - api
     restart: always
-    expose:
-      - "${GRAPHQL_PORT}"
+    ports:
+      - "${GRAPHQL_PORT}:${GRAPHQL_PORT}"
     volumes:
       - .:/usr/src/graphql
     networks:
+      - default
       - proxy
     environment:
       - HOST
@@ -60,19 +66,21 @@ services:
       - traefik.frontend.rule=Host:${ENV_ID}-gql.ponder-app.com
       - traefik.enable=true
       - traefik.port=${GRAPHQL_PORT}
-  postgres:
+  database:
     image: postgres
     restart: always
+    command: -p ${DATABASE_PORT}
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
     networks:
+      - default
       - proxy
     volumes:
       - data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
 volumes:
   data: {}
 networks:

@@ -15,6 +15,8 @@ class BaseConnector {
       this[key] = config[key];
     });
 
+    this.api = this.api.endsWith('/') ? this.api : `${this.api}/`;
+
     this.loader = new DataLoader(this.batch, {
       batch: false,
       cacheKeyFn,

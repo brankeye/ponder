@@ -1,5 +1,3 @@
-// @flow
-
 import { PoemService, AuthorService, UserService } from 'services';
 
 class Context {
@@ -8,4 +6,4 @@ class Context {
   UserService = new UserService(this);
 }
 
-export default (): Context => new Context();
+export default () => new Context();

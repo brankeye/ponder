@@ -1,12 +1,10 @@
-require('dotenv').config();
-
 module.exports = {
-  development: {
+  dev: {
     client: 'postgresql',
-    connection: process.env.DB_CONNECTION,
+    connection: process.env.DATABASE_CONNECTION,
     pool: {
-      min: 2,
-      max: 10,
+      min: parseInt(process.env.DATABASE_POOL_MIN),
+      max: parseInt(process.env.DATABASE_POOL_MAX),
     },
     migrations: {
       tableName: 'knex_migrations',
@@ -17,12 +15,12 @@ module.exports = {
     },
   },
 
-  staging: {
+  stg: {
     client: 'postgresql',
-    connection: process.env.DB_CONNECTION,
+    connection: process.env.DATABASE_CONNECTION,
     pool: {
-      min: 2,
-      max: 10,
+      min: parseInt(process.env.DATABASE_POOL_MIN),
+      max: parseInt(process.env.DATABASE_POOL_MAX),
     },
     migrations: {
       tableName: 'knex_migrations',
@@ -33,12 +31,12 @@ module.exports = {
     },
   },
 
-  production: {
+  prd: {
     client: 'postgresql',
-    connection: process.env.DB_CONNECTION,
+    connection: process.env.DATABASE_CONNECTION,
     pool: {
-      min: 2,
-      max: 10,
+      min: parseInt(process.env.DATABASE_POOL_MIN),
+      max: parseInt(process.env.DATABASE_POOL_MAX),
     },
     migrations: {
       tableName: 'knex_migrations',
