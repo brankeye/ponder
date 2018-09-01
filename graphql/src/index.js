@@ -1,54 +1,28 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server';
 import config from '@@config';
 import schema from './schema';
 import getContext from './context';
 
-const makeGraphqlExpress = () =>
-  graphqlExpress(req => ({
-    schema,
-    context: getContext({
+const server = new ApolloServer({
+  schema,
+  context: ({ req }) =>
+    getContext({
       ...config,
       authorization: req.headers.authorization,
-      clientId: req.headers['client-id'],
     }),
-  }));
-
-const app = express();
-app.use(bodyParser.json());
-app.use('/graphql', makeGraphqlExpress());
-
-app.use(
-  '/graphiql',
-  graphiqlExpress({
-    endpointURL: '/graphql',
-    passHeader: `'Client-Id': '${config.clientId}'`,
-  })
-);
-
-if (config.dev) {
-  app.use('/graphqlMocked', makeGraphqlExpress());
-  app.use(
-    '/graphiqlMocked',
-    graphiqlExpress({
-      endpointURL: '/graphqlMocked',
-    })
-  );
-}
-
-app.use(
-  (req, res, next) =>
-    req.method === 'GET' && req.path.indexOf('graph') < 0
-      ? res.redirect('/graphiql')
-      : next()
-);
-
-app.get('/', (req, res) => {
-  res.redirect('/graphiql');
+  introspection: true,
+  playground: config.prod
+    ? false
+    : {
+        settings: {
+          'editor.theme': 'dark',
+          'editor.cursorShape': 'line',
+          'editor.fontSize': 12,
+        },
+      },
 });
 
-app.listen(config.port, config.host, err => {
+server.listen(config.port, config.host, err => {
   if (err) {
     console.error(err);
   }

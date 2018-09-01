@@ -4,7 +4,7 @@ import config from 'config';
 import uuid from 'uuid/v4';
 
 export const parseAuth = authorization =>
-  JSON.parse(Buffer(authorization, 'base64').toString('ascii'));
+  JSON.parse(Buffer.from(authorization, 'base64').toString('ascii'));
 
 export const socialLogin = async ({ provider, token }) => {
   switch (provider) {

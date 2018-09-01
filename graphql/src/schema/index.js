@@ -1,4 +1,4 @@
-import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
+import { makeExecutableSchema, addMockFunctionsToSchema } from 'apollo-server';
 import { map, prop, propOr, flatten, reduce, mergeDeepLeft } from 'ramda';
 
 import * as scalars from './scalars';
