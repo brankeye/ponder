@@ -2,11 +2,11 @@ pipeline:
   deploy:
     image: docker/compose
     commands:
-      - "set -a && source /opt/ponder/.${DRONE_COMMIT_BRANCH}.env && set +a"
+      - "set -a && source /opt/ponder/.dev.env && set +a"
       - "docker-compose build"
       - "docker-compose up -d"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /opt/ponder/.${DRONE_COMMIT_BRANCH}.env:/opt/ponder/.$${DRONE_COMMIT_BRANCH}.env
+      - /opt/ponder:/opt/ponder
 branches:
   include: [dev, stg, prd]
