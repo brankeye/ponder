@@ -5,7 +5,7 @@ pipeline:
       - set -a && source /opt/ponder/.${DRONE_BRANCH}.env && set +a
       - docker compose build
       - docker compose up -d
-    volume:
+    volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /opt/ponder/.${DRONE_BRANCH}.env:/opt/ponder/.${DRONE_BRANCH}.env
 branches:
