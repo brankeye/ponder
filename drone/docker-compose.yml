@@ -7,7 +7,7 @@ services:
       - "8000:8000"
       - "8100:9000"
     volumes:
-      - /var/lib/drone:/var/lib/drone
+      - data:/var/lib/drone
     restart: always
     networks:
       - default
@@ -28,12 +28,16 @@ services:
       - drone_server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/ponder:/opt/ponder
     networks:
       - default
       - proxy
     restart: always
     env_file:
       - .agent.env
+
+volumes:
+  data: {}
 
 networks:
   proxy:
