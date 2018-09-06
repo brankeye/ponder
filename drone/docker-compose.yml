@@ -2,9 +2,10 @@ version: "3.5"
 
 services:
   drone_server:
-    image: drone/drone:0.7
+    image: drone/drone:0.8
     ports:
       - "8000:8000"
+      - "8100:9000"
     volumes:
       - /var/lib/drone:/var/lib/drone
     restart: always
@@ -21,7 +22,7 @@ services:
       - traefik.port=8000
 
   drone_agent:
-    image: drone/drone:0.7
+    image: drone/agent:0.8
     command: agent
     depends_on:
       - drone_server
