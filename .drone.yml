@@ -2,9 +2,9 @@ pipeline:
   deploy:
     image: docker/compose
     commands:
-      - "set -a && source /opt/ponder/.dev.env && set +a"
-      - "docker-compose build"
-      - "docker-compose up -d"
+      - set -a && source /opt/ponder/.dev.env && set +a
+      - docker compose build
+      - docker compose up -d
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /opt/ponder:/opt/ponder

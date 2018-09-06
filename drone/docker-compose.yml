@@ -5,10 +5,9 @@ services:
     image: drone/drone:latest
     ports:
       - "8000:8000"
-      - "8100:9000"
+      - "9000:9000"
     volumes:
       - data:/var/lib/drone
-      - /opt/ponder:/opt/ponder
     restart: always
     networks:
       - default
@@ -29,7 +28,6 @@ services:
       - drone_server
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /opt/ponder:/opt/ponder
     networks:
       - default
       - proxy
