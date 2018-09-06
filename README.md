@@ -1,4 +1,4 @@
-## README PLS
+## README
 
 ## Docker
 
