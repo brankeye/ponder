@@ -7,6 +7,6 @@ pipeline:
       - "docker-compose up -d"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /opt/ponder/.dev.env:/opt/ponder/.dev.env
+      - /opt/ponder:/opt/ponder
 branches:
   include: [dev, stg, prd]
