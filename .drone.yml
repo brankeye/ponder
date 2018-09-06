@@ -1,0 +1,12 @@
+pipeline:
+  deploy:
+    image: docker/compose
+    commands:
+      - set -a && source /opt/ponder/.${DRONE_BRANCH}.env && set +a
+      - docker compose build
+      - docker compose up -d
+    volume:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/ponder/.${DRONE_BRANCH}.env:/opt/ponder/.${DRONE_BRANCH}.env
+branches:
+  include: [dev, stg, prd]
