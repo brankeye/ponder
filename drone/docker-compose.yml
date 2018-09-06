@@ -2,12 +2,13 @@ version: "3.5"
 
 services:
   drone_server:
-    image: drone/drone:0.8
+    image: drone/drone:latest
     ports:
       - "8000:8000"
       - "8100:9000"
     volumes:
       - data:/var/lib/drone
+      - /opt/ponder:/opt/ponder
     restart: always
     networks:
       - default
@@ -22,7 +23,7 @@ services:
       - traefik.port=8000
 
   drone_agent:
-    image: drone/agent:0.8
+    image: drone/agent:latest
     command: agent
     depends_on:
       - drone_server
