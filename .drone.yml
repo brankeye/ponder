@@ -2,9 +2,8 @@ pipeline:
   deploy:
     image: docker/compose:1.22.0
     commands:
-      - ls /opt
-      - ls /opt/ponder
       - "set -a && source /opt/ponder/.${DRONE_BRANCH}.env && set +a"
+      - "printenv"
       - "docker-compose build"
       - "docker compose up -d"
     volumes:

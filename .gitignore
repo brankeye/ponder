@@ -3,7 +3,6 @@
 __content__/
 __backup__/
 __environment__/
-images/
 
 # other
 .idea/*
