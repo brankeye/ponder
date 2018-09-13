@@ -8,6 +8,10 @@ import { omit } from 'ramda';
 const Context = React.createContext();
 
 class Provider extends React.Component {
+  componentDidMount() {
+    console.log('Settings: ', this.props.settings);
+  }
+
   updateSettings = fn => {
     const { settings, updateSettings } = this.props;
     const input = typeof fn === 'function' ? fn(settings) : fn;
@@ -28,6 +32,8 @@ class Provider extends React.Component {
       },
       update: (proxy, { data: { userSettings } }) => {
         const data = proxy.readQuery({ query: UserQuery });
+        console.log('User: ', JSON.stringify(data, null, 2));
+        console.log('User settings: ', JSON.stringify(userSettings, null, 2));
         data.user.settings = userSettings.settings;
         proxy.writeQuery({ query: UserQuery, data });
       },
@@ -84,6 +90,7 @@ const withUser = WrappedComponent => props => (
 export const UserQuery = gql`
   query User {
     user {
+      id
       settings {
         pushToken
         timeZone

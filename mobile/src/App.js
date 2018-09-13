@@ -13,9 +13,9 @@ import {
   withAuth,
 } from '@@consumers';
 import { StylesProvider } from 'react-native-paint';
-import Reactotron from 'reactotron-react-native';
+//import Reactotron from 'reactotron-react-native';
 
-Reactotron.configure({ host: '192.168.0.106' }).useReactNative();
+//Reactotron.configure({ host: '192.168.0.106' }).useReactNative();
 
 const getActiveRoute = navigationState => {
   if (!navigationState) {
@@ -46,7 +46,7 @@ class App extends React.Component {
   };
 
   componentWillMount() {
-    Reactotron.connect();
+    //Reactotron.connect();
   }
 
   async componentDidMount() {

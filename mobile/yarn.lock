@@ -1755,6 +1755,10 @@ clamp@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/clamp/-/clamp-1.0.1.tgz#66a0e64011816e37196828fdc8c8c147312c8634"
 
+cli-confirm@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/cli-confirm/-/cli-confirm-1.0.0.tgz#7755e8772855a20a48a7eb1f9965959a669af97e"
+
 cli-cursor@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cli-cursor/-/cli-cursor-2.1.0.tgz#b35dac376479facc3e94747d41d0d0f5238ffcb5"
