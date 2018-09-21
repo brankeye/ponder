@@ -18,7 +18,7 @@ services:
     labels:
       - traefik.backend=web
       - traefik.docker.network=proxy
-      - traefik.frontend.rule=Host:www.ponder-app.com
+      - traefik.frontend.rule=Host:${WEB_SUBDOMAIN}.ponder-app.com
       - traefik.enable=true
       - traefik.port=${WEB_PORT}
   api:

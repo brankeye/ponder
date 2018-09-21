@@ -7,8 +7,10 @@
     "start": "nodemon ./src/index.js --exec babel-node",
     "migrate-latest-local": "knex migrate:latest --env local",
     "migrate-latest-dev": "knex migrate:latest --env dev",
+    "migrate-latest-stg": "knex migrate:latest --env stg",
     "seed-run-local": "knex seed:run --env local",
     "seed-run-dev": "knex seed:run --env dev",
+    "seed-run-stg": "knex seed:run --env stg",
     "flow": "flow"
   },
   "dependencies": {
