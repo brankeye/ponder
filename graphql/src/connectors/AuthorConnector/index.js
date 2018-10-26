@@ -46,6 +46,13 @@ class AuthorConnector extends BaseConnector {
       auth: true,
     });
 
+  view = id =>
+    this.request({
+      path: `/api/library/authors/${id}/view`,
+      method: 'PUT',
+      auth: true,
+    });
+
   getInfo = ({ id }) =>
     this.request({
       path: `/api/library/authors/${id}`,

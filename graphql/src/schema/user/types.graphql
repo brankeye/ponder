@@ -3,18 +3,16 @@ type Query {
 }
 
 type Mutation {
-  userSignInAnon(input: UserAnonInput!): User
-  userSignInSocial(input: UserSocialInput!): User
-  userSettings(input: UserSettingsInput!): User
+  userLogin(clientId: ID!): User
+  userSettings(settings: SettingsInput!): User
 }
 
 type User {
   id: ID
-  email: String
-  settings: UserSettings
+  settings: Settings
 }
 
-type UserSettings {
+type Settings {
   pushToken: String
   timeZone: String
   notify: Boolean
@@ -22,30 +20,12 @@ type UserSettings {
   theme: ThemeType
 }
 
-input UserAnonInput {
-  clientId: ID!
-  settings: UserSettingsInput
-}
-
-input UserSocialInput {
-  clientId: ID!
-  provider: SocialProvider!
-  oauthToken: String!
-  settings: UserSettingsInput
-}
-
-input UserSettingsInput {
+input SettingsInput {
   pushToken: String
   timeZone: String
   notify: Boolean
   notifyTime: Time
   theme: ThemeType
-}
-
-enum SocialProvider {
-  Facebook
-  Google
-  Twitter
 }
 
 enum ThemeType {

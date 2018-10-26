@@ -1,7 +1,7 @@
 extend type Query {
   poem(id: ID): Poem
   poemList(
-    from: PoemCategory!
+    from: ContentCategory!
     search: String
     first: Int
     after: String
@@ -11,7 +11,8 @@ extend type Query {
 }
 
 extend type Mutation {
-  poemUpsert(input: PoemInput!): Poem
+  poemView(id: ID!): Poem
+  poemLibrary(id: ID!, inLibrary: Boolean!): Poem
 }
 
 type PoemConnection {
@@ -62,15 +63,4 @@ interface PoemContract {
   keywords: [String]
   inLibrary: Boolean
   viewedAt: Date
-}
-
-input PoemInput {
-  id: ID!
-  inLibrary: Boolean!
-}
-
-enum PoemCategory {
-  Default
-  Recents
-  Library
 }

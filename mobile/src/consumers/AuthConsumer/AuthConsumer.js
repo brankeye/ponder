@@ -43,34 +43,10 @@ class AuthProvider extends React.Component {
   };
 
   signInAnonymously = async () => {
-    const clientId = Expo.Constants.deviceId;
-    const token = { clientId };
-    const encodedToken = Auth.encodeToken(token);
+    const encodedToken = Auth.encodeToken(Expo.Constants.deviceId);
     await Auth.saveToken({ encodedToken });
     console.log('Success: ', { clientId, encodedToken });
     this.setState({ encodedToken, isAuthenticated: true });
-  };
-
-  signInWithFacebook = async () => {
-    const {
-      type,
-      token,
-      expires,
-    } = await Expo.Facebook.logInWithReadPermissionsAsync(FACEBOOK_APP_ID);
-    switch (type) {
-      case 'cancel': {
-        console.log('Cancel: ', { type });
-        return { type };
-      }
-      case 'success': {
-        const accessToken = { provider: 'facebook', token, expires };
-        const encodedToken = Auth.encodeToken(accessToken);
-        await Auth.saveToken({ accessToken, encodedToken });
-        console.log('Success: ', { type, token, expires });
-        this.setState({ accessToken, encodedToken, isAuthenticated: true });
-        return { type, accessToken, encodedToken };
-      }
-    }
   };
 
   render() {

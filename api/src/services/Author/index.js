@@ -8,7 +8,7 @@ class AuthorService {
     this.context = context;
   }
 
-  get = ({ authorId }) => Author.query().findById(authorId);
+  get = authorId => Author.query().findById(authorId);
 
   getAll = ({ first, last, after, before, search }) => {
     const filters = parseFilters({
@@ -100,8 +100,17 @@ class AuthorService {
       );
   };
 
-  getInfo = ({ userId, authorId }) =>
-    AuthorInfo.query().findById([userId, authorId]);
+  info = async (userId, authorId) => {
+    const info = await AuthorInfo.query().findById([userId, authorId]);
+    return (
+      info || {
+        user_id: userId,
+        author_id: authorId,
+        in_library: false,
+        viewed_at: null,
+      }
+    );
+  };
 
   poems = ({ authorId }) =>
     Author.query()

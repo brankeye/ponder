@@ -3,7 +3,7 @@ const routes = {
     method: 'GET',
     route: '/authors/:author_id',
     handler: ({ AuthorService }, { params: { author_id } }, res) =>
-      AuthorService.get({ authorId: author_id }).then(data => res.json(data)),
+      AuthorService.get(author_id).then(data => res.json(data)),
   },
   getAuthors: {
     method: 'GET',
@@ -35,10 +35,7 @@ const routes = {
       { AuthorService },
       { params: { author_id }, context: { user } },
       res
-    ) =>
-      AuthorService.getInfo({ userId: user.id, authorId: author_id }).then(
-        data => res.json(data)
-      ),
+    ) => AuthorService.info(user.id, author_id).then(data => res.json(data)),
   },
   getRecentAuthors: {
     method: 'GET',

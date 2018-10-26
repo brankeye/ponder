@@ -6,7 +6,7 @@ import { merge } from 'ramda';
 import config from 'config';
 import routes from 'routes';
 import database from 'database';
-import { parseAuth, authenticate, socialLogin } from 'utils';
+import { authenticate } from 'utils';
 import createContext from 'context';
 database.setup();
 
@@ -19,28 +19,19 @@ app.use(
   asyncHandler(async (req, res, next) => {
     req.context = createContext();
     if (req.headers.authorization) {
-      const authorization = parseAuth(req.headers.authorization);
-      if (authorization.provider) {
-        const { oauthId, email } = await socialLogin(authorization);
-        authorization.oauthId = oauthId;
-        authorization.email = email;
-      }
+      const authorization = req.headers.authorization;
       req.context = merge(req.context, { authorization });
-    }
-    if (req.headers['client-id']) {
-      req.context = merge(req.context, { clientId: req.headers['client-id'] });
     }
     next();
   })
 );
 
 const authMiddleware = async (req, res, next) => {
-  const { clientId, authorization } = req.context;
-  const context = await authenticate({
-    clientId,
-    authorization,
-  });
-  req.context = merge(req.context || {}, context);
+  const { authorization } = req.context;
+  if (authorization) {
+    const context = await authenticate(authorization);
+    req.context = merge(req.context || {}, context);
+  }
   next();
 };
 

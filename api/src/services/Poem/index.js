@@ -9,7 +9,7 @@ class PoemService {
     this.context = context;
   }
 
-  get = ({ poemId }) => Poem.query().findById(poemId);
+  get = poemId => Poem.query().findById(poemId);
 
   getAll = async ({ first, last, after, before, search }) => {
     const filters = parseFilters({
@@ -91,7 +91,18 @@ class PoemService {
       );
   };
 
-  getInfo = ({ userId, poemId }) => PoemInfo.query().findById([userId, poemId]);
+  info = async (userId, poemId) => {
+    const info = await PoemInfo.query().findById([userId, poemId]);
+    if (info) return info;
+    const poem = await this.get(poemId);
+    return {
+      user_id: userId,
+      poem_id: poemId,
+      author_id: poem.author_id,
+      in_library: false,
+      viewed_at: null,
+    };
+  };
 
   getInfosByAuthor = ({ userId, authorId }) =>
     PoemInfo.query()

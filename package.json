@@ -1,6 +1,9 @@
 {
   "license": "MIT",
   "scripts": {
+    "logs": "set -a && source ./__environment__/.local.env && set +a && docker-compose logs",
+    "build": "set -a && source ./__environment__/.local.env && set +a && docker-compose build",
+    "preup": "yarn build",
     "up": "set -a && source ./__environment__/.local.env && set +a && docker-compose up -d",
     "down": "set -a && source ./__environment__/.local.env && set +a && docker-compose down"
   }

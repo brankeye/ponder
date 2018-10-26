@@ -1,7 +1,7 @@
 extend type Query {
-  author(id: ID): Author
+  author(id: ID!): Author
   authorList(
-    from: AuthorCategory!
+    from: ContentCategory!
     search: String
     first: Int
     after: String
@@ -11,22 +11,22 @@ extend type Query {
 }
 
 extend type Mutation {
-  authorUpsert(input: AuthorInput!): Author
+  authorView(id: ID!): Author
 }
 
 type AuthorConnection {
   edges: [AuthorEdge]
-  pageInfo: PageInfo!
+  pageInfo: PageInfo
 }
 
 type AuthorEdge {
-  cursor: String!
+  cursor: String
   node: Author
 }
 
 type PageInfo {
-  hasNextPage: Boolean!
-  hasPreviousPage: Boolean!
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
   startCursor: String
   endCursor: String
 }
@@ -51,15 +51,4 @@ interface AuthorContract {
   name: String
   inLibrary: Boolean
   viewedAt: Date
-}
-
-input AuthorInput {
-  id: ID!
-  inLibrary: Boolean!
-}
-
-enum AuthorCategory {
-  Default
-  Recents
-  Library
 }

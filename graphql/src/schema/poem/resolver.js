@@ -15,10 +15,9 @@ const resolver = {
     },
   },
   Mutation: {
-    poemUpsert: async (root, args, { Poem }) => {
-      await Poem.upsertInfo(args);
-      return Poem.get({ id: args.input.id });
-    },
+    poemView: (root, { id }, { Poem }) => Poem.view(id),
+    poemLibrary: (root, { id, inLibrary }, { Poem }) =>
+      Poem.library(id, inLibrary),
   },
   PoemContract: {
     __resolveType: ({ author }) => (author ? 'Poem' : 'PoemDetails'),

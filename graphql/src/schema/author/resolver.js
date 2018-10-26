@@ -1,4 +1,4 @@
-import { prop, propOr } from 'ramda';
+import { propOr } from 'ramda';
 
 const resolver = {
   Query: {
@@ -15,10 +15,9 @@ const resolver = {
     },
   },
   Mutation: {
-    authorUpsert: async (root, args, { Author }) => {
-      await Author.upsertInfo(args);
-      return Author.get({ id: args.input.id });
-    },
+    authorView: (root, { id }, { Author }) => Author.view(id),
+    authorBookmark: (root, { id, bookmarked }, { Author }) =>
+      Author.bookmark(id, bookmarked),
   },
   AuthorContract: {
     __resolveType: ({ poems }) => (poems ? 'Author' : 'AuthorDetails'),

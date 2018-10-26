@@ -3,7 +3,7 @@ const routes = {
     method: 'GET',
     route: '/poems/:poem_id',
     handler: ({ PoemService }, { params: { poem_id } }, res) =>
-      PoemService.get({ poemId: poem_id }).then(data => res.json(data)),
+      PoemService.get(poem_id).then(data => res.json(data)),
   },
   getPoems: {
     method: 'GET',
@@ -29,10 +29,7 @@ const routes = {
       { PoemService },
       { params: { poem_id }, context: { user } },
       res
-    ) =>
-      PoemService.getInfo({ userId: user.id, poemId: poem_id }).then(data =>
-        res.json(data)
-      ),
+    ) => PoemService.info(user.id, poem_id).then(data => res.json(data)),
   },
   getPoemsFromLibrary: {
     method: 'GET',

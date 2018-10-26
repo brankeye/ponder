@@ -1,15 +1,26 @@
 import { User } from 'database';
+import uuid from 'uuid/v4';
 
 class UserService {
   constructor(context) {
     this.context = context;
   }
 
-  get = ({ id }: { id: string }) => User.query().findById(id);
+  login = async clientId => {
+    const user = await User.query().findOne('client_id', clientId);
+    return (
+      user ||
+      (await User.query()
+        .insert({
+          id: uuid(),
+          client_id: clientId,
+          anonymous: true,
+        })
+        .returning('*'))
+    );
+  };
 
-  getAll = () => User.query();
-
-  updateSettings = ({ id, settings }) =>
+  updateSettings = (id, settings) =>
     User.query().patchAndFetchById(id, settings);
 }
 

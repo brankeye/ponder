@@ -5,9 +5,9 @@ const resolver = {
     user: (root, args, { User }) => User.get(),
   },
   Mutation: {
-    userSignInAnon: (root, { input }, { User }) => User.signInAnon(input),
-    userSignInSocial: (root, { input }, { User }) => User.signInSocial(input),
-    userSettings: (root, { input }, { User }) => User.updateSettings(input),
+    userLogin: (root, { clientId }, { User }) => User.login(clientId),
+    userSettings: (root, { settings }, { User }) =>
+      User.updateSettings(settings),
   },
   User: {
     settings: root => root,
