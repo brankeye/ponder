@@ -1,13 +1,12 @@
 import { makeExecutableSchema, addMockFunctionsToSchema } from 'apollo-server';
 import { map, prop, propOr, flatten, reduce, mergeDeepLeft } from 'ramda';
 
-import * as common from './common';
 import * as scalars from './scalars';
 import * as user from './user';
 import * as author from './author';
 import * as poem from './poem';
 
-const models = [common, scalars, user, author, poem];
+const models = [scalars, user, author, poem];
 const mergeDeepLeftAll = reduce(mergeDeepLeft, {});
 const typeDefs = flatten(map(prop('types'), models));
 const resolvers = mergeDeepLeftAll(map(propOr({}, 'resolver'), models));

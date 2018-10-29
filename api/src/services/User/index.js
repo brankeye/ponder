@@ -6,7 +6,7 @@ class UserService {
     this.context = context;
   }
 
-  login = async clientId => {
+  getUser = async clientId => {
     const user = await User.query().findOne('client_id', clientId);
     return (
       user ||

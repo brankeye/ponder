@@ -1,7 +1,14 @@
 extend type Query {
-  poem(id: ID): Poem
-  poemList(
-    from: ContentCategory!
+  poem(id: ID!): Poem
+  poemDiscover: Poem
+  poemLibrary(
+    search: String
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): PoemConnection
+  poemRecents(
     search: String
     first: Int
     after: String

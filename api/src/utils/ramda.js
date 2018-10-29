@@ -9,4 +9,4 @@ export const flattenProp = curry((prop, obj) => flattenPath(of(prop), obj));
 
 export const resolveP = curry((fn, input) => Promise.resolve(fn(input)));
 
-export { map, pipe } from 'ramda';
+export { map, pipe, head } from 'ramda';

@@ -1,12 +1,12 @@
 import { ApolloServer } from 'apollo-server';
 import config from '@@config';
 import schema from './schema';
-import getContext from './context';
+import createContext from './context';
 
 const server = new ApolloServer({
   schema,
   context: ({ req }) =>
-    getContext({
+    createContext({
       ...config,
       authorization: req.headers.authorization,
     }),

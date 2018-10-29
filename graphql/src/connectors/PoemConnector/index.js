@@ -1,68 +1,80 @@
-import BaseConnector from '../BaseConnector';
-import { renameKeys, pickPaginationOptions } from '../utils';
+import createLoader from '../loader';
+import { getPath } from '../utils';
 
-const rename = renameKeys({
-  id: 'poem_id',
-  inLibrary: 'in_library',
-});
+const path = 'api/poems';
 
-class PoemConnector extends BaseConnector {
-  get = ({ id }) =>
-    this.request({
-      path: `/api/poems/${id}`,
-    });
+export default {
+  create: ({ api, authorization }) => {
+    const loader = createLoader();
+    return {
+      getPoem: id =>
+        loader.load({
+          uri: getPath(api, path, id),
+        }),
 
-  getAll = ({ search, ...paginationArgs }) =>
-    this.request({
-      path: '/api/poems',
-      qs: {
-        search,
-        ...pickPaginationOptions(paginationArgs),
-      },
-    });
+      discover: () =>
+        loader.load({
+          uri: getPath(api, path, 'discover'),
+        }),
 
-  getRecents = ({ search, ...paginationArgs }) =>
-    this.request({
-      path: '/api/recents/poems',
-      qs: {
-        search,
-        ...pickPaginationOptions(paginationArgs),
-      },
-      auth: true,
-    });
+      getRecents: ({ search, first, last, before, after }) =>
+        loader.load({
+          uri: getPath(api, path, 'recents'),
+          headers: {
+            authorization,
+          },
+          qs: {
+            search,
+            first,
+            last,
+            before,
+            after,
+          },
+        }),
 
-  getLibrary = ({ search, ...paginationArgs }) =>
-    this.request({
-      path: '/api/library/poems',
-      qs: {
-        search,
-        ...pickPaginationOptions(paginationArgs),
-      },
-      auth: true,
-    });
+      getLibrary: ({ search, first, last, before, after }) =>
+        loader.load({
+          uri: getPath(api, path, 'library'),
+          headers: {
+            authorization,
+          },
+          qs: {
+            search,
+            first,
+            last,
+            before,
+            after,
+          },
+        }),
 
-  view = id =>
-    this.request({
-      path: `/api/library/poems/${id}/view`,
-      method: 'PUT',
-      auth: true,
-    });
+      view: id =>
+        loader.load({
+          uri: getPath(api, path, id, 'view'),
+          method: 'PUT',
+          headers: {
+            authorization,
+          },
+        }),
 
-  library = (id, inLibrary) => null;
+      library: (id, inLibrary) =>
+        loader.load({
+          uri: getPath(api, path, id, 'library'),
+          method: 'PUT',
+          headers: {
+            authorization,
+          },
+          body: {
+            in_library: inLibrary,
+          },
+        }),
 
-  getInfo = ({ id }) =>
-    this.request({
-      path: `/api/library/poems/${id}`,
-      auth: true,
-    });
-
-  upsertInfo = ({ input }) =>
-    this.request({
-      path: '/api/library/poems',
-      method: 'PUT',
-      auth: true,
-      body: rename(input),
-    });
-}
-
-export default PoemConnector;
+      getInfo: id =>
+        loader.load({
+          uri: getPath(api, path, id, 'info'),
+          headers: {
+            authorization,
+          },
+        }),
+    };
+  },
+};

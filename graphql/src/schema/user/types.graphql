@@ -3,7 +3,6 @@ type Query {
 }
 
 type Mutation {
-  userLogin(clientId: ID!): User
   userSettings(settings: SettingsInput!): User
 }
 

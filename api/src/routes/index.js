@@ -2,12 +2,6 @@ import authors from './authors';
 import poems from './poems';
 import users from './users';
 
-const list = [authors, poems, users];
-
-const routes = [].concat(
-  ...list.map(routeMap => {
-    return Object.keys(routeMap).map(key => routeMap[key]);
-  })
-);
+const routes = authors.concat(poems, users);
 
 export default routes;

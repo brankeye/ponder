@@ -18,16 +18,12 @@ app.use(boolParser());
 app.use(
   asyncHandler(async (req, res, next) => {
     req.context = createContext();
-    if (req.headers.authorization) {
-      const authorization = req.headers.authorization;
-      req.context = merge(req.context, { authorization });
-    }
     next();
   })
 );
 
 const authMiddleware = async (req, res, next) => {
-  const { authorization } = req.context;
+  const { authorization } = req.headers;
   if (authorization) {
     const context = await authenticate(authorization);
     req.context = merge(req.context || {}, context);

@@ -1,6 +1,7 @@
 import { Author, AuthorInfo } from 'database';
+import { raw } from 'objection';
 import { parseFilters, parseConnection } from 'utils/pagination';
-import { flattenProp, map, resolveP } from 'utils/ramda';
+import { flattenProp, map, resolveP, head } from 'utils/ramda';
 import { format } from 'date-fns';
 
 class AuthorService {
@@ -8,33 +9,13 @@ class AuthorService {
     this.context = context;
   }
 
-  get = authorId => Author.query().findById(authorId);
+  getAuthor = authorId => Author.query().findById(authorId);
 
-  getAll = ({ first, last, after, before, search }) => {
-    const filters = parseFilters({
-      id: 'id',
-      first,
-      last,
-      after,
-      before,
-      random: true,
-    });
-    const dbQuery = Author.query();
-
-    if (search) {
-      dbQuery.where('name', 'ilike', `%${search}%`);
-    }
-
-    return dbQuery.filter(filters).then(
-      parseConnection(Author, {
-        id: 'id',
-        first,
-        last,
-        before,
-        after,
-      })
-    );
-  };
+  discover = () =>
+    Author.query()
+      .orderBy(raw('random()'))
+      .limit(1)
+      .then(head);
 
   getRecents = ({ userId, first, last, after, before, search }) => {
     const filters = parseFilters({
@@ -100,7 +81,7 @@ class AuthorService {
       );
   };
 
-  info = async (userId, authorId) => {
+  getInfo = async (userId, authorId) => {
     const info = await AuthorInfo.query().findById([userId, authorId]);
     return (
       info || {
@@ -112,7 +93,7 @@ class AuthorService {
     );
   };
 
-  poems = ({ authorId }) =>
+  getPoems = ({ authorId }) =>
     Author.query()
       .findById(authorId)
       .eager('poems')
@@ -130,6 +111,22 @@ class AuthorService {
         user_id: userId,
         author_id: authorId,
         in_library: inLibrary,
+        viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
+      });
+    }
+  };
+
+  updateView = async ({ userId, authorId }) => {
+    const authorLib = await AuthorInfo.query().findById([userId, authorId]);
+    if (authorLib) {
+      return AuthorInfo.query().patchAndFetchById([userId, authorId], {
+        viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
+      });
+    } else {
+      return AuthorInfo.query().insert({
+        user_id: userId,
+        author_id: authorId,
+        in_library: false,
         viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
       });
     }

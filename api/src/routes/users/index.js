@@ -1,11 +1,13 @@
-const routes = {
-  login: {
+const routes = [
+  {
     method: 'GET',
     route: '/user',
-    handler: ({ UserService }, { query: { client_id } }, res) =>
-      UserService.login(client_id).then(data => res.json(data)),
+    handler: ({ UserService }, { headers: { authorization } }, res) =>
+      UserService.getUser(Buffer.from(authorization, 'base64').toString()).then(
+        data => res.json(data)
+      ),
   },
-  updateSettings: {
+  {
     method: 'PUT',
     route: '/user/settings',
     auth: true,
@@ -14,6 +16,6 @@ const routes = {
         res.json(data)
       ),
   },
-};
+];
 
 export default routes;

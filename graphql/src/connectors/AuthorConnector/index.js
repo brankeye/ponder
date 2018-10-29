@@ -1,71 +1,73 @@
-import BaseConnector from '../BaseConnector';
-import { renameKeys, pickPaginationOptions } from '../utils';
+import createLoader from '../loader';
+import { getPath } from '../utils';
 
-const rename = renameKeys({
-  id: 'author_id',
-  inLibrary: 'in_library',
-});
+const path = 'api/authors';
 
-class AuthorConnector extends BaseConnector {
-  get = ({ id }) =>
-    this.request({
-      path: `/api/authors/${id}`,
-    });
+export default {
+  create: ({ api, authorization }) => {
+    const loader = createLoader();
+    return {
+      getAuthor: id =>
+        loader.load({
+          uri: getPath(api, path, id),
+        }),
 
-  getAll = ({ search, ...paginationArgs }) =>
-    this.request({
-      path: '/api/authors',
-      qs: {
-        search,
-        ...pickPaginationOptions(paginationArgs),
-      },
-    });
+      discover: () =>
+        loader.load({
+          uri: getPath(api, path, 'discover'),
+        }),
 
-  getPoems = ({ id }) =>
-    this.request({
-      path: `/api/authors/${id}/poems`,
-    });
+      getLibrary: ({ search, first, after, last, before }) =>
+        loader.load({
+          uri: getPath(api, path, 'library'),
+          headers: {
+            authorization,
+          },
+          qs: {
+            search,
+            first,
+            after,
+            last,
+            before,
+          },
+        }),
 
-  getRecents = ({ search, ...paginationArgs }) =>
-    this.request({
-      path: '/api/recents/authors',
-      qs: {
-        search,
-        ...pickPaginationOptions(paginationArgs),
-      },
-      auth: true,
-    });
+      getRecents: ({ search, first, after, last, before }) =>
+        loader.load({
+          uri: getPath(api, path, 'recents'),
+          headers: {
+            authorization,
+          },
+          qs: {
+            search,
+            first,
+            after,
+            last,
+            before,
+          },
+        }),
 
-  getLibrary = ({ search, ...paginationArgs }) =>
-    this.request({
-      path: '/api/library/authors',
-      qs: {
-        search,
-        ...pickPaginationOptions(paginationArgs),
-      },
-      auth: true,
-    });
+      getPoems: id =>
+        loader.load({
+          uri: getPath(api, path, id, 'poems'),
+        }),
 
-  view = id =>
-    this.request({
-      path: `/api/library/authors/${id}/view`,
-      method: 'PUT',
-      auth: true,
-    });
+      view: id =>
+        loader.load({
+          uri: getPath(api, path, id, 'view'),
+          method: 'PUT',
+          headers: {
+            authorization,
+          },
+        }),
 
-  getInfo = ({ id }) =>
-    this.request({
-      path: `/api/library/authors/${id}`,
-      auth: true,
-    });
-
-  upsertInfo = ({ input }) =>
-    this.request({
-      path: '/api/library/authors',
-      method: 'PUT',
-      auth: true,
-      body: rename(input),
-    });
-}
-
-export default AuthorConnector;
+      getInfo: id =>
+        loader.load({
+          uri: getPath(api, path, id, 'info'),
+          headers: {
+            authorization,
+          },
+        }),
+    };
+  },
+};

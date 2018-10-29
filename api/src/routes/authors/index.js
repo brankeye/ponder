@@ -1,63 +1,13 @@
-const routes = {
-  getAuthor: {
+const routes = [
+  {
     method: 'GET',
-    route: '/authors/:author_id',
-    handler: ({ AuthorService }, { params: { author_id } }, res) =>
-      AuthorService.get(author_id).then(data => res.json(data)),
+    route: '/authors/discover',
+    handler: ({ AuthorService }, req, res) =>
+      AuthorService.discover().then(data => res.json(data)),
   },
-  getAuthors: {
+  {
     method: 'GET',
-    route: '/authors',
-    handler: (
-      { AuthorService },
-      { query: { first, last, before, after, search } },
-      res
-    ) =>
-      AuthorService.getAll({
-        first,
-        last,
-        before,
-        after,
-        search,
-      }).then(data => res.json(data)),
-  },
-  getPoemsForAuthor: {
-    method: 'GET',
-    route: '/authors/:author_id/poems',
-    handler: ({ AuthorService }, { params: { author_id } }, res) =>
-      AuthorService.poems({ authorId: author_id }).then(data => res.json(data)),
-  },
-  getAuthorFromLibrary: {
-    method: 'GET',
-    route: '/library/authors/:author_id',
-    auth: true,
-    handler: (
-      { AuthorService },
-      { params: { author_id }, context: { user } },
-      res
-    ) => AuthorService.info(user.id, author_id).then(data => res.json(data)),
-  },
-  getRecentAuthors: {
-    method: 'GET',
-    route: 'recents/authors',
-    auth: true,
-    handler: (
-      { AuthorService },
-      { query: { first, last, before, after, search }, context: { user } },
-      res
-    ) =>
-      AuthorService.getRecents({
-        userId: user.id,
-        first,
-        last,
-        before,
-        after,
-        search,
-      }).then(data => res.json(data)),
-  },
-  getAuthorsFromLibrary: {
-    method: 'GET',
-    route: '/library/authors',
+    route: '/authors/library',
     auth: true,
     handler: (
       { AuthorService },
@@ -73,9 +23,9 @@ const routes = {
         search,
       }).then(data => res.json(data)),
   },
-  updateAuthorFromLibrary: {
+  {
     method: 'PUT',
-    route: '/library/authors',
+    route: '/authors/library',
     auth: true,
     handler: ({ AuthorService }, { body, context: { user } }, res) =>
       AuthorService.updateLibrary({
@@ -84,6 +34,62 @@ const routes = {
         inLibrary: body.in_library,
       }).then(data => res.json(data)),
   },
-};
+  {
+    method: 'GET',
+    route: 'authors/recents',
+    auth: true,
+    handler: (
+      { AuthorService },
+      { query: { first, last, before, after, search }, context: { user } },
+      res
+    ) =>
+      AuthorService.getRecents({
+        userId: user.id,
+        first,
+        last,
+        before,
+        after,
+        search,
+      }).then(data => res.json(data)),
+  },
+  {
+    method: 'GET',
+    route: '/authors/:author_id',
+    handler: ({ AuthorService }, { params: { author_id } }, res) =>
+      AuthorService.getAuthor(author_id).then(data => res.json(data)),
+  },
+  {
+    method: 'GET',
+    route: '/authors/:author_id/poems',
+    handler: ({ AuthorService }, { params: { author_id } }, res) =>
+      AuthorService.getPoems({ authorId: author_id }).then(data =>
+        res.json(data)
+      ),
+  },
+  {
+    method: 'GET',
+    route: '/authors/:author_id/info',
+    auth: true,
+    handler: (
+      { AuthorService },
+      { params: { author_id }, context: { user } },
+      res
+    ) => AuthorService.getInfo(user.id, author_id).then(data => res.json(data)),
+  },
+  {
+    method: 'PUT',
+    route: '/authors/:author_id/view',
+    auth: true,
+    handler: (
+      { AuthorService },
+      { params: { author_id }, context: { user } },
+      res
+    ) =>
+      AuthorService.updateView({
+        userId: user.id,
+        authorId: author_id,
+      }).then(data => res.json(data)),
+  },
+];
 
 export default routes;

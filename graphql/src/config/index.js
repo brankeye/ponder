@@ -1,16 +1,11 @@
-class Config {
-  constructor() {
-    const { NODE_ENV, GRAPHQL_PORT, HOST, API_URL } = process.env;
+const { NODE_ENV, GRAPHQL_PORT, HOST, API_URL } = process.env;
 
-    if (NODE_ENV !== 'development') {
-      this.prod = true;
-    } else {
-      this.dev = true;
-    }
-    this.port = parseInt(GRAPHQL_PORT) || 3000;
-    this.host = HOST || 'localhost';
-    this.api = API_URL;
-  }
-}
+const config = {
+  dev: NODE_ENV === 'development',
+  prod: NODE_ENV === 'production',
+  api: API_URL,
+  host: HOST || '0.0.0.0',
+  port: parseInt(GRAPHQL_PORT) || 3000,
+};
 
-export default new Config();
+export default config;

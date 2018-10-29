@@ -2,17 +2,16 @@ import { prop } from 'ramda';
 
 const resolver = {
   Query: {
-    user: (root, args, { User }) => User.get(),
+    user: (root, args, { User }) => User.getUser(),
   },
   Mutation: {
-    userLogin: (root, { clientId }, { User }) => User.login(clientId),
     userSettings: (root, { settings }, { User }) =>
       User.updateSettings(settings),
   },
   User: {
     settings: root => root,
   },
-  UserSettings: {
+  Settings: {
     pushToken: prop('push_token'),
     timeZone: prop('time_zone'),
     theme: prop('theme'),

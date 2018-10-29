@@ -1,7 +1,8 @@
 import { Poem, PoemInfo } from 'database';
+import { raw } from 'objection';
 import { parseFilters, parseConnection } from 'utils/pagination';
 import { flattenProp, map, resolveP } from 'utils/ramda';
-import { filter, prop } from 'ramda';
+import { filter, prop, head } from 'ramda';
 import { format } from 'date-fns';
 
 class PoemService {
@@ -9,33 +10,13 @@ class PoemService {
     this.context = context;
   }
 
-  get = poemId => Poem.query().findById(poemId);
+  getPoem = poemId => Poem.query().findById(poemId);
 
-  getAll = async ({ first, last, after, before, search }) => {
-    const filters = parseFilters({
-      id: 'id',
-      first,
-      last,
-      after,
-      before,
-      random: true,
-    });
-    const dbQuery = Poem.query();
-
-    if (search) {
-      dbQuery.where('title', 'ilike', `%${search}%`);
-    }
-
-    return dbQuery.filter(filters).then(
-      parseConnection(Poem, {
-        id: 'id',
-        first,
-        last,
-        before,
-        after,
-      })
-    );
-  };
+  discover = () =>
+    Poem.query()
+      .orderBy(raw('random()'))
+      .limit(1)
+      .then(head);
 
   getRecents = ({ userId, first, last, after, before, search }) => {
     const filters = parseFilters({ id: 'poem_id', first, last, after, before });
@@ -91,10 +72,10 @@ class PoemService {
       );
   };
 
-  info = async (userId, poemId) => {
+  getInfo = async (userId, poemId) => {
     const info = await PoemInfo.query().findById([userId, poemId]);
     if (info) return info;
-    const poem = await this.get(poemId);
+    const poem = await this.getPoem(poemId);
     return {
       user_id: userId,
       poem_id: poemId,
@@ -110,7 +91,7 @@ class PoemService {
       .andWhere('author_id', authorId);
 
   updateLibrary = async ({ userId, poemId, inLibrary }) => {
-    const { author } = await this.get({ poemId }).eager('author');
+    const { author } = await this.getPoem(poemId).eager('author');
     const poemLib = await PoemInfo.query().findById([userId, poemId]);
     let result;
     if (poemLib) {
@@ -124,6 +105,42 @@ class PoemService {
         poem_id: poemId,
         author_id: author.id,
         in_library: inLibrary,
+        viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
+      });
+    }
+
+    const poemInfosByAuthor = await this.getInfosByAuthor({
+      userId,
+      authorId: author.id,
+    });
+
+    const authorInLibrary =
+      poemInfosByAuthor &&
+      poemInfosByAuthor.some(({ in_library }) => in_library);
+
+    await this.context.AuthorService.updateLibrary({
+      userId,
+      authorId: author.id,
+      inLibrary: authorInLibrary,
+    });
+
+    return result;
+  };
+
+  updateView = async ({ userId, poemId }) => {
+    const { author } = await this.getPoem(poemId).eager('author');
+    const poemLib = await PoemInfo.query().findById([userId, poemId]);
+    let result;
+    if (poemLib) {
+      result = await PoemInfo.query().patchAndFetchById([userId, poemId], {
+        viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
+      });
+    } else {
+      result = await PoemInfo.query().insert({
+        user_id: userId,
+        poem_id: poemId,
+        author_id: author.id,
+        in_library: false,
         viewed_at: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
       });
     }

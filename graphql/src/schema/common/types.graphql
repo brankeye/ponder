@@ -1,5 +1,0 @@
-enum ContentCategory {
-  Default
-  Recents
-  Library
-}

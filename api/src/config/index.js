@@ -11,10 +11,10 @@ const config = {
   dev: NODE_ENV === 'development',
   prod: NODE_ENV === 'production',
   port: parseInt(API_PORT) || 3100,
-  host: HOST || 'localhost',
+  host: HOST || '0.0.0.0',
   dbConnection: DATABASE_URL,
-  dbPoolMin: parseInt(DATABASE_POOL_MIN),
-  dbPoolMax: parseInt(DATABASE_POOL_MAX),
+  dbPoolMin: parseInt(DATABASE_POOL_MIN) || 2,
+  dbPoolMax: parseInt(DATABASE_POOL_MAX) || 10,
 };
 
 export default config;
