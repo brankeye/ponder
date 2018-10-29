@@ -1,24 +1,24 @@
-import createLoader from '../loader';
+import RequestLoader from '../RequestLoader';
 import { getPath } from '../utils';
 
 const path = 'api/poems';
 
 export default {
   create: ({ api, authorization }) => {
-    const loader = createLoader();
+    const request = RequestLoader.create();
     return {
       getPoem: id =>
-        loader.load({
+        request.load({
           uri: getPath(api, path, id),
         }),
 
       discover: () =>
-        loader.load({
+        request.load({
           uri: getPath(api, path, 'discover'),
         }),
 
       getRecents: ({ search, first, last, before, after }) =>
-        loader.load({
+        request.load({
           uri: getPath(api, path, 'recents'),
           headers: {
             authorization,
@@ -33,7 +33,7 @@ export default {
         }),
 
       getLibrary: ({ search, first, last, before, after }) =>
-        loader.load({
+        request.load({
           uri: getPath(api, path, 'library'),
           headers: {
             authorization,
@@ -48,7 +48,7 @@ export default {
         }),
 
       view: id =>
-        loader.load({
+        request.load({
           uri: getPath(api, path, id, 'view'),
           method: 'PUT',
           headers: {
@@ -57,7 +57,7 @@ export default {
         }),
 
       library: (id, inLibrary) =>
-        loader.load({
+        request.load({
           uri: getPath(api, path, id, 'library'),
           method: 'PUT',
           headers: {
@@ -69,7 +69,7 @@ export default {
         }),
 
       getInfo: id =>
-        loader.load({
+        request.load({
           uri: getPath(api, path, id, 'info'),
           headers: {
             authorization,

@@ -1,21 +1,21 @@
-import createLoader from '../loader';
+import RequestLoader from '../RequestLoader';
 import { getPath } from '../utils';
 
 const path = 'api/user';
 
 export default {
   create: ({ api, authorization }) => {
-    const loader = createLoader();
+    const request = RequestLoader.create();
     return {
       getUser: () =>
-        loader.load({
+        request.load({
           uri: getPath(api, path),
           headers: {
             authorization,
           },
         }),
       updateSettings: body =>
-        loader.load({
+        request.load({
           uri: getPath(api, path, 'settings'),
           method: 'PUT',
           headers: {
