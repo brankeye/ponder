@@ -2,8 +2,7 @@ const routes = [
   {
     method: 'GET',
     route: '/poems/discover',
-    handler: ({ PoemService }, req, res) =>
-      PoemService.discover().then(data => res.json(data)),
+    handler: ({ PoemService }) => PoemService.discover(),
   },
   {
     method: 'GET',
@@ -11,8 +10,7 @@ const routes = [
     auth: true,
     handler: (
       { PoemService },
-      { query: { first, last, before, after, search }, context: { user } },
-      res
+      { query: { first, last, before, after, search }, context: { user } }
     ) =>
       PoemService.getLibrary({
         userId: user.id,
@@ -21,7 +19,7 @@ const routes = [
         after,
         before,
         search,
-      }).then(data => res.json(data)),
+      }),
   },
   {
     method: 'GET',
@@ -29,8 +27,7 @@ const routes = [
     auth: true,
     handler: (
       { PoemService },
-      { query: { first, last, before, after, search }, context: { user } },
-      res
+      { query: { first, last, before, after, search }, context: { user } }
     ) =>
       PoemService.getRecents({
         userId: user.id,
@@ -39,23 +36,20 @@ const routes = [
         after,
         before,
         search,
-      }).then(data => res.json(data)),
+      }),
   },
   {
     method: 'GET',
     route: '/poems/:poem_id/info',
     auth: true,
-    handler: (
-      { PoemService },
-      { params: { poem_id }, context: { user } },
-      res
-    ) => PoemService.getInfo(user.id, poem_id).then(data => res.json(data)),
+    handler: ({ PoemService }, { params: { poem_id }, context: { user } }) =>
+      PoemService.getInfo(user.id, poem_id),
   },
   {
     method: 'GET',
     route: '/poems/:poem_id',
-    handler: ({ PoemService }, { params: { poem_id } }, res) =>
-      PoemService.getPoem(poem_id).then(data => res.json(data)),
+    handler: ({ PoemService }, { params: { poem_id } }) =>
+      PoemService.getPoem(poem_id),
   },
   {
     method: 'PUT',
@@ -63,28 +57,23 @@ const routes = [
     auth: true,
     handler: (
       { PoemService },
-      { params: { poem_id }, body: { in_library }, context: { user } },
-      res
+      { params: { poem_id }, body: { in_library }, context: { user } }
     ) =>
       PoemService.updateLibrary({
         userId: user.id,
         poemId: poem_id,
         inLibrary: in_library,
-      }).then(data => res.json(data)),
+      }),
   },
   {
     method: 'PUT',
     route: '/poems/:poem_id/view',
     auth: true,
-    handler: (
-      { PoemService },
-      { params: { poem_id }, context: { user } },
-      res
-    ) =>
+    handler: ({ PoemService }, { params: { poem_id }, context: { user } }) =>
       PoemService.updateView({
         userId: user.id,
         poemId: poem_id,
-      }).then(data => res.json(data)),
+      }),
   },
 ];
 

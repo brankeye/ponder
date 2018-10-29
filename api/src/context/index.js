@@ -6,4 +6,6 @@ class Context {
   UserService = new UserService(this);
 }
 
-export default () => new Context();
+export default {
+  create: () => new Context(),
+};

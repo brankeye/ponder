@@ -7,7 +7,7 @@ import config from 'config';
 import routes from 'routes';
 import database from 'database';
 import { authenticate } from 'utils';
-import createContext from 'context';
+import Context from 'context';
 database.setup();
 
 const app = express();
@@ -17,7 +17,7 @@ app.use(boolParser());
 
 app.use(
   asyncHandler(async (req, res, next) => {
-    req.context = createContext();
+    req.context = Context.create();
     next();
   })
 );
@@ -40,10 +40,12 @@ routes.map(({ method, route, handler, auth }) => {
   }
   app[httpMethod](
     apiRoute,
-    asyncHandler((req, res, next, ...args) => {
-      const context = createContext();
-      const fnReturn = handler(context, req, res, next, ...args);
-      return Promise.resolve(fnReturn).catch(next);
+    asyncHandler(async (req, res, next, ...args) => {
+      const context = Context.create();
+      const result = await Promise.resolve(
+        handler(context, req, res, next, ...args)
+      ).catch(next);
+      return res.json(result);
     })
   );
 });

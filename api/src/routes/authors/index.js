@@ -2,8 +2,7 @@ const routes = [
   {
     method: 'GET',
     route: '/authors/discover',
-    handler: ({ AuthorService }, req, res) =>
-      AuthorService.discover().then(data => res.json(data)),
+    handler: ({ AuthorService }) => AuthorService.discover(),
   },
   {
     method: 'GET',
@@ -11,8 +10,7 @@ const routes = [
     auth: true,
     handler: (
       { AuthorService },
-      { query: { first, last, before, after, search }, context: { user } },
-      res
+      { query: { first, last, before, after, search }, context: { user } }
     ) =>
       AuthorService.getLibrary({
         userId: user.id,
@@ -21,18 +19,18 @@ const routes = [
         before,
         after,
         search,
-      }).then(data => res.json(data)),
+      }),
   },
   {
     method: 'PUT',
     route: '/authors/library',
     auth: true,
-    handler: ({ AuthorService }, { body, context: { user } }, res) =>
+    handler: ({ AuthorService }, { body, context: { user } }) =>
       AuthorService.updateLibrary({
         userId: user.id,
         authorId: body.author_id,
         inLibrary: body.in_library,
-      }).then(data => res.json(data)),
+      }),
   },
   {
     method: 'GET',
@@ -50,21 +48,19 @@ const routes = [
         before,
         after,
         search,
-      }).then(data => res.json(data)),
+      }),
   },
   {
     method: 'GET',
     route: '/authors/:author_id',
-    handler: ({ AuthorService }, { params: { author_id } }, res) =>
-      AuthorService.getAuthor(author_id).then(data => res.json(data)),
+    handler: ({ AuthorService }, { params: { author_id } }) =>
+      AuthorService.getAuthor(author_id),
   },
   {
     method: 'GET',
     route: '/authors/:author_id/poems',
-    handler: ({ AuthorService }, { params: { author_id } }, res) =>
-      AuthorService.getPoems({ authorId: author_id }).then(data =>
-        res.json(data)
-      ),
+    handler: ({ AuthorService }, { params: { author_id } }) =>
+      AuthorService.getPoems({ authorId: author_id }),
   },
   {
     method: 'GET',
@@ -72,9 +68,8 @@ const routes = [
     auth: true,
     handler: (
       { AuthorService },
-      { params: { author_id }, context: { user } },
-      res
-    ) => AuthorService.getInfo(user.id, author_id).then(data => res.json(data)),
+      { params: { author_id }, context: { user } }
+    ) => AuthorService.getInfo(user.id, author_id),
   },
   {
     method: 'PUT',
@@ -82,13 +77,12 @@ const routes = [
     auth: true,
     handler: (
       { AuthorService },
-      { params: { author_id }, context: { user } },
-      res
+      { params: { author_id }, context: { user } }
     ) =>
       AuthorService.updateView({
         userId: user.id,
         authorId: author_id,
-      }).then(data => res.json(data)),
+      }),
   },
 ];
 
