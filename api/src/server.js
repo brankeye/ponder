@@ -1,34 +1,36 @@
 import express from 'express';
-import bodyParser from 'body-parser';
-import boolParser from 'express-query-boolean';
 import asyncHandler from 'express-async-handler';
 
 export default {
-  create: ({ host, port, routes, context }) => {
+  create: ({ host, port, use, routes, context }) => {
     const app = express();
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(boolParser());
 
-    app.get('/', (req, res) => res.sendStatus(200));
+    if (use && use.length > 0) {
+      use.map(x => app.use(x));
+    }
 
-    app.use((err, req, res, next) => {
-      console.error(err.stack);
-      res.status(500).json({
-        message: 'Something went wrong',
-        error: err,
-      });
-    });
-
-    routes.map(({ method, route, handler }) => {
+    routes.map(({ method, route, handler, before, after }) => {
       const httpMethod = method.toLowerCase();
       app[httpMethod](
         route,
         asyncHandler(async (req, res, next) => {
-          console.log('Context fn: ', context);
           const ctx = await Promise.resolve(context({ req, res }));
-          console.log('Context: ', ctx);
-          return Promise.resolve(handler(req, res, ctx)).catch(next);
+          if (before && before.length) {
+            for (let i = 0; i < before.length; i++) {
+              const beforeFn = before[i];
+              await Promise.resolve(beforeFn(req, res, ctx)).catch(next);
+            }
+          }
+          const result = await Promise.resolve(handler(req, res, ctx)).catch(
+            next
+          );
+          if (after && after.length) {
+            for (let i = 0; i < after.length; i++) {
+              const afterFn = after[i];
+              await Promise.resolve(afterFn(req, res, ctx)).catch(next);
+            }
+          }
+          return result;
         })
       );
     });
