@@ -1,16 +1,18 @@
+const sendJson = res => data => res.json(data);
+
 const routes = [
   {
     method: 'GET',
-    route: '/user',
-    handler: ({ UserService }, { headers: { authorization } }) =>
-      UserService.getUser(Buffer.from(authorization, 'base64').toString()),
+    route: '/api/user',
+    handler: (req, res, { UserService, clientId }) =>
+      UserService.getUserByClientId(clientId).then(sendJson(res)),
   },
   {
     method: 'PUT',
-    route: '/user/settings',
+    route: '/api/user/settings',
     auth: true,
-    handler: ({ UserService }, { body: settings, context: { user } }) =>
-      UserService.updateSettings(user.id, settings),
+    handler: ({ body: settings }, res, { UserService, user }) =>
+      UserService.updateSettings(user.id, settings).then(sendJson(res)),
   },
 ];
 
