@@ -2,7 +2,7 @@ import { format } from 'date-fns';
 
 export default {
   create: ({ Poem, PoemInfo }) => ({
-    getAuthor: authorId => Poem.get(authorId),
+    getPoem: poemId => Poem.get(poemId),
 
     discover: () => Poem.getRandom(),
 
@@ -17,6 +17,12 @@ export default {
         }
       );
     },
+
+    getRecents: ({ userId, first, last, after, before, search }) =>
+      PoemInfo.getRecents({ userId, first, last, after, before, search }),
+
+    getLibrary: ({ userId, first, last, after, before, search }) =>
+      PoemInfo.getLibrary({ userId, first, last, after, before, search }),
 
     getInfosByAuthor: ({ userId, authorId }) =>
       PoemInfo.query()

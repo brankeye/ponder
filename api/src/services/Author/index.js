@@ -1,16 +1,18 @@
 import { format } from 'date-fns';
 
 export default {
-  create: ({ Author, AuthorInfo, clientId }) => ({
+  create: ({ Author, AuthorInfo }) => ({
     getAuthor: authorId => Author.get(authorId),
 
     discover: () => Author.getRandom(),
 
     getPoems: authorId => Author.getPoems(authorId),
 
-    getRecents: () => AuthorInfo.getRecents(),
+    getRecents: ({ userId, first, last, after, before, search }) =>
+      AuthorInfo.getRecents({ userId, first, last, after, before, search }),
 
-    getLibrary: () => AuthorInfo.getLibrary(),
+    getLibrary: ({ userId, first, last, after, before, search }) =>
+      AuthorInfo.getLibrary({ userId, first, last, after, before, search }),
 
     getInfo: async (userId, authorId) => {
       const info = await AuthorInfo.get(userId, authorId);
