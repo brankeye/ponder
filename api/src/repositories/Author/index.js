@@ -1,4 +1,4 @@
-import { Author } from '../../models';
+import { Author } from 'database/models';
 import { raw } from 'objection';
 import { head, prop } from 'ramda';
 

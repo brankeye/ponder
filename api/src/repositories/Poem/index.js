@@ -1,4 +1,4 @@
-import { Poem } from '../../models';
+import { Poem } from 'database/models';
 import { raw } from 'objection';
 import { head, prop } from 'ramda';
 

@@ -1,4 +1,4 @@
-import { AuthorInfo } from '../../models';
+import { AuthorInfo } from 'database/models';
 import { parseFilters, parseConnection } from 'utils/pagination';
 import { flattenProp, map, resolveP } from 'utils/ramda';
 

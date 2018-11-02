@@ -18,15 +18,6 @@
       "module-resolver",
       {
         "root": ["./src"],
-        "alias": {
-          "routes": "./src/routes",
-          "data": "./src/data",
-          "config": "./src/config",
-          "utils": "./src/utils",
-          "services": "./src/services",
-          "repositories": "./src/data/repositories",
-          "context": "./src/context"
-        },
         "extensions": [".js"]
       }
     ]

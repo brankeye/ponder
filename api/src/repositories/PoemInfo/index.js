@@ -1,4 +1,4 @@
-import { PoemInfo } from '../../models';
+import { PoemInfo } from 'database/models';
 import { parseFilters, parseConnection } from 'utils/pagination';
 import { filter, prop } from 'ramda';
 import { flattenProp, map, resolveP } from 'utils/ramda';

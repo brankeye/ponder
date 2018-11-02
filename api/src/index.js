@@ -4,7 +4,7 @@ import routes from 'routes';
 import Context from 'context';
 import bodyParser from 'body-parser';
 import boolParser from 'express-query-boolean';
-import database from 'data';
+import database from 'database';
 database.setup();
 
 const { host, port } = config;
