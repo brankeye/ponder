@@ -2,11 +2,11 @@ import { format } from 'date-fns';
 
 export default {
   create: ({ Poem, PoemInfo }) => ({
-    getPoem: poemId => Poem.get(poemId),
+    get: poemId => Poem.get(poemId),
 
     discover: () => Poem.getRandom(),
 
-    getInfo: async (userId, poemId) => {
+    info: async (userId, poemId) => {
       const info = await PoemInfo.get(userId, poemId);
       return (
         info || {
@@ -18,18 +18,13 @@ export default {
       );
     },
 
-    getRecents: ({ userId, first, last, after, before, search }) =>
+    recents: ({ userId, first, last, after, before, search }) =>
       PoemInfo.getRecents({ userId, first, last, after, before, search }),
 
-    getLibrary: ({ userId, first, last, after, before, search }) =>
+    library: ({ userId, first, last, after, before, search }) =>
       PoemInfo.getLibrary({ userId, first, last, after, before, search }),
 
-    getInfosByAuthor: ({ userId, authorId }) =>
-      PoemInfo.query()
-        .where('user_id', userId)
-        .andWhere('author_id', authorId),
-
-    updateLibrary: ({ userId, poemId, inLibrary }) =>
+    updateLibrary: (userId, poemId, inLibrary) =>
       PoemInfo.upsert({
         userId,
         poemId,
@@ -37,7 +32,7 @@ export default {
         viewedAt: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
       }),
 
-    updateView: ({ userId, poemId, inLibrary }) =>
+    updateView: (userId, poemId, inLibrary) =>
       PoemInfo.upsert({
         userId,
         poemId,

@@ -2,7 +2,7 @@ import uuid from 'uuid/v4';
 
 export default {
   create: ({ User }) => ({
-    getUserByClientId: async clientId => {
+    getByClientId: async clientId => {
       const user =
         (await User.getByClientId(clientId)) ||
         (await User.insert({

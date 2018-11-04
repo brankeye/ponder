@@ -1,33 +1,11 @@
-import Server from './server';
-import config from 'config';
-import routes from 'routes';
+import express from 'express';
 import Context from 'context';
-import bodyParser from 'body-parser';
-import boolParser from 'express-query-boolean';
+import Routers from 'routers';
 import database from 'database';
-database.setup();
+import config from 'config';
 
-const { host, port } = config;
-
-const errors = (err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({
-    message: 'Something went wrong',
-    error: err,
-  });
-};
-
-const server = Server.create({
-  host,
-  port,
-  use: [
-    bodyParser.json(),
-    bodyParser.urlencoded({ extended: false }),
-    boolParser(),
-    errors,
-  ],
-  routes,
-  context: Context.create,
-});
-
-server.listen();
+database.init();
+const app = express();
+const context = Context.create();
+Routers.init(app, context);
+Routers.listen(app, config);

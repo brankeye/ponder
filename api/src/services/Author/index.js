@@ -2,19 +2,19 @@ import { format } from 'date-fns';
 
 export default {
   create: ({ Author, AuthorInfo }) => ({
-    getAuthor: authorId => Author.get(authorId),
+    get: authorId => Author.get(authorId),
 
     discover: () => Author.getRandom(),
 
-    getPoems: authorId => Author.getPoems(authorId),
+    poems: authorId => Author.getPoems(authorId),
 
-    getRecents: ({ userId, first, last, after, before, search }) =>
+    recents: ({ userId, first, last, after, before, search }) =>
       AuthorInfo.getRecents({ userId, first, last, after, before, search }),
 
-    getLibrary: ({ userId, first, last, after, before, search }) =>
+    library: ({ userId, first, last, after, before, search }) =>
       AuthorInfo.getLibrary({ userId, first, last, after, before, search }),
 
-    getInfo: async (userId, authorId) => {
+    info: async (userId, authorId) => {
       const info = await AuthorInfo.get(userId, authorId);
       return (
         info || {
@@ -26,7 +26,7 @@ export default {
       );
     },
 
-    updateLibrary: ({ userId, authorId, inLibrary }) =>
+    updateLibrary: (userId, authorId, inLibrary) =>
       AuthorInfo.upsert({
         userId,
         authorId,
@@ -34,7 +34,7 @@ export default {
         viewedAt: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
       }),
 
-    updateView: ({ userId, authorId, inLibrary }) =>
+    updateView: (userId, authorId, inLibrary) =>
       AuthorInfo.upsert({
         userId,
         authorId,

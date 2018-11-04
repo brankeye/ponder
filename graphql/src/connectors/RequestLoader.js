@@ -27,7 +27,7 @@ export default {
         batch: false,
         cacheKeyFn: ({ method, uri, qs }) => {
           const root = `${method}:${uri}`;
-          return qs ? `${root}${querystring(qs)}` : root;
+          return qs ? `${root}${querystring.stringify(qs)}` : root;
         },
       }
     ),
