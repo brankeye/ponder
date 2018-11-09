@@ -10,11 +10,9 @@ class PoemListWithData extends Component {
 
   render() {
     const { type, count, search, ...props } = this.props;
+    const query = type === 'Library' ? PoemLibraryQuery : PoemRecentsQuery;
     return (
-      <Query
-        query={PoemListQuery}
-        variables={{ from: type, first: count, search }}
-      >
+      <Query query={query} variables={{ first: count, search }}>
         {({
           loading,
           error,
@@ -32,9 +30,8 @@ class PoemListWithData extends Component {
               onEndReached={() => {
                 hasNextPage &&
                   fetchMore({
-                    query: PoemListQuery,
+                    query,
                     variables: {
-                      from: type,
                       first: count,
                       after: endCursor,
                       search,
@@ -65,23 +62,58 @@ class PoemListWithData extends Component {
   }
 }
 
-export const PoemListQuery = gql`
-  query PoemList(
-    $from: PoemCategory!
+export const PoemLibraryQuery = gql`
+  query PoemLibrary(
     $search: String
     $first: Int
     $after: String
     $last: Int
     $before: String
   ) {
-    poemList(
-      from: $from
+    poemList: poemLibrary(
       search: $search
       first: $first
       after: $after
       last: $last
       before: $before
-    ) @connection(key: "poemList", filter: ["from", "search"]) {
+    ) @connection(key: "poemLibrary", filter: ["search"]) {
+      edges {
+        node {
+          id
+          title
+          teaser
+          lines
+          inLibrary
+          author {
+            id
+            name
+            inLibrary
+          }
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+`;
+
+export const PoemRecentsQuery = gql`
+  query PoemRecents(
+    $search: String
+    $first: Int
+    $after: String
+    $last: Int
+    $before: String
+  ) {
+    poemList: poemRecents(
+      search: $search
+      first: $first
+      after: $after
+      last: $last
+      before: $before
+    ) @connection(key: "poemRecents", filter: ["search"]) {
       edges {
         node {
           id

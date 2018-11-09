@@ -9,8 +9,16 @@ class AuthorViewWithData extends Component {
   };
 
   render() {
-    const { id, ...props } = this.props;
-    return (
+    const { id, discover, ...props } = this.props;
+    return discover ? (
+      <Query query={AuthorDiscoverQuery}>
+        {({ loading, error, data: { author } }) => {
+          if (loading) return null;
+          if (error) return `Error!: ${error}`;
+          return <AuthorView {...props} author={author} />;
+        }}
+      </Query>
+    ) : (
       <Query query={AuthorQuery} variables={{ id }}>
         {({ loading, error, data: { author } }) => {
           if (loading) return null;
@@ -25,6 +33,23 @@ class AuthorViewWithData extends Component {
 export const AuthorQuery = gql`
   query Author($id: ID!) {
     author(id: $id) {
+      id
+      name
+      inLibrary
+      poems {
+        id
+        title
+        teaser
+        lines
+        inLibrary
+      }
+    }
+  }
+`;
+
+export const AuthorDiscoverQuery = gql`
+  query AuthorDiscover {
+    authorDiscover {
       id
       name
       inLibrary

@@ -8,19 +8,13 @@ import { GRAPHQL_URL } from '@@config';
 
 const cache = new InMemoryCache();
 
-const authLink = encodedToken =>
-  setContext((_, { headers }) => {
-    if (encodedToken) {
-      return {
-        headers: {
-          ...headers,
-          authorization: encodedToken,
-        },
-      };
-    } else {
-      return { headers };
-    }
-  });
+const authLink = authorization =>
+  setContext((_, { headers }) => ({
+    headers: {
+      ...headers,
+      authorization,
+    },
+  }));
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -37,9 +31,9 @@ const httpLink = new BatchHttpLink({
   credentials: 'same-origin',
 });
 
-const client = ({ encodedToken } = {}) =>
+const client = authorization =>
   new ApolloClient({
-    link: ApolloLink.from([errorLink, authLink(encodedToken), httpLink]),
+    link: ApolloLink.from([errorLink, authLink(authorization), httpLink]),
     cache,
   });
 

@@ -1,20 +1,28 @@
 import React from 'react';
-import { AuthConsumer } from '@@consumers';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 
 class LoadingScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     return (
-      <AuthConsumer>
-        {({ loading, isAuthenticated }) => {
+      <Query>
+        {({ loading, data: { user } }) => {
           if (loading) return null;
-          console.log('auth: ', isAuthenticated);
-          navigation.navigate(isAuthenticated ? 'App' : 'Landing');
+          navigation.navigate('App');
           return null;
         }}
-      </AuthConsumer>
+      </Query>
     );
   }
 }
+
+const UserQuery = gql`
+  query User {
+    user {
+      id
+    }
+  }
+`;
 
 export default LoadingScreen;

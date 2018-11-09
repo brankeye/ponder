@@ -1,8 +1,8 @@
 import React from 'react';
 import {
   Screen,
-  PoemListWithData,
-  AuthorListWithData,
+  PoemViewWithData,
+  AuthorViewWithData,
   Subscriber,
 } from '@@components';
 
@@ -25,12 +25,7 @@ class PoemListScreen extends React.Component {
     return (
       <Screen>
         <Subscriber topic={'HomeHeader/onSearch'} handler={this.handleSearch} />
-        <PoemListWithData
-          type={'Default'}
-          count={10}
-          search={this.state.searchTerm}
-          onSelect={this.handleSelect}
-        />
+        <PoemViewWithData discover />
       </Screen>
     );
   }
@@ -56,12 +51,7 @@ class AuthorListScreen extends React.Component {
     return (
       <Screen>
         <Subscriber topic={'HomeHeader/onSearch'} handler={this.handleSearch} />
-        <AuthorListWithData
-          type={'Default'}
-          count={10}
-          search={this.state.searchTerm}
-          onSelect={this.handleSelect}
-        />
+        <AuthorViewWithData discover />
       </Screen>
     );
   }

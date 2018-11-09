@@ -9,10 +9,18 @@ class PoemViewWithData extends Component {
   };
 
   render() {
-    const { id, ...props } = this.props;
-    return (
+    const { id, discover, ...props } = this.props;
+    return discover ? (
+      <Query query={PoemDiscoverQuery}>
+        {({ loading, error, refetch, data: { poem } }) => {
+          if (loading) return null;
+          if (error) return `Error!: ${error}`;
+          return <PoemView {...props} poem={poem} />;
+        }}
+      </Query>
+    ) : (
       <Query query={PoemQuery} variables={{ id }}>
-        {({ loading, error, data: { poem } }) => {
+        {({ loading, error, refetch, data: { poem } }) => {
           if (loading) return null;
           if (error) return `Error!: ${error}`;
           return <PoemView {...props} poem={poem} />;
@@ -25,6 +33,23 @@ class PoemViewWithData extends Component {
 export const PoemQuery = gql`
   query Poem($id: ID!) {
     poem(id: $id) {
+      id
+      title
+      teaser
+      lines
+      inLibrary
+      author {
+        id
+        name
+        inLibrary
+      }
+    }
+  }
+`;
+
+export const PoemDiscoverQuery = gql`
+  query PoemDiscover {
+    poemDiscover {
       id
       title
       teaser

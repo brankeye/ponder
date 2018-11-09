@@ -11,11 +11,9 @@ class AuthorListWithData extends Component {
 
   render() {
     const { type, count, search, ...props } = this.props;
+    const query = type === 'Library' ? AuthorLibraryQuery : AuthorRecentsQuery;
     return (
-      <Query
-        query={AuthorListQuery}
-        variables={{ from: type, first: count, search }}
-      >
+      <Query query={query} variables={{ from: type, first: count, search }}>
         {({
           loading,
           error,
@@ -36,9 +34,8 @@ class AuthorListWithData extends Component {
               onEndReached={() => {
                 hasNextPage &&
                   fetchMore({
-                    query: AuthorListQuery,
+                    query,
                     variables: {
-                      from: type,
                       first: count,
                       after: endCursor,
                       search,
@@ -69,23 +66,58 @@ class AuthorListWithData extends Component {
   }
 }
 
-export const AuthorListQuery = gql`
-  query AuthorList(
-    $from: AuthorCategory!
+export const AuthorLibraryQuery = gql`
+  query AuthorLibrary(
     $search: String
     $first: Int
     $after: String
     $last: Int
     $before: String
   ) {
-    authorList(
-      from: $from
+    authorList: authorLibrary(
       search: $search
       first: $first
       after: $after
       last: $last
       before: $before
-    ) @connection(key: "authorList", filter: ["from", "search"]) {
+    ) @connection(key: "authorLibrary", filter: ["search"]) {
+      edges {
+        node {
+          id
+          name
+          inLibrary
+          poems {
+            id
+            title
+            teaser
+            lines
+            inLibrary
+          }
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+`;
+
+export const AuthorRecentsQuery = gql`
+  query AuthorRecents(
+    $search: String
+    $first: Int
+    $after: String
+    $last: Int
+    $before: String
+  ) {
+    authorList: authorRecents(
+      search: $search
+      first: $first
+      after: $after
+      last: $last
+      before: $before
+    ) @connection(key: "authorRecents", filter: ["search"]) {
       edges {
         node {
           id

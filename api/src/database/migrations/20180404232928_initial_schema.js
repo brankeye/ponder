@@ -5,22 +5,9 @@ exports.up = function(knex) {
         .uuid('id')
         .primary()
         .notNullable();
-      table.string('email').nullable();
       table.string('client_id').notNullable();
-      table.string('oauth_id').nullable();
-      table
-        .boolean('anonymous')
-        .notNullable()
-        .defaultTo(true);
-      table.string('time_zone').notNullable();
-      table
-        .boolean('notify')
-        .notNullable()
-        .defaultTo(false);
-      table.string('notify_time').nullable();
-      table.string('push_token').nullable();
       table.string('theme').nullable();
-      table.index(['client_id', 'oauth_id']);
+      table.index('client_id');
     })
     .createTable('authors', table => {
       table

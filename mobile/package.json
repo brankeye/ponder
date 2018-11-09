@@ -2,6 +2,7 @@
   "main": "src/App.js",
   "private": true,
   "scripts": {
+    "start": "expo start",
     "start-dev": "yarn env-dev && expo start",
     "start-stg": "yarn env-stg && expo start",
     "start-prd": "yarn env-prd && expo start",

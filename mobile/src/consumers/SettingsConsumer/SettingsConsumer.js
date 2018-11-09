@@ -60,10 +60,7 @@ class Provider extends React.Component {
 }
 
 const defaultSettings = {
-  pushToken: null,
-  timeZone: null,
-  notify: false,
-  notifyTime: null,
+  timeZone: 'America/Toronto',
   theme: 'Dark',
 };
 
@@ -92,10 +89,7 @@ export const UserQuery = gql`
     user {
       id
       settings {
-        pushToken
         timeZone
-        notify
-        notifyTime
         theme
       }
     }
@@ -103,13 +97,10 @@ export const UserQuery = gql`
 `;
 
 export const UserSettingsMutation = gql`
-  mutation UserSettings($input: UserSettingsInput!) {
+  mutation UserSettings($input: SettingsInput!) {
     userSettings(input: $input) {
       settings {
-        pushToken
         timeZone
-        notify
-        notifyTime
         theme
       }
     }

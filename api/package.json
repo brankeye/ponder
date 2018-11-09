@@ -5,12 +5,15 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon ./src/index.js --exec babel-node",
-    "migrate-latest-local": "knex migrate:latest --env local",
-    "migrate-latest-dev": "knex migrate:latest --env dev",
-    "migrate-latest-stg": "knex migrate:latest --env stg",
-    "seed-run-local": "knex seed:run --env local",
-    "seed-run-dev": "knex seed:run --env dev",
-    "seed-run-stg": "knex seed:run --env stg",
+    "migrate-local": "set -a && source ../__environment__/.local.env && set +a && knex migrate:latest --env local",
+    "migrate-dev": "set -a && source ../__environment__/.dev.env && set +a && knex migrate:latest --env dev",
+    "migrate-stg": "set -a && source ../__environment__/.stg.env && set +a && knex migrate:latest --env stg",
+    "rollback-local": "set -a && source ../__environment__/.local.env && set +a && knex migrate:rollback --env local",
+    "rollback-dev": "set -a && source ../__environment__/.dev.env && set +a && knex migrate:rollback --env dev",
+    "rollback-stg": "set -a && source ../__environment__/.stg.env && set +a && knex migrate:rollback --env stg",
+    "seed-local": "set -a && source ../__environment__/.local.env && set +a && knex seed:run --env local",
+    "seed-dev": "set -a && source ../__environment__/.dev.env && set +a && knex seed:run --env dev",
+    "seed-stg": "set -a && source ../__environment__/.stg.env && set +a && knex seed:run --env stg",
     "flow": "flow"
   },
   "dependencies": {

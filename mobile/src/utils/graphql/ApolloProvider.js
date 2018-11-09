@@ -2,8 +2,8 @@ import * as React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import createClient from './client';
 
-const Component = ({ token, ...props }) => (
-  <ApolloProvider {...props} client={createClient({ encodedToken: token })} />
+const Component = ({ authorization, ...props }) => (
+  <ApolloProvider {...props} client={createClient(authorization)} />
 );
 
 export default Component;

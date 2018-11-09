@@ -78,9 +78,9 @@ const GuestButton = ({ onPress, ...props }) => (
   </Mutation>
 );
 
-const UserAnonMutation = gql`
-  mutation UserAnonSignIn($input: UserAnonInput!) {
-    userSignInAnon(input: $input) {
+const UserQuery = gql`
+  query User {
+    user {
       id
       email
     }

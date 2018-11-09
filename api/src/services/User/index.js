@@ -8,7 +8,6 @@ export default {
         (await User.insert({
           id: uuid(),
           client_id: clientId,
-          anonymous: true,
         }));
       return user;
     },
