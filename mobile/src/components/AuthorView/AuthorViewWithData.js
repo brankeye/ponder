@@ -49,7 +49,7 @@ export const AuthorQuery = gql`
 
 export const AuthorDiscoverQuery = gql`
   query AuthorDiscover {
-    authorDiscover {
+    author: authorDiscover {
       id
       name
       inLibrary

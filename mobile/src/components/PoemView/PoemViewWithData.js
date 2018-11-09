@@ -49,7 +49,7 @@ export const PoemQuery = gql`
 
 export const PoemDiscoverQuery = gql`
   query PoemDiscover {
-    poemDiscover {
+    poem: poemDiscover {
       id
       title
       teaser

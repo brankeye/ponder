@@ -2,7 +2,6 @@ import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { DrawerItems, SafeAreaView } from 'react-navigation';
 import { ThemeConsumer } from '@@consumers';
-import { Authenticator } from '@@components';
 import Paint, { StylesConsumer } from 'react-native-paint';
 
 const paint = Paint.create(theme => ({
@@ -33,7 +32,6 @@ const Drawer = ({ contentContainerStyle, labelStyle, ...props }) => (
             {...props}
             labelStyle={[styles.drawerItem, labelStyle]}
           />
-          <Authenticator />
         </SafeAreaView>
       </ScrollView>
     )}

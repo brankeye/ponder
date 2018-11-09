@@ -1,7 +1,7 @@
 import React from 'react';
 import { Toolbar, IconToggle } from 'react-native-material-ui';
 import PubSub from 'pubsub-js';
-import { ThemeConsumer, SettingsConsumer } from '@@consumers';
+import { ThemeConsumer } from '@@consumers';
 
 class HeaderBar extends React.Component {
   static defaultProps = {
@@ -28,48 +28,44 @@ class HeaderBar extends React.Component {
 
     return (
       <ThemeConsumer>
-        {({ theme }) => (
-          <SettingsConsumer>
-            {({ toggleTheme }) => (
-              <Toolbar
-                {...props}
-                leftElement={
-                  <IconToggle
-                    name={'menu'}
-                    color={theme.textColor}
-                    onPress={() => {
-                      navigation.toggleDrawer();
-                      if (onLeftElementPress) onLeftElementPress();
-                    }}
-                  />
-                }
-                centerElement={title}
-                searchable={
-                  searchable
-                    ? {
-                        autoFocus: true,
-                        placeholder: 'Search',
-                        onChangeText: this.handleChangeText,
-                        onSubmitEditing: this.handleSearch,
-                      }
-                    : undefined
-                }
-                rightElement={
-                  themeable && (
-                    <IconToggle
-                      name={'palette'}
-                      color={theme.textColor}
-                      onPress={() => {
-                        if (themeable) {
-                          toggleTheme();
-                        }
-                      }}
-                    />
-                  )
-                }
+        {({ theme, toggleTheme }) => (
+          <Toolbar
+            {...props}
+            leftElement={
+              <IconToggle
+                name={'menu'}
+                color={theme.textColor}
+                onPress={() => {
+                  navigation.toggleDrawer();
+                  if (onLeftElementPress) onLeftElementPress();
+                }}
               />
-            )}
-          </SettingsConsumer>
+            }
+            centerElement={title}
+            searchable={
+              searchable
+                ? {
+                    autoFocus: true,
+                    placeholder: 'Search',
+                    onChangeText: this.handleChangeText,
+                    onSubmitEditing: this.handleSearch,
+                  }
+                : undefined
+            }
+            rightElement={
+              themeable && (
+                <IconToggle
+                  name={'palette'}
+                  color={theme.textColor}
+                  onPress={() => {
+                    if (themeable) {
+                      toggleTheme();
+                    }
+                  }}
+                />
+              )
+            }
+          />
         )}
       </ThemeConsumer>
     );

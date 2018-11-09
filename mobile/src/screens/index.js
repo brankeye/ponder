@@ -6,7 +6,6 @@ import LandingScreen from './LandingScreen';
 import HomeScreen from './HomeScreen';
 import LibraryScreen from './LibraryScreen';
 import RecentsScreen from './RecentsScreen';
-import SettingsScreen from './SettingsScreen';
 
 const AppNavigator = createDrawerNavigator(
   {
@@ -26,12 +25,6 @@ const AppNavigator = createDrawerNavigator(
       screen: LibraryScreen,
       navigationOptions: {
         drawerLabel: 'Library',
-      },
-    },
-    SettingsDrawer: {
-      screen: SettingsScreen,
-      navigationOptions: {
-        drawerLabel: 'Settings',
       },
     },
   },

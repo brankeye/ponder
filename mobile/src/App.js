@@ -8,8 +8,6 @@ import {
   AuthConsumer,
   ThemeProvider,
   ThemeConsumer,
-  SettingsProvider,
-  SettingsConsumer,
   withAuth,
 } from '@@consumers';
 import { StylesProvider } from 'react-native-paint';

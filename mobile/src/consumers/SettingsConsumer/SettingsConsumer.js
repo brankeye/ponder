@@ -8,42 +8,28 @@ import { omit } from 'ramda';
 const Context = React.createContext();
 
 class Provider extends React.Component {
-  componentDidMount() {
-    console.log('Settings: ', this.props.settings);
-  }
-
-  updateSettings = fn => {
-    const { settings, updateSettings } = this.props;
-    const input = typeof fn === 'function' ? fn(settings) : fn;
+  toggleTheme = () => {
+    const { theme, updateTheme } = this.props;
+    const nextTheme = theme === 'Dark' ? 'Light' : 'Dark';
     return updateSettings({
       variables: {
-        input,
+        theme: nextTheme,
       },
       optimisticResponse: {
         __typename: 'Mutation',
-        userSettings: {
+        user: {
           __typename: 'User',
-          settings: {
-            __typename: 'UserSettings',
-            ...settings,
-            ...input,
-          },
+          theme: nextTheme,
         },
       },
-      update: (proxy, { data: { userSettings } }) => {
+      update: (proxy, { data: { user } }) => {
         const data = proxy.readQuery({ query: UserQuery });
+        data.user.theme = user.theme;
         console.log('User: ', JSON.stringify(data, null, 2));
-        console.log('User settings: ', JSON.stringify(userSettings, null, 2));
-        data.user.settings = userSettings.settings;
         proxy.writeQuery({ query: UserQuery, data });
       },
     });
   };
-
-  toggleTheme = () =>
-    this.updateSettings(({ theme }) => ({
-      theme: theme === 'Dark' ? 'Light' : 'Dark',
-    }));
 
   render() {
     return (
@@ -64,18 +50,16 @@ const defaultSettings = {
   theme: 'Dark',
 };
 
-const withUser = WrappedComponent => props => (
+const withTheme = WrappedComponent => props => (
   <Query query={UserQuery}>
     {({ loading, data: { user } }) =>
       loading ? null : (
-        <Mutation mutation={UserSettingsMutation}>
-          {userSettings => (
+        <Mutation mutation={ThemeUpdateMutation}>
+          {updateTheme => (
             <WrappedComponent
               {...props}
-              settings={
-                user ? omit(['__typename'], user.settings) : defaultSettings
-              }
-              updateSettings={userSettings}
+              theme={user.theme}
+              updateTheme={updateTheme}
             />
           )}
         </Mutation>
@@ -88,25 +72,20 @@ export const UserQuery = gql`
   query User {
     user {
       id
-      settings {
-        timeZone
-        theme
-      }
+      theme
     }
   }
 `;
 
-export const UserSettingsMutation = gql`
-  mutation UserSettings($input: SettingsInput!) {
-    userSettings(input: $input) {
-      settings {
-        timeZone
-        theme
-      }
+export const ThemeUpdateMutation = gql`
+  mutation ThemeUpdate($theme: ThemeType!) {
+    user: themeUpdate(theme: $theme) {
+      id
+      theme
     }
   }
 `;
 
 const SettingsConsumer = Context.Consumer;
-const SettingsProvider = withUser(Provider);
+const SettingsProvider = withTheme(Provider);
 export { SettingsProvider, SettingsConsumer };

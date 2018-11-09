@@ -6,7 +6,7 @@ class LoadingScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     return (
-      <Query>
+      <Query query={UserQuery}>
         {({ loading, data: { user } }) => {
           if (loading) return null;
           navigation.navigate('App');
@@ -21,6 +21,7 @@ const UserQuery = gql`
   query User {
     user {
       id
+      theme
     }
   }
 `;
