@@ -3,27 +3,11 @@ type Query {
 }
 
 type Mutation {
-  userSettings(settings: SettingsInput!): User
+  themeUpdate(theme: ThemeType!): User
 }
 
 type User {
   id: ID
-  settings: Settings
-}
-
-type Settings {
-  pushToken: String
-  timeZone: String
-  notify: Boolean
-  notifyTime: Time
-  theme: ThemeType
-}
-
-input SettingsInput {
-  pushToken: String
-  timeZone: String
-  notify: Boolean
-  notifyTime: Time
   theme: ThemeType
 }
 

@@ -12,6 +12,6 @@ export default {
       return user;
     },
 
-    updateSettings: (id, settings) => User.updateSettings(id, settings),
+    updateTheme: (id, theme) => User.updateTheme(id, theme),
   }),
 };

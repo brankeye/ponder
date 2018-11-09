@@ -12,14 +12,14 @@ export default {
         },
       }),
 
-    updateSettings: body =>
+    themeUpdate: theme =>
       request({
-        uri: getPath(api, path, 'settings'),
+        uri: getPath(api, path, 'theme'),
         method: 'PUT',
         headers: {
           authorization,
         },
-        body,
+        body: { theme },
       }),
   }),
 };

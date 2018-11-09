@@ -19,7 +19,7 @@ export default {
     app.use(asyncHandler(middleware.authorization));
 
     app.get('/api/user', asyncHandler(users.get));
-    app.put('/api/user/settings', asyncHandler(users.updateSettings));
+    app.put('/api/user/theme', asyncHandler(users.updateTheme));
 
     app.get('/api/authors/discover', asyncHandler(authors.discover));
     app.get('/api/authors/library', asyncHandler(authors.library));
