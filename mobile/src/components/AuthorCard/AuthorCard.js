@@ -3,7 +3,6 @@ import { View, Button } from 'react-native';
 import { Card, Typography } from '@@components';
 
 const AuthorCard = ({ author, poemsCount, onPress }) => {
-  const { name } = author;
   const poems = author.poems.slice(0, poemsCount);
   return (
     <Card onPress={() => onPress(author)}>
