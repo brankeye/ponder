@@ -47,7 +47,7 @@ class AuthorListScreen extends React.Component {
   };
 
   render() {
-    console.log('Active B: ', this.isActive());
+    //console.log('Active B: ', this.isActive());
     return (
       <Screen>
         <Subscriber topic={'HomeHeader/onSearch'} handler={this.handleSearch} />

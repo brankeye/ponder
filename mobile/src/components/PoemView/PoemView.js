@@ -26,7 +26,7 @@ const PoemView = ({ poem, onChangeLibrary, ...props }) => {
         <Typography type={'subtitle'} selectable={true}>
           by {author.name}
         </Typography>
-        <Typography type={'body'} selectable={true}>
+        <Typography type={'body'} selectable={true} style={{ marginTop: '3%' }}>
           {poem.lines.join('\n')}
         </Typography>
         <Toggle

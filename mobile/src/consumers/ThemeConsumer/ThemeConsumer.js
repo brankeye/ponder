@@ -1,9 +1,12 @@
 import React from 'react';
-import { lightTheme, darkTheme } from '@@constants';
 import Color from 'color';
-import { ThemeProvider as MaterialThemeProvider } from 'react-native-material-ui';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
+import {
+  DefaultTheme,
+  DarkTheme,
+  Provider as PaperProvider,
+} from 'react-native-paper';
 
 const ThemeContext = React.createContext();
 
@@ -41,15 +44,13 @@ class Provider extends React.Component {
           toggleTheme: this.toggleTheme,
         }}
       >
-        <MaterialThemeProvider uiTheme={getTheme(nextTheme)}>
-          {children}
-        </MaterialThemeProvider>
+        <PaperProvider theme={getTheme(nextTheme)}>{children}</PaperProvider>
       </ThemeContext.Provider>
     );
   }
 }
 
-const withTheme = WrappedComponent => props => (
+const enhance = WrappedComponent => props => (
   <Query query={UserQuery}>
     {({ loading, data: { user } }) =>
       loading ? null : (
@@ -84,48 +85,46 @@ export const ThemeUpdateMutation = gql`
   }
 `;
 
-const getTheme = theme => ({
-  palette: {
-    primaryColor: theme.backgroundColor,
-    primaryTextColor: Color(theme.textColor)
-      .alpha(0.87)
-      .toString(),
-    secondaryTextColor: Color(theme.textColor)
-      .alpha(0.54)
-      .toString(),
-    activeIcon: Color(theme.primaryColor)
-      .alpha(0.87)
-      .toString(),
-    inactiveIcon: Color(theme.primaryColor)
-      .alpha(0.54)
-      .toString(),
-    canvasColor: theme.backgroundColor,
-  },
-  toolbar: {
-    container: {
-      height: 50,
-    },
-    titleText: {
-      color: theme.textColor,
-    },
-    rightElement: {
-      color: theme.textColor,
-    },
-    leftElement: {
-      color: theme.textColor,
-    },
-  },
-  toolbarSearchActive: {
-    rightElement: {
-      color: theme.textColor,
-    },
-    leftElement: {
-      color: theme.textColor,
-    },
-  },
-});
+export const lightTheme = {
+  type: 'light',
+  primaryColor: '#FFFFFF',
+  accentColor: '#607D8B',
+  textColor: '#404040',
+  backgroundColor: '#e6e6e6',
+  underlayColor: '#00000011',
+};
 
-const ThemeProvider = withTheme(Provider);
+export const darkTheme = {
+  type: 'dark',
+  primaryColor: '#000000',
+  accentColor: '#607D8B',
+  textColor: '#F3F3F3',
+  backgroundColor: '#404040',
+  underlayColor: '#FFFFFF11',
+};
+
+const getTheme = theme => {
+  const Theme = theme.type === 'light' ? DefaultTheme : DarkTheme;
+  return {
+    ...Theme,
+    roundness: 0,
+    colors: {
+      ...Theme.colors,
+      primary: Color(theme.backgroundColor)
+        .darken(0.05)
+        .string(),
+      accent: theme.accentColor,
+    },
+  };
+};
+
+const ThemeProvider = enhance(Provider);
 const ThemeConsumer = ThemeContext.Consumer;
 
-export { ThemeProvider, ThemeConsumer };
+const withTheme = WrappedComponent => props => (
+  <ThemeConsumer>
+    {themeProps => <WrappedComponent {...props} {...themeProps} />}
+  </ThemeConsumer>
+);
+
+export { ThemeProvider, ThemeConsumer, withTheme };

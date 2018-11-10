@@ -1,28 +1,26 @@
 import React from 'react';
-import {
-  createBottomTabNavigator,
-  createSwitchNavigator,
-} from 'react-navigation';
+import { createSwitchNavigator } from 'react-navigation';
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { Drawer } from '@@components';
 import LoadingScreen from './LoadingScreen';
 import HomeScreen from './HomeScreen';
 import LibraryScreen from './LibraryScreen';
 import RecentsScreen from './RecentsScreen';
 
-const AppNavigator = createBottomTabNavigator({
-  HomeDrawer: {
+const AppNavigator = createMaterialBottomTabNavigator({
+  HomeTab: {
     screen: HomeScreen,
     navigationOptions: {
       title: 'Home',
     },
   },
-  RecentsDrawer: {
+  RecentsTab: {
     screen: RecentsScreen,
     navigationOptions: {
       title: 'Recents',
     },
   },
-  LibraryDrawer: {
+  LibraryTab: {
     screen: LibraryScreen,
     navigationOptions: {
       title: 'Library',
