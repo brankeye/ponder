@@ -37,7 +37,7 @@ class AuthorListScreen extends React.Component {
   isActive = () => this.props.navigation.getParam('isActive', false);
 
   handleSelect = ({ id }) => {
-    this.props.navigation.navigate('Author', { id });
+    this.props.navigation.navigate('Poem', { id });
   };
 
   handleSearch = term => {
@@ -51,7 +51,7 @@ class AuthorListScreen extends React.Component {
     return (
       <Screen>
         <Subscriber topic={'HomeHeader/onSearch'} handler={this.handleSearch} />
-        <AuthorViewWithData discover />
+        <AuthorViewWithData discover onSelectPoem={this.handleSelect} />
       </Screen>
     );
   }

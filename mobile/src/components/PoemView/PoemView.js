@@ -9,7 +9,7 @@ const PoemView = ({ poem, onChangeLibrary, ...props }) => {
     <Animatable.View
       animation={'fadeIn'}
       duration={500}
-      style={{ flex: 1 }}
+      style={{ flex: 1, alignItems: 'stretch' }}
       useNativeDriver={true}
       {...props}
     >

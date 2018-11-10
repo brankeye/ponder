@@ -1,17 +1,19 @@
 import React from 'react';
+import { Loading } from '@@components';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 class LoadingScreen extends React.Component {
+  handleNavigation = () => this.props.navigation.navigate('App');
+
   render() {
-    const { navigation } = this.props;
     return (
-      <Query query={UserQuery}>
-        {({ loading, data: { user } }) => {
-          if (loading) return null;
-          navigation.navigate('App');
-          return null;
-        }}
+      <Query
+        query={UserQuery}
+        fetchPolicy={'network-only'}
+        onCompleted={this.handleNavigation}
+      >
+        {({ loading }) => <Loading />}
       </Query>
     );
   }

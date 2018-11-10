@@ -17,30 +17,13 @@ class HeaderBar extends React.Component {
   };
 
   render() {
-    const {
-      navigation,
-      title,
-      searchable,
-      themeable,
-      onLeftElementPress,
-      ...props
-    } = this.props;
+    const { title, searchable, themeable, ...props } = this.props;
 
     return (
       <ThemeConsumer>
         {({ theme, toggleTheme }) => (
           <Toolbar
             {...props}
-            leftElement={
-              <IconToggle
-                name={'menu'}
-                color={theme.textColor}
-                onPress={() => {
-                  navigation.toggleDrawer();
-                  if (onLeftElementPress) onLeftElementPress();
-                }}
-              />
-            }
             centerElement={title}
             searchable={
               searchable

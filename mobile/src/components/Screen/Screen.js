@@ -6,8 +6,7 @@ const paint = Paint.create(theme => ({
   screen: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
+    alignItems: 'stretch',
     backgroundColor: theme.backgroundColor,
   },
 }));
