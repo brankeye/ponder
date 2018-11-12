@@ -8,9 +8,14 @@ const resolver = {
     poemRecents: (root, args, { Poem }) => Poem.getRecents(args),
   },
   Mutation: {
-    poemView: (root, { id }, { Poem }) => Poem.view(id),
-    poemLibrary: (root, { id, inLibrary }, { Poem }) =>
-      Poem.library(id, inLibrary),
+    poemView: async (root, { id }, { Poem }) => {
+      await Poem.view(id);
+      return Poem.getPoem(id);
+    },
+    poemLibrary: async (root, { id, inLibrary }, { Poem }) => {
+      await Poem.library(id, inLibrary);
+      return Poem.getPoem(id);
+    },
   },
   PoemContract: {
     __resolveType: ({ author }) => (author ? 'Poem' : 'PoemDetails'),

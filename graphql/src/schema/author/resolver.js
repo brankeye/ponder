@@ -8,7 +8,10 @@ const resolver = {
     authorRecents: (root, args, { Author }) => Author.getRecents(args),
   },
   Mutation: {
-    authorView: (root, { id }, { Author }) => Author.view(id),
+    authorView: async (root, { id }, { Author }) => {
+      await Author.view(id);
+      return Author.getAuthor(id);
+    },
   },
   AuthorContract: {
     __resolveType: ({ poems }) => (poems ? 'Author' : 'AuthorDetails'),
