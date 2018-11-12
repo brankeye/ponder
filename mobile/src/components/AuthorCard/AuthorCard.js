@@ -6,7 +6,7 @@ const AuthorCard = ({ author, poemsCount, onPress }) => {
   const poems = author.poems.slice(0, poemsCount);
   return (
     <Card onPress={() => onPress(author)}>
-      <Typography type={'title'}>{name}</Typography>
+      <Typography type={'title'}>{author.name}</Typography>
       {poems.map((poem, i) => {
         return (
           <View key={i} style={{ flex: 1, padding: '4%' }}>

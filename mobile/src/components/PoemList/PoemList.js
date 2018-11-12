@@ -12,6 +12,7 @@ class PoemList extends Component {
 
   render() {
     const { poems, onEndReached } = this.props;
+    console.log('Poems: ', poems);
     return (
       <Animatable.View
         animation={'fadeIn'}

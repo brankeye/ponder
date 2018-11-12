@@ -26,7 +26,7 @@ class PoemListWithData extends Component {
           return (
             <PoemList
               {...props}
-              poems={edges.map(({ node }) => ({ ...node }))}
+              poems={edges.map(({ node }) => node)}
               onEndReached={() => {
                 hasNextPage &&
                   fetchMore({

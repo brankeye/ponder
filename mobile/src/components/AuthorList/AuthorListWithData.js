@@ -13,7 +13,7 @@ class AuthorListWithData extends Component {
     const { type, count, search, ...props } = this.props;
     const query = type === 'Library' ? AuthorLibraryQuery : AuthorRecentsQuery;
     return (
-      <Query query={query} variables={{ from: type, first: count, search }}>
+      <Query query={query} variables={{ first: count, search }}>
         {({
           loading,
           error,
@@ -30,7 +30,7 @@ class AuthorListWithData extends Component {
           return (
             <AuthorList
               {...props}
-              authors={edges.map(({ node }) => ({ ...node }))}
+              authors={edges.map(({ node }) => node)}
               onEndReached={() => {
                 hasNextPage &&
                   fetchMore({
