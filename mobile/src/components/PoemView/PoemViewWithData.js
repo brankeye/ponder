@@ -29,7 +29,6 @@ const enhance = WrappedComponent => ({ id, discover, ...props }) => (
         {({ loading, error, refetch, data: { poem } }) => {
           if (loading) return null;
           if (error) return `Error!: ${error}`;
-          console.log('Poem: ', poem);
           return (
             <WrappedComponent {...props} poem={poem} viewPoem={viewPoem} />
           );

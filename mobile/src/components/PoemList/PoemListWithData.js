@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Loading } from '@@components';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import PoemList from './PoemList';
@@ -12,7 +13,11 @@ class PoemListWithData extends Component {
     const { type, count, search, ...props } = this.props;
     const query = type === 'Library' ? PoemLibraryQuery : PoemRecentsQuery;
     return (
-      <Query query={query} variables={{ first: count, search }}>
+      <Query
+        query={query}
+        variables={{ first: count, search }}
+        fetchPolicy={'network-only'}
+      >
         {({
           loading,
           error,
@@ -21,7 +26,7 @@ class PoemListWithData extends Component {
           },
           fetchMore,
         }) => {
-          if (loading) return null;
+          if (loading) return <Loading />;
           if (error) return `Error!: ${error}`;
           return (
             <PoemList

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Loading } from '@@components';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { View } from 'react-native';
@@ -25,7 +26,7 @@ class AuthorListWithData extends Component {
           },
           fetchMore,
         }) => {
-          if (loading) return null;
+          if (loading) return <Loading />;
           if (error) return `Error!: ${error}`;
           return (
             <AuthorList
