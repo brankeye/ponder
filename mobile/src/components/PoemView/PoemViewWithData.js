@@ -8,7 +8,7 @@ class PoemViewWithData extends Component {
     onEndReachedThreshold: 0.5,
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     this.props.viewPoem({
       variables: { id: this.props.poem.id },
     });
@@ -29,6 +29,7 @@ const enhance = WrappedComponent => ({ id, discover, ...props }) => (
         {({ loading, error, refetch, data: { poem } }) => {
           if (loading) return null;
           if (error) return `Error!: ${error}`;
+          console.log('Poem: ', poem);
           return (
             <WrappedComponent {...props} poem={poem} viewPoem={viewPoem} />
           );

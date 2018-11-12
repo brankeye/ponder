@@ -11,14 +11,14 @@ export default {
       const info = await PoemInfo.query().findById([userId, poemId]);
       return info
         ? PoemInfo.query().patchAndFetchById([userId, poemId], {
-            in_library: inLibrary,
+            in_library: inLibrary || info.in_library,
             viewed_at: viewedAt,
           })
         : PoemInfo.query().insert({
             user_id: userId,
             author_id: authorId,
             poem_id: poemId,
-            in_library: inLibrary,
+            in_library: inLibrary || false,
             viewed_at: viewedAt,
           });
     },

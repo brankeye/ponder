@@ -11,12 +11,12 @@ export default {
       return info
         ? AuthorInfo.query().patchAndFetchById([userId, authorId], {
             viewed_at: viewedAt,
-            in_library: inLibrary ? inLibrary : info.in_library,
+            in_library: inLibrary || info.in_library,
           })
         : AuthorInfo.query().insert({
             user_id: userId,
             author_id: authorId,
-            in_library: inLibrary ? inLibrary : false,
+            in_library: inLibrary || false,
             viewed_at: viewedAt,
           });
     },

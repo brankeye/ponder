@@ -41,19 +41,17 @@ export default {
       });
     },
 
-    updateView: async (userId, poemId, inLibrary) => {
+    updateView: async (userId, poemId) => {
       const author = await Poem.getAuthor(poemId);
       await AuthorInfo.upsert({
         userId,
         authorId: author.id,
-        inLibrary,
         viewedAt: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
       });
       return PoemInfo.upsert({
         userId,
         authorId: author.id,
         poemId,
-        inLibrary,
         viewedAt: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
       });
     },
