@@ -5,7 +5,6 @@ import MainNavigator from '@@screens';
 import { StatusBar } from '@@components';
 import {
   AuthProvider,
-  AuthConsumer,
   ThemeProvider,
   ThemeConsumer,
   withAuth,

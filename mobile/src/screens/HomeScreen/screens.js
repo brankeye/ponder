@@ -3,8 +3,11 @@ import {
   Screen,
   PoemViewWithData,
   AuthorViewWithData,
+  PoemLibraryQuery,
   Subscriber,
 } from '@@components';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
 
 class PoemListScreen extends React.Component {
   state = {};
@@ -21,12 +24,53 @@ class PoemListScreen extends React.Component {
     }
   };
 
+  handleUpdate = (store, { data: { poem } }) => {
+    try {
+      const { poemList } = store.readQuery({
+        query: PoemLibraryQuery,
+      });
+      if (poemList) {
+        if (!poem.inLibrary) {
+          poemList.edges = poemList.edges.filter(
+            ({ node }) => node.id !== poem.id
+          );
+        } else {
+          poemList.edges.unshift({ __typename: 'PoemEdge', node: poem });
+        }
+        store.writeQuery({
+          query: PoemLibraryQuery,
+          data: { poemList },
+        });
+      }
+    } catch (err) {
+      console.log('Err: ', err);
+    }
+  };
+
   render() {
     return (
-      <Screen>
-        <Subscriber topic={'HomeHeader/onSearch'} handler={this.handleSearch} />
-        <PoemViewWithData discover />
-      </Screen>
+      <Mutation mutation={PoemLibraryMutation} update={this.handleUpdate}>
+        {updateLibrary => (
+          <Screen>
+            <Subscriber
+              topic={'HomeHeader/onSearch'}
+              handler={this.handleSearch}
+            />
+            <PoemViewWithData
+              discover
+              onChangeLibrary={({ id, inLibrary }) => {
+                console.log({ id, inLibrary });
+                updateLibrary({
+                  variables: {
+                    id,
+                    inLibrary: !inLibrary,
+                  },
+                });
+              }}
+            />
+          </Screen>
+        )}
+      </Mutation>
     );
   }
 }
@@ -47,7 +91,6 @@ class AuthorListScreen extends React.Component {
   };
 
   render() {
-    //console.log('Active B: ', this.isActive());
     return (
       <Screen>
         <Subscriber topic={'HomeHeader/onSearch'} handler={this.handleSearch} />
@@ -56,5 +99,22 @@ class AuthorListScreen extends React.Component {
     );
   }
 }
+
+const PoemLibraryMutation = gql`
+  mutation PoemUpsert($id: ID!, $inLibrary: Boolean!) {
+    poem: poemLibrary(id: $id, inLibrary: $inLibrary) {
+      id
+      title
+      teaser
+      lines
+      inLibrary
+      author {
+        id
+        name
+        inLibrary
+      }
+    }
+  }
+`;
 
 export { PoemListScreen, AuthorListScreen };

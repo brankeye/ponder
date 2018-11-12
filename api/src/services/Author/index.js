@@ -26,19 +26,10 @@ export default {
       );
     },
 
-    updateLibrary: (userId, authorId, inLibrary) =>
+    updateView: (userId, authorId) =>
       AuthorInfo.upsert({
         userId,
         authorId,
-        inLibrary,
-        viewedAt: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
-      }),
-
-    updateView: (userId, authorId, inLibrary) =>
-      AuthorInfo.upsert({
-        userId,
-        authorId,
-        inLibrary,
         viewedAt: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
       }),
   }),

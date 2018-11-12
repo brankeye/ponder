@@ -7,7 +7,7 @@ export default {
   create: () => ({
     get: (userId, poemId) => PoemInfo.query().findById([userId, poemId]),
 
-    upsert: async ({ userId, poemId, inLibrary, viewedAt }) => {
+    upsert: async ({ userId, authorId, poemId, inLibrary, viewedAt }) => {
       const info = await PoemInfo.query().findById([userId, poemId]);
       return info
         ? PoemInfo.query().patchAndFetchById([userId, poemId], {
@@ -16,6 +16,7 @@ export default {
           })
         : PoemInfo.query().insert({
             user_id: userId,
+            author_id: authorId,
             poem_id: poemId,
             in_library: inLibrary,
             viewed_at: viewedAt,

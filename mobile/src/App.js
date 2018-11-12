@@ -5,7 +5,6 @@ import { Providers } from '@@utils';
 import { StatusBar } from '@@components';
 import {
   AuthProvider,
-  AuthConsumer,
   ThemeProvider,
   ThemeConsumer,
   withAuth,

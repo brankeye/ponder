@@ -2,7 +2,8 @@ export { default as PoemCard } from './PoemCard';
 export {
   default as PoemList,
   PoemListWithData,
-  PoemListQuery,
+  PoemRecentsQuery,
+  PoemLibraryQuery,
 } from './PoemList';
 export { default as PoemView, PoemViewWithData, PoemQuery } from './PoemView';
 export { default as AuthorCard } from './AuthorCard';
