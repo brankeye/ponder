@@ -31,7 +31,7 @@ class PoemListScreen extends React.Component {
         />
         <PoemListWithData
           type={'Library'}
-          count={10}
+          count={5}
           search={this.state.searchTerm}
           onSelect={this.handleSelect}
         />
@@ -64,7 +64,7 @@ class AuthorListScreen extends React.Component {
         />
         <AuthorListWithData
           type={'Library'}
-          count={10}
+          count={5}
           search={this.state.searchTerm}
           onSelect={this.handleSelect}
         />

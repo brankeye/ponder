@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import Paint, { StylesConsumer } from 'react-native-paint';
+import { withTheme } from '@@consumers';
 
 const paint = Paint.create({
   container: {
@@ -10,14 +11,14 @@ const paint = Paint.create({
   },
 });
 
-const Loading = () => (
+const Loading = ({ theme }) => (
   <StylesConsumer paint={paint}>
     {styles => (
       <View style={styles.container}>
-        <ActivityIndicator />
+        <ActivityIndicator size={'large'} color={theme.accentColor} />
       </View>
     )}
   </StylesConsumer>
 );
 
-export default Loading;
+export default withTheme(Loading);

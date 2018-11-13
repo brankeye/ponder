@@ -1,5 +1,4 @@
 import { curry, prop, reverse } from 'ramda';
-import { raw } from 'objection';
 
 export const encodeCursor = (cursor: any) =>
   cursor ? Buffer.from(cursor).toString('base64') : undefined;
@@ -16,14 +15,7 @@ export const createEdges = curry((cursorKey, inputs) =>
   inputs.map(createEdge(cursorKey))
 );
 
-export const parseFilters = ({
-  id = 'id',
-  first,
-  last,
-  before,
-  after,
-  random,
-}) => {
+export const parseFilters = ({ id = 'id', first, last, before, after }) => {
   first = first ? parseInt(first) : first;
   last = last ? parseInt(last) : last;
 
@@ -41,23 +33,15 @@ export const parseFilters = ({
     : after
       ? decodeCursor(after)
       : undefined;
-  const { sign } = parseSigns(first);
-  const where = random && cursorId && [id, sign, cursorId];
-  const orderBy = random ? [raw('random()')] : first ? [id, 'desc'] : [id];
+  const sign = parseSign(first);
+  const where = cursorId && [id, sign, cursorId];
+  const orderBy = first ? [id, 'desc'] : [id];
   const limit = [first || last];
 
-  return {
-    where,
-    orderBy,
-    limit,
-  };
+  return { where, orderBy, limit };
 };
 
-export const parseSigns = first => ({
-  sign: first ? '<=' : '>=',
-  nextSign: first ? '<=' : '<=',
-  prevSign: first ? '>=' : '>=',
-});
+export const parseSign = first => (first ? '<=' : '>=');
 
 export const parseConnection = (
   Model,
@@ -82,14 +66,14 @@ export const parseConnection = (
         hasPreviousPage = true;
         data = data.filter(x => x[id] !== cursorId);
         if (data.length > first) {
-          data.pop();
+          data.shift();
           hasNextPage = true;
         }
       } else if (last) {
         hasNextPage = true;
         data = data.filter(x => x[id] !== cursorId);
         if (data.length > last) {
-          data.shift();
+          data.pop();
           hasPreviousPage = true;
         }
       }

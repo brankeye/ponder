@@ -13,11 +13,7 @@ class PoemListWithData extends Component {
     const { type, count, search, ...props } = this.props;
     const query = type === 'Library' ? PoemLibraryQuery : PoemRecentsQuery;
     return (
-      <Query
-        query={query}
-        variables={{ first: count, search }}
-        fetchPolicy={'network-only'}
-      >
+      <Query query={query} variables={{ first: count, search }}>
         {({
           loading,
           error,
@@ -44,18 +40,16 @@ class PoemListWithData extends Component {
                     updateQuery: (previousResult, { fetchMoreResult }) => {
                       const newEdges = fetchMoreResult.poemList.edges;
                       const pageInfo = fetchMoreResult.poemList.pageInfo;
-                      return pageInfo.hasNextPage
-                        ? {
-                            poemList: {
-                              __typename: previousResult.poemList.__typename,
-                              edges: [
-                                ...previousResult.poemList.edges,
-                                ...newEdges,
-                              ],
-                              pageInfo,
-                            },
-                          }
-                        : previousResult;
+                      return {
+                        poemList: {
+                          __typename: previousResult.poemList.__typename,
+                          edges: [
+                            ...previousResult.poemList.edges,
+                            ...newEdges,
+                          ],
+                          pageInfo,
+                        },
+                      };
                     },
                   });
               }}
