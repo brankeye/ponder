@@ -11,7 +11,6 @@ export default {
     const authors = AuthorRouter.create(context);
     const poems = PoemRouter.create(context);
 
-    app.use(middleware.errors);
     app.use(middleware.parseJson);
     app.use(middleware.parseUrl);
     app.use(middleware.parseBool);
@@ -36,6 +35,8 @@ export default {
     app.get('/api/poems/:poem_id', asyncHandler(poems.get));
     app.put('/api/poems/:poem_id/library', asyncHandler(poems.updateLibrary));
     app.put('/api/poems/:poem_id/view', asyncHandler(poems.updateView));
+
+    app.use(middleware.errors);
   },
   listen: (app, { port, host }) => {
     app.listen(port, host, err => {

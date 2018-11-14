@@ -1,6 +1,7 @@
 import { AuthorInfo } from 'database/models';
-import { parseFilters, parseConnection } from 'utils/pagination';
+import { parseConnection } from 'utils/pagination';
 import { flattenProp, map, resolveP } from 'utils/ramda';
+import { format } from 'date-fns';
 
 export default {
   create: () => ({
@@ -22,13 +23,6 @@ export default {
     },
 
     getRecents: ({ userId, first, last, after, before, search }) => {
-      const filters = parseFilters({
-        id: 'author_id',
-        first,
-        last,
-        after,
-        before,
-      });
       const dbQuery = AuthorInfo.query().eager('author');
 
       if (search) {
@@ -39,12 +33,20 @@ export default {
 
       return dbQuery
         .where('user_id', userId)
-        .orderBy('viewed_at')
-        .filter(filters)
+        .orderBy('viewed_at', 'desc')
+        .paginate({
+          column: 'viewed_at',
+          first,
+          last,
+          after,
+          before,
+        })
         .then(resolveP(map(flattenProp('author'))))
         .then(
-          parseConnection(AuthorInfo, {
-            id: 'author_id',
+          parseConnection({
+            column: 'viewed_at',
+            columnToString: x =>
+              x ? format(x, 'YYYY-MM-DD HH:mm:ss') + '+00' : x,
             first,
             last,
             before,
@@ -54,13 +56,6 @@ export default {
     },
 
     getLibrary: ({ userId, first, last, after, before, search }) => {
-      const filters = parseFilters({
-        id: 'author_id',
-        first,
-        last,
-        after,
-        before,
-      });
       const dbQuery = AuthorInfo.query().eager('author');
 
       if (search) {
@@ -72,11 +67,17 @@ export default {
       return dbQuery
         .where('user_id', userId)
         .where('in_library', true)
-        .filter(filters)
+        .paginate({
+          column: 'author_id',
+          first,
+          last,
+          after,
+          before,
+        })
         .then(resolveP(map(flattenProp('author'))))
         .then(
-          parseConnection(AuthorInfo, {
-            id: 'author_id',
+          parseConnection({
+            column: 'author_id',
             first,
             last,
             before,
