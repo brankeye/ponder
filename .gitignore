@@ -4,6 +4,8 @@ __content__/
 __backup__/
 __environment__/
 
+.todo*
+
 # other
 .idea/*
 .ignore*

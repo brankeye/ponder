@@ -7,12 +7,12 @@ const paint = Paint.create(theme => ({
     color: theme.textColor,
   },
   title: {
-    fontSize: 20,
+    fontSize: 22,
     fontFamily: 'Vollkorn-Bold',
   },
   subtitle: {
     fontSize: 18,
-    fontFamily: 'Vollkorn',
+    fontFamily: 'Vollkorn-Bold',
   },
   body: {
     fontSize: 16,

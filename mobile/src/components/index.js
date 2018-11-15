@@ -18,7 +18,6 @@ export {
   AuthorQuery,
 } from './AuthorView';
 export { default as Screen } from './Screen';
-export { default as Toggle } from './Toggle';
 export { default as StatusBar } from './StatusBar';
 export { default as Card } from './Card';
 export { default as Drawer } from './Drawer';
@@ -29,3 +28,4 @@ export { default as HeaderBar } from './HeaderBar';
 export { default as State } from './State';
 export { default as Loading } from './Loading';
 export * from './PubSub';
+export { default as Button } from './Button';

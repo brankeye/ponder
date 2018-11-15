@@ -16,10 +16,14 @@ const AuthorView = ({ author, onSelectPoem, ...props }) => {
       <ScrollView
         contentContainerStyle={{
           justifyContent: 'flex-start',
-          padding: '10%',
         }}
       >
-        <Typography type={'title'}>{name}</Typography>
+        <Typography
+          type={'title'}
+          style={{ paddingHorizontal: '10%', paddingTop: '10%' }}
+        >
+          {name}
+        </Typography>
         {poems.map((poem, i) => {
           return (
             <PoemCard
@@ -27,7 +31,7 @@ const AuthorView = ({ author, onSelectPoem, ...props }) => {
               poem={{ author, ...poem }}
               omitAuthorName
               onPress={onSelectPoem}
-              style={{ paddingHorizontal: 0 }}
+              style={{ paddingHorizontal: '10%' }}
             />
           );
         })}

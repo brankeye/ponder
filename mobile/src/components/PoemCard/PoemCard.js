@@ -6,7 +6,9 @@ const PoemCard = ({ poem, omitAuthorName, onPress, ...props }) => {
   const { title, teaser, author } = poem;
   return (
     <Card onPress={() => onPress(poem)} {...props}>
-      <Typography type={'title'}>{title}</Typography>
+      <Typography type={omitAuthorName ? 'subtitle' : 'title'}>
+        {title}
+      </Typography>
       {!omitAuthorName && (
         <Typography type={'subtitle'}>{author.name}</Typography>
       )}

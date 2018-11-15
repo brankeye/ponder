@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, ScrollView, Text } from 'react-native';
-import { Toggle, Typography } from '@@components';
+import { Button, Typography } from '@@components';
 import * as Animatable from 'react-native-animatable';
 
 const PoemView = ({ poem, onChangeLibrary, ...props }) => {
@@ -29,12 +29,12 @@ const PoemView = ({ poem, onChangeLibrary, ...props }) => {
         <Typography type={'body'} selectable={true} style={{ marginTop: '3%' }}>
           {poem.lines.join('\n')}
         </Typography>
-        <Toggle
-          isActive={inLibrary}
-          activeText="Remove from library"
-          inactiveText="Add to library"
-          onToggle={() => onChangeLibrary(poem)}
-        />
+        <Button
+          icon={inLibrary ? 'remove' : 'add'}
+          onPress={() => onChangeLibrary(poem)}
+        >
+          {inLibrary ? 'Remove from library' : 'Add to library'}
+        </Button>
       </ScrollView>
     </Animatable.View>
   );
