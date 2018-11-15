@@ -2,16 +2,6 @@ import { QueryBuilder } from 'objection';
 import { decodeCursor } from 'utils/pagination';
 
 class ExtendedQueryBuilder extends QueryBuilder {
-  filter = filters => {
-    let query = this;
-    Object.entries(filters).map(([key, filter]) => {
-      if (filter) {
-        query = this[key](...filter);
-      }
-    });
-    return query;
-  };
-
   paginate = ({ column, first, last, after, before }) => {
     first = first ? parseInt(first) : first;
     last = last ? parseInt(last) : last;
