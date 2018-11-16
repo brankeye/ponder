@@ -1,18 +1,12 @@
 import React from 'react';
 import { View, Button, ScrollView } from 'react-native';
-import { PoemCard, Typography } from '@@components';
+import { PoemCard, Typography, FadeIn } from '@@components';
 import * as Animatable from 'react-native-animatable';
 
 const AuthorView = ({ author, onSelectPoem, ...props }) => {
   const { name, poems } = author;
   return (
-    <Animatable.View
-      animation={'fadeIn'}
-      duration={500}
-      style={{ flex: 1 }}
-      useNativeDriver={true}
-      {...props}
-    >
+    <FadeIn>
       <ScrollView
         contentContainerStyle={{
           justifyContent: 'flex-start',
@@ -36,7 +30,7 @@ const AuthorView = ({ author, onSelectPoem, ...props }) => {
           );
         })}
       </ScrollView>
-    </Animatable.View>
+    </FadeIn>
   );
 };
 

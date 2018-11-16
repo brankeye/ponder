@@ -24,6 +24,7 @@
     "apollo-link-state": "^0.4.1",
     "buffer": "^5.1.0",
     "color": "^3.0.0",
+    "date-fns": "^1.29.0",
     "expo": "^29.0.0",
     "graphql": "^14.0.2",
     "graphql-tag": "^2.10.0",

@@ -29,3 +29,4 @@ export { default as State } from './State';
 export { default as Loading } from './Loading';
 export * from './PubSub';
 export { default as Button } from './Button';
+export { default as FadeIn } from './FadeIn';

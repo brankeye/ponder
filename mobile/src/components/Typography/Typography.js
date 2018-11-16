@@ -19,6 +19,10 @@ const paint = Paint.create(theme => ({
     fontFamily: 'Vollkorn',
     lineHeight: 30,
   },
+  detail: {
+    fontSize: 14,
+    fontFamily: 'Vollkorn',
+  },
 }));
 
 const Typography = ({ type, style, ...props }) => (

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
-import { AuthorCard } from '@@components';
+import { AuthorCard, FadeIn } from '@@components';
 import * as Animatable from 'react-native-animatable';
 
 class AuthorList extends Component {
@@ -17,12 +17,7 @@ class AuthorList extends Component {
   render() {
     const { authors, onEndReached } = this.props;
     return (
-      <Animatable.View
-        animation={'fadeIn'}
-        duration={500}
-        style={{ flex: 1, width: '100%' }}
-        useNativeDriver={true}
-      >
+      <FadeIn>
         <FlatList
           data={authors}
           renderItem={this.renderItem}
@@ -31,7 +26,7 @@ class AuthorList extends Component {
           showsVerticalScrollIndicator={false}
           style={{ flex: 1, width: '100%' }}
         />
-      </Animatable.View>
+      </FadeIn>
     );
   }
 }

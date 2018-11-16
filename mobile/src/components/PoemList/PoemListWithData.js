@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Loading } from '@@components';
 import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import { poemRecentsQuery, poemLibraryQuery } from '@@graphql';
 import PoemList from './PoemList';
 
 class PoemListWithData extends Component {
@@ -11,7 +11,7 @@ class PoemListWithData extends Component {
 
   render() {
     const { type, count, search, ...props } = this.props;
-    const query = type === 'Library' ? PoemLibraryQuery : PoemRecentsQuery;
+    const query = type === 'Library' ? poemLibraryQuery : poemRecentsQuery;
     return (
       <Query query={query} variables={{ first: count, search }}>
         {({
@@ -27,6 +27,7 @@ class PoemListWithData extends Component {
           return (
             <PoemList
               {...props}
+              type={type}
               poems={edges.map(({ node }) => node)}
               onEndReached={() => {
                 hasNextPage &&
@@ -60,79 +61,5 @@ class PoemListWithData extends Component {
     );
   }
 }
-
-export const PoemLibraryQuery = gql`
-  query PoemLibrary(
-    $search: String
-    $first: Int
-    $after: String
-    $last: Int
-    $before: String
-  ) {
-    poemList: poemLibrary(
-      search: $search
-      first: $first
-      after: $after
-      last: $last
-      before: $before
-    ) @connection(key: "poemLibrary", filter: ["search"]) {
-      edges {
-        node {
-          id
-          title
-          teaser
-          lines
-          inLibrary
-          author {
-            id
-            name
-            inLibrary
-          }
-        }
-      }
-      pageInfo {
-        endCursor
-        hasNextPage
-      }
-    }
-  }
-`;
-
-export const PoemRecentsQuery = gql`
-  query PoemRecents(
-    $search: String
-    $first: Int
-    $after: String
-    $last: Int
-    $before: String
-  ) {
-    poemList: poemRecents(
-      search: $search
-      first: $first
-      after: $after
-      last: $last
-      before: $before
-    ) @connection(key: "poemRecents", filter: ["search"]) {
-      edges {
-        node {
-          id
-          title
-          teaser
-          lines
-          inLibrary
-          author {
-            id
-            name
-            inLibrary
-          }
-        }
-      }
-      pageInfo {
-        endCursor
-        hasNextPage
-      }
-    }
-  }
-`;
 
 export default PoemListWithData;
