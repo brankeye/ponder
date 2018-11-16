@@ -1,17 +1,19 @@
 import React from 'react';
-import { View, Button, ScrollView } from 'react-native';
-import { PoemCard, Typography, FadeIn } from '@@components';
+import { View, Button } from 'react-native';
+import { PoemCard, Typography, FadeIn, ScrollView } from '@@components';
 import * as Animatable from 'react-native-animatable';
 
-const AuthorView = ({ author, onSelectPoem, ...props }) => {
+const AuthorView = ({
+  author,
+  onSelectPoem,
+  fetching,
+  onFetchMore,
+  ...props
+}) => {
   const { name, poems } = author;
   return (
     <FadeIn>
-      <ScrollView
-        contentContainerStyle={{
-          justifyContent: 'flex-start',
-        }}
-      >
+      <ScrollView refreshing={fetching} onRefresh={onFetchMore}>
         <Typography
           type={'title'}
           style={{ paddingHorizontal: '10%', paddingTop: '10%' }}

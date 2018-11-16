@@ -3,7 +3,7 @@ import { AuthorFragment } from '@@graphql/fragments';
 
 export default gql`
   query AuthorDiscover {
-    authorDiscover {
+    author: authorDiscover {
       ...Author
     }
   }
