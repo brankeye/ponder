@@ -1,25 +1,25 @@
 import React from 'react';
 import { AsyncStorage } from 'react-native';
 import { compose, withProps } from 'recompose';
-import { withSearch, withAuthorRecentsQuery } from '@@graphql';
+import { withSearch, withAuthorLibraryQuery } from '@@graphql';
 import { Screen, AuthorList, Loading } from '@@components';
 
 const enhance = compose(
-  withSearch('RecentsHeader/onSearch'),
+  withSearch('LibraryHeader/onSearch'),
   withProps({
     count: 5,
   }),
-  withAuthorRecentsQuery
+  withAuthorLibraryQuery
 );
 
-class RecentAuthors extends React.Component {
+class LibraryAuthors extends React.Component {
   handleSelect = ({ id }) => {
     this.props.navigation.navigate('Author', { id });
   };
 
   render() {
     const { count, search, fetchMore } = this.props;
-    const { loading, authorList } = this.props.authorRecentsQuery;
+    const { loading, authorList } = this.props.authorLibraryQuery;
     if (loading)
       return (
         <Screen>
@@ -45,4 +45,4 @@ class RecentAuthors extends React.Component {
   }
 }
 
-export default enhance(RecentAuthors);
+export default enhance(LibraryAuthors);

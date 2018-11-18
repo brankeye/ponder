@@ -3,22 +3,22 @@ import {
   createMaterialTopTabNavigator,
   createStackNavigator,
 } from 'react-navigation';
+import LibraryPoems from './LibraryPoems';
+import LibraryAuthors from './LibraryAuthors';
 import PoemScreen from '../PoemScreen';
-import DiscoverPoem from './DiscoverPoem';
-import DiscoverAuthor from './DiscoverAuthor';
 import AuthorScreen from '../AuthorScreen';
 import { TabBar, HeaderBar } from '@@components';
 
-const DiscoverScreen = createMaterialTopTabNavigator(
+const LibraryScreen = createMaterialTopTabNavigator(
   {
-    DiscoverPoem: {
-      screen: DiscoverPoem,
+    LibraryPoems: {
+      screen: LibraryPoems,
       navigationOptions: {
         title: 'Poems',
       },
     },
-    DiscoverAuthor: {
-      screen: DiscoverAuthor,
+    LibraryAuthors: {
+      screen: LibraryAuthors,
       navigationOptions: {
         title: 'Authors',
       },
@@ -30,15 +30,15 @@ const DiscoverScreen = createMaterialTopTabNavigator(
 );
 
 export default createStackNavigator({
-  Discover: {
-    screen: DiscoverScreen,
+  Home: {
+    screen: LibraryScreen,
     navigationOptions: {
-      title: 'Discover',
+      title: 'Library',
       header: props => (
         <HeaderBar
           {...props}
-          name="DiscoverHeader"
-          title="Discover"
+          name="LibraryHeader"
+          title="Library"
           themeable
           searchable
         />

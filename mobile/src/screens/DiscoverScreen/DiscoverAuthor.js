@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Screen,
-  PoemView,
+  AuthorView,
   AuthorViewWithData,
   PoemLibraryQuery,
   PoemLibraryMutation,
@@ -9,20 +9,17 @@ import {
   Loading,
 } from '@@components';
 import { compose } from 'recompose';
-import { withPoemDiscoverQuery, withPoemLibraryMutation } from '@@graphql';
+import { withAuthorDiscoverQuery } from '@@graphql';
 
-const enhance = compose(
-  withPoemLibraryMutation,
-  withPoemDiscoverQuery
-);
+const enhance = compose(withAuthorDiscoverQuery);
 
-class PoemDiscover extends React.Component {
+class DiscoverAuthor extends React.Component {
   state = {};
 
   isActive = () => this.props.navigation.getParam('isActive', true);
 
   handleSelect = ({ id }) => {
-    this.props.navigation.navigate('Poem', { id });
+    this.props.navigation.navigate('Author', { id });
   };
 
   handleSearch = term => {
@@ -32,8 +29,7 @@ class PoemDiscover extends React.Component {
   };
 
   render() {
-    const { updateLibrary } = this.props;
-    const { loading, poem, refetch } = this.props.poemDiscoverQuery;
+    const { loading, author, refetch } = this.props.authorDiscoverQuery;
     if (loading)
       return (
         <Screen>
@@ -44,9 +40,8 @@ class PoemDiscover extends React.Component {
       <React.Fragment>
         <Subscriber topic={'HomeHeader/onSearch'} handler={this.handleSearch} />
         <Screen>
-          <PoemView
-            poem={poem}
-            onChangeLibrary={updateLibrary}
+          <AuthorView
+            author={author}
             fetching={loading}
             onFetchMore={refetch}
           />
@@ -56,4 +51,4 @@ class PoemDiscover extends React.Component {
   }
 }
 
-export default enhance(PoemDiscover);
+export default enhance(DiscoverAuthor);

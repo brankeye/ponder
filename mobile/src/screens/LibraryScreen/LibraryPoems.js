@@ -1,25 +1,25 @@
 import React from 'react';
 import { AsyncStorage } from 'react-native';
 import { compose, withProps } from 'recompose';
-import { withSearch, withAuthorRecentsQuery } from '@@graphql';
-import { Screen, AuthorList, Loading } from '@@components';
+import { withSearch, withPoemLibraryQuery } from '@@graphql';
+import { Screen, PoemList, Loading } from '@@components';
 
 const enhance = compose(
-  withSearch('RecentsHeader/onSearch'),
+  withSearch('LibraryHeader/onSearch'),
   withProps({
     count: 5,
   }),
-  withAuthorRecentsQuery
+  withPoemLibraryQuery
 );
 
-class RecentAuthors extends React.Component {
+class LibraryPoems extends React.Component {
   handleSelect = ({ id }) => {
-    this.props.navigation.navigate('Author', { id });
+    this.props.navigation.navigate('Poem', { id });
   };
 
   render() {
     const { count, search, fetchMore } = this.props;
-    const { loading, authorList } = this.props.authorRecentsQuery;
+    const { loading, poemList } = this.props.poemLibraryQuery;
     if (loading)
       return (
         <Screen>
@@ -28,14 +28,14 @@ class RecentAuthors extends React.Component {
       );
     return (
       <Screen>
-        <AuthorList
-          type={'Recents'}
-          authors={authorList.edges.map(({ node }) => node)}
+        <PoemList
+          type={'Library'}
+          poems={poemList.edges.map(({ node }) => node)}
           onSelect={this.handleSelect}
           onEndReached={() =>
             fetchMore({
               first: count,
-              after: authorList.pageInfo.endCursor,
+              after: poemList.pageInfo.endCursor,
               search,
             })
           }
@@ -45,4 +45,4 @@ class RecentAuthors extends React.Component {
   }
 }
 
-export default enhance(RecentAuthors);
+export default enhance(LibraryPoems);
