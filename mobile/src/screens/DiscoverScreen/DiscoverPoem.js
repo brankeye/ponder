@@ -9,26 +9,21 @@ import {
   Loading,
 } from '@@components';
 import { compose } from 'recompose';
-import { withPoemDiscoverQuery, withPoemLibraryMutation } from '@@graphql';
+import {
+  withSearch,
+  withPoemDiscoverQuery,
+  withPoemLibraryMutation,
+} from '@@graphql';
 
 const enhance = compose(
+  withSearch('DiscoverHeader/onSearch'),
   withPoemLibraryMutation,
   withPoemDiscoverQuery
 );
 
 class DiscoverPoem extends React.Component {
-  state = {};
-
-  isActive = () => this.props.navigation.getParam('isActive', true);
-
   handleSelect = ({ id }) => {
     this.props.navigation.navigate('Poem', { id });
-  };
-
-  handleSearch = term => {
-    if (this.isActive()) {
-      this.setState({ searchTerm: term });
-    }
   };
 
   render() {
@@ -41,17 +36,14 @@ class DiscoverPoem extends React.Component {
         </Screen>
       );
     return (
-      <React.Fragment>
-        <Subscriber topic={'HomeHeader/onSearch'} handler={this.handleSearch} />
-        <Screen>
-          <PoemView
-            poem={poem}
-            onChangeLibrary={updateLibrary}
-            fetching={loading}
-            onFetchMore={refetch}
-          />
-        </Screen>
-      </React.Fragment>
+      <Screen>
+        <PoemView
+          poem={poem}
+          onChangeLibrary={updateLibrary}
+          fetching={loading}
+          onFetchMore={refetch}
+        />
+      </Screen>
     );
   }
 }

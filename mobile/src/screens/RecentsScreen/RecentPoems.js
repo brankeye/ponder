@@ -36,6 +36,7 @@ class RecentPoems extends React.Component {
           poems={poemList.edges.map(({ node }) => node)}
           onSelect={this.handleSelect}
           onEndReached={() =>
+            poemList.pageInfo.hasNextPage &&
             fetchMore({
               first: count,
               after: poemList.pageInfo.endCursor,

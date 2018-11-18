@@ -15,25 +15,24 @@ export default graphql(query, {
     return {
       ...props,
       fetchMore: variables => {
-        const { poemList, fetchMore } = props.poemLibraryQuery;
-        variables.hasNextPage &&
-          fetchMore({
-            query,
-            variables,
-            updateQuery: (previousResult, { fetchMoreResult }) => {
-              const newEdges = fetchMoreResult.poemList.edges;
-              const pageInfo = fetchMoreResult.poemList.pageInfo;
-              return newEdges.length
-                ? {
-                    poemList: {
-                      __typename: previousResult.poemList.__typename,
-                      edges: [...previousResult.poemList.edges, ...newEdges],
-                      pageInfo,
-                    },
-                  }
-                : previousResult;
-            },
-          });
+        const { fetchMore } = props.poemLibraryQuery;
+        fetchMore({
+          query,
+          variables,
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            const newEdges = fetchMoreResult.poemList.edges;
+            const pageInfo = fetchMoreResult.poemList.pageInfo;
+            return newEdges.length
+              ? {
+                  poemList: {
+                    __typename: previousResult.poemList.__typename,
+                    edges: [...previousResult.poemList.edges, ...newEdges],
+                    pageInfo,
+                  },
+                }
+              : previousResult;
+          },
+        });
       },
     };
   },

@@ -33,6 +33,7 @@ class RecentAuthors extends React.Component {
           authors={authorList.edges.map(({ node }) => node)}
           onSelect={this.handleSelect}
           onEndReached={() =>
+            authorList.pageInfo.hasNextPage &&
             fetchMore({
               first: count,
               after: authorList.pageInfo.endCursor,

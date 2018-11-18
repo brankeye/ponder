@@ -9,23 +9,16 @@ import {
   Loading,
 } from '@@components';
 import { compose } from 'recompose';
-import { withAuthorDiscoverQuery } from '@@graphql';
+import { withSearch, withAuthorDiscoverQuery } from '@@graphql';
 
-const enhance = compose(withAuthorDiscoverQuery);
+const enhance = compose(
+  withSearch('DiscoverHeader/onSearch'),
+  withAuthorDiscoverQuery
+);
 
 class DiscoverAuthor extends React.Component {
-  state = {};
-
-  isActive = () => this.props.navigation.getParam('isActive', true);
-
   handleSelect = ({ id }) => {
     this.props.navigation.navigate('Author', { id });
-  };
-
-  handleSearch = term => {
-    if (this.isActive()) {
-      this.setState({ searchTerm: term });
-    }
   };
 
   render() {
@@ -37,16 +30,9 @@ class DiscoverAuthor extends React.Component {
         </Screen>
       );
     return (
-      <React.Fragment>
-        <Subscriber topic={'HomeHeader/onSearch'} handler={this.handleSearch} />
-        <Screen>
-          <AuthorView
-            author={author}
-            fetching={loading}
-            onFetchMore={refetch}
-          />
-        </Screen>
-      </React.Fragment>
+      <Screen>
+        <AuthorView author={author} fetching={loading} onFetchMore={refetch} />
+      </Screen>
     );
   }
 }

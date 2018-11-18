@@ -13,7 +13,7 @@ class LoadingScreen extends React.Component {
         fetchPolicy={'network-only'}
         onCompleted={this.handleNavigation}
       >
-        {({ loading }) => <Loading />}
+        {() => <Loading />}
       </Query>
     );
   }
