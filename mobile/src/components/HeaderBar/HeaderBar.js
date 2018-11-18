@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Keyboard } from 'react-native';
 import { Appbar, Searchbar } from 'react-native-paper';
 import PubSub from 'pubsub-js';
 import { withTheme } from '@@consumers';
@@ -24,7 +24,13 @@ class HeaderBar extends React.Component {
     searchTerm: '',
   };
 
-  handleChangeText = text => this.setState({ searchTerm: text });
+  componentDidUpdate(_, lastState) {
+    if (lastState.searching && !this.state.searching) {
+      this.handleChangeText('', this.handleSearch);
+    }
+  }
+
+  handleChangeText = (text, cb) => this.setState({ searchTerm: text }, cb);
 
   handleSearch = () => {
     PubSub.publish(`${this.props.name}/onSearch`, this.state.searchTerm);
@@ -50,6 +56,7 @@ class HeaderBar extends React.Component {
           icon={'arrow-back'}
           onIconPress={this.toggleSearch}
           style={styles.bar}
+          onBlur={this.handleSearch}
         />
       );
     }

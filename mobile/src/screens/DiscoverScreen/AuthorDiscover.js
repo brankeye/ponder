@@ -9,9 +9,9 @@ import {
   Loading,
 } from '@@components';
 import { compose } from 'recompose';
-import { withAuthorDiscover, withAuthorUpdateLibrary } from '@@graphql';
+import { withAuthorDiscoverQuery } from '@@graphql';
 
-const enhance = compose(withAuthorDiscover);
+const enhance = compose(withAuthorDiscoverQuery);
 
 class AuthorDiscover extends React.Component {
   state = {};
@@ -29,7 +29,7 @@ class AuthorDiscover extends React.Component {
   };
 
   render() {
-    const { loading, author, refetch } = this.props.authorDiscover;
+    const { loading, author, refetch } = this.props.authorDiscoverQuery;
     if (loading)
       return (
         <Screen>

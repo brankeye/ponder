@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Screen,
-  PoemViewWithData,
-  PoemListQuery,
-  AuthorListQuery,
-} from '@@components';
+import { Screen, PoemViewWithData, PoemListQuery } from '@@components';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 

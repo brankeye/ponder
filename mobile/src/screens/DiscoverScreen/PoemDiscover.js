@@ -9,11 +9,11 @@ import {
   Loading,
 } from '@@components';
 import { compose } from 'recompose';
-import { withPoemDiscover, withPoemUpdateLibrary } from '@@graphql';
+import { withPoemDiscoverQuery, withPoemLibraryMutation } from '@@graphql';
 
 const enhance = compose(
-  withPoemUpdateLibrary,
-  withPoemDiscover
+  withPoemLibraryMutation,
+  withPoemDiscoverQuery
 );
 
 class PoemDiscover extends React.Component {
@@ -33,7 +33,7 @@ class PoemDiscover extends React.Component {
 
   render() {
     const { updateLibrary } = this.props;
-    const { loading, poem, refetch } = this.props.poemDiscover;
+    const { loading, poem, refetch } = this.props.poemDiscoverQuery;
     if (loading)
       return (
         <Screen>
