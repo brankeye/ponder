@@ -29,7 +29,7 @@ export default {
 
       if (search) {
         dbQuery.modifyEager('poem', builder => {
-          builder.andWhere('title', 'ilike', `%${search}%`);
+          builder.where('title', 'ilike', `%${search}%`);
         });
       }
 
@@ -57,7 +57,7 @@ export default {
 
       if (search) {
         dbQuery.modifyEager('poem', builder => {
-          builder.andWhere('title', 'ilike', `%${search}%`);
+          builder.where('title', 'ilike', `%${search}%`);
         });
       }
 

@@ -20,10 +20,10 @@ const resolver = {
   PoemContract: {
     __resolveType: ({ author }) => (author ? 'Poem' : 'PoemDetails'),
     teaser: ({ lines }) => lines.slice(0, 4),
-    inLibrary: async ({ in_library, id }, args, { Poem }) =>
-      in_library || propOr(false, 'in_library', await Poem.getInfo(id)),
-    viewedAt: async ({ viewed_at, id }, args, { Poem }) =>
-      viewed_at || propOr(null, 'viewed_at', await Poem.getInfo(id)),
+    inLibrary: async ({ in_library, poem_id }, args, { Poem }) =>
+      in_library || propOr(false, 'in_library', await Poem.getInfo(poem_id)),
+    viewedAt: async ({ viewed_at, poem_id }, args, { Poem }) =>
+      viewed_at || propOr(null, 'viewed_at', await Poem.getInfo(poem_id)),
   },
   Poem: {
     author: ({ author_id }, args, { Author }) => Author.getAuthor(author_id),

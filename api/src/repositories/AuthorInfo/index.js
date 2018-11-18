@@ -1,5 +1,6 @@
 import { AuthorInfo } from 'database/models';
 import { parseConnection } from 'utils/pagination';
+import { filter, prop } from 'ramda';
 import { flattenProp, map, resolveP } from 'utils/ramda';
 import { format } from 'date-fns';
 
@@ -27,7 +28,7 @@ export default {
 
       if (search) {
         dbQuery.modifyEager('author', builder => {
-          builder.select('name').where('name', 'ilike', `%${search}%`);
+          builder.where('name', 'ilike', `%${search}%`);
         });
       }
 
@@ -42,6 +43,7 @@ export default {
           before,
         })
         .then(resolveP(map(flattenProp('author'))))
+        .then(resolveP(filter(prop('author'))))
         .then(
           parseConnection({
             column: 'viewed_at',
@@ -60,7 +62,7 @@ export default {
 
       if (search) {
         dbQuery.modifyEager('author', builder => {
-          builder.select('name').where('name', 'ilike', `%${search}%`);
+          builder.where('name', 'ilike', `%${search}%`);
         });
       }
 
