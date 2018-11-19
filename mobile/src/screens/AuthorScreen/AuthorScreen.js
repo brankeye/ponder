@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
-import { AsyncStorage } from 'react-native';
-import { Screen, AuthorViewWithData } from '@@components';
+import { compose, mapProps } from 'recompose';
+import { Screen, AuthorView } from '@@components';
+import { withAuthorQuery } from '@@graphql';
+
+const enhance = (mapProps(props => ({
+  ...props,
+  id: props.navigation.getParam('id', null),
+})),
+withAuthorQuery);
 
 class AuthorScreen extends Component {
   handleSelectPoem = ({ id }) => {
@@ -8,13 +15,13 @@ class AuthorScreen extends Component {
   };
 
   render() {
-    const id = this.props.navigation.getParam('id', null);
+    const { poem } = this.props.poemQuery;
     return (
       <Screen>
-        <AuthorViewWithData id={id} onSelectPoem={this.handleSelectPoem} />
+        <AuthorView author={author} onSelectPoem={this.handleSelectPoem} />
       </Screen>
     );
   }
 }
 
-export default AuthorScreen;
+export default enhance(AuthorScreen);

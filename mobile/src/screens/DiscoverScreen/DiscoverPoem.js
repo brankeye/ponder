@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Screen,
   PoemView,
-  AuthorViewWithData,
   PoemLibraryQuery,
   PoemLibraryMutation,
   Subscriber,

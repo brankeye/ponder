@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import { compose, mapProps } from 'recompose';
-import { Screen, PoemViewWithData, PoemListQuery } from '@@components';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
+import { Screen, PoemView } from '@@components';
+import { withPoemQuery } from '@@graphql';
 
 const enhance = compose(
   mapProps(props => ({
     ...props,
     id: props.navigation.getParam('id', null),
-  }))
+  })),
+  withPoemQuery
 );
 
 class PoemScreen extends Component {
   render() {
-    const { id } = this.props;
+    const { poem } = this.props.poemQuery;
     return (
       <Screen>
-        <PoemViewWithData id={id} onChangeLibrary={() => {}} />
+        <PoemView poem={poem} onChangeLibrary={() => {}} />
       </Screen>
     );
   }
