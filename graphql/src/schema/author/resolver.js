@@ -21,7 +21,7 @@ const resolver = {
       viewed_at || propOr(null, 'viewed_at', await Author.getInfo(id)),
   },
   Author: {
-    poems: ({ author_id }, args, { Author }) => Author.getPoems(author_id),
+    poems: ({ id }, args, { Author }) => Author.getPoems(id),
   },
 };
 

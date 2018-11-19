@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Card, Typography } from '@@components';
+import { Card, Typography, Row } from '@@components';
 import { format, isToday, isThisYear } from 'date-fns';
 
 const getDateString = date => {
@@ -33,9 +33,11 @@ const PoemCard = ({
         {teaser.join('\n')}
       </Typography>
       {showViewedAt && (
-        <Typography type={'detail'} style={{ marginTop: '3%' }}>
-          {getDateString(viewedAt)}
-        </Typography>
+        <Row right>
+          <Typography type={'detail'} style={{ marginTop: '3%' }}>
+            {getDateString(viewedAt)}
+          </Typography>
+        </Row>
       )}
     </Card>
   );

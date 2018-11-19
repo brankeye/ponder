@@ -30,3 +30,5 @@ export * from './PubSub';
 export { default as Button } from './Button';
 export { default as FadeIn } from './FadeIn';
 export { default as ScrollView } from './ScrollView';
+export { default as Row } from './layout/Row';
+export { default as Column } from './layout/Column';
