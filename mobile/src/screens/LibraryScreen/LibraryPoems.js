@@ -13,9 +13,7 @@ const enhance = compose(
 );
 
 class LibraryPoems extends React.Component {
-  handleSelect = ({ id }) => {
-    this.props.navigation.navigate('Poem', { id });
-  };
+  handleSelect = ({ id }) => this.props.navigation.navigate('Poem', { id });
 
   render() {
     const { count, search, fetchMore } = this.props;

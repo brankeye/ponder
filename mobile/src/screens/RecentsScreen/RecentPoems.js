@@ -13,15 +13,10 @@ const enhance = compose(
 );
 
 class RecentPoems extends React.Component {
-  state = {};
-
-  handleSelect = ({ id }) => {
-    this.props.navigation.navigate('Poem', { id });
-  };
+  handleSelect = ({ id }) => this.props.navigation.navigate('Poem', { id });
 
   render() {
     const { count, search, fetchMore } = this.props;
-    console.log({ count, search });
     const { loading, poemList } = this.props.poemRecentsQuery;
     if (loading)
       return (

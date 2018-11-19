@@ -1,7 +1,17 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Card, Typography } from '@@components';
-import { format } from 'date-fns';
+import { format, isToday, isThisYear } from 'date-fns';
+
+const getDateString = date => {
+  if (date) {
+    if (isToday(date)) return 'Seen today';
+    if (isThisYear(date)) return format(date, '[Seen] MMMM Mo');
+    return format(date, '[Seen] MMMM Mo YYYY');
+  } else {
+    return null;
+  }
+};
 
 const PoemCard = ({
   poem,
@@ -24,7 +34,7 @@ const PoemCard = ({
       </Typography>
       {showViewedAt && (
         <Typography type={'detail'} style={{ marginTop: '3%' }}>
-          {format(viewedAt, '[Seen] MMMM Mo YYYY [at] h:mm A')}
+          {getDateString(viewedAt)}
         </Typography>
       )}
     </Card>

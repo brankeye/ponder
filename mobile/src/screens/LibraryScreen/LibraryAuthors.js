@@ -13,9 +13,7 @@ const enhance = compose(
 );
 
 class LibraryAuthors extends React.Component {
-  handleSelect = ({ id }) => {
-    this.props.navigation.navigate('Author', { id });
-  };
+  handleSelect = ({ id }) => this.props.navigation.navigate('Author', { id });
 
   render() {
     const { count, search, fetchMore } = this.props;

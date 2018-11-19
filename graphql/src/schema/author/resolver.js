@@ -15,11 +15,10 @@ const resolver = {
   },
   AuthorContract: {
     __resolveType: ({ poems }) => (poems ? 'Author' : 'AuthorDetails'),
-    inLibrary: async ({ in_library, author_id }, args, { Author }) =>
-      in_library ||
-      propOr(false, 'in_library', await Author.getInfo(author_id)),
-    viewedAt: async ({ viewed_at, author_id }, args, { Author }) =>
-      viewed_at || propOr(null, 'viewed_at', await Author.getInfo(author_id)),
+    inLibrary: async ({ in_library, id }, args, { Author }) =>
+      in_library || propOr(false, 'in_library', await Author.getInfo(id)),
+    viewedAt: async ({ viewed_at, id }, args, { Author }) =>
+      viewed_at || propOr(null, 'viewed_at', await Author.getInfo(id)),
   },
   Author: {
     poems: ({ author_id }, args, { Author }) => Author.getPoems(author_id),
