@@ -1,31 +1,31 @@
-import React from 'react';
+import React from "react";
 import {
   createMaterialTopTabNavigator,
-  createStackNavigator,
-} from 'react-navigation';
-import PoemScreen from '../PoemScreen';
-import DiscoverPoem from './DiscoverPoem';
-import DiscoverAuthor from './DiscoverAuthor';
-import AuthorScreen from '../AuthorScreen';
-import { TabBar, HeaderBar } from '@@components';
+  createStackNavigator
+} from "react-navigation";
+import PoemScreen from "../PoemScreen";
+import DiscoverPoem from "./DiscoverPoem";
+import DiscoverAuthor from "./DiscoverAuthor";
+import AuthorScreen from "../AuthorScreen";
+import { TabBar, HeaderBar } from "@@components";
 
 const DiscoverScreen = createMaterialTopTabNavigator(
   {
     DiscoverPoem: {
       screen: DiscoverPoem,
       navigationOptions: {
-        title: 'Poems',
-      },
+        title: "Poems"
+      }
     },
     DiscoverAuthor: {
       screen: DiscoverAuthor,
       navigationOptions: {
-        title: 'Authors',
-      },
-    },
+        title: "Authors"
+      }
+    }
   },
   {
-    tabBarComponent: TabBar,
+    tabBarComponent: TabBar
   }
 );
 
@@ -33,7 +33,7 @@ export default createStackNavigator({
   Discover: {
     screen: DiscoverScreen,
     navigationOptions: {
-      title: 'Discover',
+      title: "Discover",
       header: props => (
         <HeaderBar
           {...props}
@@ -42,21 +42,21 @@ export default createStackNavigator({
           themeable
           searchable
         />
-      ),
-    },
+      )
+    }
   },
   Poem: {
     screen: PoemScreen,
     navigationOptions: {
-      title: 'Poem',
-      header: props => <HeaderBar {...props} title="Poem" themeable />,
-    },
+      title: "Poem",
+      header: props => <HeaderBar {...props} title="Poem" themeable />
+    }
   },
   Author: {
     screen: AuthorScreen,
     navigationOptions: {
-      title: 'Author',
-      header: props => <HeaderBar {...props} title="Author" themeable />,
-    },
-  },
+      title: "Author",
+      header: props => <HeaderBar {...props} title="Author" themeable />
+    }
+  }
 });

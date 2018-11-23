@@ -3,16 +3,6 @@ import Expo, { Font } from 'expo';
 import MainNavigator from '@@screens';
 import { Providers } from '@@utils';
 import { StatusBar } from '@@components';
-import {
-  AuthProvider,
-  ThemeProvider,
-  ThemeConsumer,
-  withAuth,
-} from '@@consumers';
-import { StylesProvider } from 'react-native-paint';
-//import Reactotron from 'reactotron-react-native';
-
-//Reactotron.configure({ host: '192.168.0.106' }).useReactNative();
 
 const getActiveRoute = navigationState => {
   if (!navigationState) {
@@ -41,10 +31,6 @@ class App extends React.Component {
   state = {
     loading: true,
   };
-
-  componentWillMount() {
-    //Reactotron.connect();
-  }
 
   async componentDidMount() {
     await Font.loadAsync({

@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Screen,
-  LoadingScreen,
-  AuthorView,
-  PoemLibraryQuery,
-  PoemLibraryMutation,
-  Subscriber,
-} from '@@components';
+import { Screen, LoadingScreen, AuthorView } from '@@components';
 import { compose } from 'recompose';
 import { withSearch, withAuthorDiscoverQuery } from '@@graphql';
 

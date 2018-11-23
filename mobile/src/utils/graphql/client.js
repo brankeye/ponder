@@ -4,7 +4,7 @@ import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 import { BatchHttpLink } from 'apollo-link-batch-http';
-import { GRAPHQL_URL } from '@@config';
+import { GRAPHQL_URL } from 'react-native-dotenv';
 import { Constants } from 'expo';
 import { Buffer } from 'buffer';
 
