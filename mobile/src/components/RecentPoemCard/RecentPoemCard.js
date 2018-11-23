@@ -17,15 +17,16 @@ const PoemCard = ({ poem, omitAuthorName, onPress, ...props }) => {
   const { title, teaser, author, viewedAt } = poem;
   return (
     <Card onPress={() => onPress(poem)} {...props}>
-      <Typography type={omitAuthorName ? 'subtitle' : 'title'}>
-        {title}
-      </Typography>
-      {!omitAuthorName && (
-        <Typography type={'subtitle'}>{author.name}</Typography>
-      )}
+      <Typography type={'title'}>{title}</Typography>
+      <Typography type={'subtitle'}>{author.name}</Typography>
       <Typography type={'body'} style={{ marginTop: '3%' }}>
         {teaser.join('\n')}
       </Typography>
+      <Row right>
+        <Typography type={'detail'} style={{ marginTop: '3%' }}>
+          {getDateString(viewedAt)}
+        </Typography>
+      </Row>
     </Card>
   );
 };

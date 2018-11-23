@@ -2,7 +2,12 @@ import React from 'react';
 import { AsyncStorage } from 'react-native';
 import { compose, withProps } from 'recompose';
 import { withSearch, withAuthorRecentsQuery } from '@@graphql';
-import { Screen, LoadingScreen, AuthorList, AuthorCard } from '@@components';
+import {
+  Screen,
+  LoadingScreen,
+  AuthorList,
+  RecentAuthorCard,
+} from '@@components';
 
 const enhance = compose(
   withSearch('RecentsHeader/onSearch'),
@@ -35,7 +40,7 @@ class RecentAuthors extends React.Component {
           }
         >
           {author => (
-            <AuthorCard
+            <RecentAuthorCard
               author={author}
               underlayColor={'rgba(220, 220, 220, 0.4)'}
               onPress={this.handleSelect}

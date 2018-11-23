@@ -2,7 +2,7 @@ import React from 'react';
 import { AsyncStorage } from 'react-native';
 import { compose, withProps } from 'recompose';
 import { withSearch, withPoemRecentsQuery } from '@@graphql';
-import { Screen, LoadingScreen, PoemList, PoemCard } from '@@components';
+import { Screen, LoadingScreen, PoemList, RecentPoemCard } from '@@components';
 
 const enhance = compose(
   withSearch('RecentsHeader/onSearch'),
@@ -34,13 +34,7 @@ class RecentPoems extends React.Component {
             })
           }
         >
-          {poem => (
-            <PoemCard
-              poem={poem}
-              onPress={this.handleSelect}
-              showViewedAt={true}
-            />
-          )}
+          {poem => <RecentPoemCard poem={poem} onPress={this.handleSelect} />}
         </PoemList>
       </Screen>
     );

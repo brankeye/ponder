@@ -12,9 +12,7 @@ const enhance = compose(
 );
 
 class AuthorScreen extends Component {
-  handleSelectPoem = ({ id }) => {
-    this.props.navigation.navigate('Poem', { id });
-  };
+  handleSelectPoem = ({ id }) => this.props.navigation.navigate('Poem', { id });
 
   render() {
     const { loading, author } = this.props.authorQuery;
