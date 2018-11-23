@@ -1,5 +1,4 @@
 import React from 'react';
-import { AsyncStorage } from 'react-native';
 import { compose, withProps } from 'recompose';
 import { withSearch, withPoemRecentsQuery } from '@@graphql';
 import { Screen, LoadingScreen, PoemList, RecentPoemCard } from '@@components';

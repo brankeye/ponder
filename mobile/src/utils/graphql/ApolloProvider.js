@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { ApolloProvider } from 'react-apollo';
-import createClient from './client';
+import client from './client';
 
-const Component = ({ authorization, ...props }) => (
-  <ApolloProvider {...props} client={createClient(authorization)} />
-);
+const Component = props => <ApolloProvider {...props} client={client} />;
 
 export default Component;

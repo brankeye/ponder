@@ -10,13 +10,9 @@ import {
   withAuth,
 } from '@@consumers';
 import { StylesProvider } from 'react-native-paint';
-import { Constants } from 'expo';
-import { Buffer } from 'buffer';
-
-const authorization = Buffer.from(Constants.deviceId).toString('base64');
 
 const AppProviders = ({ children }) => (
-  <ApolloProvider authorization={authorization}>
+  <ApolloProvider>
     <ThemeProvider>
       <ThemeConsumer>
         {({ theme }) => (
