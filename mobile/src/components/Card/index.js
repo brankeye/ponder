@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from './Card';
-import { ThemeConsumer } from '@@consumers';
+import { ThemeConsumer } from '@@utils/providers';
 
 export default props => (
   <ThemeConsumer>

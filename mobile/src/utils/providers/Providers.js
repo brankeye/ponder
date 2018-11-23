@@ -1,17 +1,9 @@
 import React from 'react';
-import Expo, { Font } from 'expo';
-import { ApolloProvider } from '@@utils/graphql';
-import MainNavigator from '@@screens';
-import { StatusBar } from '@@components';
-import {
-  AuthProvider,
-  ThemeProvider,
-  ThemeConsumer,
-  withAuth,
-} from '@@consumers';
+import { ApolloProvider } from './graphql';
+import { ThemeProvider, ThemeConsumer } from './theme';
 import { StylesProvider } from 'react-native-paint';
 
-const AppProviders = ({ children }) => (
+const Providers = ({ children }) => (
   <ApolloProvider>
     <ThemeProvider>
       <ThemeConsumer>
@@ -25,4 +17,4 @@ const AppProviders = ({ children }) => (
   </ApolloProvider>
 );
 
-export default AppProviders;
+export default Providers;

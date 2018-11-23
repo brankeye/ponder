@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Keyboard } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Appbar, Searchbar } from 'react-native-paper';
 import PubSub from 'pubsub-js';
-import { withTheme } from '@@consumers';
+import { withTheme } from '@@utils/providers';
 
 const styles = StyleSheet.create({
   bar: {

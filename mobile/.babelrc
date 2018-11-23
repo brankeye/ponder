@@ -11,9 +11,7 @@
         "alias": {
           "@@assets": "./src/assets",
           "@@components": "./src/components",
-          "@@consumers": "./src/consumers",
           "@@screens": "./src/screens",
-          "@@constants": "./src/constants",
           "@@graphql": "./src/graphql",
           "@@utils": "./src/utils"
         }

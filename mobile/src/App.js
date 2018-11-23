@@ -1,7 +1,7 @@
 import React from 'react';
 import Expo, { Font } from 'expo';
 import MainNavigator from '@@screens';
-import { Providers } from '@@utils';
+import Providers from '@@utils/providers';
 import { StatusBar } from '@@components';
 
 const getActiveRoute = navigationState => {

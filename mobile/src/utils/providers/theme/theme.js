@@ -35,7 +35,7 @@ class Provider extends React.Component {
   };
 
   render() {
-    const { theme, updateTheme, children } = this.props;
+    const { theme, children } = this.props;
     const nextTheme = theme === 'Light' ? lightTheme : darkTheme;
     return (
       <ThemeContext.Provider
