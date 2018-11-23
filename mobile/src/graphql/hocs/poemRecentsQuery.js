@@ -20,17 +20,21 @@ export default graphql(query, {
           query,
           variables,
           updateQuery: (previousResult, { fetchMoreResult }) => {
+            if (
+              previousResult.poemList.pageInfo.endCursor ===
+              fetchMoreResult.poemList.pageInfo.endCursor
+            ) {
+              return previousResult;
+            }
             const newEdges = fetchMoreResult.poemList.edges;
             const pageInfo = fetchMoreResult.poemList.pageInfo;
-            return newEdges.length
-              ? {
-                  poemList: {
-                    __typename: previousResult.poemList.__typename,
-                    edges: [...previousResult.poemList.edges, ...newEdges],
-                    pageInfo,
-                  },
-                }
-              : previousResult;
+            return {
+              poemList: {
+                __typename: previousResult.poemList.__typename,
+                edges: [...previousResult.poemList.edges, ...newEdges],
+                pageInfo,
+              },
+            };
           },
         });
       },
