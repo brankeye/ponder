@@ -2,7 +2,7 @@ import React from 'react';
 import { AsyncStorage } from 'react-native';
 import { compose, withProps } from 'recompose';
 import { withSearch, withPoemLibraryQuery } from '@@graphql';
-import { Screen, PoemList, Loading } from '@@components';
+import { Screen, Loading, PoemList, PoemCard } from '@@components';
 
 const enhance = compose(
   withSearch('LibraryHeader/onSearch'),
@@ -27,9 +27,7 @@ class LibraryPoems extends React.Component {
     return (
       <Screen>
         <PoemList
-          type={'Library'}
           poems={poemList.edges.map(({ node }) => node)}
-          onSelect={this.handleSelect}
           onEndReached={() =>
             poemList.pageInfo.hasNextPage &&
             fetchMore({
@@ -38,7 +36,15 @@ class LibraryPoems extends React.Component {
               search,
             })
           }
-        />
+        >
+          {poem => (
+            <PoemCard
+              poem={poem}
+              onPress={this.handleSelect}
+              showViewedAt={false}
+            />
+          )}
+        </PoemList>
       </Screen>
     );
   }

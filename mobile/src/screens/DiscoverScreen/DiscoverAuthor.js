@@ -16,8 +16,6 @@ const enhance = compose(
 );
 
 class DiscoverAuthor extends React.Component {
-  handleSelect = ({ id }) => this.props.navigation.navigate('Author', { id });
-
   render() {
     const { loading, author, refetch } = this.props.authorDiscoverQuery;
     if (loading)

@@ -2,7 +2,7 @@ import React from 'react';
 import { AsyncStorage } from 'react-native';
 import { compose, withProps } from 'recompose';
 import { withSearch, withAuthorLibraryQuery } from '@@graphql';
-import { Screen, AuthorList, Loading } from '@@components';
+import { Screen, Loading, AuthorList, AuthorCard } from '@@components';
 
 const enhance = compose(
   withSearch('LibraryHeader/onSearch'),
@@ -27,9 +27,7 @@ class LibraryAuthors extends React.Component {
     return (
       <Screen>
         <AuthorList
-          type={'Recents'}
           authors={authorList.edges.map(({ node }) => node)}
-          onSelect={this.handleSelect}
           onEndReached={() =>
             authorList.pageInfo.hasNextPage &&
             fetchMore({
@@ -38,7 +36,15 @@ class LibraryAuthors extends React.Component {
               search,
             })
           }
-        />
+        >
+          {author => (
+            <AuthorCard
+              author={author}
+              underlayColor={'rgba(220, 220, 220, 0.4)'}
+              onPress={this.handleSelect}
+            />
+          )}
+        </AuthorList>
       </Screen>
     );
   }

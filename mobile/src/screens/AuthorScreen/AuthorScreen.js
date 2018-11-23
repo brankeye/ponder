@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { compose, mapProps } from 'recompose';
-import { Screen, AuthorView } from '@@components';
+import { Screen, Loading, AuthorView } from '@@components';
 import { withAuthorQuery } from '@@graphql';
 
-const enhance = (mapProps(props => ({
-  ...props,
-  id: props.navigation.getParam('id', null),
-})),
-withAuthorQuery);
+const enhance = compose(
+  mapProps(props => ({
+    ...props,
+    id: props.navigation.getParam('id', null),
+  })),
+  withAuthorQuery
+);
 
 class AuthorScreen extends Component {
   handleSelectPoem = ({ id }) => {
@@ -15,7 +17,13 @@ class AuthorScreen extends Component {
   };
 
   render() {
-    const { poem } = this.props.poemQuery;
+    const { loading, author } = this.props.authorQuery;
+    if (loading)
+      return (
+        <Screen>
+          <Loading />
+        </Screen>
+      );
     return (
       <Screen>
         <AuthorView author={author} onSelectPoem={this.handleSelectPoem} />

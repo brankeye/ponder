@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { compose, mapProps } from 'recompose';
-import { Screen, PoemView } from '@@components';
+import { Screen, Loading, PoemView } from '@@components';
 import { withPoemQuery } from '@@graphql';
 
 const enhance = compose(
@@ -13,7 +13,13 @@ const enhance = compose(
 
 class PoemScreen extends Component {
   render() {
-    const { poem } = this.props.poemQuery;
+    const { loading, poem } = this.props.poemQuery;
+    if (loading)
+      return (
+        <Screen>
+          <Loading />
+        </Screen>
+      );
     return (
       <Screen>
         <PoemView poem={poem} onChangeLibrary={() => {}} />

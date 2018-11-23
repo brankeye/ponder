@@ -21,8 +21,6 @@ const enhance = compose(
 );
 
 class DiscoverPoem extends React.Component {
-  handleSelect = ({ id }) => this.props.navigation.navigate('Poem', { id });
-
   render() {
     const { updateLibrary } = this.props;
     const { loading, poem, refetch } = this.props.poemDiscoverQuery;
