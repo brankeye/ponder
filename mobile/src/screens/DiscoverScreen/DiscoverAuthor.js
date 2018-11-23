@@ -1,11 +1,11 @@
 import React from 'react';
 import {
   Screen,
+  LoadingScreen,
   AuthorView,
   PoemLibraryQuery,
   PoemLibraryMutation,
   Subscriber,
-  Loading,
 } from '@@components';
 import { compose } from 'recompose';
 import { withSearch, withAuthorDiscoverQuery } from '@@graphql';
@@ -18,12 +18,9 @@ const enhance = compose(
 class DiscoverAuthor extends React.Component {
   render() {
     const { loading, author, refetch } = this.props.authorDiscoverQuery;
-    if (loading)
-      return (
-        <Screen>
-          <Loading />
-        </Screen>
-      );
+
+    if (loading) return <LoadingScreen />;
+
     return (
       <Screen>
         <AuthorView author={author} fetching={loading} onFetchMore={refetch} />

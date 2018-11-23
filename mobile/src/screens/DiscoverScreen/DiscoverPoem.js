@@ -1,11 +1,11 @@
 import React from 'react';
 import {
   Screen,
+  LoadingScreen,
   PoemView,
   PoemLibraryQuery,
   PoemLibraryMutation,
   Subscriber,
-  Loading,
 } from '@@components';
 import { compose } from 'recompose';
 import {
@@ -24,12 +24,9 @@ class DiscoverPoem extends React.Component {
   render() {
     const { updateLibrary } = this.props;
     const { loading, poem, refetch } = this.props.poemDiscoverQuery;
-    if (loading)
-      return (
-        <Screen>
-          <Loading />
-        </Screen>
-      );
+
+    if (loading) return <LoadingScreen />;
+
     return (
       <Screen>
         <PoemView

@@ -13,6 +13,7 @@ export { default as TabBar } from './TabBar';
 export { default as TouchableHighlight } from './TouchableHighlight';
 export { default as HeaderBar } from './HeaderBar';
 export { default as Loading } from './Loading';
+export { default as LoadingScreen } from './LoadingScreen';
 export * from './PubSub';
 export { default as Button } from './Button';
 export { default as FadeIn } from './FadeIn';

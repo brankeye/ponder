@@ -2,7 +2,7 @@ import React from 'react';
 import { createSwitchNavigator } from 'react-navigation';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import { Drawer } from '@@components';
-import LoadingScreen from './LoadingScreen';
+import LandingScreen from './LandingScreen';
 import DiscoverScreen from './DiscoverScreen';
 import LibraryScreen from './LibraryScreen';
 import RecentsScreen from './RecentsScreen';
@@ -30,10 +30,10 @@ const AppNavigator = createMaterialBottomTabNavigator({
 
 export default createSwitchNavigator(
   {
-    Loading: LoadingScreen,
+    Landing: LandingScreen,
     App: AppNavigator,
   },
   {
-    initialRouteName: 'Loading',
+    initialRouteName: 'Landing',
   }
 );

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { compose, mapProps } from 'recompose';
-import { Screen, Loading, AuthorView } from '@@components';
+import { Screen, LoadingScreen, AuthorView } from '@@components';
 import { withAuthorQuery } from '@@graphql';
 
 const enhance = compose(
@@ -18,12 +18,9 @@ class AuthorScreen extends Component {
 
   render() {
     const { loading, author } = this.props.authorQuery;
-    if (loading)
-      return (
-        <Screen>
-          <Loading />
-        </Screen>
-      );
+
+    if (loading) return <LoadingScreen />;
+
     return (
       <Screen>
         <AuthorView author={author} onSelectPoem={this.handleSelectPoem} />

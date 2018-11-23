@@ -2,7 +2,7 @@ import React from 'react';
 import { AsyncStorage } from 'react-native';
 import { compose, withProps } from 'recompose';
 import { withSearch, withAuthorRecentsQuery } from '@@graphql';
-import { Screen, Loading, AuthorList, AuthorCard } from '@@components';
+import { Screen, LoadingScreen, AuthorList, AuthorCard } from '@@components';
 
 const enhance = compose(
   withSearch('RecentsHeader/onSearch'),
@@ -18,12 +18,9 @@ class RecentAuthors extends React.Component {
   render() {
     const { count, search, fetchMore } = this.props;
     const { loading, authorList } = this.props.authorRecentsQuery;
-    if (loading)
-      return (
-        <Screen>
-          <Loading />
-        </Screen>
-      );
+
+    if (loading) return <LoadingScreen />;
+
     return (
       <Screen>
         <AuthorList

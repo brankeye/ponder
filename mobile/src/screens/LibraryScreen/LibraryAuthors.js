@@ -2,7 +2,7 @@ import React from 'react';
 import { AsyncStorage } from 'react-native';
 import { compose, withProps } from 'recompose';
 import { withSearch, withAuthorLibraryQuery } from '@@graphql';
-import { Screen, Loading, AuthorList, AuthorCard } from '@@components';
+import { Screen, LoadingScreen, AuthorList, AuthorCard } from '@@components';
 
 const enhance = compose(
   withSearch('LibraryHeader/onSearch'),
@@ -18,12 +18,9 @@ class LibraryAuthors extends React.Component {
   render() {
     const { count, search, fetchMore } = this.props;
     const { loading, authorList } = this.props.authorLibraryQuery;
-    if (loading)
-      return (
-        <Screen>
-          <Loading />
-        </Screen>
-      );
+
+    if (loading) return <LoadingScreen />;
+
     return (
       <Screen>
         <AuthorList

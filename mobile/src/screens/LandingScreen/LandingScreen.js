@@ -3,7 +3,7 @@ import { Loading } from '@@components';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
-class LoadingScreen extends React.Component {
+class LandingScreen extends React.Component {
   handleNavigation = () => this.props.navigation.navigate('App');
 
   render() {
@@ -28,4 +28,4 @@ const UserQuery = gql`
   }
 `;
 
-export default LoadingScreen;
+export default LandingScreen;
