@@ -1,41 +1,52 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { compose } from 'recompose';
 import { Button, Typography, FadeIn, ScrollView } from '@@components';
-import * as Animatable from 'react-native-animatable';
+import { withPoemViewMutation } from '@@graphql';
 
-const PoemView = ({
-  poem,
-  onChangeLibrary,
-  fetching,
-  onFetchMore,
-  ...props
-}) => {
-  const { title, lines, inLibrary, author } = poem;
-  return !poem ? null : (
-    <FadeIn>
-      <ScrollView
-        refreshing={fetching}
-        onRefresh={onFetchMore}
-        contentContainerStyle={{ padding: '10%' }}
-      >
-        <Typography type={'title'} selectable={true}>
-          {title}
-        </Typography>
-        <Typography type={'subtitle'} selectable={true}>
-          by {author.name}
-        </Typography>
-        <Typography type={'body'} selectable={true} style={{ marginTop: '3%' }}>
-          {poem.lines.join('\n')}
-        </Typography>
-        <Button
-          icon={inLibrary ? 'remove' : 'add'}
-          onPress={() => onChangeLibrary(poem)}
+const enhance = compose(withPoemViewMutation);
+
+class PoemView extends React.Component {
+  async componentDidUpdate(prevProps) {
+    const { poem, updateView } = this.props;
+    if (poem && prevProps.poem.id !== poem.id) {
+      console.log('Updating view: ', poem.id);
+      await updateView(poem.id);
+    }
+  }
+
+  render() {
+    const { poem, onUpdateLibrary, fetching, onFetchMore } = this.props;
+    const { id, title, lines, inLibrary, author } = poem;
+    return !poem ? null : (
+      <FadeIn>
+        <ScrollView
+          refreshing={fetching}
+          onRefresh={onFetchMore}
+          contentContainerStyle={{ padding: '10%' }}
         >
-          {inLibrary ? 'Remove from library' : 'Add to library'}
-        </Button>
-      </ScrollView>
-    </FadeIn>
-  );
-};
+          <Typography type={'title'} selectable={true}>
+            {title}
+          </Typography>
+          <Typography type={'subtitle'} selectable={true}>
+            by {author.name}
+          </Typography>
+          <Typography
+            type={'body'}
+            selectable={true}
+            style={{ marginTop: '3%' }}
+          >
+            {lines.join('\n')}
+          </Typography>
+          <Button
+            icon={inLibrary ? 'remove' : 'add'}
+            onPress={() => onUpdateLibrary(id, !inLibrary)}
+          >
+            {inLibrary ? 'Remove from library' : 'Add to library'}
+          </Button>
+        </ScrollView>
+      </FadeIn>
+    );
+  }
+}
 
-export default PoemView;
+export default enhance(PoemView);

@@ -1,23 +1,23 @@
 import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import {
+  InMemoryCache,
+  IntrospectionFragmentMatcher,
+} from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
+import { withClientState } from 'apollo-link-state';
 import { setContext } from 'apollo-link-context';
 import { BatchHttpLink } from 'apollo-link-batch-http';
 import { GRAPHQL_URL } from 'react-native-dotenv';
 import { Constants } from 'expo';
 import { Buffer } from 'buffer';
+import introspectionQueryResultData from '../../../../fragmentTypes.json';
+
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  introspectionQueryResultData,
+});
 
 const authorization = Buffer.from(Constants.deviceId).toString('base64');
-
-const cache = new InMemoryCache();
-
-const authLink = setContext((_, { headers }) => ({
-  headers: {
-    ...headers,
-    authorization,
-  },
-}));
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
@@ -29,14 +29,48 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
+const authLink = setContext((_, { headers }) => ({
+  headers: {
+    ...headers,
+    authorization,
+  },
+}));
+
 const httpLink = new BatchHttpLink({
   uri: GRAPHQL_URL,
   credentials: 'same-origin',
 });
 
-const client = new ApolloClient({
-  link: ApolloLink.from([errorLink, authLink, httpLink]),
+const cache = new InMemoryCache({
+  dataIdFromObject: object => object.key || null,
+  fragmentMatcher,
+});
+
+const stateLink = withClientState({
   cache,
+  defaults: {
+    poemList: {
+      __typename: 'PoemConnection',
+      edges: [],
+      pageInfo: null,
+    },
+    authorList: {
+      __typename: 'AuthorConnection',
+      edges: [],
+      pageInfo: null,
+    },
+  },
+});
+
+const client = new ApolloClient({
+  link: ApolloLink.from([stateLink, errorLink, authLink, httpLink]),
+  cache,
+  defaultOptions: {
+    query: {
+      fetchPolicy: 'cache-and-network',
+      errorPolicy: 'all',
+    },
+  },
 });
 
 export default client;

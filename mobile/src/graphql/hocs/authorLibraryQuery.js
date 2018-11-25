@@ -7,7 +7,7 @@ export default graphql(query, {
   options: ({ count, search }) => ({
     variables: {
       first: count,
-      search,
+      search: search === '' ? undefined : search,
     },
     partialRefetch: true,
   }),

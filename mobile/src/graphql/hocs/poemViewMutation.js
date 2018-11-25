@@ -1,20 +1,20 @@
 import { graphql } from 'react-apollo';
-import mutation from '../mutations/poemUpdateLibrary';
-import poemLibraryQuery from '../queries/poemLibrary';
+import mutation from '../mutations/poemUpdateView';
+import poemRecentsQuery from '../queries/poemRecents';
 
 export default graphql(mutation, {
-  alias: 'withPoemLibraryMutation',
+  alias: 'withPoemViewMutation',
   props: ({ mutate }) => ({
-    updateLibrary: (id, inLibrary) =>
+    updateView: id =>
       mutate({
-        variables: { id, inLibrary },
+        variables: { id },
       }),
     partialRefetch: true,
   }),
   options: {
     refetchQueries: [
       {
-        query: poemLibraryQuery,
+        query: poemRecentsQuery,
         variables: { first: 5 },
       },
     ],

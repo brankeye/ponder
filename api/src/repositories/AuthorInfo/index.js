@@ -69,6 +69,7 @@ export default {
       return dbQuery
         .where('user_id', userId)
         .where('in_library', true)
+        .orderBy('viewed_at', 'desc')
         .paginate({
           column: 'author_id',
           first,

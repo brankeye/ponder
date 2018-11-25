@@ -64,6 +64,7 @@ export default {
       return dbQuery
         .where('user_id', userId)
         .andWhere('in_library', true)
+        .orderBy('viewed_at', 'desc')
         .paginate({ column: 'poem_id', first, last, before, after })
         .then(resolveP(map(flattenProp('poem'))))
         .then(resolveP(filter(prop('poem'))))

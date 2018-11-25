@@ -1,0 +1,1 @@
+{"__schema":{"types":[{"kind":"INTERFACE","name":"AuthorContract","possibleTypes":[{"name":"Author"},{"name":"AuthorDetails"}]},{"kind":"INTERFACE","name":"PoemContract","possibleTypes":[{"name":"PoemDetails"},{"name":"Poem"}]}]}}

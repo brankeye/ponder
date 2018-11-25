@@ -24,7 +24,7 @@ class DiscoverPoem extends React.Component {
       <Screen>
         <PoemView
           poem={poem}
-          onChangeLibrary={updateLibrary}
+          onUpdateLibrary={updateLibrary}
           fetching={loading}
           onFetchMore={refetch}
         />
