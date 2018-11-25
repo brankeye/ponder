@@ -71,7 +71,7 @@ export default {
         .where('in_library', true)
         .orderBy('viewed_at', 'desc')
         .paginate({
-          column: 'author_id',
+          column: 'viewed_at',
           first,
           last,
           after,
@@ -80,7 +80,9 @@ export default {
         .then(resolveP(map(flattenProp('author'))))
         .then(
           parseConnection({
-            column: 'author_id',
+            column: 'viewed_at',
+            columnToString: x =>
+              x ? format(x, 'YYYY-MM-DD HH:mm:ss') + '+00' : x,
             first,
             last,
             before,

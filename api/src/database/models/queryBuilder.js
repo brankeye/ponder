@@ -23,13 +23,13 @@ class ExtendedQueryBuilder extends QueryBuilder {
       if (cursorId) {
         query = query.where(column, '<=', cursorId);
       }
-      return query.orderBy(column, 'desc').limit(first);
+      return query.limit(first);
     } else {
       last += 2;
       if (cursorId) {
         query = query.where(column, '>=', cursorId);
       }
-      return query.orderBy(column).limit(last);
+      return query.limit(last);
     }
   };
 }
