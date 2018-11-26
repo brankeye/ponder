@@ -22,6 +22,8 @@ const resolver = {
     teaser: ({ lines }) => lines.slice(0, 4),
     inLibrary: async ({ in_library, id }, args, { Poem }) =>
       in_library || propOr(false, 'in_library', await Poem.getInfo(id)),
+    inLibraryAt: async ({ in_library, id }, args, { Poem }) =>
+      in_library || propOr(false, 'in_library_at', await Poem.getInfo(id)),
     viewedAt: async ({ viewed_at, id }, args, { Poem }) =>
       viewed_at || propOr(null, 'viewed_at', await Poem.getInfo(id)),
   },

@@ -42,6 +42,7 @@ type Poem implements PoemContract {
   lines: [String]
   keywords: [String]
   inLibrary: Boolean
+  inLibraryAt: Date
   viewedAt: Date
   author: AuthorDetails
 }
@@ -56,6 +57,7 @@ type PoemDetails implements PoemContract {
   lines: [String]
   keywords: [String]
   inLibrary: Boolean
+  inLibraryAt: Date
   viewedAt: Date
 }
 
@@ -69,5 +71,6 @@ interface PoemContract {
   lines: [String]
   keywords: [String]
   inLibrary: Boolean
+  inLibraryAt: Date
   viewedAt: Date
 }

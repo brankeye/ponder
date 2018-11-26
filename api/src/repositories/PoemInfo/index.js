@@ -8,11 +8,19 @@ export default {
   create: () => ({
     get: (userId, poemId) => PoemInfo.query().findById([userId, poemId]),
 
-    upsert: async ({ userId, authorId, poemId, inLibrary, viewedAt }) => {
+    upsert: async ({
+      userId,
+      authorId,
+      poemId,
+      inLibrary,
+      inLibraryAt,
+      viewedAt,
+    }) => {
       const info = await PoemInfo.query().findById([userId, poemId]);
       return info
         ? PoemInfo.query().patchAndFetchById([userId, poemId], {
             in_library: inLibrary || info.in_library,
+            in_library_at: inLibraryAt || info.in_library_at,
             viewed_at: viewedAt,
           })
         : PoemInfo.query().insert({
@@ -20,6 +28,7 @@ export default {
             author_id: authorId,
             poem_id: poemId,
             in_library: inLibrary || false,
+            in_library_at: inLibraryAt || null,
             viewed_at: viewedAt,
           });
     },

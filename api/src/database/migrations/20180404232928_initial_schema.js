@@ -6,7 +6,10 @@ exports.up = function(knex) {
         .primary()
         .notNullable();
       table.string('client_id').notNullable();
-      table.string('theme').nullable();
+      table
+        .json('settings')
+        .notNullable()
+        .defaultTo('{}');
       table.index('client_id');
     })
     .createTable('authors', table => {
@@ -48,6 +51,7 @@ exports.up = function(knex) {
         .inTable('authors');
       table.primary(['user_id', 'author_id']);
       table.boolean('in_library').notNullable();
+      table.timestamp('in_library_at');
       table
         .timestamp('viewed_at')
         .notNullable()
@@ -71,6 +75,7 @@ exports.up = function(knex) {
         .references('id')
         .inTable('authors');
       table.boolean('in_library').notNullable();
+      table.timestamp('in_library_at');
       table
         .timestamp('viewed_at')
         .notNullable()

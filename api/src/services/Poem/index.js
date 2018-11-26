@@ -30,6 +30,9 @@ export default {
         userId,
         authorId: author.id,
         inLibrary,
+        inLibraryAt: inLibrary
+          ? format(new Date(), 'YYYY-MM-DDTHH:mm:ss')
+          : null,
         viewedAt: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
       });
       return PoemInfo.upsert({
@@ -37,6 +40,9 @@ export default {
         authorId: author.id,
         poemId,
         inLibrary,
+        inLibraryAt: inLibrary
+          ? format(new Date(), 'YYYY-MM-DDTHH:mm:ss')
+          : null,
         viewedAt: format(new Date(), 'YYYY-MM-DDTHH:mm:ss'),
       });
     },

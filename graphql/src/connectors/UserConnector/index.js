@@ -12,14 +12,17 @@ export default {
         },
       }),
 
-    themeUpdate: theme =>
+    settingsUpdate: settings =>
       request({
-        uri: getPath(api, path, 'theme'),
+        uri: getPath(api, path, 'settings'),
         method: 'PUT',
         headers: {
           authorization,
         },
-        body: { theme },
+        body: {
+          theme: settings.theme,
+          compact_view: settings.compactView,
+        },
       }),
   }),
 };

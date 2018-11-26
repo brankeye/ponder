@@ -1,8 +1,14 @@
+import { prop } from 'ramda';
+
 export default {
   Query: {
     user: (root, args, { User }) => User.getUser(),
   },
   Mutation: {
-    themeUpdate: (root, { theme }, { User }) => User.themeUpdate(theme),
+    settingsUpdate: (root, { settings }, { User }) =>
+      User.settingsUpdate(settings),
+  },
+  Settings: {
+    compactView: prop('compact_view'),
   },
 };

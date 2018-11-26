@@ -3,15 +3,25 @@ type Query {
 }
 
 type Mutation {
-  themeUpdate(theme: ThemeType!): User
+  settingsUpdate(settings: SettingsInput!): User
 }
 
 type User {
   id: ID
+  settings: Settings
+}
+
+type Settings {
   theme: ThemeType
+  compactView: Boolean
 }
 
 enum ThemeType {
   Dark
   Light
+}
+
+input SettingsInput {
+  theme: ThemeType!
+  compactView: Boolean!
 }

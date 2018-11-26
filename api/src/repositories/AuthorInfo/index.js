@@ -8,17 +8,19 @@ export default {
   create: () => ({
     get: (userId, authorId) => AuthorInfo.query().findById([userId, authorId]),
 
-    upsert: async ({ userId, authorId, viewedAt, inLibrary }) => {
+    upsert: async ({ userId, authorId, viewedAt, inLibrary, inLibraryAt }) => {
       const info = await AuthorInfo.query().findById([userId, authorId]);
       return info
         ? AuthorInfo.query().patchAndFetchById([userId, authorId], {
             viewed_at: viewedAt,
             in_library: inLibrary || info.in_library,
+            in_library_at: inLibraryAt || info.in_library_at,
           })
         : AuthorInfo.query().insert({
             user_id: userId,
             author_id: authorId,
             in_library: inLibrary || false,
+            in_library_at: inLibraryAt || null,
             viewed_at: viewedAt,
           });
     },

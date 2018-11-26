@@ -11,6 +11,7 @@ export default {
         .insert(user)
         .returning('*'),
 
-    updateTheme: (id, theme) => User.query().patchAndFetchById(id, { theme }),
+    updateSettings: (id, settings) =>
+      User.query().patchAndFetchById(id, { settings }),
   }),
 };
