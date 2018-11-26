@@ -21,7 +21,7 @@ class Provider extends React.Component {
       variables: {
         settings: {
           theme: nextTheme,
-          compactView,
+          compactView: compactView || false,
         },
       },
       optimisticResponse: {
@@ -34,6 +34,11 @@ class Provider extends React.Component {
             compactView,
           },
         },
+      },
+      update: (proxy, { data: { user } }) => {
+        const data = proxy.readQuery({ query: UserQuery });
+        data.user.settings.theme = user.settings.theme;
+        proxy.writeQuery({ query: UserQuery, data });
       },
     });
   };

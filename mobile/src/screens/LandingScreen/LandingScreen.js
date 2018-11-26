@@ -23,7 +23,6 @@ const UserQuery = gql`
   query User {
     user {
       id
-      theme
     }
   }
 `;
