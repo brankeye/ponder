@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import Paint, { StylesConsumer } from 'react-native-paint';
-import { withTheme } from '@@utils/providers';
+import { withSettings } from '@@utils/providers';
 
 const paint = Paint.create({
   container: {
@@ -21,4 +21,4 @@ const Loading = ({ theme }) => (
   </StylesConsumer>
 );
 
-export default withTheme(Loading);
+export default withSettings(Loading);

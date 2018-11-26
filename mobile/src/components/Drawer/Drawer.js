@@ -1,7 +1,6 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
 import { DrawerItems, SafeAreaView } from 'react-navigation';
-import { ThemeConsumer } from '@@utils/providers';
 import Paint, { StylesConsumer } from 'react-native-paint';
 
 const paint = Paint.create(theme => ({

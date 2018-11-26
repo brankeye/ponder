@@ -8,44 +8,49 @@ import {
   Provider as PaperProvider,
 } from 'react-native-paper';
 
-const ThemeContext = React.createContext();
+const SettingsContext = React.createContext();
 
 class Provider extends React.Component {
   toggleTheme = () => {
-    const { theme, updateTheme } = this.props;
+    const {
+      settings: { theme, compactView },
+      updateSettings,
+    } = this.props;
     const nextTheme = theme === 'Dark' ? 'Light' : 'Dark';
-    return updateTheme({
+    return updateSettings({
       variables: {
-        theme: nextTheme,
+        settings: {
+          theme: nextTheme,
+          compactView,
+        },
       },
       optimisticResponse: {
         __typename: 'Mutation',
         user: {
           __typename: 'User',
-          theme: nextTheme,
+          settings: {
+            __typename: 'Settings',
+            theme: nextTheme,
+            compactView,
+          },
         },
-      },
-      update: (proxy, { data: { user } }) => {
-        const data = proxy.readQuery({ query: UserQuery });
-        data.user.theme = user.theme;
-        console.log('User: ', JSON.stringify(data, null, 2));
-        proxy.writeQuery({ query: UserQuery, data });
       },
     });
   };
 
   render() {
-    const { theme, children } = this.props;
-    const nextTheme = theme === 'Light' ? lightTheme : darkTheme;
+    const { settings, children } = this.props;
+    const nextTheme = settings.theme === 'Light' ? lightTheme : darkTheme;
     return (
-      <ThemeContext.Provider
+      <SettingsContext.Provider
         value={{
           theme: nextTheme,
+          compactView: settings.compactView,
           toggleTheme: this.toggleTheme,
         }}
       >
         <PaperProvider theme={getTheme(nextTheme)}>{children}</PaperProvider>
-      </ThemeContext.Provider>
+      </SettingsContext.Provider>
     );
   }
 }
@@ -54,12 +59,12 @@ const enhance = WrappedComponent => props => (
   <Query query={UserQuery}>
     {({ loading, data: { user } }) =>
       loading ? null : (
-        <Mutation mutation={ThemeUpdateMutation}>
-          {updateTheme => (
+        <Mutation mutation={SettingsUpdateMutation}>
+          {updateSettings => (
             <WrappedComponent
               {...props}
-              theme={user.theme}
-              updateTheme={updateTheme}
+              settings={user.settings}
+              updateSettings={updateSettings}
             />
           )}
         </Mutation>
@@ -72,15 +77,21 @@ export const UserQuery = gql`
   query User {
     user {
       id
-      theme
+      settings {
+        theme
+        compactView
+      }
     }
   }
 `;
 
-export const ThemeUpdateMutation = gql`
-  mutation ThemeUpdate($theme: ThemeType!) {
-    user: themeUpdate(theme: $theme) {
-      theme
+export const SettingsUpdateMutation = gql`
+  mutation SettingsUpdate($settings: SettingsInput!) {
+    user: settingsUpdate(settings: $settings) {
+      settings {
+        theme
+        compactView
+      }
     }
   }
 `;
@@ -118,13 +129,13 @@ const getTheme = theme => {
   };
 };
 
-const ThemeProvider = enhance(Provider);
-const ThemeConsumer = ThemeContext.Consumer;
+const SettingsProvider = enhance(Provider);
+const SettingsConsumer = SettingsContext.Consumer;
 
-const withTheme = WrappedComponent => props => (
-  <ThemeConsumer>
+const withSettings = WrappedComponent => props => (
+  <SettingsConsumer>
     {themeProps => <WrappedComponent {...props} {...themeProps} />}
-  </ThemeConsumer>
+  </SettingsConsumer>
 );
 
-export { ThemeProvider, ThemeConsumer, withTheme };
+export { SettingsProvider, SettingsConsumer, withSettings };

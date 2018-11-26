@@ -1,2 +1,2 @@
 export { default } from './Providers';
-export * from './theme';
+export * from './settings';

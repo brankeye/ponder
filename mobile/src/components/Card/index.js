@@ -1,11 +1,11 @@
 import React from 'react';
 import Card from './Card';
-import { ThemeConsumer } from '@@utils/providers';
+import { SettingsConsumer } from '@@utils/providers';
 
 export default props => (
-  <ThemeConsumer>
+  <SettingsConsumer>
     {({ theme: { underlayColor } }) => (
       <Card underlayColor={underlayColor} {...props} />
     )}
-  </ThemeConsumer>
+  </SettingsConsumer>
 );

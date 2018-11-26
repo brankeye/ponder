@@ -1,19 +1,19 @@
 import React from 'react';
 import { ApolloProvider } from './graphql';
-import { ThemeProvider, ThemeConsumer } from './theme';
+import { SettingsProvider, SettingsConsumer } from './settings';
 import { StylesProvider } from 'react-native-paint';
 
 const Providers = ({ children }) => (
   <ApolloProvider>
-    <ThemeProvider>
-      <ThemeConsumer>
+    <SettingsProvider>
+      <SettingsConsumer>
         {({ theme }) => (
           <StylesProvider id={theme.type} theme={theme}>
             {children}
           </StylesProvider>
         )}
-      </ThemeConsumer>
-    </ThemeProvider>
+      </SettingsConsumer>
+    </SettingsProvider>
   </ApolloProvider>
 );
 

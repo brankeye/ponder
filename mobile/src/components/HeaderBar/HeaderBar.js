@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Appbar, Searchbar } from 'react-native-paper';
 import PubSub from 'pubsub-js';
-import { withTheme } from '@@utils/providers';
+import { withSettings } from '@@utils/providers';
 
 const styles = StyleSheet.create({
   bar: {
@@ -44,7 +44,7 @@ class HeaderBar extends React.Component {
     }));
 
   render() {
-    const { title, searchable, themeable, ...props } = this.props;
+    const { title, searchable } = this.props;
     const { searching, searchTerm } = this.state;
 
     if (searching) {
@@ -73,4 +73,4 @@ class HeaderBar extends React.Component {
   }
 }
 
-export default withTheme(HeaderBar);
+export default withSettings(HeaderBar);
