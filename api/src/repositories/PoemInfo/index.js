@@ -73,13 +73,13 @@ export default {
       return dbQuery
         .where('user_id', userId)
         .where('in_library', true)
-        .orderBy('viewed_at', 'desc')
-        .paginate({ column: 'viewed_at', first, last, before, after })
+        .orderBy('in_library_at', 'desc')
+        .paginate({ column: 'in_library_at', first, last, before, after })
         .then(resolveP(map(flattenProp('poem'))))
         .then(resolveP(filter(prop('poem'))))
         .then(
           parseConnection({
-            column: 'viewed_at',
+            column: 'in_library_at',
             columnToString: x =>
               x ? format(x, 'YYYY-MM-DD HH:mm:ss') + '+00' : x,
             first,

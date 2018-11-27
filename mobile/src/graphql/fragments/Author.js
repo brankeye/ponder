@@ -3,6 +3,7 @@ export default `
     id
     name
     inLibrary
+    inLibraryAt
     viewedAt
     poems {
       id
@@ -10,6 +11,7 @@ export default `
       teaser
       lines
       inLibrary
+      inLibraryAt
       viewedAt
     }
   }

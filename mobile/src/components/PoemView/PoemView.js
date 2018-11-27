@@ -39,7 +39,9 @@ class PoemView extends React.Component {
           </Typography>
           <Button
             icon={inLibrary ? 'remove' : 'add'}
-            onPress={() => onUpdateLibrary(id, !inLibrary)}
+            onPress={() =>
+              onUpdateLibrary({ ...poem, inLibrary: !poem.inLibrary })
+            }
           >
             {inLibrary ? 'Remove from library' : 'Add to library'}
           </Button>

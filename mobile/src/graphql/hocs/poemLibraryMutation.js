@@ -1,22 +1,37 @@
 import { graphql } from 'react-apollo';
 import mutation from '../mutations/poemUpdateLibrary';
 import poemLibraryQuery from '../queries/poemLibrary';
+import { Buffer } from 'buffer';
 
 export default graphql(mutation, {
   alias: 'withPoemLibraryMutation',
   props: ({ mutate }) => ({
-    updateLibrary: (id, inLibrary) =>
+    updateLibrary: poem =>
       mutate({
-        variables: { id, inLibrary },
+        variables: { id: poem.id, inLibrary: poem.inLibrary },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          poem,
+        },
+        update: (store, { data: { poem } }) => {
+          try {
+            const data = store.readQuery({ query: poemLibraryQuery });
+            const startCursor = Buffer.from(poem.inLibraryAt).toString(
+              'base64'
+            );
+            const nextPoem = {
+              __typename: 'PoemEdge',
+              node: poem,
+              cursor: startCursor,
+            };
+            data.poemList.edges.unshift(nextPoem);
+            data.poemList.pageInfo.startCursor = startCursor;
+            store.writeQuery({ query: poemLibraryQuery, data });
+          } catch (error) {
+            console.log('Error: ', error);
+          }
+        },
       }),
     partialRefetch: true,
   }),
-  options: {
-    refetchQueries: [
-      {
-        query: poemLibraryQuery,
-        variables: { first: 5 },
-      },
-    ],
-  },
 });

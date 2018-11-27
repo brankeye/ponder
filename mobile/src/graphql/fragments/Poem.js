@@ -5,11 +5,13 @@ export default `
     teaser
     lines
     inLibrary
+    inLibraryAt
     viewedAt
     author {
       id
       name
       inLibrary
+      inLibraryAt
       viewedAt
     }
   }
