@@ -1,6 +1,7 @@
 import React from 'react';
 import { compose, withProps } from 'recompose';
-import { withSearch, withAuthorRecentsQuery } from '@@graphql';
+import { withAuthorRecentsQuery } from '@@graphql';
+import { withSearch } from '@@utils/hocs';
 import {
   Screen,
   LoadingScreen,

@@ -1,15 +1,11 @@
 import React from 'react';
-import { View, Button } from 'react-native';
 import { PoemCard, Typography, FadeIn, ScrollView } from '@@components';
-import * as Animatable from 'react-native-animatable';
+import { compose } from 'recompose';
+import { withViewAuthor } from '@@utils/hocs';
 
-const AuthorView = ({
-  author,
-  onSelectPoem,
-  fetching,
-  onFetchMore,
-  ...props
-}) => {
+const enhance = compose(withViewAuthor);
+
+const AuthorView = ({ author, onSelectPoem, fetching, onFetchMore }) => {
   const { name, poems } = author;
   return (
     <FadeIn>
@@ -20,17 +16,15 @@ const AuthorView = ({
         >
           {name}
         </Typography>
-        {poems.map((poem, i) => {
-          return (
-            <PoemCard
-              key={poem.id}
-              poem={{ author, ...poem }}
-              omitAuthorName
-              onPress={onSelectPoem}
-              style={{ paddingHorizontal: '10%' }}
-            />
-          );
-        })}
+        {poems.map(poem => (
+          <PoemCard
+            key={poem.id}
+            poem={{ author, ...poem }}
+            omitAuthorName
+            onPress={onSelectPoem}
+            style={{ paddingHorizontal: '10%' }}
+          />
+        ))}
       </ScrollView>
     </FadeIn>
   );
@@ -40,4 +34,4 @@ AuthorView.defaultProps = {
   author: { poems: [] },
 };
 
-export default AuthorView;
+export default enhance(AuthorView);

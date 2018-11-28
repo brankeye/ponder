@@ -1,7 +1,6 @@
 import React from 'react';
-import { compose, withState, withHandlers, withProps } from 'recompose';
-import { withPoemRecentsQuery } from '@@graphql';
-import { Screen, PoemList, Subscriber, Loading } from '@@components';
+import { compose, withState, withHandlers } from 'recompose';
+import { Subscriber } from '@@components';
 
 const withSearch = topic =>
   compose(

@@ -1,6 +1,7 @@
 import React from 'react';
 import { compose, withProps } from 'recompose';
-import { withSearch, withPoemLibraryQuery } from '@@graphql';
+import { withPoemLibraryQuery } from '@@graphql';
+import { withSearch } from '@@utils/hocs';
 import { Screen, LoadingScreen, PoemList, PoemCard } from '@@components';
 
 const enhance = compose(

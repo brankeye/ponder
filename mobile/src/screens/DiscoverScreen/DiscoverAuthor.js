@@ -1,7 +1,8 @@
 import React from 'react';
 import { Screen, LoadingScreen, AuthorView } from '@@components';
 import { compose } from 'recompose';
-import { withSearch, withAuthorDiscoverQuery } from '@@graphql';
+import { withAuthorDiscoverQuery } from '@@graphql';
+import { withSearch } from '@@utils/hocs';
 
 const enhance = compose(
   withSearch('DiscoverHeader/onSearch'),

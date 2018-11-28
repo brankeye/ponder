@@ -1,11 +1,8 @@
 import React from 'react';
 import { Screen, LoadingScreen, PoemView } from '@@components';
 import { compose } from 'recompose';
-import {
-  withSearch,
-  withPoemDiscoverQuery,
-  withPoemLibraryMutation,
-} from '@@graphql';
+import { withPoemDiscoverQuery, withPoemLibraryMutation } from '@@graphql';
+import { withSearch } from '@@utils/hocs';
 
 const enhance = compose(
   withSearch('DiscoverHeader/onSearch'),
