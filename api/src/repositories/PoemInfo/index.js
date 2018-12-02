@@ -19,7 +19,8 @@ export default {
       const info = await PoemInfo.query().findById([userId, poemId]);
       return info
         ? PoemInfo.query().patchAndFetchById([userId, poemId], {
-            in_library: inLibrary || info.in_library,
+            in_library:
+              typeof inLibrary === 'boolean' ? inLibrary : info.in_library,
             in_library_at: inLibraryAt || info.in_library_at,
             viewed_at: viewedAt,
           })

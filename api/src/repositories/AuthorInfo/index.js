@@ -13,7 +13,8 @@ export default {
       return info
         ? AuthorInfo.query().patchAndFetchById([userId, authorId], {
             viewed_at: viewedAt,
-            in_library: inLibrary || info.in_library,
+            in_library:
+              typeof inLibrary === 'boolean' ? inLibrary : info.in_library,
             in_library_at: inLibraryAt || info.in_library_at,
           })
         : AuthorInfo.query().insert({

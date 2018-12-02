@@ -42,19 +42,28 @@ const httpLink = new BatchHttpLink({
 });
 
 const cache = new InMemoryCache({
-  dataIdFromObject: object => object.key || null,
   fragmentMatcher,
 });
 
 const stateLink = withClientState({
   cache,
   defaults: {
-    poemList: {
+    poemRecents: {
       __typename: 'PoemConnection',
       edges: [],
       pageInfo: null,
     },
-    authorList: {
+    poemLibrary: {
+      __typename: 'PoemConnection',
+      edges: [],
+      pageInfo: null,
+    },
+    authorRecents: {
+      __typename: 'AuthorConnection',
+      edges: [],
+      pageInfo: null,
+    },
+    authorLibrary: {
       __typename: 'AuthorConnection',
       edges: [],
       pageInfo: null,
@@ -67,7 +76,7 @@ const client = new ApolloClient({
   cache,
   defaultOptions: {
     query: {
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: 'cache-first',
       errorPolicy: 'all',
     },
   },

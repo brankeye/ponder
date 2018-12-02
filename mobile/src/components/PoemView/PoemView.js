@@ -25,9 +25,16 @@ const PoemView = ({ poem, onUpdateLibrary, fetching, onFetchMore }) => {
         </Typography>
         <Button
           icon={inLibrary ? 'remove' : 'add'}
-          onPress={() =>
-            onUpdateLibrary({ ...poem, inLibrary: !poem.inLibrary })
-          }
+          onPress={() => {
+            onUpdateLibrary({
+              ...poem,
+              inLibrary: !poem.inLibrary,
+              author: {
+                ...poem.author,
+                inLibrary: !poem.author.inLibrary,
+              },
+            });
+          }}
         >
           {inLibrary ? 'Remove from library' : 'Add to library'}
         </Button>
