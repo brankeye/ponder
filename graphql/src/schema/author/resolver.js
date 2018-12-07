@@ -13,16 +13,13 @@ const resolver = {
       return Author.getAuthor(id);
     },
   },
-  AuthorContract: {
-    __resolveType: ({ poems }) => (poems ? 'Author' : 'AuthorDetails'),
+  Author: {
     inLibrary: async ({ in_library, id }, args, { Author }) =>
       in_library || propOr(false, 'in_library', await Author.getInfo(id)),
     inLibraryAt: async ({ in_library, id }, args, { Poem }) =>
       in_library || propOr(false, 'in_library_at', await Poem.getInfo(id)),
     viewedAt: async ({ viewed_at, id }, args, { Author }) =>
       viewed_at || propOr(null, 'viewed_at', await Author.getInfo(id)),
-  },
-  Author: {
     poems: ({ id }, args, { Author }) => Author.getPoems(id),
   },
 };

@@ -38,27 +38,11 @@ type PageInfo {
   endCursor: String
 }
 
-type Author implements AuthorContract {
+type Author {
   id: ID
   name: String
   inLibrary: Boolean
   inLibraryAt: Date
   viewedAt: Date
-  poems: [PoemDetails]
-}
-
-type AuthorDetails implements AuthorContract {
-  id: ID
-  name: String
-  inLibrary: Boolean
-  inLibraryAt: Date
-  viewedAt: Date
-}
-
-interface AuthorContract {
-  id: ID
-  name: String
-  inLibrary: Boolean
-  inLibraryAt: Date
-  viewedAt: Date
+  poems: [Poem]
 }

@@ -32,7 +32,7 @@ type PoemEdge {
   node: Poem
 }
 
-type Poem implements PoemContract {
+type Poem {
   id: ID
   title: String
   teaser: [String]
@@ -44,33 +44,5 @@ type Poem implements PoemContract {
   inLibrary: Boolean
   inLibraryAt: Date
   viewedAt: Date
-  author: AuthorDetails
-}
-
-type PoemDetails implements PoemContract {
-  id: ID
-  title: String
-  teaser: [String]
-  classification: String
-  region: String
-  period: String
-  lines: [String]
-  keywords: [String]
-  inLibrary: Boolean
-  inLibraryAt: Date
-  viewedAt: Date
-}
-
-interface PoemContract {
-  id: ID
-  title: String
-  teaser: [String]
-  classification: String
-  region: String
-  period: String
-  lines: [String]
-  keywords: [String]
-  inLibrary: Boolean
-  inLibraryAt: Date
-  viewedAt: Date
+  author: Author
 }

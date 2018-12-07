@@ -13,6 +13,15 @@ export default `
       inLibrary
       inLibraryAt
       viewedAt
+      poems {
+        id
+        title
+        teaser
+        lines
+        inLibrary
+        inLibraryAt
+        viewedAt
+      }
     }
   }
 `;
