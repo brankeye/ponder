@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { FadeIn } from '@@components';
-import * as Animatable from 'react-native-animatable';
 
 class PoemList extends Component {
   keyExtractor = ({ id }) => id;

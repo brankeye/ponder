@@ -12,15 +12,22 @@ export default graphql(mutation, {
         update: (store, { data: { author } }) => {
           try {
             const data = store.readQuery({ query: authorRecentsQuery });
-            const startCursor = Buffer.from(author.viewedAt).toString('base64');
-            const nextAuthor = {
-              __typename: 'AuthorEdge',
-              node: author,
-              cursor: startCursor,
-            };
-            data.authorList.edges.unshift(nextAuthor);
-            data.authorList.pageInfo.startCursor = startCursor;
-            store.writeQuery({ query: authorRecentsQuery, data });
+            const existsInData = data.authorList.edges.some(
+              ({ node }) => node.id === author.id
+            );
+            if (!existsInData) {
+              const startCursor = Buffer.from(author.viewedAt).toString(
+                'base64'
+              );
+              const nextAuthor = {
+                __typename: 'AuthorEdge',
+                node: author,
+                cursor: startCursor,
+              };
+              data.authorList.edges.unshift(nextAuthor);
+              data.authorList.pageInfo.startCursor = startCursor;
+              store.writeQuery({ query: authorRecentsQuery, data });
+            }
           } catch (error) {
             console.log('Error: ', error);
           }
