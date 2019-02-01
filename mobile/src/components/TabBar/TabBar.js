@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView } from 'react-native';
 import { TabBar } from 'react-native-tab-view';
 import Paint, { StylesConsumer } from 'react-native-paint';
 import Color from 'color';
@@ -10,7 +9,7 @@ const paint = Paint.create(theme => ({
       .darken(0.05)
       .string(),
   },
-  label: { color: theme.textColor },
+  label: { color: theme.textColor, fontWeight: 'bold' },
   indicator: { backgroundColor: theme.accentColor },
 }));
 

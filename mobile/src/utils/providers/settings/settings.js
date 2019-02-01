@@ -104,7 +104,7 @@ export const SettingsUpdateMutation = gql`
 export const lightTheme = {
   type: 'light',
   primaryColor: '#FFFFFF',
-  accentColor: '#607D8B',
+  accentColor: '#404040',
   textColor: '#404040',
   backgroundColor: '#e6e6e6',
   underlayColor: '#00000011',
@@ -113,7 +113,7 @@ export const lightTheme = {
 export const darkTheme = {
   type: 'dark',
   primaryColor: '#000000',
-  accentColor: '#607D8B',
+  accentColor: '#F3F3F3',
   textColor: '#F3F3F3',
   backgroundColor: '#404040',
   underlayColor: '#FFFFFF11',

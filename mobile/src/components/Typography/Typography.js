@@ -23,6 +23,10 @@ const paint = Paint.create(theme => ({
     fontSize: 14,
     fontFamily: 'Vollkorn',
   },
+  label: {
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
 }));
 
 const Typography = ({ type, style, ...props }) => (
