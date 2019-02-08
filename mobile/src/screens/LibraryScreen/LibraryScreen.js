@@ -29,34 +29,41 @@ const LibraryScreen = createMaterialTopTabNavigator(
   }
 );
 
-export default createStackNavigator({
-  Home: {
-    screen: LibraryScreen,
-    navigationOptions: {
-      title: 'Library',
-      header: props => (
-        <HeaderBar
-          {...props}
-          name="LibraryHeader"
-          title="Library"
-          themeable
-          searchable
-        />
-      ),
+export default createStackNavigator(
+  {
+    Home: {
+      screen: LibraryScreen,
+      navigationOptions: {
+        title: 'Library',
+        header: props => (
+          <HeaderBar
+            {...props}
+            name="LibraryHeader"
+            title="Library"
+            themeable
+            searchable
+          />
+        ),
+      },
+    },
+    Poem: {
+      screen: PoemScreen,
+      navigationOptions: {
+        title: 'Poem',
+        header: props => <HeaderBar {...props} title="Poem" themeable />,
+      },
+    },
+    Author: {
+      screen: AuthorScreen,
+      navigationOptions: {
+        title: 'Author',
+        header: props => <HeaderBar {...props} title="Author" themeable />,
+      },
     },
   },
-  Poem: {
-    screen: PoemScreen,
-    navigationOptions: {
-      title: 'Poem',
-      header: props => <HeaderBar {...props} title="Poem" themeable />,
+  {
+    cardStyle: {
+      backgroundColor: 'transparent',
     },
-  },
-  Author: {
-    screen: AuthorScreen,
-    navigationOptions: {
-      title: 'Author',
-      header: props => <HeaderBar {...props} title="Author" themeable />,
-    },
-  },
-});
+  }
+);

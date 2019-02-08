@@ -29,34 +29,41 @@ const RecentsScreen = createMaterialTopTabNavigator(
   }
 );
 
-export default createStackNavigator({
-  Home: {
-    screen: RecentsScreen,
-    navigationOptions: {
-      title: 'Recents',
-      header: props => (
-        <HeaderBar
-          {...props}
-          name="RecentsHeader"
-          title="Recents"
-          themeable
-          searchable
-        />
-      ),
+export default createStackNavigator(
+  {
+    Home: {
+      screen: RecentsScreen,
+      navigationOptions: {
+        title: 'Recents',
+        header: props => (
+          <HeaderBar
+            {...props}
+            name="RecentsHeader"
+            title="Recents"
+            themeable
+            searchable
+          />
+        ),
+      },
+    },
+    Poem: {
+      screen: PoemScreen,
+      navigationOptions: {
+        title: 'Poem',
+        header: props => <HeaderBar {...props} title="Poem" themeable />,
+      },
+    },
+    Author: {
+      screen: AuthorScreen,
+      navigationOptions: {
+        title: 'Author',
+        header: props => <HeaderBar {...props} title="Author" themeable />,
+      },
     },
   },
-  Poem: {
-    screen: PoemScreen,
-    navigationOptions: {
-      title: 'Poem',
-      header: props => <HeaderBar {...props} title="Poem" themeable />,
+  {
+    cardStyle: {
+      backgroundColor: 'transparent',
     },
-  },
-  Author: {
-    screen: AuthorScreen,
-    navigationOptions: {
-      title: 'Author',
-      header: props => <HeaderBar {...props} title="Author" themeable />,
-    },
-  },
-});
+  }
+);
