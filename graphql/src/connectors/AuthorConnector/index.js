@@ -14,6 +14,21 @@ export default {
         uri: getPath(api, path, 'discover'),
       }),
 
+    search: ({ search, first, after, last, before }) =>
+      request({
+        uri: getPath(api, path, 'search'),
+        headers: {
+          authorization,
+        },
+        qs: {
+          search,
+          first,
+          after,
+          last,
+          before,
+        },
+      }),
+
     getLibrary: ({ search, first, after, last, before }) =>
       request({
         uri: getPath(api, path, 'library'),

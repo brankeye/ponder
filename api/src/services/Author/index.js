@@ -8,6 +8,9 @@ export default {
 
     poems: authorId => Author.getPoems(authorId),
 
+    search: ({ first, last, after, before, search }) =>
+      Author.search({ first, last, after, before, search }),
+
     recents: ({ userId, first, last, after, before, search }) =>
       AuthorInfo.getRecents({ userId, first, last, after, before, search }),
 

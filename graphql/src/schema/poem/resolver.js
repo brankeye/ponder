@@ -4,6 +4,7 @@ const resolver = {
   Query: {
     poem: (root, { id }, { Poem }) => Poem.getPoem(id),
     poemDiscover: (root, args, { Poem }) => Poem.discover(),
+    poemSearch: (root, args, { Poem }) => Poem.search(args),
     poemLibrary: (root, args, { Poem }) => Poem.getLibrary(args),
     poemRecents: (root, args, { Poem }) => Poem.getRecents(args),
   },

@@ -1,6 +1,13 @@
 extend type Query {
   poem(id: ID!): Poem
   poemDiscover: Poem
+  poemSearch(
+    search: String
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): PoemConnection
   poemLibrary(
     search: String
     first: Int

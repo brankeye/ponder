@@ -4,6 +4,7 @@ const resolver = {
   Query: {
     author: (root, { id }, { Author }) => Author.getAuthor(id),
     authorDiscover: (root, args, { Author }) => Author.discover(),
+    authorSearch: (root, args, { Author }) => Author.search(args),
     authorLibrary: (root, args, { Author }) => Author.getLibrary(args),
     authorRecents: (root, args, { Author }) => Author.getRecents(args),
   },

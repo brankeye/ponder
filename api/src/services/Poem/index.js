@@ -18,6 +18,9 @@ export default {
       );
     },
 
+    search: ({ first, last, after, before, search }) =>
+      Poem.search({ first, last, after, before, search }),
+
     recents: ({ userId, first, last, after, before, search }) =>
       PoemInfo.getRecents({ userId, first, last, after, before, search }),
 

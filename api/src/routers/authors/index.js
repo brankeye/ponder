@@ -3,6 +3,15 @@ export default {
     discover: (req, res) =>
       AuthorService.discover().then(data => res.json(data)),
 
+    search: ({ query: { first, last, before, after, search } }, res) =>
+      AuthorService.search({
+        first,
+        last,
+        before,
+        after,
+        search,
+      }).then(data => res.json(data)),
+
     library: (
       { state: { user }, query: { first, last, before, after, search } },
       res

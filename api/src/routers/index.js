@@ -21,6 +21,7 @@ export default {
     app.put('/api/user/settings', asyncHandler(users.updateSettings));
 
     app.get('/api/authors/discover', asyncHandler(authors.discover));
+    app.get('/api/authors/search', asyncHandler(authors.search));
     app.get('/api/authors/library', asyncHandler(authors.library));
     app.get('/api/authors/recents', asyncHandler(authors.recents));
     app.get('/api/authors/:author_id/poems', asyncHandler(authors.poems));
@@ -29,6 +30,7 @@ export default {
     app.put('/api/authors/:author_id/view', asyncHandler(authors.updateView));
 
     app.get('/api/poems/discover', asyncHandler(poems.discover));
+    app.get('/api/poems/search', asyncHandler(poems.search));
     app.get('/api/poems/library', asyncHandler(poems.library));
     app.get('/api/poems/recents', asyncHandler(poems.recents));
     app.get('/api/poems/:poem_id/info', asyncHandler(poems.info));
