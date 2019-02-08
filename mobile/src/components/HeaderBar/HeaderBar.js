@@ -26,7 +26,7 @@ class HeaderBar extends React.Component {
 
   componentDidUpdate(_, lastState) {
     if (lastState.searching && !this.state.searching) {
-      this.handleChangeText('', this.handleSearch);
+      this.handleChangeText(null, this.handleSearch);
     }
   }
 
