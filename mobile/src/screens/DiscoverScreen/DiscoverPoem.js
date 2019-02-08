@@ -1,21 +1,59 @@
 import React from 'react';
-import { Screen, LoadingScreen, PoemView } from '@@components';
-import { compose } from 'recompose';
-import { withPoemDiscoverQuery, withPoemLibraryMutation } from '@@graphql';
+import {
+  Screen,
+  LoadingScreen,
+  PoemView,
+  PoemList,
+  PoemCard,
+} from '@@components';
+import { compose, withProps } from 'recompose';
+import { withPoemDiscoverQuery, withPoemSearchQuery } from '@@graphql';
 import { withSearch } from '@@utils/hocs';
 
 const enhance = compose(
   withSearch('DiscoverHeader/onSearch'),
-  withPoemLibraryMutation,
-  withPoemDiscoverQuery
+  withProps({
+    count: 5,
+  }),
+  withPoemDiscoverQuery,
+  withPoemSearchQuery
 );
 
 class DiscoverPoem extends React.Component {
-  render() {
-    const { updateLibrary } = this.props;
-    const { loading, poem, refetch } = this.props.poemDiscoverQuery;
+  handleSelect = ({ id }) => this.props.navigation.navigate('Poem', { id });
 
-    if (loading) return <LoadingScreen />;
+  render() {
+    const { count, search, fetchMore, updateLibrary } = this.props;
+    const { loading, poem, refetch } = this.props.poemDiscoverQuery;
+    const { loading: loadingPoems, poemList } = this.props.poemSearchQuery;
+
+    if (loading || loadingPoems) return <LoadingScreen />;
+
+    if (search) {
+      return (
+        <Screen>
+          <PoemList
+            poems={poemList.edges.map(({ node }) => node)}
+            onEndReached={() =>
+              poemList.pageInfo.hasNextPage &&
+              fetchMore({
+                first: count,
+                after: poemList.pageInfo.endCursor,
+                search,
+              })
+            }
+          >
+            {poem => (
+              <PoemCard
+                poem={poem}
+                onPress={this.handleSelect}
+                showViewedAt={false}
+              />
+            )}
+          </PoemList>
+        </Screen>
+      );
+    }
 
     return (
       <Screen>

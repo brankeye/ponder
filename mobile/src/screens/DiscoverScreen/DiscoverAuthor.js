@@ -20,6 +20,8 @@ const enhance = compose(
 );
 
 class DiscoverAuthor extends React.Component {
+  handleSelect = ({ id }) => this.props.navigation.navigate('Author', { id });
+
   render() {
     const { count, search, fetchMore } = this.props;
     const { loading, author, refetch } = this.props.authorDiscoverQuery;

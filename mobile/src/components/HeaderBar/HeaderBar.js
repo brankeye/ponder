@@ -2,7 +2,8 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Appbar, Searchbar } from 'react-native-paper';
 import PubSub from 'pubsub-js';
-import { withSettings } from '@@utils/providers';
+import { withSettings, withTheme } from '@@utils/providers';
+import { compose } from 'recompose';
 
 const styles = StyleSheet.create({
   bar: {
@@ -14,6 +15,11 @@ const styles = StyleSheet.create({
   },
 });
 
+const enhance = compose(
+  withTheme,
+  withSettings
+);
+
 class HeaderBar extends React.Component {
   static defaultProps = {
     searchable: false,
@@ -24,9 +30,13 @@ class HeaderBar extends React.Component {
     searchTerm: '',
   };
 
+  searchbar = React.createRef();
+
   componentDidUpdate(_, lastState) {
     if (lastState.searching && !this.state.searching) {
       this.handleChangeText(null, this.handleSearch);
+    } else if (!lastState.searching && this.state.searching) {
+      this.searchbar.current.focus();
     }
   }
 
@@ -44,12 +54,13 @@ class HeaderBar extends React.Component {
     }));
 
   render() {
-    const { title, searchable } = this.props;
+    const { title, searchable, theme } = this.props;
     const { searching, searchTerm } = this.state;
 
     if (searching) {
       return (
         <Searchbar
+          ref={this.searchbar}
           placeholder={'Search'}
           onChangeText={this.handleChangeText}
           value={searchTerm}
@@ -57,6 +68,7 @@ class HeaderBar extends React.Component {
           onIconPress={this.toggleSearch}
           style={styles.bar}
           onBlur={this.handleSearch}
+          selectionColor={theme.accentColor}
         />
       );
     }
@@ -73,4 +85,4 @@ class HeaderBar extends React.Component {
   }
 }
 
-export default withSettings(HeaderBar);
+export default enhance(HeaderBar);
