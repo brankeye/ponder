@@ -1,5 +1,5 @@
 import React from 'react';
-import { createSwitchNavigator } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { IconButton } from 'react-native-paper';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import LandingScreen from './LandingScreen';
@@ -60,12 +60,14 @@ const AppNavigator = createMaterialBottomTabNavigator({
   },
 });
 
-export default createSwitchNavigator(
-  {
-    Landing: LandingScreen,
-    App: AppNavigator,
-  },
-  {
-    initialRouteName: 'Landing',
-  }
+export default createAppContainer(
+  createSwitchNavigator(
+    {
+      Landing: LandingScreen,
+      App: AppNavigator,
+    },
+    {
+      initialRouteName: 'Landing',
+    }
+  )
 );

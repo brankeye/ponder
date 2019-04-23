@@ -21,6 +21,7 @@ const Component = props => (
         style={styles.bar}
         labelStyle={styles.label}
         indicatorStyle={styles.indicator}
+        jumpToIndex={0}
       />
     )}
   </StylesConsumer>

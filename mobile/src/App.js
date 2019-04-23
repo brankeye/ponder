@@ -1,5 +1,5 @@
 import React from 'react';
-import Expo, { Font } from 'expo';
+import { Font, registerRootComponent } from 'expo';
 import MainNavigator from '@@screens';
 import Providers from '@@utils/providers';
 import { StatusBar } from '@@components';
@@ -63,4 +63,4 @@ class App extends React.Component {
   }
 }
 
-Expo.registerRootComponent(App);
+registerRootComponent(App);
