@@ -7,27 +7,25 @@ import RecentAuthors from './RecentAuthors';
 import RecentPoems from './RecentPoems';
 import PoemScreen from '../PoemScreen';
 import AuthorScreen from '../AuthorScreen';
-import { TabBar, HeaderBar } from '@@components';
+import { HeaderBar } from '@@components';
+import { getTabBarOptions } from '@@screens/utils';
 
-const RecentsScreen = createMaterialTopTabNavigator(
-  {
-    RecentPoems: {
-      screen: RecentPoems,
-      navigationOptions: {
-        title: 'Poems',
-      },
-    },
-    RecentAuthors: {
-      screen: RecentAuthors,
-      navigationOptions: {
-        title: 'Authors',
-      },
-    },
+const RecentsScreen = createMaterialTopTabNavigator({
+  RecentPoems: {
+    screen: RecentPoems,
+    navigationOptions: ({ screenProps: { theme } }) => ({
+      title: 'Poems',
+      tabBarOptions: getTabBarOptions(theme),
+    }),
   },
-  {
-    tabBarComponent: TabBar,
-  }
-);
+  RecentAuthors: {
+    screen: RecentAuthors,
+    navigationOptions: ({ screenProps: { theme } }) => ({
+      title: 'Authors',
+      tabBarOptions: getTabBarOptions(theme),
+    }),
+  },
+});
 
 export default createStackNavigator(
   {
@@ -63,7 +61,9 @@ export default createStackNavigator(
   },
   {
     cardStyle: {
+      opacity: 1,
       backgroundColor: 'transparent',
     },
+    cardShadowEnabled: false,
   }
 );

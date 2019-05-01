@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { Button } from 'react-native-paper';
+import { withTheme } from '@@utils/providers';
 
-const Component = props => <Button color={'#607D8B'} {...props} />;
+const Component = ({ theme, ...props }) => (
+  <Button color={theme.textColor} {...props} />
+);
 
-export default Component;
+export default withTheme(Component);

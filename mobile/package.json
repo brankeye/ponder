@@ -35,10 +35,9 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-native-animatable": "^1.2.4",
     "react-native-paint": "^1.1.0",
-    "react-native-paper": "^2.15.2",
-    "react-native-tab-view": "^0.0.77",
+    "react-native-paper": "2.2.2",
     "react-navigation": "^3.0.9",
-    "react-navigation-material-bottom-tabs": "^1.0.0",
+    "react-navigation-tabs": "1.0.0-alpha.4",
     "recompose": "^0.30.0",
     "uuid": "^3.2.1"
   },

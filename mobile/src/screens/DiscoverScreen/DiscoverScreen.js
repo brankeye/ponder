@@ -7,27 +7,25 @@ import PoemScreen from '../PoemScreen';
 import DiscoverPoem from './DiscoverPoem';
 import DiscoverAuthor from './DiscoverAuthor';
 import AuthorScreen from '../AuthorScreen';
-import { TabBar, HeaderBar } from '@@components';
+import { HeaderBar } from '@@components';
+import { getTabBarOptions } from '@@screens/utils';
 
-const DiscoverScreen = createMaterialTopTabNavigator(
-  {
-    DiscoverPoem: {
-      screen: DiscoverPoem,
-      navigationOptions: {
-        title: 'Poems',
-      },
-    },
-    DiscoverAuthor: {
-      screen: DiscoverAuthor,
-      navigationOptions: {
-        title: 'Authors',
-      },
-    },
+const DiscoverScreen = createMaterialTopTabNavigator({
+  DiscoverPoem: {
+    screen: DiscoverPoem,
+    navigationOptions: ({ screenProps: { theme } }) => ({
+      title: 'Poems',
+      tabBarOptions: getTabBarOptions(theme),
+    }),
   },
-  {
-    tabBarComponent: TabBar,
-  }
-);
+  DiscoverAuthor: {
+    screen: DiscoverAuthor,
+    navigationOptions: ({ screenProps: { theme } }) => ({
+      title: 'Authors',
+      tabBarOptions: getTabBarOptions(theme),
+    }),
+  },
+});
 
 export default createStackNavigator(
   {
@@ -63,7 +61,9 @@ export default createStackNavigator(
   },
   {
     cardStyle: {
+      opacity: 1,
       backgroundColor: 'transparent',
     },
+    cardShadowEnabled: false,
   }
 );

@@ -7,27 +7,25 @@ import LibraryPoems from './LibraryPoems';
 import LibraryAuthors from './LibraryAuthors';
 import PoemScreen from '../PoemScreen';
 import AuthorScreen from '../AuthorScreen';
-import { TabBar, HeaderBar } from '@@components';
+import { HeaderBar } from '@@components';
+import { getTabBarOptions } from '@@screens/utils';
 
-const LibraryScreen = createMaterialTopTabNavigator(
-  {
-    LibraryPoems: {
-      screen: LibraryPoems,
-      navigationOptions: {
-        title: 'Poems',
-      },
-    },
-    LibraryAuthors: {
-      screen: LibraryAuthors,
-      navigationOptions: {
-        title: 'Authors',
-      },
-    },
+const LibraryScreen = createMaterialTopTabNavigator({
+  LibraryPoems: {
+    screen: LibraryPoems,
+    navigationOptions: ({ screenProps: { theme } }) => ({
+      title: 'Poems',
+      tabBarOptions: getTabBarOptions(theme),
+    }),
   },
-  {
-    tabBarComponent: TabBar,
-  }
-);
+  LibraryAuthors: {
+    screen: LibraryAuthors,
+    navigationOptions: ({ screenProps: { theme } }) => ({
+      title: 'Authors',
+      tabBarOptions: getTabBarOptions(theme),
+    }),
+  },
+});
 
 export default createStackNavigator(
   {
@@ -63,7 +61,9 @@ export default createStackNavigator(
   },
   {
     cardStyle: {
+      opacity: 1,
       backgroundColor: 'transparent',
     },
+    cardShadowEnabled: false,
   }
 );

@@ -108,6 +108,8 @@ export const lightTheme = {
   textColor: '#404040',
   backgroundColor: '#e6e6e6',
   underlayColor: '#00000011',
+  activeColor: '#000000',
+  inactiveColor: '#777777',
 };
 
 export const darkTheme = {
@@ -117,6 +119,8 @@ export const darkTheme = {
   textColor: '#F3F3F3',
   backgroundColor: '#404040',
   underlayColor: '#FFFFFF11',
+  activeColor: '#FFFFFF',
+  inactiveColor: '#BBBBBB',
 };
 
 const getTheme = theme => {
@@ -126,10 +130,14 @@ const getTheme = theme => {
     roundness: 0,
     colors: {
       ...Theme.colors,
+      background: Color(theme.backgroundColor)
+        .darken(0.05)
+        .string(),
       primary: Color(theme.backgroundColor)
         .darken(0.05)
         .string(),
       accent: theme.accentColor,
+      text: theme.textColor,
     },
   };
 };

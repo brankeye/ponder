@@ -1,73 +1,116 @@
 import React from 'react';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { Text } from 'react-native';
+import {
+  createAppContainer,
+  createSwitchNavigator,
+  createBottomTabNavigator,
+} from 'react-navigation';
 import { IconButton } from 'react-native-paper';
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import LandingScreen from './LandingScreen';
 import DiscoverScreen from './DiscoverScreen';
 import LibraryScreen from './LibraryScreen';
 import RecentsScreen from './RecentsScreen';
+import { getTabBarOptions, enhanceNavigatorWithTheme } from './utils';
 
 const iconSize = 18;
 
-const AppNavigator = createMaterialBottomTabNavigator({
+const AppNavigator = createBottomTabNavigator({
   HomeTab: {
     screen: DiscoverScreen,
-    navigationOptions: {
-      title: 'Discover',
+    navigationOptions: ({ screenProps: { theme } }) => ({
       tabBarIcon: ({ tintColor }) => (
         <IconButton
           icon="home"
           color={tintColor}
           size={iconSize}
-          style={{ height: iconSize, paddingBottom: 5 }}
+          style={{ height: iconSize }}
         >
           Discover
         </IconButton>
       ),
-    },
+      tabBarLabel: ({ tintColor }) => (
+        <Text
+          style={{
+            color: tintColor,
+            textAlign: 'center',
+            fontWeight: 'bold',
+            marginBottom: 5,
+          }}
+        >
+          Discover
+        </Text>
+      ),
+      tabBarOptions: getTabBarOptions(theme),
+    }),
   },
   RecentsTab: {
     screen: RecentsScreen,
-    navigationOptions: {
-      title: 'Recents',
+    navigationOptions: ({ screenProps: { theme } }) => ({
       tabBarIcon: ({ tintColor }) => (
         <IconButton
           icon="history"
           color={tintColor}
           size={iconSize}
-          style={{ height: iconSize, paddingBottom: 5 }}
+          style={{ height: iconSize }}
         >
           Discover
         </IconButton>
       ),
-    },
+      tabBarLabel: ({ tintColor }) => (
+        <Text
+          style={{
+            color: tintColor,
+            textAlign: 'center',
+            fontWeight: 'bold',
+            marginBottom: 5,
+          }}
+        >
+          Recents
+        </Text>
+      ),
+      tabBarOptions: getTabBarOptions(theme),
+    }),
   },
   LibraryTab: {
     screen: LibraryScreen,
-    navigationOptions: {
-      title: 'Library',
+    navigationOptions: ({ screenProps: { theme } }) => ({
       tabBarIcon: ({ tintColor }) => (
         <IconButton
           icon="bookmark-border"
           color={tintColor}
           size={iconSize}
-          style={{ height: iconSize, paddingBottom: 5 }}
+          style={{ height: iconSize }}
         >
           Discover
         </IconButton>
       ),
-    },
+      tabBarLabel: ({ tintColor }) => (
+        <Text
+          style={{
+            color: tintColor,
+            textAlign: 'center',
+            fontWeight: 'bold',
+            marginBottom: 5,
+          }}
+        >
+          Library
+        </Text>
+      ),
+      tabBarOptions: getTabBarOptions(theme),
+    }),
   },
 });
 
-export default createAppContainer(
-  createSwitchNavigator(
-    {
-      Landing: LandingScreen,
-      App: AppNavigator,
-    },
-    {
-      initialRouteName: 'Landing',
-    }
+export default enhanceNavigatorWithTheme(
+  createAppContainer(
+    createSwitchNavigator(
+      {
+        Landing: LandingScreen,
+        App: AppNavigator,
+      },
+      {
+        initialRouteName: 'Landing',
+      }
+    )
   )
 );
