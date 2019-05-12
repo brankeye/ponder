@@ -1,26 +1,5 @@
 version: "3.5"
 services:
-  web:
-    build: ./web
-    image: keybra/ponder_web
-    restart: always
-    ports:
-      - "${WEB_PORT}:9000"
-    volumes:
-      - .:/usr/src/web
-    networks:
-      - default
-      - proxy
-    environment:
-      - HOST
-      - NODE_ENV
-      - WEB_PORT
-    labels:
-      - traefik.backend=web
-      - traefik.docker.network=proxy
-      - traefik.frontend.rule=Host:${WEB_SUBDOMAIN}.ponder-app.com
-      - traefik.enable=true
-      - traefik.port=${WEB_PORT}
   api:
     build: ./api
     image: keybra/ponder_api
