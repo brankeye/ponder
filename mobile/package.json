@@ -5,6 +5,7 @@
     "start": "expo start",
     "start-dev": "yarn env-dev && expo start",
     "start-prd": "yarn env-prd && expo start",
+    "publish-default": "yarn env-dev && expo publish",
     "publish-dev": "yarn env-dev && expo publish --release-channel dev",
     "publish-prd": "cli-confirm 'Publish to PRODUCTION? (y/n)' && yarn env-prd && expo publish --release-channel prd",
     "env-dev": "cp ./__environment__/.dev.env .env",
