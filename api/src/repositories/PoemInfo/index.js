@@ -29,7 +29,7 @@ export default {
             author_id: authorId,
             poem_id: poemId,
             in_library: inLibrary || false,
-            in_library_at: inLibraryAt || null,
+            in_library_at: inLibraryAt || new Date(),
             viewed_at: viewedAt,
           });
     },
