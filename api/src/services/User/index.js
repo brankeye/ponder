@@ -8,6 +8,10 @@ export default {
         (await User.insert({
           id: uuid(),
           client_id: clientId,
+          settings: {
+            theme: 'Dark',
+            compactView: false,
+          },
         }));
       return user;
     },
