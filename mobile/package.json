@@ -4,13 +4,10 @@
   "scripts": {
     "start": "expo start",
     "start-dev": "yarn env-dev && expo start",
-    "start-stg": "yarn env-stg && expo start",
     "start-prd": "yarn env-prd && expo start",
     "publish-dev": "yarn env-dev && expo publish --release-channel dev",
-    "publish-stg": "yarn env-stg && expo publish --release-channel stg",
     "publish-prd": "cli-confirm 'Publish to PRODUCTION? (y/n)' && yarn env-prd && expo publish --release-channel prd",
     "env-dev": "cp ./__environment__/.dev.env .env",
-    "env-stg": "cp ./__environment__/.stg.env .env",
     "env-prd": "cp ./__environment__/.prd.env .env"
   },
   "dependencies": {
