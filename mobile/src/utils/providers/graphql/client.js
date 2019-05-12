@@ -17,7 +17,7 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,
 });
 
-const authorization = Buffer.from(Constants.deviceId).toString('base64');
+const authorization = Buffer.from(Constants.installationId).toString('base64');
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
