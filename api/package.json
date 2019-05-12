@@ -7,13 +7,13 @@
     "start": "nodemon ./src/index.js --exec babel-node",
     "migrate-local": "set -a && source ../__environment__/.local.env && set +a && knex migrate:latest --env local",
     "migrate-dev": "set -a && source ../__environment__/.dev.env && set +a && knex migrate:latest --env dev",
-    "migrate-stg": "set -a && source ../__environment__/.stg.env && set +a && knex migrate:latest --env stg",
+    "migrate-prd": "set -a && source ../__environment__/.prd.env && set +a && knex migrate:latest --env prd",
     "rollback-local": "set -a && source ../__environment__/.local.env && set +a && knex migrate:rollback --env local",
     "rollback-dev": "set -a && source ../__environment__/.dev.env && set +a && knex migrate:rollback --env dev",
-    "rollback-stg": "set -a && source ../__environment__/.stg.env && set +a && knex migrate:rollback --env stg",
+    "rollback-prd": "set -a && source ../__environment__/.prd.env && set +a && knex migrate:rollback --env prd",
     "seed-local": "set -a && source ../__environment__/.local.env && set +a && knex seed:run --env local",
     "seed-dev": "set -a && source ../__environment__/.dev.env && set +a && knex seed:run --env dev",
-    "seed-stg": "set -a && source ../__environment__/.stg.env && set +a && knex seed:run --env stg",
+    "seed-prd": "set -a && source ../__environment__/.prd.env && set +a && knex seed:run --env prd",
     "flow": "flow"
   },
   "dependencies": {
